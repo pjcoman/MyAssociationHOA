@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical" android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+
+              android:background="@drawable/frontgatebg"
+              android:padding="12dp">
+
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:text="@string/guide_text"
+    android:id="@+id/textViewGuide"
+    android:textColor="@android:color/primary_text_light"
+    android:textStyle="bold"
+    android:textSize="16sp"
+    android:gravity="center_vertical|center_horizontal"
+    android:padding="10dp"
+    android:layout_weight="1.8"
+    android:background="@drawable/button_whitebackground_rounded_corners_black"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="CLOSE"
+        android:id="@+id/guideCloseButton"
+        android:textStyle="bold"/>
+
+
+</LinearLayout>

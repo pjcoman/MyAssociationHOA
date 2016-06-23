@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="comapps.com.myassociationhoa"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!--
+      IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
+      to match your app's package name + ".permission.C2D_MESSAGE".
+    -->
+    <permission android:protectionLevel="signature"
+                android:name="comapps.com.myassociationhoa.permission.C2D_MESSAGE" />
+    <uses-permission android:name="comapps.com.myassociationhoa.permission.C2D_MESSAGE" />
+
+
+
+    <application
+        android:name=".ParseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".GuideActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".contact.ContactActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".directory.DirectoryActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".weather.WeatherActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".calendar.CalendarActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".budget.BudgetActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".documents.DocumentsActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".messageboard.MessageBoardActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".myinfo.MyInfoActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".push_history.PushHistoryActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".service_providers.ServiceProviderActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".Change_Add_Associations"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".maintenance.MaitenanceActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="O1qVaYT9FwLYZ7BxWdZZijEVxVqxbY4JkVwjFOSD" />
+
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="FxH2jyeQfyEEfrVnXoRgdpmhVs49uEK2EEfCJ07q" />
+
+        <service android:name="com.parse.PushService" />
+        <receiver android:name="com.parse.ParseBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+                  android:exported="false">
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.parse.GcmBroadcastReceiver"
+                  android:permission="com.google.android.c2dm.permission.SEND"
+                  >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <!--
+                  IMPORTANT: Change "com.parse.starter" to match your app's package name.
+                -->
+                <category android:name="comapps.com.myassociationhoa" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

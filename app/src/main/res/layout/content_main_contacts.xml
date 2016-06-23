@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="comapps.com.myassociationhoa.contact.ContactActivity"
+
+    android:orientation="vertical"
+    android:weightSum="8"
+    android:background="#d5d26b"
+    android:id="@+id/content_main"
+    android:padding="10dp">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="6"
+        android:layout_weight="5"
+        android:id="@+id/tableLayout"
+        >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:weightSum="3"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            >
+
+
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/button"
+                    android:layout_weight="1"
+                    android:textSize="12sp"
+                    android:background="@drawable/button_rounded_corners_white"
+                    android:textColor="#4a3002"
+                    android:shadowColor="#e70707"
+                    android:textStyle="bold"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:visibility="visible"
+                    android:layout_margin="10dp"
+                    android:capitalize="characters"
+                    android:padding="10dp"
+                    android:onClick="button1Dial"/>
+
+
+
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/button2"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:background="@drawable/button_rounded_corners_white"
+                android:textColor="#4a3002"
+                android:shadowColor="#e70707"
+                android:textStyle="bold"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:visibility="visible"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:onClick="button2Dial"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/button3"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:background="@drawable/button_rounded_corners_white"
+                android:textColor="#4a3002"
+                android:shadowColor="#e70707"
+                android:textStyle="bold"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:visibility="visible"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:onClick="button3Dial"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:weightSum="3"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/button4"
+                android:layout_weight="1.5"
+                android:textSize="12sp"
+                android:background="@drawable/button_rounded_corners_white"
+                android:textColor="#4a3002"
+                android:shadowColor="#e70707"
+                android:textStyle="bold"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:visibility="visible"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:onClick="button4Dial"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/button5"
+                android:layout_weight="1.5"
+                android:textSize="12sp"
+                android:background="@drawable/button_rounded_corners_white"
+                android:textColor="#4a3002"
+                android:shadowColor="#e70707"
+                android:textStyle="bold"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:visibility="visible"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:onClick="button5Dial"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:weightSum="3"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/button6"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:background="@drawable/button_rounded_corners_white"
+                android:textColor="#4a3002"
+
+                android:textStyle="bold"
+                android:shadowColor="#e70707"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:visibility="visible"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:onClick="button6Dial"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/button7"
+                android:layout_weight="1"
+                android:lines="2"
+                android:textSize="12sp"
+                android:background="@drawable/button_rounded_corners_white"
+                android:textColor="#4a3002"
+                android:shadowColor="#e70707"
+                android:textStyle="bold"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:visibility="visible"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:onClick="button7Dial"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/button8"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:background="@drawable/button_rounded_corners_white"
+                android:textColor="#4a3002"
+                android:shadowColor="#e70707"
+                android:textStyle="bold"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:visibility="visible"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:onClick="button8Dial"/>
+        </TableRow>
+
+
+
+
+    </TableLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Association Address"
+
+        android:textColor="#764904"
+        android:textSize="22sp"
+        android:id="@+id/textViewAssociationName"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Association Address"
+
+        android:textColor="#764904"
+        android:textSize="22sp"
+        android:id="@+id/textViewAssociationName2"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Association Address"
+
+        android:textColor="#764904"
+        android:textSize="22sp"
+        android:id="@+id/textViewAssociationName3"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"/>
+
+
+</LinearLayout>

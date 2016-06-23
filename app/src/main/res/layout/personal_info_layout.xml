@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView"
+        android:background="@drawable/info_background"
+        android:padding="40dp">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/editTextLastName"
+                android:hint="Last Name"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/editTextFirstName"
+                android:layout_toRightOf="@+id/editTextLastName"
+                android:hint="First Name"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Summer Address"
+                android:id="@+id/summerAddressLabel"
+                android:layout_below="@+id/editTextLastName"
+                android:layout_centerHorizontal="true"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/address1EditText"
+                android:layout_below="@+id/summerAddressLabel"
+                android:hint="Address 1"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/address2EditText"
+                android:layout_below="@+id/address1EditText"
+                android:hint="Address 2"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/cityEditText"
+                android:layout_below="@+id/address2EditText"
+                android:hint="City"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Summer Address"
+                android:id="@+id/textView2"
+                android:layout_below="@+id/editTextLastName"
+                android:layout_centerHorizontal="true"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/stateEditText"
+                android:layout_toRightOf="@+id/cityEditText"
+                android:layout_below="@+id/address2EditText"
+                android:hint="State"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/zipEditText"
+                android:layout_below="@+id/cityEditText"
+                android:layout_centerHorizontal="true"
+                android:hint="Zip"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/homePhoneEditText"
+                android:layout_below="@+id/zipEditText"
+                android:hint="home phone"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/mobilePhoneEditText"
+                android:layout_below="@+id/homePhoneEditText"
+                android:hint="mobile phone"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emailEditText"
+                android:layout_below="@+id/mobilePhoneEditText"
+                android:hint="email address"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emergencyContactEditText"
+                android:layout_below="@+id/emailEditText"
+                android:hint="emergency contact name"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emergencyContactPhoneEditText"
+                android:layout_below="@+id/emergencyContactEditText"
+                android:hint="emergency contact number"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Winter Address"
+                android:id="@+id/winterAddressLabel"
+                android:layout_below="@+id/emergencyContactPhoneEditText"
+                android:layout_centerHorizontal="true"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/winter_address1EditText"
+                android:layout_below="@+id/winterAddressLabel"
+                android:hint="Address 1"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/winter_address2EditText"
+                android:layout_below="@+id/winter_address1EditText"
+                android:hint="Address 2"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/winter_cityEditText"
+                android:layout_below="@+id/winter_address2EditText"
+                android:hint="City"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/winter_stateEditText"
+                android:layout_toRightOf="@+id/cityEditText"
+                android:layout_below="@+id/winter_address2EditText"
+                android:hint="State"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/winter_zipEditText"
+                android:layout_below="@+id/winter_cityEditText"
+                android:layout_centerHorizontal="true"
+                android:hint="Zip"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/winter_homePhoneEditText"
+                android:layout_below="@+id/winter_zipEditText"
+                android:hint="home phone"/>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

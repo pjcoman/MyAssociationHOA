@@ -1,0 +1,104 @@
+<resources>
+    <string name="app_name">MyAssociation</string>
+    <string name="action_settings">Guide</string>
+    <string name="b1">E-Mail</string>
+    <string name="b2">Contact</string>
+    <string name="b3">Directory</string>
+    <string name="b4">Weather</string>
+    <string name="b5">Calendar</string>
+    <string name="b6">Budget</string>
+    <string name="b7">Documents</string>
+    <string name="b8">Message Board</string>
+    <string name="b9">My Info</string>
+    <string name="b10">Push History</string>
+    <string name="b11">Service Providers</string>
+    <string name="b12">Change/Add Association</string>
+    <string name="b13">Pet Directory</string>
+    <string name="b14">Guest Directory</string>
+    <string name="b15">Auto Directory</string>
+    <string name="b16">Tools</string>
+    <string name="b17">Push/Email</string>
+    <string name="b18">Maint. Items</string>
+
+    <string name="guide_text">My Association\n
+Custom Mobile Application\n
+\nWelcome to the My Association Custom Mobile Application!\n\n  The My Association Mobile App is designed to enable private
+        communication between you, other members
+        and the Association, quick access to information about Association events, and the ability to receive emails and push
+        notifications regarding current issues for the Association.  You can send pre-formatted emails to the Association to ask
+        questions and RSVP for events.  Through the Association directory you can communication with other Association Members.
+New Features in Release Version 4.0
+Added a feature to allow the Administrator to prescreen member posted messages and comments to the message board.  This is only
+        used when member posting privileges have been authorized by the Association.\n\n
+Registering for the My Association App\n\n
+The first time you access the app, you will be asked to enter a passcode sent to you by the Association Administrator.  To register,
+        enter the passcode if accepted you will be sent to your personal information page.  Enter your personal information for both
+        of your “Two Addresses”, (Note: you must enter a First and Last Name for the registration to complete failure to do this and
+        the app will not function).  (Note: This is your information for this device, not family information.)  This is the information
+        that will be seen by other Association members when they access your listing in the directory. After you have entered the information,
+        press the Save button.
+\n\nAssociation Calendar\n\n
+The Association Calendar function is a list of the currently published events scheduled for your Association.  When you access the events,
+        you have the ability to add that event to your default calendar on your device and/or to respond to the Association for that event
+        with a custom email by just pressing the button for either Respond to Association or Add to Calendar.
+\n\nContact Us\n\n
+The Contact Us function has preloaded the Association phone numbers used to contact the different organizations relevant to your Association.
+\n\nDirectory\n\n
+This function gives you access to the Association Membership Directory.  You can search for a member by depressing the search bar and then
+        select the search method, Name or Address and then entering part of the member’s name or address.  When you have found the member,
+        just depress the member’s cell and the directory listing will appear.  If you want to call the member depress the phone number you
+        wish to call.  To send an email to the member just depress the email address and a blank email will be created for you to complete.
+        When you have finished completing the email just depress the “Send” button.  When you are finished just depress the “Done” button or
+        the Menu option on the bottom of the screen.
+\n\nWeather\n\n
+The Weather function provides you the current weather conditions at your Association Location, with weather condition, temperature, and wind
+        speed and direction.  It also provides you with the forecast for the day with the weather condition, high and low temperatures,
+        and forecasted wind speed and direction.
+\n\nGuide\n\n
+The Guide provides the complete documentation on all of the functions contained in the app.
+\n\nBudget\n\n
+The Budget provides the latest budget and/or expenses for the Association.  You can zoom the document and reposition using normal gestures
+        for the device. You should have WiFi access for this to load, since these files reside in the cloud server.
+\n\nDocuments\n\n
+The Documents provides the “ByLaws”, “Rules” and “Current Minutes” and an additional three documents selected by the association for Members
+        of the Association to view.  You can zoom the document and reposition using normal gestures
+        for the device.  You should have WiFi access for this to load, since these files reside in the cloud server.
+\n\nPush History\n\n
+The Push History provides the member access to the last 60 days worth of push notices.  The notices are automatically removed after 60 days.
+\n\nService Providers\n\n
+This is member feature if activated by the Association Administrator to allow members to pass on information on service providers that they
+        have used and recommend to other members of the association.  This feature allows you to add new Service Categories and then add providers
+        to that category.  Members also have the ability to add notes or comments to a providers listing for additional information.
+\n\nChg/Add Assoc\n\n
+The Chg/Add Assoc provides the member the ability to be a member of multiple associations using the MyAssociation App.  To join a new association
+        depress the “+” plus button on the upper right of the screen and then enter the passcode for your new association.  To change the current
+        association, just depress the association you wish to change to and the app will be reconfigured for that association.  Note: you will not
+        receive push notifications for the association that is not your current association.
+\n\nMyInfo\n\n
+The MyInfo provides you access to update your personal information for the Association’s Directory. When you update and “Save” this information
+        is updated for all members to view.  This section also contains the “Buttons” to update your Pet, Automobile and Guest Information, if this
+        information was requested by your Association Administrator.
+\n\nMessage Board\n\n
+The Message Board provides you access to messages posted by other members or the Administrator and the ability to respond to that message directly
+        to the posting party. Only the posting party and Association Administrator can delete a post by swiping the cell from right to left.
+        To add a post just depress the “+” button on the upper right (This is only an option for members if approved by the Administrator) and you
+        will have displayed an “Add Message” screen that you can enter your post in the text box.  When you are finished just depress the “Save”
+        button and your post will be added to the Message Board.  A red circle on the upper right of the Message Board Button indicates that new
+        messages are available.  When a new message is created a “Push Notification” is sent to all members notifying them that a new message
+        was created.  You also have the ability to post a “Comment” on a message by depressing the “Comment” button.  This will take you to the
+        input comment screen where you will enter your comment and then depress the “Save” button to post the comment or depress “Cancel” and the
+        comment will be discarded. If authorized by the Association, all member posted messages and comments will be prescreened by the association
+        prior to being posted to the message board.
+\n\nMaintenance Items\n\n
+The Maint. Items, provides the members the ability to post maintenance requests with the Association Administrator.  There is also the ability
+        to post a comment on the request.  This option is an Association requested option, so not all associations will have this ability.
+\n\nPet Directory\n\n
+The Pet Directory, provides the members the ability to view the pets that the Association Owners have entered into the database.  This option is
+        an Association requested option, so not all associations will have this ability.
+\n\nAuto Directory\n\n
+The Auto Directory, provides the members the ability to view the automobiles that the Association Owners have entered into the database.
+        This option is an Association requested option, so not all associations will have this ability
+</string>
+
+
+</resources>

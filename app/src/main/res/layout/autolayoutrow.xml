@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:clickable="false"
+              android:orientation="horizontal"
+              android:weightSum="4"
+              android:baselineAligned="false"
+              android:padding="20dp">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="3"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/autoMakeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center_horizontal"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="name"
+          />
+
+        <TextView
+            android:id="@+id/autoModelText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="model"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/autoMakeText"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/innerAutoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/autoModelText"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/autoYearText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="year"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_below="@+id/autoModelText"
+                android:layout_alignParentStart="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+
+            <TextView
+                android:id="@+id/autoColorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="color"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/autoYearText"
+                android:layout_below="@+id/autoModelText"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/autoLicenseText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="license"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_below="@+id/innerAutoLayout"/>
+
+        <TextView
+            android:id="@+id/autoTagText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="tag"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_below="@+id/autoLicenseText"/>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center_vertical">
+
+        <Button android:id="@+id/delete" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="Delete"
+                android:layout_gravity="center"/>
+    </LinearLayout>
+
+</LinearLayout>
