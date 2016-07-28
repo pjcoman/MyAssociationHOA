@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="9"
+    android:background="@drawable/whiteengraved"
+    android:paddingTop="50dp"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingBottom="50dp">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:weightSum="2"
+        android:layout_weight="2"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/add_pet"
+            android:id="@+id/textViewTitle"
+            android:layout_gravity="center"
+            android:textSize="24sp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:textColor="#050505" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:id="@+id/buttonSaveMessage"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textSize="14sp"
+            android:gravity="center_vertical|center_horizontal" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:id="@+id/scrollView2"
+        android:layout_weight="7">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/editTextPetName"
+                android:layout_gravity="center_horizontal"
+                android:background="#ffffff"
+                android:layout_margin="10dp"
+                android:hint="Pet Name"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:textColorHint="@color/abc_secondary_text_material_light"
+                android:inputType="textCapWords"
+                android:textColor="#1d59c2"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/editTextPetType"
+                android:layout_gravity="center_horizontal"
+                android:background="#ffffff"
+                android:layout_margin="10dp"
+                android:hint="Pet Type"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:textColorHint="@color/abc_secondary_text_material_light"
+                android:inputType="textCapWords"
+                android:textColor="#1d59c2"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/editTextPetBreed"
+                android:layout_gravity="center_horizontal"
+                android:background="#ffffff"
+                android:layout_margin="10dp"
+                android:hint="Pet Breed"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:textColorHint="@color/abc_secondary_text_material_light"
+                android:inputType="textCapWords"
+                android:textColor="#1d59c2"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/editTextPetColor"
+                android:layout_gravity="center_horizontal"
+                android:background="#ffffff"
+                android:layout_margin="10dp"
+                android:hint="Pet Color"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:textColorHint="@color/abc_secondary_text_material_light"
+                android:inputType="textCapWords"
+                android:textColor="#1d59c2"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/editTextPetWeight"
+                android:layout_gravity="center_horizontal"
+                android:background="#ffffff"
+                android:layout_margin="10dp"
+                android:hint="Pet Weight"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:textColorHint="@color/abc_secondary_text_material_light"
+                android:textColor="#1d59c2"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:ems="10"
+                android:id="@+id/editTextPetMisc"
+                android:layout_gravity="center_horizontal"
+                android:background="#ffffff"
+                android:layout_margin="10dp"
+                android:hint="misc"
+                android:gravity="top"
+                android:padding="20dp"
+                android:textColorHint="@color/abc_secondary_text_material_light"
+                android:inputType="textCapSentences"
+                android:textColor="#1d59c2"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

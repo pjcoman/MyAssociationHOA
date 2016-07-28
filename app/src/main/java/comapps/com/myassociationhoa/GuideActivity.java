@@ -17,10 +17,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class GuideActivity extends Activity
         {
 
-            private TextView guide;
-
-private Button closeButton;
-
 
             @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +29,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
         setContentView(R.layout.guidelayout);
 
-        closeButton = (Button) findViewById(R.id.guideCloseButton);
+                Button closeButton = (Button) findViewById(R.id.guideCloseButton);
 
        closeButton.setOnClickListener(
                new Button.OnClickListener() {
@@ -64,7 +60,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
        /* sv = (ScrollView) findViewById(R.id.scrollView);
         sv.fullScroll(View.FOCUS_DOWN);*/
-        guide = (TextView) findViewById(R.id.textViewGuide);
+                TextView guide = (TextView) findViewById(R.id.textViewGuide);
         guide.setMovementMethod(new ScrollingMovementMethod());
         guide.setVerticalScrollBarEnabled(true);
         guide.setVerticalFadingEdgeEnabled(false);

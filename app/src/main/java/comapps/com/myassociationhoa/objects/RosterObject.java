@@ -5,32 +5,32 @@ package comapps.com.myassociationhoa.objects;
  */
 public class RosterObject {
 
-    String number;                  // 0
-    String lastName;                // 1
-    String firstName;               // 2
-    String middleName;              // 3
-    String homeAddress1;            // 4
-    String homeAddress2;            // 5
-    String homeCity;                // 6
-    String homeState;               // 7
-    String HomeZip;                 // 8
-    String homePhone;               // 9
-    String mobilePhone;             // 10
-    String email;                   // 11
-    String businessName;            // 12
-    String businessAddress1;        // 13
-    String businessAddress2;        // 14
-    String businessCity;            // 15
-    String businessState;           // 16
-    String businessZip;             // 17
-    String businessPhone;          // 18
-    String businessEmail;           // 19
-    String registrationNumber;      // 20
-    String sort;                    // 21
-    String emergencyName;           //  22
-    String emergencyPhoneNumber;    // 23
-    String activationDate;          // 24
-    String groups;                  //  25
+    private String number;                  // 0
+    private String lastName;                // 1
+    private String firstName;               // 2
+    private String middleName;              // 3
+    private String homeAddress1;            // 4
+    private String homeAddress2;            // 5
+    private String homeCity;                // 6
+    private String homeState;               // 7
+    private String HomeZip;                 // 8
+    private String homePhone;               // 9
+    private String mobilePhone;             // 10
+    private String email;                   // 11
+    private String businessName;            // 12
+    private String winterAddress1;        // 13
+    private String winterAddress2;        // 14
+    private String winterCity;            // 15
+    private String winterState;           // 16
+    private String winterZip;             // 17
+    private String winterPhone;          // 18
+    private String winterEmail;           // 19
+    private String memberNumber;      // 20
+    private String status;                    // 21
+    private String emergencyName;           //  22
+    private String emergencyPhoneNumber;    // 23
+    private String activationDate;          // 24
+    private String groups;                  //  25
 
 
 
@@ -154,101 +154,101 @@ public class RosterObject {
 
     //******************************************************************************
 
-    public String getBusinessName() {
+    public String getWinterName() {
         return businessName;
     }
 
-    public void setBusinessName(String businessName) {
+    public void setWinterName(String businessName) {
         this.businessName = businessName;
     }
 
     //******************************************************************************
 
-    public String getBusinessAddress2() {
-        return businessAddress2;
+    public String getWinterAddress2() {
+        return winterAddress2;
     }
 
-    public void setBusinessAddress2(String businessAddress2) {
-        this.businessAddress2 = businessAddress2;
+    public void setWinterAddress2(String winterAddress2) {
+        this.winterAddress2 = winterAddress2;
     }
 
     //******************************************************************************
 
-    public String getBusinessAddress1() {
-        return businessAddress1;
+    public String getWinterAddress1() {
+        return winterAddress1;
     }
 
-    public void setBusinessAddress1(String businessAddress1) {
-        this.businessAddress1 = businessAddress1;
+    public void setWinterAddress1(String winterAddress1) {
+        this.winterAddress1 = winterAddress1;
     }
 
     //********************************************************************************
-    public String getBusinessCity() {
-        return businessCity;
+    public String getWinterCity() {
+        return winterCity;
     }
 
-    public void setBusinessCity(String businessCity) {
-        this.businessCity = businessCity;
-    }
-
-    //******************************************************************************
-
-    public String getBusinessState() {
-        return businessState;
-    }
-
-    public void setBusinessState(String businessState) {
-        this.businessState = businessState;
+    public void setWinterCity(String winterCity) {
+        this.winterCity = winterCity;
     }
 
     //******************************************************************************
 
-    public String getBusinessZip() {
-        return businessZip;
+    public String getWinterState() {
+        return winterState;
     }
 
-    public void setBusinessZip(String businessZip) {
-        this.businessZip = businessZip;
-    }
-
-    //******************************************************************************
-
-    public String getBusinessPhone() {
-        return businessPhone;
-    }
-
-    public void setBusinessPhone(String businessPhone) {
-        this.businessPhone = businessPhone;
+    public void setWinterState(String winterState) {
+        this.winterState = winterState;
     }
 
     //******************************************************************************
 
-    public String getBusinessEmail() {
-        return businessEmail;
+    public String getWinterZip() {
+        return winterZip;
     }
 
-    public void setBusinessEmail(String businessEmail) {
-        this.businessEmail = businessEmail;
-    }
-
-    //******************************************************************************
-
-    public String getSort() {
-        return sort;
-    }
-
-    public void setSort(String sort) {
-        this.sort = sort;
+    public void setWinterZip(String winterZip) {
+        this.winterZip = winterZip;
     }
 
     //******************************************************************************
 
-    public String getRegistrationNumber() {
-        return registrationNumber;
+    public String getWinterPhone() {
+        return winterPhone;
     }
 
-    public void setRegistrationNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
+    public void setWinterPhone(String winterPhone) {
+        this.winterPhone = winterPhone;
+    }
+
+    //******************************************************************************
+
+    public String getWinterEmail() {
+        return winterEmail;
+    }
+
+    public void setWinterEmail(String winterEmail) {
+        this.winterEmail = winterEmail;
+    }
+
+    //******************************************************************************
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    //******************************************************************************
+
+    public String getMemberNumber() {
+        return memberNumber;
+    }
+
+    public void setMemberNumber(String memberNumber) {
+        this.memberNumber = memberNumber;
     }
 
     //******************************************************************************
@@ -307,15 +307,15 @@ public class RosterObject {
                 ", mobilePhone='" + mobilePhone + '\'' +
                 ", email='" + email + '\'' +
                 ", businessName='" + businessName + '\'' +
-                ", businessAddress1='" + businessAddress1 + '\'' +
-                ", businessAddress2='" + businessAddress2 + '\'' +
-                ", businessCity='" + businessCity + '\'' +
-                ", businessState='" + businessState + '\'' +
-                ", businessZip='" + businessZip + '\'' +
-                ", businessPhone='" + businessPhone + '\'' +
-                ", businessEmail='" + businessEmail + '\'' +
-                ", registrationNumber='" + registrationNumber + '\'' +
-                ", sort='" + sort + '\'' +
+                ", winterAddress1='" + winterAddress1 + '\'' +
+                ", winterAddress2='" + winterAddress2 + '\'' +
+                ", winterCity='" + winterCity + '\'' +
+                ", winterState='" + winterState + '\'' +
+                ", winterZip='" + winterZip + '\'' +
+                ", winterPhone='" + winterPhone + '\'' +
+                ", winterEmail='" + winterEmail + '\'' +
+                ", memberNumber='" + memberNumber + '\'' +
+                ", status='" + status + '\'' +
                 ", emergencyName='" + emergencyName + '\'' +
                 ", emergencyPhoneNumber='" + emergencyPhoneNumber + '\'' +
                 ", activationDate='" + activationDate + '\'' +

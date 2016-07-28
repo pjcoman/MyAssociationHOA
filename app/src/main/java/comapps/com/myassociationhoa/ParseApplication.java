@@ -1,6 +1,8 @@
 package comapps.com.myassociationhoa;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.parse.DeleteCallback;
@@ -8,6 +10,7 @@ import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
@@ -15,6 +18,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -22,9 +26,10 @@ import java.util.List;
  */
 public class ParseApplication extends Application  {
 
-    private static final String TAG = "ParseApplication";
+    private static final String TAG = "PARSEAPPLICATION";
+    private static final String MYPREFERENCES = "MyPrefs";
 
-
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate() {
@@ -56,17 +61,87 @@ public class ParseApplication extends Application  {
 
         //   PushService.setDefaultPushCallback(this, MainActivity.class);
 
+        sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
-        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Home");
+        try {
+            ParseFile parseFile = (ParseFile) query.getFirst().get("NewHOAFile");
+            byte[] data = parseFile.getData();
 
-        installation.put("memberName", "Peter Android");
-        installation.put("MemberType", "Member");
-        installation.put("AssociationCode", "Status_Test");
-        installation.put("memberNumber", "007");
-        installation.saveInBackground();
+            String codesFileString = null;
+
+
+            try {
+                codesFileString = new String(data, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            //   Log.d(TAG, "codes -----> " + codesFileString);
+
+
+            String passCodes[] = codesFileString.split("(\\|)|(\\^)");
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            int i = 0;
+            int j = 1;
+            int k = 0;
+            for (String passcode : passCodes) {
+                //   Log.d(TAG, "passcode member ----> " + passcode);
+
+
+                switch (j) {
+                    case 1:
+                        i++;
+                        j++;
+                        k++;
+
+                        editor.putString("passcodeASSOC_LONGNAME" + "(" + i + ")", passcode);
+                        Log.d(TAG, passcode + "----->" + i + "passcodeASSOC_LONGNAME" + j + " " + k);
+                        break;
+                    case 2:
+                        j++;
+                        k++;
+
+                        editor.putString("passcodeASSOC_NAME" + "(" + i + ")", passcode);
+                        Log.d(TAG, passcode + "----->  " + i + "passcodeASSOC_NAME");
+                        break;
+                    case 3:
+                        j++;
+                        k++;
+
+                        editor.putString("passcodeADMIN_PW" + "(" + i + ")", passcode);
+                        Log.d(TAG, passcode + "----->  " + i + "passcodeADMIN_PW");
+                        break;
+                    case 4:
+                        j++;
+                        k++;
+
+                        editor.putString("passcodeMEMBER_PW" + "(" + i + ")", passcode);
+                        Log.d(TAG, passcode + "----->  " + i + "passcodeMEMBER_PW");
+                        break;
+                    case 5:
+                        j = 1;
+                        k++;
+
+                        editor.putString("passcodeASSOC_SHORTNAME" + "(" + i + ")", passcode);
+                        Log.d(TAG, passcode + "----->" + i + "passcodeSHORTNAME" + j + " " + k);
+                        break;
+                }
+
+            }
+            Log.d(TAG, "passcode size is -----> " + k);
+            editor.putString("passcodeSize", String.valueOf(k));
+            editor.apply();
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
         ParseQuery<ParseObject> queryAssociations = new ParseQuery<>(
-                installation.getCurrentInstallation().getString("AssociationCode"));
+                ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
         queryAssociations.setLimit(5);
 
 
@@ -89,17 +164,9 @@ public class ParseApplication extends Application  {
 
 
 
-
         Log.d(TAG, "App started up");
 
 
-
-
-
-
     }
-
-
-
 
 }

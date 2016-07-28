@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#030303">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_to_search"
+        android:id="@+id/backButton"
+        android:layout_gravity="center" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollViewMemberInfo"
+        android:visibility="visible"
+        android:padding="10dp"
+        android:background="@drawable/info_background_noborder">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayoutMemberInfo">
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:paddingLeft="20dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lastNameTextView"
+                    android:textSize="18sp"
+                    android:text="LastName"
+                    android:textStyle="bold"
+                    android:textColor="#662903" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=", "
+                    android:id="@+id/textView2"
+                    android:textSize="18sp"
+                    android:textColor="#662903"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/middleNameTextView"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:text="MiddleName"
+                    android:textStyle="bold"
+                    android:paddingRight="5dp"
+                    android:textColor="#662903" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/firstNameTextView"
+                    android:textSize="18sp"
+                    android:text="FirstName"
+                    android:textStyle="bold"
+                    android:textColor="#662903" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="@drawable/info_background_noframe"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/summerAddressLabel"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="16sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:textColor="#087326"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/address1TextView"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_horizontal"
+                    android:maxLines="2"
+                    android:textColor="#087326"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/address2TextView"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="#087326"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPostalAddress"
+                        android:id="@+id/cityTextView"
+                        android:textSize="16sp"
+                        android:text="city"
+                        android:textColor="#087326"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=", "
+                        android:id="@+id/textView"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPostalAddress"
+                        android:id="@+id/stateTextView"
+                        android:textSize="16sp"
+                        android:text="state"
+                        android:textColor="#087326"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPostalAddress"
+                        android:id="@+id/zipTextView"
+                        android:gravity="center|center_vertical|center_horizontal"
+                        android:textSize="18sp"
+                        android:textColor="#087326"
+                        android:paddingLeft="20dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/homePhoneTextView"
+                        android:gravity="center|center_vertical|center_horizontal"
+                        android:textSize="18sp"
+                        android:layout_margin="2dp"
+                        android:inputType="phone"
+                        android:layout_gravity="center"
+                        android:textColor="#087326"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/imageButtonPhone"
+                        android:background="@drawable/ic_call_black_48dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="mobile"
+                        android:id="@+id/textView8"
+                        android:textColor="#087326"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mobilePhoneTextView"
+                        android:gravity="center|center_vertical|center_horizontal"
+                        android:textSize="18sp"
+                        android:layout_margin="2dp"
+                        android:inputType="phone"
+                        android:layout_gravity="center"
+                        android:textColor="#087326"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/imageButtonMobile"
+                        android:background="@drawable/ic_call_black_48dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/emailTextView"
+                    android:layout_gravity="center"
+                    android:gravity="center|center_vertical|center_horizontal"
+                    android:textSize="16sp"
+                    android:layout_margin="10dp"
+                    android:textColor="#087326"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/imageButtonEmail"
+                    android:background="@drawable/ic_email_black_48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/info_background_noframe"
+                android:padding="16dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/winterAddressLabel"
+                    android:layout_gravity="center"
+                    android:textSize="16sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="visible"
+                    android:gravity="center"
+                    android:textColor="#105ceb"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/winter_address1TextView"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:visibility="visible"
+                    android:textColor="#105ceb"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords|textPostalAddress"
+                    android:ems="10"
+                    android:id="@+id/winter_address2TextView"
+                    android:layout_gravity="center"
+                    android:gravity="center|center_vertical|center_horizontal"
+                    android:textSize="16sp"
+                    android:visibility="visible"
+                    android:textColor="#105ceb"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="5"
+                    android:visibility="visible"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords|textPostalAddress"
+                        android:id="@+id/winter_cityTextView"
+                        android:gravity="center|center_vertical|center_horizontal"
+                        android:textSize="16sp"
+                        android:text="city"
+                        android:textColor="#105ceb"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=", "
+                        android:id="@+id/textView4"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords|textPostalAddress"
+                        android:id="@+id/winter_stateTextView"
+                        android:textSize="16sp"
+                        android:text="state"
+                        android:textColor="#105ceb"
+                        android:gravity="center"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPostalAddress"
+                        android:id="@+id/winter_zipTextView"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="visible"
+                        android:textColor="#105ceb"
+                        android:text="winterzip"
+                        android:paddingLeft="20dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/winter_homePhoneTextView"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="18sp"
+                        android:visibility="visible"
+                        android:textColor="#105ceb"
+                        android:text="555555555"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/imageButtonPhoneWinter"
+                        android:background="@drawable/ic_call_black_48dp"
+                        android:layout_margin="10dp"
+                        android:layout_gravity="center" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/winter_emailTextView"
+                    android:gravity="center|center_vertical|center_horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="18sp"
+                    android:inputType="phone"
+                    android:visibility="visible"
+                    android:textColor="#105ceb"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/imageButtonEmailWinter"
+                    android:background="@drawable/ic_email_black_48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/info_background_noframe"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/textViewEC"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="18sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:textColor="#f42b2b"
+                    android:text="Emergency Contact"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/emergencyContactTextView"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center|center_vertical|center_horizontal"
+                    android:textSize="18sp"
+                    android:visibility="visible"
+                    android:textColor="#f42b2b"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/emergencyContactPhoneTextView"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center|center_vertical|center_horizontal"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="20dp"
+                    android:visibility="visible"
+                    android:textColor="#f42b2b"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/imageButtonEC"
+                    android:background="@drawable/ic_call_red_48dp"
+                    android:layout_margin="2dp"
+                    android:layout_gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/info_background_noframe"
+                android:padding="16dp"
+                android:gravity="center"
+                android:id="@+id/petsButtonLayout">
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Display Pets"
+                    android:id="@+id/petsButton"
+                    android:background="#fcf7f7"
+                    android:layout_marginLeft="70dp"
+                    android:layout_marginRight="70dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

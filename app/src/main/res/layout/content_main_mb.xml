@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".calendar.CalendarActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="false"
+    android:clickable="false"
+    android:id="@+id/content_main_mb"
+    android:orientation="vertical"
+
+    >
+
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="comapps.com.myassociationhoa.messageboard.MBFragment"
+        android:id="@+id/mbActivityFragment"
+        tools:layout="@layout/content_main_mb_row" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
+        android:onClick="AddChangeAssoc"
+        android:src="@drawable/fab"
+        android:alpha=".65" />
+
+
+</FrameLayout>

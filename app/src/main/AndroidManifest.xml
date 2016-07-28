@@ -2,13 +2,16 @@
 <manifest package="comapps.com.myassociationhoa"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -60,7 +63,12 @@
         </activity>
 
         <activity
-            android:name=".weather.WeatherActivity"
+            android:name=".directory.DirectoryRosterMemberActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".WeatherActivity"
             android:screenOrientation="unspecified"  >
         </activity>
 
@@ -70,9 +78,47 @@
         </activity>
 
         <activity
+            android:name=".myinfo.PopInfo"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+
+        <activity
+            android:name=".myinfo.PersonalInfoActivity"
+            android:screenOrientation="unspecified"></activity>
+
+        <activity
+            android:name=".autos.AutoActivity"
+            android:screenOrientation="unspecified"></activity>
+
+        <activity
+            android:name=".pets.PetsActivity"
+            android:screenOrientation="unspecified"></activity>
+
+        <activity
+            android:name=".pets.PopPetsAddPet"
+            android:screenOrientation="unspecified"></activity>
+
+        <activity
+            android:name=".guests.GuestActivity"
+            android:screenOrientation="unspecified"></activity>
+
+
+        <activity
+            android:name=".maintenance.MaintenanceActivity"
+            android:screenOrientation="unspecified"></activity>
+
+        <activity
             android:name=".budget.BudgetActivity"
             android:screenOrientation="unspecified"  >
         </activity>
+
+        <activity
+            android:name=".budget.BudgetReaderActivity"
+            android:screenOrientation="unspecified"></activity>
+
+        <activity
+            android:name=".push_history.PushActivity"
+            android:screenOrientation="unspecified"></activity>
 
         <activity
             android:name=".documents.DocumentsActivity"
@@ -80,7 +126,38 @@
         </activity>
 
         <activity
-            android:name=".messageboard.MessageBoardActivity"
+            android:name=".RegistrationActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".documents.PopDocuments"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+
+        <activity
+            android:name=".budget.PopBudget"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+
+        <activity
+            android:name=".messageboard.PopMBAddMessage"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+
+        <activity
+            android:name=".messageboard.PopMBComment"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+
+        <activity
+            android:name=".PopEnterPasscode"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+
+
+        <activity
+            android:name=".messageboard.MBActivity"
             android:screenOrientation="unspecified"  >
         </activity>
 
@@ -90,12 +167,12 @@
         </activity>
 
         <activity
-            android:name=".push_history.PushHistoryActivity"
+            android:name=".service_providers.ServiceProviderActivity"
             android:screenOrientation="unspecified"  >
         </activity>
 
         <activity
-            android:name=".service_providers.ServiceProviderActivity"
+            android:name=".documents.DocumentReaderActivity"
             android:screenOrientation="unspecified"  >
         </activity>
 
@@ -105,7 +182,7 @@
         </activity>
 
         <activity
-            android:name=".maintenance.MaitenanceActivity"
+            android:name=".ToolsActivity"
             android:screenOrientation="unspecified"  >
         </activity>
 

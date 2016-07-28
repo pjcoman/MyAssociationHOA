@@ -5,8 +5,6 @@ package comapps.com.myassociationhoa.objects;
  */
 
 
-public class AssociationObject {
-    String objectID;
-    String autoDate;
+class AssociationObject {
 
 }

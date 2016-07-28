@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".calendar.CalendarActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="false"
+    android:clickable="false"
+    android:id="@+id/content_main_calendar"
+    android:orientation="vertical"
+    android:background="#eee17d"
+
+    >
+
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="comapps.com.myassociationhoa.calendar.CalendarFragment"
+        android:id="@+id/calendarActivityFragment" />
+
+
+</LinearLayout>

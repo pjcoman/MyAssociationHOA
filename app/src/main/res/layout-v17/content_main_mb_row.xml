@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".messageboard.MBActivity"
+    android:layout_width="match_parent"
+    android:layout_height="340dp"
+    android:focusableInTouchMode="false"
+    android:clickable="false"
+    android:id="@+id/content_main_mb_row"
+    android:orientation="vertical"
+    android:weightSum="10"
+    android:padding="20dp"
+    android:background="@drawable/cork_bg">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/name"
+            android:shadowColor="#e70707"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:id="@+id/textViewPostName"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/posteddate"
+            android:id="@+id/textViewPostDate"
+            android:shadowColor="#06d15b"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:layout_gravity="center_horizontal"
+            android:textSize="14sp"
+            android:padding="6dp" />
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/post"
+            android:id="@+id/textViewPost"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:background="@drawable/cork_en"
+            android:scrollbars="vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+
+            android:weightSum="2">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email_response"
+                android:id="@+id/sendEmail"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#7a51bc"
+                android:layout_weight="1"
+                android:textSize="10sp"
+                android:textAlignment="gravity"
+                android:gravity="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/comment"
+                android:id="@+id/addCommnetButton"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#7a51bc"
+                android:layout_weight="1"
+                android:textSize="10sp"
+                android:textAlignment="gravity"
+                android:gravity="center" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import comapps.com.myassociationhoa.GuideActivity;
 import comapps.com.myassociationhoa.R;
@@ -24,18 +25,16 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ContactActivity extends AppCompatActivity {
 
     public static final String TAG = "CONTACTACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
 
-    SharedPreferences sharedpreferences;
-
-    String phone_number_b1;
-    String phone_number_b2;
-    String phone_number_b3;
-    String phone_number_b4;
-    String phone_number_b5;
-    String phone_number_b6;
-    String phone_number_b7;
-    String phone_number_b8;
+    private String phone_number_b1;
+    private String phone_number_b2;
+    private String phone_number_b3;
+    private String phone_number_b4;
+    private String phone_number_b5;
+    private String phone_number_b6;
+    private String phone_number_b7;
+    private String phone_number_b8;
 
     final String phone_number_EwingServices = "tel:9725232357";
 
@@ -52,7 +51,7 @@ public class ContactActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_main_contacts);
 
-        sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
         String assocNameAddress = sharedpreferences.getString("defaultRecord(1)", "");
         String assocNameAddress2 = sharedpreferences.getString("defaultRecord(18)", "");
@@ -133,9 +132,15 @@ public class ContactActivity extends AppCompatActivity {
 
         // TODO Auto-generated method stub
 
-        Intent callIntent = new Intent(Intent.ACTION_VIEW);
-        callIntent.setData(Uri.parse(phone_number_b1));
-        startActivity(callIntent);
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:" + phone_number_b1));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -144,9 +149,15 @@ public class ContactActivity extends AppCompatActivity {
 
         // TODO Auto-generated method stub
 
-        Intent callIntent = new Intent(Intent.ACTION_VIEW);
-        callIntent.setData(Uri.parse(phone_number_b2));
-        startActivity(callIntent);
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse(phone_number_b2));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -155,9 +166,15 @@ public class ContactActivity extends AppCompatActivity {
 
         // TODO Auto-generated method stub
 
-        Intent callIntent = new Intent(Intent.ACTION_VIEW);
-        callIntent.setData(Uri.parse(phone_number_b3));
-        startActivity(callIntent);
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse(phone_number_b3));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -166,9 +183,15 @@ public class ContactActivity extends AppCompatActivity {
 
         // TODO Auto-generated method stub
 
-        Intent callIntent = new Intent(Intent.ACTION_VIEW);
-        callIntent.setData(Uri.parse(phone_number_b4));
-        startActivity(callIntent);
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse(phone_number_b4));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -177,9 +200,15 @@ public class ContactActivity extends AppCompatActivity {
 
         // TODO Auto-generated method stub
 
-        Intent callIntent = new Intent(Intent.ACTION_VIEW);
-        callIntent.setData(Uri.parse(phone_number_b5));
-        startActivity(callIntent);
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse(phone_number_b5));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -188,9 +217,15 @@ public class ContactActivity extends AppCompatActivity {
 
         // TODO Auto-generated method stub
 
-        Intent callIntent = new Intent(Intent.ACTION_VIEW);
-        callIntent.setData(Uri.parse(phone_number_b6));
-        startActivity(callIntent);
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse(phone_number_b6));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -199,9 +234,15 @@ public class ContactActivity extends AppCompatActivity {
 
         // TODO Auto-generated method stub
 
-        Intent callIntent = new Intent(Intent.ACTION_VIEW);
-        callIntent.setData(Uri.parse(phone_number_b7));
-        startActivity(callIntent);
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse(phone_number_b7));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -210,10 +251,15 @@ public class ContactActivity extends AppCompatActivity {
 
         // TODO Auto-generated method stub
 
-        Intent callIntent = new Intent(Intent.ACTION_VIEW);
-        callIntent.setData(Uri.parse(phone_number_b8));
-        startActivity(callIntent);
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse(phone_number_b8));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
 
+            Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+        }
 
 
     }

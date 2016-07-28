@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:weightSum="10"
+    android:background="#d9d2d2">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="New Account"
+        android:id="@+id/textViewTitle"
+        android:layout_gravity="center_horizontal"
+        android:textSize="24sp"
+        android:gravity="center_vertical"
+        android:textStyle="bold"
+        android:padding="2dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Enter Passcode"
+        android:id="@+id/textViewTitle2"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:padding="2dp" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editTextPassCode"
+        android:background="#f4efef"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:id="@+id/buttonCancel"
+            android:layout_weight="1"
+            android:textColor="#179fc5"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:textSize="20sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:id="@+id/buttonOK"
+            android:layout_weight="1"
+            android:textColor="#179fc5"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</LinearLayout>

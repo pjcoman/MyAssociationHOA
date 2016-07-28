@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="comapps.com.myassociationhoa.Change_Add_Associations"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="false"
+    android:clickable="false"
+    android:id="@+id/content_main_chg_add_assoc"
+    android:orientation="vertical"
+    android:background="#070707"
+    android:padding="10dp">
+
+
+    <ListView
+        android:id="@+id/listAssociations"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@drawable/info_background_noborder"
+        android:paddingTop="50dp"></ListView>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
+        android:onClick="AddChangeAssoc"
+        android:src="@drawable/fab"
+        android:alpha=".65" />
+
+</RelativeLayout>

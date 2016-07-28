@@ -56,8 +56,6 @@
                 android:textSize="16sp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:layout_below="@+id/autoModelText"
-                android:layout_alignParentStart="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"/>
 
@@ -69,10 +67,6 @@
                 android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_toRightOf="@+id/autoYearText"
-                android:layout_below="@+id/autoModelText"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"/>
         </LinearLayout>

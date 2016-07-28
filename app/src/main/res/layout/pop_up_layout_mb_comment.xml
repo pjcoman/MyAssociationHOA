@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    android:background="@drawable/cork_bg"
+    android:padding="30dp">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/add_comment1"
+            android:id="@+id/textViewTitle"
+            android:layout_gravity="center"
+            android:textSize="24sp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:textColor="#f8f6f6" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/add"
+            android:id="@+id/buttonAddComment"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:layout_margin="20dp"
+            android:gravity="center_vertical|center_horizontal" />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine|textCapSentences"
+        android:ems="10"
+        android:id="@+id/editTextComment"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="9.5"
+        android:background="#ffffff"
+        android:gravity="start|top"
+        android:padding="20dp"
+        android:layout_marginBottom="50dp" />
+
+
+</LinearLayout>
