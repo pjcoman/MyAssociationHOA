@@ -13,6 +13,16 @@ public class AutoObject {
     private String color = "";
     private String year = "";
     private String plate = "";
+    private String tag = "";
+
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public String getOwner() {
         return owner;
@@ -80,6 +90,6 @@ public class AutoObject {
                 ", color='" + color + '\'' +
                 ", year='" + year + '\'' +
                 ", plate='" + plate + '\'' +
-                '}';
+                ", tag='" + tag + '}';
     }
 }

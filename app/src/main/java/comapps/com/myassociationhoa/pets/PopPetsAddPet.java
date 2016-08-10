@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +39,7 @@ public class PopPetsAddPet extends AppCompatActivity {
 
     private static final String TAG = "POPADDPET";
     public static final String MYPREFERENCES = "MyPrefs";
+    public static final String VISITEDPREFERENCES = "VisitedPrefs";
 
     ParseQuery<ParseObject> query;
     String[] petFileArray;
@@ -55,7 +57,8 @@ public class PopPetsAddPet extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
+    SharedPreferences sharedPreferencesVisited;
+    SharedPreferences.Editor editorVisited;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,8 @@ public class PopPetsAddPet extends AppCompatActivity {
         saveButton = (Button) findViewById(R.id.buttonSaveMessage);
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_APPEND);
+
 
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -93,7 +98,7 @@ public class PopPetsAddPet extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * 1), (int) (height * 1));
+        getWindow().setLayout(width * 1, height * 1);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,11 +113,11 @@ public class PopPetsAddPet extends AppCompatActivity {
                     public void done(List<ParseObject> assoc, ParseException e) {
 
 
-                        ParseFile messageFile = assoc.get(0).getParseFile("PetFile");
+                        ParseFile petFile = assoc.get(0).getParseFile("PetFile");
                         petFileArray = null;
 
                         try {
-                            byte[] file = messageFile.getData();
+                            byte[] file = petFile.getData();
                             try {
                                 petFileString = new String(file, "UTF-8");
 
@@ -125,16 +130,24 @@ public class PopPetsAddPet extends AppCompatActivity {
                             e1.printStackTrace();
                         }
 
-                        String memberInfo = sharedPreferences.getString("MEMBER_INFO", "");
-                        String[] memberInfoArray = memberInfo.split("\\^");
+
 
                         Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("EEE, M d,yyyy H:mm a");
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                         String strDate = sdf.format(c.getTime());
 
 
                         int lengthOfPetFileString = petFileString.length();
+
+                        String newPet = "|" + sharedPreferences.getString("MEMBERNAME", "") + "^" +
+                                sharedPreferences.getString("MEMBERNUMBER", "") + "^" + etPetName.getText() +
+                                "^" + etPetType.getText() +
+                                "^" + etPetBreed.getText() +
+                                "^" + etPetColor.getText() +
+                                "^" + etPetWeight.getText() +
+                                "^" + etPetMisc.getText();
+
 
                         petFileUpdate = petFileString + "|" + sharedPreferences.getString("MEMBERNAME", "") + "^" +
                                 sharedPreferences.getString("MEMBERNUMBER", "") + "^" + etPetName.getText() +
@@ -149,6 +162,15 @@ public class PopPetsAddPet extends AppCompatActivity {
                             petFileUpdate = petFileUpdate.substring(1);
 
                         }
+
+                        editorVisited = sharedPreferencesVisited.edit();
+
+                        if ( sharedPreferencesVisited.getString("MYPETS", "").equals("")) {
+                            editorVisited.putString("MYPETS", newPet.substring(1));
+                        } else if (!sharedPreferencesVisited.getString("MYPETS","").contains(newPet)){
+                            editorVisited.putString("MYPETS", sharedPreferencesVisited.getString("MYPETS","") + newPet);
+                        }
+                        editorVisited.apply();
 
                         Log.d(TAG, "update pets --->" + petFileUpdate);
 
@@ -170,12 +192,12 @@ public class PopPetsAddPet extends AppCompatActivity {
                         Gson gson = new Gson();
                         String jsonPetObject = gson.toJson(petObject);
                         editor.putString("petObject" + "[" + String.valueOf(petSizeInt + 1) + "]", jsonPetObject);
-
+                        editor.putInt("petObjectsSize", petSizeInt + 1);
                         editor.apply();
 
 
                         byte[] data = petFileUpdate.getBytes();
-                        ParseFile petFile = new ParseFile("PetFile.txt", data);
+                        petFile = new ParseFile("PetFile.txt", data);
 
 
                         try {
@@ -194,7 +216,11 @@ public class PopPetsAddPet extends AppCompatActivity {
                             e1.printStackTrace();
                         }
 
-                        Toast.makeText(getBaseContext(), petObject.getName() + " added.", Toast.LENGTH_LONG).show();
+
+
+                        Toast toast = Toast.makeText(getBaseContext(), petObject.getName() + " added.", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
 
 
 

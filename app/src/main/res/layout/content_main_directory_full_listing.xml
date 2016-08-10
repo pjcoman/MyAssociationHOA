@@ -10,7 +10,10 @@
         android:layout_height="wrap_content"
         android:text="@string/back_to_search"
         android:id="@+id/backButton"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:background="@drawable/button_rounded_corners_black_gray_bg"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -33,22 +36,20 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp"
-                android:paddingLeft="20dp"
-                android:visibility="visible">
+                android:paddingLeft="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/lastNameTextView"
                     android:textSize="18sp"
-                    android:text="LastName"
                     android:textStyle="bold"
                     android:textColor="#662903" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="10dp"
                     android:layout_height="wrap_content"
-                    android:text=", "
+                    android:text="@string/comma"
                     android:id="@+id/textView2"
                     android:textSize="18sp"
                     android:textColor="#662903"
@@ -60,7 +61,6 @@
                     android:id="@+id/middleNameTextView"
                     android:textSize="18sp"
                     android:gravity="center"
-                    android:text="MiddleName"
                     android:textStyle="bold"
                     android:paddingRight="5dp"
                     android:textColor="#662903" />
@@ -70,7 +70,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/firstNameTextView"
                     android:textSize="18sp"
-                    android:text="FirstName"
                     android:textStyle="bold"
                     android:textColor="#662903" />
             </LinearLayout>
@@ -80,8 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:background="@drawable/info_background_noframe"
-                android:visibility="visible">
+                android:background="@drawable/info_background_noframe">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -98,7 +96,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:id="@+id/address1TextView"
                     android:gravity="center"
                     android:textSize="16sp"
@@ -109,7 +107,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:id="@+id/address2TextView"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
@@ -129,17 +127,18 @@
                         android:inputType="textPostalAddress"
                         android:id="@+id/cityTextView"
                         android:textSize="16sp"
-                        android:text="city"
+                        android:text="@string/city"
                         android:textColor="#087326"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=", "
+                        android:text="@string/comma"
                         android:id="@+id/textView"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginRight="5dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -147,7 +146,6 @@
                         android:inputType="textPostalAddress"
                         android:id="@+id/stateTextView"
                         android:textSize="16sp"
-                        android:text="state"
                         android:textColor="#087326"
                         android:textStyle="bold" />
 
@@ -164,23 +162,26 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:padding="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:id="@+id/homePhoneTextView"
-                        android:gravity="center|center_vertical|center_horizontal"
+                        android:gravity="center|right"
                         android:textSize="18sp"
-                        android:layout_margin="2dp"
                         android:inputType="phone"
-                        android:layout_gravity="center"
                         android:textColor="#087326"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:text="(222) 222-2222"
+                        android:layout_toRightOf="@+id/textViewMobileLabel"
+                        android:padding="0dp" />
 
                     <ImageButton
                         android:layout_width="30dp"
@@ -188,36 +189,36 @@
                         android:id="@+id/imageButtonPhone"
                         android:background="@drawable/ic_call_black_48dp"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center">
+                        android:layout_alignParentEnd="false"
+                        android:layout_toRightOf="@+id/homePhoneTextView"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="mobile"
-                        android:id="@+id/textView8"
+                        android:layout_height="30dp"
+                        android:text="@string/mobile"
+                        android:id="@+id/textViewMobileLabel"
                         android:textColor="#087326"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/mobilePhoneTextView"
-                        android:gravity="center|center_vertical|center_horizontal"
                         android:textSize="18sp"
-                        android:layout_margin="2dp"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/imageButtonPhone"
+                        android:gravity="center"
+                        android:layout_marginRight="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:id="@+id/mobilePhoneTextView"
+                        android:gravity="center"
+                        android:textSize="18sp"
                         android:inputType="phone"
-                        android:layout_gravity="center"
                         android:textColor="#087326"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:text="(333) 333-3333"
+                        android:layout_below="@+id/imageButtonPhone"
+                        android:layout_toRightOf="@+id/textViewMobileLabel"
+                        android:padding="0dp" />
 
                     <ImageButton
                         android:layout_width="30dp"
@@ -225,8 +226,11 @@
                         android:id="@+id/imageButtonMobile"
                         android:background="@drawable/ic_call_black_48dp"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp" />
-                </LinearLayout>
+                        android:layout_toRightOf="@+id/mobilePhoneTextView"
+                        android:layout_below="@+id/imageButtonPhone"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp" />
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -255,8 +259,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/info_background_noframe"
-                android:padding="16dp"
-                android:visibility="visible">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -311,14 +314,13 @@
                         android:id="@+id/winter_cityTextView"
                         android:gravity="center|center_vertical|center_horizontal"
                         android:textSize="16sp"
-                        android:text="city"
                         android:textColor="#105ceb"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=", "
+                        android:text="@string/comma"
                         android:id="@+id/textView4"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -329,7 +331,6 @@
                         android:inputType="textCapWords|textPostalAddress"
                         android:id="@+id/winter_stateTextView"
                         android:textSize="16sp"
-                        android:text="state"
                         android:textColor="#105ceb"
                         android:gravity="center"
                         android:textStyle="bold" />
@@ -344,7 +345,6 @@
                         android:layout_gravity="center_horizontal"
                         android:visibility="visible"
                         android:textColor="#105ceb"
-                        android:text="winterzip"
                         android:paddingLeft="20dp"
                         android:textStyle="bold" />
 
@@ -417,7 +417,7 @@
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:textColor="#f42b2b"
-                    android:text="Emergency Contact"
+                    android:text="@string/emergency_contact"
                     android:textStyle="bold" />
 
                 <TextView
@@ -455,21 +455,73 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/info_background_noframe"
-                android:padding="16dp"
+                android:padding="20dp"
                 android:gravity="center"
-                android:id="@+id/petsButtonLayout">
+                android:id="@+id/otherInfoLayout">
 
 
-                <Button
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Display Pets"
-                    android:id="@+id/petsButton"
-                    android:background="#fcf7f7"
-                    android:layout_marginLeft="70dp"
-                    android:layout_marginRight="70dp" />
+                    android:weightSum="2">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/display_pets"
+                        android:id="@+id/petsButton"
+                        android:background="#fcf7f7"
+                        android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:padding="4dp"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/display_autos"
+                        android:id="@+id/autosButton"
+                        android:background="#fcf7f7"
+                        android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:padding="4dp"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/display_guests"
+                        android:id="@+id/guestsButton"
+                        android:background="#fcf7f7"
+                        android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:padding="4dp"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/display_other"
+                        android:id="@+id/otherButton"
+                        android:background="#fcf7f7"
+                        android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:visibility="invisible"
+                        android:padding="4dp"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
             </LinearLayout>
 
 

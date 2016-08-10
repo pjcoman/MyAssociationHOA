@@ -10,16 +10,47 @@
     android:clickable="false"
     android:id="@+id/content_main_calendar"
     android:orientation="vertical"
-    android:background="#eee17d"
 
-    >
+    android:background="@drawable/info_background_noborder">
 
 
-    <fragment
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_and_send_current_calendar"
+            android:id="@+id/createAndSend"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="#0d66c6"
+            android:background="@drawable/button_rounded_corners_white_white_bg"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="comapps.com.myassociationhoa.calendar.CalendarFragment"
-        android:id="@+id/calendarActivityFragment" />
+        android:layout_height="wrap_content">
 
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="comapps.com.myassociationhoa.calendar.CalendarFragment"
+            android:id="@+id/calendarActivityFragment"
+            tools:layout="@layout/content_main_calendar_row" />
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+
+            android:src="@drawable/fab"
+            android:alpha=".65"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:visibility="gone" />
+    </FrameLayout>
 </LinearLayout>
+
+

@@ -19,7 +19,7 @@ import comapps.com.myassociationhoa.objects.AutoObject;
 /**
  * Created by me on 6/28/2016.
  */
-class AutoAdapter extends ArrayAdapter<AutoObject> implements Filterable {
+class AutosAdapter extends ArrayAdapter<AutoObject> implements Filterable {
 
     public static final String TAG = "AUTOADAPTER";
 
@@ -32,7 +32,7 @@ class AutoAdapter extends ArrayAdapter<AutoObject> implements Filterable {
     SharedPreferences.Editor editor;
 
 
-    public AutoAdapter(Context context, ArrayList<AutoObject> autosList) {
+    public AutosAdapter(Context context, ArrayList<AutoObject> autosList) {
         super(context, R.layout.content_main_autos_row, autosList);
         this.autosList = autosList;
         this.context = context;
@@ -71,7 +71,8 @@ class AutoAdapter extends ArrayAdapter<AutoObject> implements Filterable {
         TextView autoMake = (TextView) convertView.findViewById(R.id.autoMake);
         TextView autoModel = (TextView) convertView.findViewById(R.id.autoModel);
         TextView autoColor = (TextView) convertView.findViewById(R.id.autoColor);
-        TextView autoPlate = (TextView) convertView.findViewById(R.id.autoPLate);
+        TextView autoPlate = (TextView) convertView.findViewById(R.id.autoPlate);
+        TextView autoYear = (TextView) convertView.findViewById(R.id.autoYear);
 
         AutoObject auto = autosList.get(position);
 
@@ -100,6 +101,11 @@ class AutoAdapter extends ArrayAdapter<AutoObject> implements Filterable {
         }
         try {
             autoPlate.setText(autoObject.getPlate());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            autoYear.setText(autoObject.getYear());
         } catch (Exception e) {
             e.printStackTrace();
         }

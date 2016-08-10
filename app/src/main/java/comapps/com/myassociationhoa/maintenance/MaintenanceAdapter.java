@@ -1,12 +1,15 @@
 package comapps.com.myassociationhoa.maintenance;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -18,7 +21,7 @@ import comapps.com.myassociationhoa.objects.MaintenanceObject;
  */
 class MaintenanceAdapter extends ArrayAdapter<MaintenanceObject> {
 
-    public static final String TAG = "MBADAPTER";
+    public static final String TAG = "MAINTENANCEADAPTER";
 
 
     public MaintenanceAdapter(Context context, ArrayList<MaintenanceObject> maintenanceItems) {
@@ -30,7 +33,7 @@ class MaintenanceAdapter extends ArrayAdapter<MaintenanceObject> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        MaintenanceObject maintenanceObject = getItem(position);
+        final MaintenanceObject maintenanceObject = getItem(position);
 
 
         if (convertView == null) {
@@ -86,6 +89,15 @@ class MaintenanceAdapter extends ArrayAdapter<MaintenanceObject> {
         editDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Gson gson = new Gson();
+                String jsonMaintenanceObject = gson.toJson(maintenanceObject);
+
+                Intent intentEditMaintenanceNotes = new Intent();
+                intentEditMaintenanceNotes.setClass(getContext(), MaintenanceComment.class);
+                intentEditMaintenanceNotes.putExtra("MAINTENANCEINDEX", position);
+                intentEditMaintenanceNotes.putExtra("MAINTENANCEOBJECT", jsonMaintenanceObject);
+                getContext().startActivity(intentEditMaintenanceNotes);
 
             }
         });

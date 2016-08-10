@@ -36,7 +36,8 @@
             android:layout_gravity="center"
             android:textSize="18sp"
             android:layout_margin="20dp"
-            android:gravity="center_vertical|center_horizontal" />
+            android:gravity="center_vertical|center_horizontal"
+            android:background="@drawable/button_rounded_corners_black_gray_bg" />
     </LinearLayout>
 
     <EditText

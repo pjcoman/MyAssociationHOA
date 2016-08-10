@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -69,6 +70,8 @@ public class DirectoryActivity extends AppCompatActivity implements
         int searchSrcTextId = getResources().getIdentifier("android:id/search_src_text", null, null);
         EditText searchEditText = (EditText) search_view.findViewById(searchSrcTextId);
         searchEditText.setTextSize(14);
+
+        hideSoftKeyboard();
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
@@ -162,6 +165,13 @@ public class DirectoryActivity extends AppCompatActivity implements
 
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
 
+    }
+
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
     }
 
 

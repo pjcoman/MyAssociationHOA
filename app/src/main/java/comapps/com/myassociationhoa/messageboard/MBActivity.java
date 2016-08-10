@@ -66,7 +66,7 @@ public class MBActivity extends AppCompatActivity {
 
         if ( type.equals("Member")) {
 
-            mFab.setVisibility(View.GONE);
+            mFab.setVisibility(View.VISIBLE);
 
         } else {
 

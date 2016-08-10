@@ -13,7 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import comapps.com.myassociationhoa.R;
 import comapps.com.myassociationhoa.objects.MBObject;
@@ -23,8 +28,14 @@ import comapps.com.myassociationhoa.objects.MBObject;
  */
 class MBAdapter extends ArrayAdapter<MBObject> {
 
-    public static final String TAG = "MBADAPTER";
+    public static final String TAG = "MESSAGEBOARDADAPTER";
     private static final String MYPREFERENCES = "MyPrefs";
+
+    TextView mbName;
+    TextView mbDate;
+    TextView mbPost;
+
+    String outputDate;
 
 
     SharedPreferences sharedPreferences;
@@ -47,9 +58,9 @@ class MBAdapter extends ArrayAdapter<MBObject> {
 
         }
 
-        TextView mbName = (TextView) convertView.findViewById(R.id.textViewPostName);
-        final TextView mbDate = (TextView) convertView.findViewById(R.id.textViewPostDate);
-        TextView mbPost = (TextView) convertView.findViewById(R.id.textViewPost);
+        mbName = (TextView) convertView.findViewById(R.id.textViewPostName);
+        mbDate = (TextView) convertView.findViewById(R.id.textViewPostDate);
+        mbPost = (TextView) convertView.findViewById(R.id.textViewPost);
 
 
         Button sendEmail = (Button) convertView.findViewById(R.id.sendEmail);
@@ -57,7 +68,21 @@ class MBAdapter extends ArrayAdapter<MBObject> {
 
 
         mbName.setText(mbObject.getMbName());
-        mbDate.setText(mbObject.getMbPostDate());
+
+        String inputFormat = "M/d/yy, H:mm a";
+        SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
+
+        try {
+            Date date = formatter.parse(mbObject.getMbPostDate());
+            outputDate = new SimpleDateFormat("EEE, MMM dd, yyyy").format(date);
+            mbDate.setText("Posted:  " + outputDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
+
         mbPost.setText(mbObject.getMbPost());
 
 
@@ -102,19 +127,25 @@ class MBAdapter extends ArrayAdapter<MBObject> {
                 Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                         "mailto", mbObject.getMbPosterEmailAddress(), null));
                 intent.putExtra(Intent.EXTRA_SUBJECT, sharedPreferences.getString("defaultRecord(0)", "") + " Message Board Response");
-                intent.putExtra(Intent.EXTRA_TEXT, "Responding to Message Dated: " + mbDate.getText());
+                intent.putExtra(Intent.EXTRA_TEXT, "Responding to Message Dated: " + outputDate);
                 getContext().startActivity(Intent.createChooser(intent, "Choose an Email client :"));
 
             }
         });
 
+
         addComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
+                Gson gson = new Gson();
+                String jsonMbObject = gson.toJson(mbObject); // myObject - instance of MyObject
+
                 Intent intentAddComment = new Intent();
                 intentAddComment.setClass(getContext(), PopMBComment.class);
-                intentAddComment.putExtra("messageindex", position);
+                intentAddComment.putExtra("position", position);
+                intentAddComment.putExtra("jsonMbObject", jsonMbObject);
                 getContext().startActivity(intentAddComment);
 
 
@@ -123,6 +154,13 @@ class MBAdapter extends ArrayAdapter<MBObject> {
 
 
         return convertView;
+    }
+
+    private static String TimeStampConverter(final String inputFormat,
+                                             String inputTimeStamp, final String outputFormat)
+            throws ParseException {
+        return new SimpleDateFormat(outputFormat).format(new SimpleDateFormat(
+                inputFormat).parse(inputTimeStamp));
     }
 
 

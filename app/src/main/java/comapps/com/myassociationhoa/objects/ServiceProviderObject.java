@@ -7,10 +7,12 @@ public class ServiceProviderObject {
 
     private String providerName;
     private String providerAddress;
+
+
+
     private String providerAddress2;
     private String providerCity;
     private String providerState;
-    private String providerCountry;
     private String providerZip;
     private String providerPhoneNumber;
     private String providerNotes;
@@ -56,13 +58,6 @@ public class ServiceProviderObject {
         this.providerState = providerState;
     }
 
-    public String getProviderCountry() {
-        return providerCountry;
-    }
-
-    public void setProviderCountry(String providerCountry) {
-        this.providerCountry = providerCountry;
-    }
 
     public String getProviderZip() {
         return providerZip;
@@ -89,7 +84,19 @@ public class ServiceProviderObject {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "ServiceProviderObject{" +
+                "providerName='" + providerName + '\'' +
+                ", providerAddress='" + providerAddress + '\'' +
+                ", providerAddress2='" + providerAddress2 + '\'' +
+                ", providerCity='" + providerCity + '\'' +
+                ", providerState='" + providerState + '\'' +
+                ", providerZip='" + providerZip + '\'' +
+                ", providerPhoneNumber='" + providerPhoneNumber + '\'' +
+                ", providerNotes='" + providerNotes + '\'' +
+                '}';
+    }
 
 
 

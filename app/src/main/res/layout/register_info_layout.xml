@@ -8,9 +8,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="REGISTER"
+        android:text="@string/register"
         android:id="@+id/buttonSave"
-        android:layout_gravity="right" />
+        android:layout_gravity="right"
+        android:background="@drawable/button_rounded_corners_black_gray_bg"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:textColor="#f4f4dd" />
 
     <ScrollView
         android:layout_width="fill_parent"

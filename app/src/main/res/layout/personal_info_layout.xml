@@ -10,7 +10,11 @@
         android:layout_height="wrap_content"
         android:text="@string/update"
         android:id="@+id/buttonSave"
-        android:layout_gravity="right" />
+        android:layout_gravity="right"
+        android:background="@drawable/button_rounded_corners_black_gray_bg"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textColor="#f2f4b5" />
 
     <ScrollView
         android:layout_width="fill_parent"

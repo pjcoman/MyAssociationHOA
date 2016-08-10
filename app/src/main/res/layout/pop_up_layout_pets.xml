@@ -39,7 +39,8 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:textSize="14sp"
-            android:gravity="center_vertical|center_horizontal" />
+            android:gravity="center_vertical|center_horizontal"
+            android:background="@drawable/button_rounded_corners_black_gray_bg" />
     </LinearLayout>
 
     <ScrollView
@@ -129,13 +130,14 @@
                 android:layout_gravity="center_horizontal"
                 android:background="#ffffff"
                 android:layout_margin="10dp"
-                android:hint="Pet Weight"
+                android:hint="Pet Weight in Pounds"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
                 android:textColorHint="@color/abc_secondary_text_material_light"
                 android:textColor="#1d59c2"
                 android:paddingTop="20dp"
-                android:paddingBottom="20dp" />
+                android:paddingBottom="20dp"
+                android:inputType="number" />
 
             <EditText
                 android:layout_width="match_parent"

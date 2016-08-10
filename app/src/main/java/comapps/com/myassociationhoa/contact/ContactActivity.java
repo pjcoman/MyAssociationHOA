@@ -51,6 +51,15 @@ public class ContactActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_main_contacts);
 
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+
+        if (bar != null) {
+
+
+            bar.setTitle("Contacts");
+
+        }
+
         SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
         String assocNameAddress = sharedpreferences.getString("defaultRecord(1)", "");

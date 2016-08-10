@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PersonalInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "PERSONALINFOACTIVITY";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
     private static final String MYPREFERENCES = "MyPrefs";
 
     Context context;
@@ -80,8 +82,12 @@ public class PersonalInfoActivity extends AppCompatActivity {
     String rosterFileUpdate = "";
     String rosterFileString;
 
+    Bundle bundle;
+    Boolean fromAddGuest;
+
     Button updateButton;
 
+    SharedPreferences sharedPreferencesVisited;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -104,6 +110,18 @@ public class PersonalInfoActivity extends AppCompatActivity {
         if (bar != null) {
             bar.setTitle("Directory Update");
         }
+
+        bundle = getIntent().getExtras();
+
+        fromAddGuest = false;
+
+        if ( bundle != null ) {
+
+            fromAddGuest = bundle.getBoolean("FROMADDGUEST", false);
+
+
+        }
+
 
         firstNameEditText = (EditText) findViewById(R.id.editTextFirstName);
         lastNameEditText = (EditText) findViewById(R.id.editTextLastName);
@@ -138,9 +156,10 @@ public class PersonalInfoActivity extends AppCompatActivity {
         updateButton = (Button) findViewById(R.id.buttonSave);
 
 
+        sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
-        String memberInfo = sharedPreferences.getString("MEMBER_INFO", "");
+        String memberInfo = sharedPreferencesVisited.getString("MEMBER_INFO", "");
 
 
         memberInfoArray = memberInfo.split("\\^");
@@ -240,7 +259,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         summerAddress.setText(sharedPreferences.getString("defaultRecord(24)", ""));
         winterAddress.setText(sharedPreferences.getString("defaultRecord(25)", ""));
 
-        final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+
 
         String memberName = ParseInstallation.getCurrentInstallation().getString("memberName");
         Log.d(TAG, "memberName is " + memberName);
@@ -276,6 +295,24 @@ public class PersonalInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                memberNumber = ParseInstallation.getCurrentInstallation().getString("memberNumber");
+
+                String homePhone = homePhoneEditText.getText().toString();
+                String mobilePhone = mobilePhoneEditText.getText().toString();
+                String winterPhone = winterPhoneEditText.getText().toString();
+                String emerPhone = emerContactPhoneEditText.getText().toString();
+
+                String p = "\\(";
+                String p2 = "\\)";
+                String d = "-";
+                String e = "";
+
+                String homePhoneForUpdate = homePhone.replaceAll(p,e).replaceAll(p2,e).replaceAll(d,e).replaceAll(" ", "").trim();
+                String mobilePhoneForUpdate = mobilePhone.replaceAll(p,e).replaceAll(p2,e).replaceAll(d,e).replaceAll(" ", "").trim();
+                String winterPhoneForUpdate = winterPhone.replaceAll(p,e).replaceAll(p2,e).replaceAll(d,e).replaceAll(" ", "").trim();
+                String emerPhoneForUpdate = emerPhone.replaceAll(p,e).replaceAll(p2,e).replaceAll(d,e).replaceAll(" ", "").trim();
+
+
                 String updatedMemberInfo = memberInfoArray[0] + "^" +
                         lastNameEditText.getText() + "^" +
                         firstNameEditText.getText() + "^" +
@@ -285,8 +322,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         cityEditText.getText() + "^" +
                         stateEditText.getText() + "^" +
                         zipEditText.getText() + "^" +
-                        homePhoneEditText.getText() + "^" +
-                        mobilePhoneEditText.getText() + "^" +
+                        homePhoneForUpdate + "^" +
+                        mobilePhoneForUpdate + "^" +
                         emailEditText.getText() + "^" +
                         memberInfoArray[12] + "^" +
                         winterAddress1EditText.getText() + "^" +
@@ -294,24 +331,29 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         winterCityEditText.getText() + "^" +
                         winterStateEditText.getText() + "^" +
                         winterZipEditText.getText() + "^" +
-                        winterPhoneEditText.getText() + "^" +
+                        winterPhoneForUpdate + "^" +
                         winterEmailEditText.getText() + "^" +
-                        memberInfoArray[20] + "^" +
+                        memberNumber + "^" +
                         memberInfoArray[21] + "^" +
                         emerContactEditText.getText() + "^" +
-                        emerContactPhoneEditText.getText() + "^" +
+                        emerPhoneForUpdate + "^" +
                         memberInfoArray[24];
 
 
-                editor = sharedPreferences.edit();
+                editor = sharedPreferencesVisited.edit();
                 editor.putString("MEMBER_INFO", updatedMemberInfo);
                 editor.apply();
 
 
-                memberNumber = ParseInstallation.getCurrentInstallation().getString("memberNumber");
+
                 Log.d(TAG, "installation memberNumber -->" + memberNumber + "<--");
 
+                Log.d(TAG, "rosterFileString --> " + rosterFileString);
+
                 rosterFileArray = rosterFileString.split("\\|");
+
+
+
 
                 ArrayList<String> rosterArrayForSort = new ArrayList<String>();
 
@@ -319,29 +361,48 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
                 for (String member : rosterFileArray) {
 
+
+
                     String memberRemovedIndex = member.substring(member.indexOf("^") + 1);
+
+
 
                     if ( !member.contains(memberNumber)) {
                             rosterArrayForSort.add(memberRemovedIndex);
+
+
+
                     }
 
 
 
                 }
 
+
+
                 updatedMemberInfo = updatedMemberInfo.substring(updatedMemberInfo.indexOf("^") + 1);
+
+
+
                 rosterArrayForSort.add(updatedMemberInfo);
+
+
+
+
                 Collections.sort(rosterArrayForSort, String.CASE_INSENSITIVE_ORDER);
+
 
                 int i = 0;
 
                 for (String member : rosterArrayForSort) {
 
-                    member = String.valueOf(i) + "^" + member;
+                    Log.d(TAG, "member before index -->" + member + "<--");
 
-                    Log.d(TAG, "rosterArrayForSort member -->" + member + "<--");
+                    String memberIndexed = String.valueOf(i) + "^" + member.substring(0, member.length());
 
-                    rosterFileUpdate = rosterFileUpdate + member + "|";
+                    Log.d(TAG, "member after index -->" + memberIndexed + "<--");
+
+                    rosterFileUpdate = rosterFileUpdate + memberIndexed + "|";
 
                     i++;
 
@@ -391,13 +452,29 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 });
 
 
-                Toast.makeText(getBaseContext(), "MEMBER INFO UPDATED.", Toast.LENGTH_LONG).show();
+
+                Toast toast = Toast.makeText(getBaseContext(), "MEMBER INFO UPDATED.", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
 
 
-                Intent mainActivity = new Intent();
-                mainActivity.setClass(getApplicationContext(), MainActivity.class);
-                startActivity(mainActivity);
-                finish();
+                if ( !fromAddGuest) {
+
+                    Intent mainActivity = new Intent();
+                    mainActivity.setClass(getApplicationContext(), MainActivity.class);
+                    startActivity(mainActivity);
+                    finish();
+
+                } else {
+
+                    finish();
+
+
+
+
+                }
+
+
 
             }
         });

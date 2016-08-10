@@ -11,6 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +54,9 @@ class ServiceProviderAdapter extends BaseAdapter {
         public TextView providerName;
         public TextView providerAddress;
         public TextView providerAddress2;
-        public TextView providerAddressZip;
+        public TextView providerCity;
+        public TextView providerState;
+        public TextView providerZip;
         public Button callButton;
         public Button editButton;
         public TextView providerNotes;
@@ -88,7 +92,9 @@ class ServiceProviderAdapter extends BaseAdapter {
             holder.providerName = (TextView) view.findViewById(R.id.textViewProviderName);
             holder.providerAddress = (TextView) view.findViewById(R.id.textViewProviderAddress);
             holder.providerAddress2 = (TextView) view.findViewById(R.id.textViewProviderAddress2);
-            holder.providerAddressZip = (TextView) view.findViewById(R.id.textViewProviderZip);
+            holder.providerCity = (TextView) view.findViewById(R.id.textViewProviderCity);
+            holder.providerState = (TextView) view.findViewById(R.id.textViewProviderState);
+            holder.providerZip = (TextView) view.findViewById(R.id.textViewProviderZip);
             holder.providerNotes = (TextView) view.findViewById(R.id.textViewProviderNotes);
 
             holder.callButton = (Button) view.findViewById(R.id.callButton);
@@ -106,9 +112,10 @@ class ServiceProviderAdapter extends BaseAdapter {
 
         holder.providerName.setText(providerList.get(position).getProviderName());
         holder.providerAddress.setText(providerList.get(position).getProviderAddress());
-        holder.providerAddress2.setText(providerList.get(position).getProviderAddress2() + " " + providerList.get(position).getProviderAddress2()
-        + " " + providerList.get(position).getProviderCity() + " " + providerList.get(position).getProviderState() + " " + providerList.get(position).getProviderCountry());
-        holder.providerAddressZip.setText(providerList.get(position).getProviderZip());
+        holder.providerAddress2.setText(providerList.get(position).getProviderAddress2());
+        holder.providerCity.setText(providerList.get(position).getProviderCity());
+        holder.providerState.setText(providerList.get(position).getProviderState());
+        holder.providerZip.setText(providerList.get(position).getProviderZip());
         holder.providerNotes.setText(providerList.get(position).getProviderNotes());
         holder.callButton.setText(providerList.get(position).getProviderPhoneNumber());
 
@@ -126,6 +133,31 @@ class ServiceProviderAdapter extends BaseAdapter {
                     Uri uri = Uri.parse("tel:" + phoneNumber);
                     Intent i = new Intent(Intent.ACTION_DIAL, uri);
                     getContext().startActivity(i);
+
+
+                } catch (Exception e) {
+
+
+                }
+
+            }
+        });
+
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+
+                    Gson gson = new Gson();
+                    String jsonString;
+
+                    Intent intentEditServiceProvider = new Intent();
+                    intentEditServiceProvider.setClass(getContext(), ServiceProviderEditActivity.class);
+                    intentEditServiceProvider.putExtra("serviceProviderObjectGson", gson.toJson(providerList.get(position)));
+                    intentEditServiceProvider.putExtra("FROMSERVICEPROVIDERADD", "NO");
+                    intentEditServiceProvider.putExtra("PROVIDERTYPE", "");
+                    getContext().startActivity(intentEditServiceProvider);
 
 
                 } catch (Exception e) {

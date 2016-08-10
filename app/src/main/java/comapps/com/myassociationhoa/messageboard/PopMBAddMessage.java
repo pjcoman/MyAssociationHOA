@@ -75,7 +75,7 @@ public class PopMBAddMessage extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * 1), (int) (height * 1));
+        getWindow().setLayout(width * 1, height * 1);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +111,7 @@ public class PopMBAddMessage extends AppCompatActivity {
                         String[] memberInfoArray = memberInfo.split("\\^");
 
                         Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("EEE, M d,yyyy H:mm a");
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                         String strDate = sdf.format(c.getTime());
                         String strDate2 = sdf2.format(c.getTime());
@@ -149,6 +149,9 @@ public class PopMBAddMessage extends AppCompatActivity {
                         editor.apply();
 
 
+
+
+
                         byte[] data = messageFileUpdate.getBytes();
                         ParseFile MessageFile = new ParseFile("message.txt", data);
 
@@ -172,7 +175,7 @@ public class PopMBAddMessage extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "MESSAGE POSTED", Toast.LENGTH_LONG).show();
 
                         ParseQuery pushQuery = ParseInstallation.getQuery();
-                        pushQuery.whereEqualTo("AssociationCode", "Android");
+                        pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
 
                         ParsePush push = new ParsePush();
                         push.setQuery(pushQuery); // Set our Installation query

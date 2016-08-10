@@ -11,7 +11,7 @@
     android:clickable="false"
     android:id="@+id/content_main_calendar_row"
     android:orientation="vertical"
-    android:background="#eee17d"
+    android:background="@drawable/linenbackgroundbox"
     android:padding="20dp"
     android:weightSum="10">
 
@@ -41,46 +41,42 @@
             android:paddingTop="40dp"
             android:paddingBottom="40dp"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:background="#eceea0" />
+            android:paddingRight="20dp" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:padding="10dp">
+            android:gravity="center_horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/start_date"
                 android:id="@+id/textViewDateStart"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:textSize="14sp"
-                android:textColor="#af020d" />
+                android:layout_marginRight="10dp"
+                android:textSize="18sp"
+                android:textColor="#530944" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:text="@string/to"
                 android:id="@+id/textView7"
-                android:textColor="#af020d"
-                android:textSize="14sp" />
+                android:textColor="#530944"
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/end_date"
                 android:id="@+id/textViewDateEnd"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:textSize="14sp"
-                android:textColor="#af020d" />
+                android:layout_marginLeft="10dp"
+                android:textSize="18sp"
+                android:textColor="#530944" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,21 +91,26 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Add to Calendar"
+                android:text="@string/add_to_calendar"
                 android:id="@+id/addButton"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/button_rounded_corners_black_gray_bg"
+                android:textSize="12sp"
+                android:textColor="#0d66c6" />
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Respond to HOA"
+                android:text="@string/respond_to_hoa"
                 android:id="@+id/respondButton"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:textColor="#ca0909"
-                android:layout_weight="1" />
+                android:textColor="#0d66c6"
+                android:layout_weight="1"
+                android:background="@drawable/button_rounded_corners_black_gray_bg"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>

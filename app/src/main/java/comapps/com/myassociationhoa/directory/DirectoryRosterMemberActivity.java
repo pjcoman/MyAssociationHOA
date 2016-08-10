@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,12 +14,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
 import comapps.com.myassociationhoa.GuideActivity;
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.autos.AutosActivity;
 import comapps.com.myassociationhoa.objects.RosterObject;
 import comapps.com.myassociationhoa.pets.PetsActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -55,6 +58,8 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
     private TextView textViewWinterZip;
     private TextView textViewWinterPhone;
     private TextView textViewWinterEmail;
+    private TextView mobileLabel;
+    private Space homePhoneSpace;
 
     private Button backButton;
 
@@ -66,7 +71,10 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
     private ImageButton buttonCallWinter;
 
     private Button petsButton;
-    private LinearLayout petsLayout;
+    private Button autosButton;
+    private Button guestsButton;
+    private Button otherButton;
+    private LinearLayout otherInfoLayout;
 
     TextView summerAddress;
     TextView winterAddress;
@@ -97,12 +105,15 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
-        petsLayout = (LinearLayout) findViewById(R.id.petsButtonLayout);
+        otherInfoLayout = (LinearLayout) findViewById(R.id.otherInfoLayout);
         petsButton = (Button) findViewById(R.id.petsButton);
+        autosButton = (Button) findViewById(R.id.autosButton);
+        guestsButton = (Button) findViewById(R.id.guestsButton);
+        otherButton = (Button) findViewById(R.id.otherButton);
 
         if (sharedPreferences.getString("defaultRecord(34)", "No").equals("No")) {
 
-            petsLayout.setVisibility(View.GONE);
+          //  otherInfoLayout.setVisibility(View.GONE);
 
         }
 
@@ -129,6 +140,8 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
         textViewWinterEmail = (TextView) findViewById(R.id.winter_emailTextView);
         summerAddress = (TextView) findViewById(R.id.summerAddressLabel);
         winterAddress = (TextView) findViewById(R.id.winterAddressLabel);
+        mobileLabel = (TextView) findViewById(R.id.textViewMobileLabel);
+
 
         backButton = (Button) findViewById(R.id.backButton);
         buttonCall = (ImageButton) findViewById(R.id.imageButtonPhone);
@@ -150,6 +163,8 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
 
 
 
+        String pn;
+
         textViewLastName.setText(rosterObject.getLastName());
         textViewFirstName.setText(rosterObject.getFirstName());
         textViewMiddleName.setText(rosterObject.getMiddleName());
@@ -158,17 +173,57 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
         textViewCity.setText(rosterObject.getHomeCity());
         textViewState.setText(rosterObject.getHomeState());
         textViewZip.setText(rosterObject.getHomeZip());
-        textViewHomePhone.setText(rosterObject.getHomePhone());
-        textViewMobilePhone.setText(rosterObject.getMobilePhone());
+
+
+
+        if ( rosterObject.getHomePhone().length() == 10) {
+            pn = "(" + rosterObject.getHomePhone().substring(0,3) + ") " + rosterObject.getHomePhone().substring(3,6) + "-" +
+                    rosterObject.getHomePhone().substring(6);
+            textViewHomePhone.setText(pn);
+        } else {
+            textViewHomePhone.setText(rosterObject.getHomePhone());
+        }
+
+        if ( rosterObject.getMobilePhone().length() == 10) {
+            pn = "(" + rosterObject.getMobilePhone().substring(0,3) + ") " + rosterObject.getMobilePhone().substring(3,6) + "-" +
+                    rosterObject.getMobilePhone().substring(6);
+            textViewMobilePhone.setText(pn);
+        } else {
+            textViewMobilePhone.setText(rosterObject.getMobilePhone());
+        }
+
+        mobileLabel.setText("mobile");
+
+
+
+
         textViewEmail.setText(rosterObject.getEmail());
         textViewEmergencyContact.setText(rosterObject.getEmergencyName());
-        textViewEmergencyContactPhone.setText(rosterObject.getEmergencyPhoneNumber());
+
+        Log.d(TAG, "emer length ----> " + rosterObject.getEmergencyPhoneNumber().length());
+
+        if ( rosterObject.getEmergencyPhoneNumber().length() == 10) {
+            pn = "(" + rosterObject.getEmergencyPhoneNumber().substring(0,3) + ") " + rosterObject.getEmergencyPhoneNumber().substring(3,6) + "-" +
+                    rosterObject.getEmergencyPhoneNumber().substring(6);
+            textViewEmergencyContactPhone.setText(pn);
+        } else {
+            textViewEmergencyContactPhone.setText(rosterObject.getEmergencyPhoneNumber());
+        }
+
         textViewWinterAddress.setText(rosterObject.getWinterAddress1());
         textViewWinterAddress2.setText(rosterObject.getWinterAddress2());
         textViewWinterCity.setText(rosterObject.getWinterCity());
         textViewWinterState.setText(rosterObject.getWinterState());
         textViewWinterZip.setText(rosterObject.getWinterZip());
-        textViewWinterPhone.setText(rosterObject.getWinterPhone());
+
+        if ( rosterObject.getWinterPhone().length() == 10) {
+            pn = "(" + rosterObject.getWinterPhone().substring(0,3) + ") " + rosterObject.getWinterPhone().substring(3,6) + "-" +
+                    rosterObject.getWinterPhone().substring(6);
+            textViewWinterPhone.setText(pn);
+        } else {
+            textViewWinterPhone.setText(rosterObject.getWinterPhone());
+        }
+
         textViewWinterEmail.setText(rosterObject.getWinterEmail());
 
         if (textViewEmergencyContactPhone.getText().length() == 0) {
@@ -239,6 +294,19 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(DirectoryRosterMemberActivity.this, PetsActivity.class);
+                intent.putExtra("memberNumber", rosterObject.getMemberNumber());
+                intent.putExtra("fromPopInfo", "NO");
+                startActivity(intent);
+
+            }
+        });
+
+        autosButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                intent.setClass(DirectoryRosterMemberActivity.this, AutosActivity.class);
                 intent.putExtra("memberNumber", rosterObject.getMemberNumber());
                 intent.putExtra("fromPopInfo", "NO");
                 startActivity(intent);

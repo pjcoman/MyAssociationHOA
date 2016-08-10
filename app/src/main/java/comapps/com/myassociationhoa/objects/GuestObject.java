@@ -5,160 +5,179 @@ package comapps.com.myassociationhoa.objects;
  */
 public class GuestObject {
 
+    private String guestOwner = "";
+    private String guestOwnerMemberNumber = "";
+    private String guestType = "";
+    private String guestStartdate = "";
+    private String guestEnddate = "";
 
-    private String guestname = "";
-    private String guesttype = "";
-    private String notifyby = "";
-    private String startdate = "";
-    private String enddate = "";
-    private String monday = "";
-    private String tuesday = "";
-    private String wednesday = "";
-    private String thursday = "";
-    private String friday = "";
-    private String saturday = "";
-    private String sunday = "";
+    private String mondayAccess = "";
+    private String tuesdayAccess = "";
+    private String wednesdayAccess = "";
+    private String thursdayAccess = "";
+    private String fridayAccess = "";
+    private String saturdayAccess = "";
+    private String sundayAccess = "";
+
+    private String guestDescription = "";
+    private String guestName = "";
+    private String ownerContactNumberType = "";
+    private String ownerContactNumber = "";
 
 
-    public String getGuestname() {
-        return guestname;
+    public String getGuestOwner() {
+        return guestOwner;
     }
 
-    public void setGuestname(String guestname) {
-        this.guestname = guestname;
+    public void setGuestOwner(String guestOwner) {
+        this.guestOwner = guestOwner;
     }
 
-    //*****************************************************
-
-    public String getGuesttype() {
-        return guesttype;
+    public String getGuestOwnerMemberNumber() {
+        return guestOwnerMemberNumber;
     }
 
-    public void setGuesttype(String guesttype) {
-        this.guesttype = guesttype;
+    public void setGuestOwnerMemberNumber(String guestOwnerMemberNumber) {
+        this.guestOwnerMemberNumber = guestOwnerMemberNumber;
     }
 
-    //*****************************************************
-
-    public String getNotifyby() {
-        return notifyby;
+    public String getGuestType() {
+        return guestType;
     }
 
-    public void setNotifyby(String notifyby) {
-        this.notifyby = notifyby;
+    public void setGuestType(String guestType) {
+        this.guestType = guestType;
     }
 
-    //*****************************************************
-
-    public String getStartdate() {
-        return startdate;
+    public String getGuestStartdate() {
+        return guestStartdate;
     }
 
-    public void setStartdate(String startdate) {
-        this.startdate = startdate;
+    public void setGuestStartdate(String guestStartdate) {
+        this.guestStartdate = guestStartdate;
     }
 
-    //*****************************************************
-
-    public String getEnddate() {
-        return enddate;
+    public String getGuestEnddate() {
+        return guestEnddate;
     }
 
-    public void setEnddate(String enddate) {
-        this.enddate = enddate;
+    public void setGuestEnddate(String guestEnddate) {
+        this.guestEnddate = guestEnddate;
     }
 
-    //*****************************************************
-
-    public String getMonday() {
-        return monday;
+    public String getMondayAccess() {
+        return mondayAccess;
     }
 
-    public void setMonday(String monday) {
-        this.monday = monday;
+    public void setMondayAccess(String mondayAccess) {
+        this.mondayAccess = mondayAccess;
     }
 
-    //*****************************************************
-
-    public String getTuesday() {
-        return tuesday;
+    public String getTuesdayAccess() {
+        return tuesdayAccess;
     }
 
-    public void setTuesday(String tuesday) {
-        this.tuesday = tuesday;
+    public void setTuesdayAccess(String tuesdayAccess) {
+        this.tuesdayAccess = tuesdayAccess;
     }
 
-    //*****************************************************
-
-    public String getWednesday() {
-        return wednesday;
+    public String getWednesdayAccess() {
+        return wednesdayAccess;
     }
 
-    public void setWednesday(String wednesday) {
-        this.wednesday = wednesday;
+    public void setWednesdayAccess(String wednesdayAccess) {
+        this.wednesdayAccess = wednesdayAccess;
     }
 
-    //*****************************************************
-
-    public String getThursday() {
-        return thursday;
+    public String getThursdayAccess() {
+        return thursdayAccess;
     }
 
-    public void setThursday(String thursday) {
-        this.thursday = thursday;
+    public void setThursdayAccess(String thursdayAccess) {
+        this.thursdayAccess = thursdayAccess;
     }
 
-    //*****************************************************
-
-
-    public String getFriday() {
-        return friday;
+    public String getFridayAccess() {
+        return fridayAccess;
     }
 
-    public void setFriday(String friday) {
-        this.friday = friday;
+    public void setFridayAccess(String fridayAccess) {
+        this.fridayAccess = fridayAccess;
     }
 
-    //*****************************************************
-
-    public String getSaturday() {
-        return saturday;
+    public String getSaturdayAccess() {
+        return saturdayAccess;
     }
 
-    public void setSaturday(String saturday) {
-        this.saturday = saturday;
+    public void setSaturdayAccess(String saturdayAccess) {
+        this.saturdayAccess = saturdayAccess;
     }
 
-    //*****************************************************
-
-    public String getSunday() {
-        return sunday;
+    public String getSundayAccess() {
+        return sundayAccess;
     }
 
-    public void setSunday(String sunday) {
-        this.sunday = sunday;
+    public void setSundayAccess(String sundayAccess) {
+        this.sundayAccess = sundayAccess;
     }
+
+    public String getGuestDescription() {
+        return guestDescription;
+    }
+
+    public void setGuestDescription(String guestDescription) {
+        this.guestDescription = guestDescription;
+    }
+
+    public String getGuestName() {
+        return guestName;
+    }
+
+    public void setGuestName(String guestName) {
+        this.guestName = guestName;
+    }
+
+    public String getOwnerContactNumberType() {
+        return ownerContactNumberType;
+    }
+
+    public void setOwnerContactNumberType(String ownerContactNumberType) {
+        this.ownerContactNumberType = ownerContactNumberType;
+    }
+
+    public String getOwnerContactNumber() {
+        return ownerContactNumber;
+    }
+
+    public void setOwnerContactNumber(String ownerContactNumber) {
+        this.ownerContactNumber = ownerContactNumber;
+    }
+
+
 
 
     @Override
     public String toString() {
         return "GuestObject{" +
-                "guestname='" + guestname + '\'' +
-                ", guesttype='" + guesttype + '\'' +
-                ", notifyby='" + notifyby + '\'' +
-                ", startdate='" + startdate + '\'' +
-                ", enddate='" + enddate + '\'' +
-                ", monday='" + monday + '\'' +
-                ", tuesday='" + tuesday + '\'' +
-                ", wednesday='" + wednesday + '\'' +
-                ", thursday='" + thursday + '\'' +
-                ", friday='" + friday + '\'' +
-                ", saturday='" + saturday + '\'' +
-                ", sunday='" + sunday + '\'' +
+                "guestOwner='" + guestOwner + '\'' +
+                ", guestOwnerMemberNumber='" + guestOwnerMemberNumber + '\'' +
+                ", guestType='" + guestType + '\'' +
+                ", guestStartdate='" + guestStartdate + '\'' +
+                ", guestEnddate='" + guestEnddate + '\'' +
+                ", mondayAccess='" + mondayAccess + '\'' +
+                ", tuesdayAccess='" + tuesdayAccess + '\'' +
+                ", wednesdayAccess='" + wednesdayAccess + '\'' +
+                ", thursdayAccess='" + thursdayAccess + '\'' +
+                ", fridayAccess='" + fridayAccess + '\'' +
+                ", saturdayAccess='" + saturdayAccess + '\'' +
+                ", sundayAccess='" + sundayAccess + '\'' +
+                ", guestDescription='" + guestDescription + '\'' +
+                ", guestName='" + guestName + '\'' +
+                ", ownerContactNumberType='" + ownerContactNumberType + '\'' +
+                ", ownerContactNumber='" + ownerContactNumber + '\'' +
                 '}';
+
     }
-
-
 }
 
 

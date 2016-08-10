@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="5"
+    android:background="@drawable/info_background_noborder"
+    android:padding="4dp">
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView2"
+        android:layout_weight="4">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/event_type"
+                android:id="@+id/textViewEventType"
+                android:layout_gravity="center"
+                android:textSize="24sp"
+                android:gravity="center_horizontal"
+                android:textColor="#070707"
+                android:background="#786349"
+                android:padding="5dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/append"
+                android:id="@+id/buttonType"
+                android:layout_gravity="center"
+                android:textSize="14sp"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/button_rounded_corners_white_white_bg"
+                android:textColor="#1c5ea1"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:ems="10"
+                android:id="@+id/editTextEventTitle"
+                android:layout_gravity="center_horizontal"
+                android:background="#fbfafa"
+                android:hint="@string/event_title"
+                android:textColorHint="@color/abc_secondary_text_material_light"
+                android:inputType="textCapWords"
+                android:textColor="#040404"
+                android:paddingTop="20dp"
+                android:padding="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="top" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:ems="10"
+                android:id="@+id/editTextEventDetail"
+                android:layout_gravity="center_horizontal"
+                android:background="#fbfafa"
+                android:hint="@string/event_detail"
+                android:textColorHint="@color/abc_secondary_text_material_light"
+                android:inputType="textCapWords"
+                android:textColor="#040404"
+                android:padding="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="top" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextStartDate"
+                android:layout_gravity="center_horizontal"
+                android:background="#fbfafa"
+                android:hint="@string/start_date_mm_dd_yyyy"
+                android:textColorHint="@color/abc_secondary_text_material_light"
+                android:textColor="#040404"
+                android:gravity="center"
+                android:padding="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:inputType="date" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextEndDate"
+                android:layout_gravity="center_horizontal"
+                android:background="#fbfafa"
+                android:hint="@string/end_date_mm_dd_yyyy"
+                android:textColorHint="@color/abc_secondary_text_material_light"
+                android:textColor="#040404"
+                android:gravity="center"
+                android:padding="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:inputType="date" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/event_action"
+                android:id="@+id/textViewEventAction"
+                android:layout_gravity="center"
+                android:textSize="24sp"
+                android:gravity="center_horizontal"
+                android:textColor="#070707"
+                android:background="#786349"
+                android:padding="5dp" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save_event"
+                android:id="@+id/buttonSave"
+                android:layout_gravity="center"
+                android:textSize="14sp"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/button_rounded_corners_white_white_bg"
+                android:textColor="#052f59"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

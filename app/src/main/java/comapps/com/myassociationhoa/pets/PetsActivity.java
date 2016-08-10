@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -16,6 +17,8 @@ import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import comapps.com.myassociationhoa.GuideActivity;
 import comapps.com.myassociationhoa.R;
@@ -75,6 +78,8 @@ public class PetsActivity extends AppCompatActivity implements
         EditText searchEditText = (EditText) search_view.findViewById(searchSrcTextId);
         searchEditText.setTextSize(14);
 
+        hideSoftKeyboard();
+
 
         bundle = getIntent().getExtras();
 
@@ -125,6 +130,15 @@ public class PetsActivity extends AppCompatActivity implements
                 petsList.add(petObject);
 
             }
+
+            Collections.sort(petsList, new Comparator<PetObject>()
+            {
+                @Override
+                public int compare(PetObject p1, PetObject p2) {
+
+                    return p1.getName().compareTo(p2.getName());
+                }
+            });
 
 
             ListView lv = (ListView) findViewById(R.id.list_view);
@@ -197,6 +211,12 @@ public class PetsActivity extends AppCompatActivity implements
 
     }
 
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
 
 
 

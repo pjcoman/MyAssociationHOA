@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-    <RelativeLayout
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/whiteengraved"
-        android:padding="30dp">
+        android:background="@drawable/whiteengravedlandscape"
+        android:padding="20dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -18,7 +15,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/make"
             android:textColor="#ac2e07"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:capitalize="words"
             android:layout_alignParentTop="false"
             android:layout_alignParentLeft="true"
@@ -26,7 +23,7 @@
             android:gravity="center"
             android:autoText="true"
             android:inputType="textNoSuggestions"
-            android:padding="10dp" />
+            android:padding="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,14 +33,14 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/model"
             android:textColor="#a58b5d"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:capitalize="words"
             android:layout_below="@+id/autoMake"
             android:textIsSelectable="false"
             android:gravity="center"
             android:autoText="true"
             android:inputType="textNoSuggestions"
-            android:padding="10dp" />
+            android:padding="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,14 +50,15 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/_2000"
             android:textColor="#a58b5d"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:capitalize="words"
             android:textIsSelectable="false"
             android:gravity="center"
             android:autoText="true"
             android:inputType="textNoSuggestions"
             android:layout_alignParentRight="true"
-            android:padding="10dp" />
+            android:padding="5dp"
+            android:layout_toRightOf="@+id/autoMake" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,41 +68,34 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/color"
             android:textColor="#a58b5d"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:capitalize="words"
             android:layout_toRightOf="@+id/autoModel"
             android:layout_below="@+id/autoMake"
             android:textIsSelectable="false"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:autoText="true"
-            android:inputType="textNoSuggestions" />
+            android:inputType="textNoSuggestions"
+            android:padding="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/autoPLate"
+            android:id="@+id/autoPlate"
             android:layout_gravity="center_horizontal"
             android:text="@string/plate"
             android:textColor="#a58b5d"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:capitalize="words"
-            android:paddingBottom="10dp"
             android:layout_below="@+id/autoModel"
-            android:layout_marginTop="20dp"
             android:textIsSelectable="false"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
             android:gravity="center"
             android:layout_alignParentRight="false"
             android:autoText="true"
-            android:inputType="textNoSuggestions" />
+            android:inputType="textNoSuggestions"
+            android:padding="5dp" />
 
 
         <TextView
@@ -113,22 +104,18 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/autoTagLabel"
             android:layout_gravity="center_horizontal"
-            android:text="Tag: "
+            android:text="@string/tagstring"
             android:textColor="#a58b5d"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:capitalize="words"
-            android:paddingBottom="10dp"
             android:layout_below="@+id/autoModel"
-            android:layout_marginTop="20dp"
             android:textIsSelectable="false"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
             android:gravity="center"
             android:layout_alignParentRight="false"
             android:autoText="true"
             android:inputType="textNoSuggestions"
-            android:layout_toLeftOf="@+id/autoTag" />
+            android:layout_toLeftOf="@+id/autoTag"
+            android:padding="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -136,21 +123,17 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/autoTag"
             android:layout_gravity="center_horizontal"
-            android:text="none"
+            android:text="@string/hoatagstring"
             android:textColor="#a58b5d"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:capitalize="words"
-            android:paddingBottom="10dp"
             android:layout_below="@+id/autoModel"
-            android:layout_marginTop="20dp"
             android:textIsSelectable="false"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
             android:gravity="center"
             android:layout_alignParentRight="true"
             android:autoText="true"
-            android:inputType="textNoSuggestions" />
+            android:inputType="textNoSuggestions"
+            android:padding="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -160,17 +143,13 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/pet_owner"
             android:textColor="#171717"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:capitalize="words"
-            android:paddingBottom="10dp"
-            android:layout_below="@+id/autoPLate"
+            android:layout_below="@+id/autoPlate"
             android:textIsSelectable="false"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
             android:gravity="center"
             android:autoText="true"
-            android:inputType="textNoSuggestions" />
+            android:inputType="textNoSuggestions"
+            android:padding="5dp" />
     </RelativeLayout>
 
-</LinearLayout>

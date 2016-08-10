@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="13"
+    android:background="@drawable/blackandwhiteengraved"
+    android:padding="30dp">
+
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/buttonAddComment"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:layout_margin="6dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/button_rounded_corners_black_gray_bg" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Description of Maintenance Issue"
+        android:id="@+id/textViewTitle"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="#850404"
+        android:textStyle="bold"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine|textCapSentences"
+        android:ems="10"
+        android:id="@+id/editTextDescription"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="5"
+        android:background="#ffffff"
+        android:gravity="start|top"
+        android:padding="20dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Notes on Maintenance Issue"
+        android:id="@+id/textViewTitle2"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="#0913a1"
+        android:textStyle="bold"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine|textCapSentences"
+        android:ems="10"
+        android:id="@+id/editTextNotes"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="5"
+        android:background="#ffffff"
+        android:gravity="start|top"
+        android:padding="20dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="16sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonMaintenanceType"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:textSize="16sp"
+        android:layout_margin="6dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/button_rounded_corners_black_gray_bg"
+        android:textColor="#ea0707"
+        android:padding="10dp" />
+
+
+</LinearLayout>

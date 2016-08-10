@@ -36,7 +36,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class RegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = "REGISTRATIONACTIVITY";
-    private static final String MYPREFERENCES = "MyPrefs";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
+
+    SharedPreferences sharedPreferencesVisited;
 
     Context context;
 
@@ -79,6 +81,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
     String numbersFileString;
     String memberNumberRandom;
+    String memberName;
+    String assocCode;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,8 @@ public class RegistrationActivity extends AppCompatActivity {
         if (bar != null) {
             bar.setTitle("Registration");
         }
+
+
 
         firstNameEditText = (EditText) findViewById(R.id.editTextFirstName);
         middleNameEditText = (EditText) findViewById(R.id.editTextMiddleName);
@@ -132,16 +138,16 @@ public class RegistrationActivity extends AppCompatActivity {
         winterPhoneEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
 
-        final SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
 
-        summerAddress.setText(sharedpreferences.getString("defaultRecord(24)", "Summer Address"));
-        winterAddress.setText(sharedpreferences.getString("defaultRecord(25)", "Winter Address"));
+        summerAddress.setText(sharedPreferencesVisited.getString("defaultRecord(24)", "Summer Address"));
+        winterAddress.setText(sharedPreferencesVisited.getString("defaultRecord(25)", "Winter Address"));
 
 
         final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-        String memberName = ParseInstallation.getCurrentInstallation().getString("memberName");
-        final String assocCode = ParseInstallation.getCurrentInstallation().getString("AssoiationCode");
+        memberName = installation.getString("memberName");
+        assocCode = installation.getString("AssociationCode");
         Log.d(TAG, "memberName is " + memberName);
 
         //*************************************************************************************************************************************
@@ -199,11 +205,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             for (int i = 0; i < numbersFileArray.length; i++) {
 
-                                if (memberNumberRandom != numbersFileArray[i]) {
-                                    uniqueMemberNumber = true;
-                                } else {
-                                    uniqueMemberNumber = false;
-                                }
+                                uniqueMemberNumber = memberNumberRandom != numbersFileArray[i];
 
                                 Log.d(TAG, "numbersFileString member is " + Integer.toString(i) + " " + numbersFileArray[i]);
 
@@ -262,7 +264,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 installation.saveInBackground();
 
                 SharedPreferences.Editor editor;
-                editor = sharedpreferences.edit();
+                editor = sharedPreferencesVisited.edit();
 
                 String memberInfo = String.valueOf(numberOfMembers) + "^" +
                         lastNameEditText.getText() + "^" +
@@ -291,8 +293,24 @@ public class RegistrationActivity extends AppCompatActivity {
                         installation.getCreatedAt().toString() + "^";
 
                 editor.putString("MEMBER_INFO", memberInfo);
-                editor.putInt(assocCode + "ASSOC_MEMBER_NUMBER", numberOfMembers);
+                editor.putString(assocCode + "MemberNumber", memberNumberRandom);
                 editor.apply();
+
+
+                String homePhone = homePhoneEditText.getText().toString();
+                String mobilePhone = mobilePhoneEditText.getText().toString();
+                String winterPhone = winterPhoneEditText.getText().toString();
+                String emerPhone = emerContactPhoneEditText.getText().toString();
+
+                String p = "\\(";
+                String p2 = "\\)";
+                String d = "-";
+                String e = "";
+
+                String homePhoneForUpdate = homePhone.replaceAll(p,e).replaceAll(p2,e).replaceAll(d,e).replaceAll(" ", "").trim();
+                String mobilePhoneForUpdate = mobilePhone.replaceAll(p,e).replaceAll(p2,e).replaceAll(d,e).replaceAll(" ", "").trim();
+                String winterPhoneForUpdate = winterPhone.replaceAll(p,e).replaceAll(p2,e).replaceAll(d,e).replaceAll(" ", "").trim();
+                String emerPhoneForUpdate = emerPhone.replaceAll(p,e).replaceAll(p2,e).replaceAll(d,e).replaceAll(" ", "").trim();
 
 
                 rosterString = rosterString + "|" +
@@ -305,8 +323,8 @@ public class RegistrationActivity extends AppCompatActivity {
                         cityEditText.getText() + "^" +
                         stateEditText.getText() + "^" +
                         zipEditText.getText() + "^" +
-                        homePhoneEditText.getText() + "^" +
-                        mobilePhoneEditText.getText() + "^" +
+                        homePhoneForUpdate + "^" +
+                        mobilePhoneForUpdate + "^" +
                         emailEditText.getText() + "^" +
                         winterNameEditText.getText() + "^" +
                         winterAddress1EditText.getText() + "^" +
@@ -314,12 +332,12 @@ public class RegistrationActivity extends AppCompatActivity {
                         winterCityEditText.getText() + "^" +
                         winterStateEditText.getText() + "^" +
                         winterZipEditText.getText() + "^" +
-                        winterPhoneEditText.getText() + "^" +
+                        winterPhoneForUpdate + "^" +
                         winterEmailEditText.getText() + "^" +
                         memberNumberRandom + "^" +
                         installation.getString("MemberType") + "^" +
                         emerContactEditText.getText() + "^" +
-                        emerContactPhoneEditText.getText() + "^" +
+                        emerPhoneForUpdate + "^" +
                         installation.getCreatedAt().toString() + "^";
 
 

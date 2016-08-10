@@ -73,7 +73,7 @@ class PetsAdapter extends ArrayAdapter<PetObject> implements Filterable {
         TextView petBreed = (TextView) convertView.findViewById(R.id.autoModel);
         TextView petColor = (TextView) convertView.findViewById(R.id.autoColor);
         TextView petWeight = (TextView) convertView.findViewById(R.id.petWeight);
-        TextView petMisc = (TextView) convertView.findViewById(R.id.autoPLate);
+        TextView petMisc = (TextView) convertView.findViewById(R.id.autoPlate);
 
         PetObject pet = petsList.get(position);
 

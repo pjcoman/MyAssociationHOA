@@ -15,9 +15,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import comapps.com.myassociationhoa.GuideActivity;
@@ -42,7 +44,13 @@ public class ServiceProviderActivity extends AppCompatActivity {
     private List<ServiceProviderObject> providerList = null;
     private ServiceProviderAdapter serviceProviderAdapter;
 
+    private FloatingActionButton mFabAddService;
+    private FloatingActionButton mFabAddProvider;
 
+    private String providerTypeString;
+
+    private ListView providersTypeList;
+    private Button back;
 
 
     @Override
@@ -56,8 +64,10 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_main_providers);
 
-        final ListView providersTypeList = (ListView) findViewById(R.id.listViewProviders);
-        final Button back = (Button) findViewById(R.id.backToProviders);
+        providersTypeList = (ListView) findViewById(R.id.listViewProviders);
+        back = (Button) findViewById(R.id.backToProviders);
+        mFabAddService = (FloatingActionButton) findViewById(R.id.fab);
+        mFabAddProvider = (FloatingActionButton) findViewById(R.id.fab2);
 
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
@@ -67,6 +77,8 @@ public class ServiceProviderActivity extends AppCompatActivity {
         if (bar != null) {
             bar.setTitle("Service Categories");
         }
+
+
 
         providerSize = Integer.valueOf(sharedPreferences.getString("providerSize", "0"));
 
@@ -78,10 +90,16 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
             Log.d(TAG, "provider type is " + providerObject.getProviderType());
 
-            providerTypes.add(providerObject.getProviderType());
+
+
+            providerTypes.add(providerObject.getProviderType() + " (" + providerObject.getProviderCount() + ")");
 
 
         }
+
+
+
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,8 +115,15 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
 
 
-
         ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, providerTypes);
+
+        listAdapter.sort(new Comparator<String>() {
+            @Override
+            public int compare(String arg1, String arg0) {
+                return arg1.compareTo(arg0);
+            }
+        });
+
 
 
         providersTypeList.setAdapter(listAdapter);
@@ -108,23 +133,97 @@ public class ServiceProviderActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position,
                                     long arg3) {
-                String providerTypeString = (String) adapter.getItemAtPosition(position);
-                // assuming string and if you want to get the value on click of list item
-                // do what you intend to do on click of listview row
+
+
+                providerTypeString = (String) adapter.getItemAtPosition(position);
+                int parenthesisOpenIndex = providerTypeString.indexOf("(");
+                int parenthesisClosedIndex = providerTypeString.indexOf(")");
+                Log.d(TAG, "provider type clicked is " + providerTypeString);
+                String providerTypeSizeString;
+                providerTypeSizeString = providerTypeString.substring(parenthesisOpenIndex + 1, parenthesisClosedIndex);
+                Log.d(TAG, "provider type size is " + providerTypeSizeString);
+
+                providerTypeString = providerTypeString.substring(0, parenthesisOpenIndex - 1);
+
+           //
+
+                    android.support.v7.app.ActionBar bar = getSupportActionBar();
+
+                    if (bar != null) {
+                        bar.setTitle(providerTypeString);
+                    }
+
+                    back.setVisibility(View.VISIBLE);
+                    mFabAddService.setVisibility(View.GONE);
+                    mFabAddProvider.setVisibility(View.VISIBLE);
 
 
 
-                android.support.v7.app.ActionBar bar = getSupportActionBar();
+                    new RemoteDataTask().execute(providerTypeString);
 
-                if (bar != null) {
-                    bar.setTitle(providerTypeString);
-                }
+            /*    } else {
 
-                back.setVisibility(View.VISIBLE);
+                    Intent intentEditServiceProvider = new Intent();
+                    intentEditServiceProvider.setClass(getApplicationContext(), ServiceProviderEditActivity.class);
+                    intentEditServiceProvider.putExtra("serviceProviderObjectGson", "");
+                    intentEditServiceProvider.putExtra("FROMSERVICEPROVIDERADD", "YES");
+                    intentEditServiceProvider.putExtra("PROVIDERTYPE", providerTypeString);
+                    startActivity(intentEditServiceProvider);
 
-                new RemoteDataTask().execute(providerTypeString);
+
+
+
+                }*/
             }
         });
+
+        mFabAddService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d(TAG, "fab add service clicked.");
+
+                mFabAddService.setVisibility(View.GONE);
+
+                Intent addServiceActivity = new Intent();
+                addServiceActivity.setClass(ServiceProviderActivity.this, ServiceProviderAddCategoryPop.class);
+                startActivity(addServiceActivity);
+
+
+
+            }
+        });
+
+        mFabAddProvider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d(TAG, "fab add provider clicked.");
+
+                try {
+
+
+
+                    Intent intentEditServiceProvider = new Intent();
+                    intentEditServiceProvider.setClass(getApplicationContext(), ServiceProviderEditActivity.class);
+                    intentEditServiceProvider.putExtra("serviceProviderObjectGson", "");
+                    intentEditServiceProvider.putExtra("FROMSERVICEPROVIDERADD", "YES");
+                    intentEditServiceProvider.putExtra("PROVIDERTYPE", providerTypeString);
+                    startActivity(intentEditServiceProvider);
+
+
+
+                } catch (Exception e) {
+
+
+                }
+
+
+            }
+        });
+
+
+
 
 
 
@@ -141,11 +240,11 @@ public class ServiceProviderActivity extends AppCompatActivity {
             Log.d(TAG, "provider type filter is " + providerTypeFilter);
 
 
-            try {
+          /*  try {
                 Thread.sleep(1200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             providerList = new ArrayList<>();
 
@@ -154,26 +253,42 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
                 providerSize = Integer.valueOf(sharedPreferences.getString("providerSize", ""));
 
+                Log.d(TAG, "provider size is " + providerSize);
+
                 for (int i = 0; i < providerSize; i++) {
 
                     String jsonProviderObject = sharedPreferences.getString("providerObject" + "[" + i + "]", "");
                     Gson gson = new Gson();
                     ProviderObject providerObject = gson.fromJson(jsonProviderObject, ProviderObject.class);
 
-                    Log.d(TAG, "provider type is " + providerObject.getProviderType());
+                   Log.d(TAG, "provider type is " + providerObject.getProviderType());
 
                     int count = Integer.valueOf(providerObject.getProviderCount());
 
+                    Log.d(TAG, "provider count is " + providerObject.getProviderCount());
+                    Log.d(TAG, "provider type is " + providerObject.getProviderType());
+                    Log.d(TAG, "provider list is " + providerObject.getProviderList());
+
                     if (providerTypeFilter.equals(providerObject.getProviderType()) && (count > 0)) {
 
-                        Log.d(TAG, "provider type added " + providerObject.getProviderType());
+                    Log.d(TAG, "provider type added " + providerObject.getProviderType());
 
-                        String providerListField = providerObject.getProviderList();
-                        String[] providerListArray = providerListField.split("\\^");
+
+
+                        String[] providerListArray = providerObject.getProviderList().split("\\^", -1);
+
+                        i = 0;
+
+                        for ( String providerInfo: providerListArray) {
+
+                            Log.d(TAG, "provider type added field " + i + " " + providerInfo);
+
+                            i++;
+                        }
 
                         int j = 0;
 
-                        for (i = 0; i < Integer.valueOf(providerObject.getProviderCount()); i++) {
+                        for (i = 0; i < providerListArray.length; i++) {
 
 
                             ServiceProviderObject object = new ServiceProviderObject();
@@ -185,7 +300,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
                             j++;
                             object.setProviderCity(providerListArray[j]);
                             j++;
-                            object.setProviderCountry(providerListArray[j]);
+                            object.setProviderState(providerListArray[j]);
                             j++;
                             object.setProviderZip(providerListArray[j]);
                             j++;
@@ -193,6 +308,13 @@ public class ServiceProviderActivity extends AppCompatActivity {
                             j++;
                             object.setProviderNotes(providerListArray[j]);
                             j++;
+
+                            Log.d(TAG, "ServiceProviderObject is " + object.toString());
+                            Log.d(TAG, "providerListArray length is " + providerListArray.length);
+                            Log.d(TAG, "i is " + i);
+                            Log.d(TAG, "j is " + j);
+
+
                             providerList.add(object);
 
                         }
@@ -217,6 +339,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
             // Pass the results into ParseListViewAdapter.java
             serviceProviderAdapter = new ServiceProviderAdapter(ServiceProviderActivity.this,
                     providerList);
+
 
 
             // Binds the Adapter to the ListView
@@ -254,21 +377,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void sendEmail() {
-        // TODO Auto-generated method stub
 
-        // The following code is the implementation of Email client
-        Intent intentSendEmail = new Intent(Intent.ACTION_SEND);
-        intentSendEmail.setType("text/plain");
-        String[] address = {"dewing@ewinginvestments.com"};
-
-        intentSendEmail.putExtra(Intent.EXTRA_EMAIL, address);
-        intentSendEmail.putExtra(Intent.EXTRA_SUBJECT,
-                "Question from ");
-
-        startActivityForResult((Intent.createChooser(intentSendEmail, "Email")), 1);
-
-    }
 
 
     private void Guide() {

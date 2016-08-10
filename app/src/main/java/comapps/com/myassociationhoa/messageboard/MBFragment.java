@@ -18,19 +18,24 @@ import comapps.com.myassociationhoa.objects.MBObject;
 public class MBFragment extends ListFragment {
 
     private static final String TAG = "MBFRAGMENT";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
     private static final String MYPREFERENCES = "MyPrefs";
+
+    SharedPreferences sharedPreferencesVisited;
+    SharedPreferences sharedPreferences;
 
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferencesVisited = getActivity().getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
         ArrayList<MBObject> posts = new ArrayList<>();
-        Integer mbItems = sharedPreferences.getInt("mbSize", 0);
+        Integer mbItems = sharedPreferencesVisited.getInt("mbSize", 0);
 
-        for (int i = 1; i <= mbItems; i++) {
+        for (int i = 0; i < mbItems; i++) {
 
             String jsonMbObject = sharedPreferences.getString("mbObject" + "[" + i + "]", "");
             Log.d(TAG, "mb json string is " + jsonMbObject);

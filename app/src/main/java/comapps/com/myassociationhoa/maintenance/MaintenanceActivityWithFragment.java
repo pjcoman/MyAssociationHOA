@@ -1,4 +1,4 @@
-package comapps.com.myassociationhoa.guests;
+package comapps.com.myassociationhoa.maintenance;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +16,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/25/2016.
  */
-public class GuestActivity extends AppCompatActivity {
+public class MaintenanceActivityWithFragment extends AppCompatActivity {
 
-    private static final String TAG = "GUESTACTIVITY";
+    private static final String TAG = "MAINTENANCEACTIVITY";
     public static final String MYPREFERENCES = "MyPrefs";
 
     SharedPreferences sharedpreferences;
@@ -39,7 +39,7 @@ public class GuestActivity extends AppCompatActivity {
         android.support.v7.app.ActionBar bar = getSupportActionBar();
 
         if (bar != null) {
-            bar.setTitle("Guests");
+            bar.setTitle("Select Category");
         }
 
 

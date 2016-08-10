@@ -14,8 +14,8 @@ import com.daimajia.androidanimations.library.YoYo;
 
 import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
-import comapps.com.myassociationhoa.autos.AutoActivity;
-import comapps.com.myassociationhoa.guests.GuestActivity;
+import comapps.com.myassociationhoa.autos.AutosActivity;
+import comapps.com.myassociationhoa.guests.GuestsActivity;
 import comapps.com.myassociationhoa.pets.PetsActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -29,6 +29,7 @@ public class PopInfo extends AppCompatActivity {
     public static final String MYPREFERENCES = "MyPrefs";
 
     SharedPreferences sharedPreferences;
+
 
     Context context;
 
@@ -80,6 +81,8 @@ public class PopInfo extends AppCompatActivity {
         getWindow().setLayout((int) (width * .9), (int) (height * .7));
 
 
+
+
         personalInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +93,7 @@ public class PopInfo extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(PopInfo.this, PersonalInfoActivity.class);
                 startActivity(intent);
+                finish();
 
             }
         });
@@ -106,6 +110,7 @@ public class PopInfo extends AppCompatActivity {
                 intent.putExtra("memberNumber", sharedPreferences.getString("MEMBERNUMBER", ""));
                 intent.putExtra("fromPopInfo", "YES");
                 startActivity(intent);
+                finish();
 
             }
         });
@@ -118,8 +123,11 @@ public class PopInfo extends AppCompatActivity {
                         .playOn(v);
 
                 Intent intent = new Intent();
-                intent.setClass(PopInfo.this, AutoActivity.class);
+                intent.setClass(PopInfo.this, AutosActivity.class);
+                intent.putExtra("memberNumber", sharedPreferences.getString("MEMBERNUMBER", ""));
+                intent.putExtra("fromPopInfo", "YES");
                 startActivity(intent);
+                finish();
 
             }
         });
@@ -132,8 +140,11 @@ public class PopInfo extends AppCompatActivity {
                         .playOn(v);
 
                 Intent intent = new Intent();
-                intent.setClass(PopInfo.this, GuestActivity.class);
+                intent.setClass(PopInfo.this, GuestsActivity.class);
+                intent.putExtra("memberNumber", sharedPreferences.getString("MEMBERNUMBER", ""));
+                intent.putExtra("fromPopInfo", "YES");
                 startActivity(intent);
+                finish();
 
             }
         });
@@ -148,8 +159,8 @@ public class PopInfo extends AppCompatActivity {
 
                 Intent intentCancel = new Intent();
                 intentCancel.setClass(PopInfo.this, MainActivity.class);
-                PopInfo.this.finish();
                 startActivity(intentCancel);
+                finish();
 
             }
         });
@@ -170,8 +181,8 @@ public class PopInfo extends AppCompatActivity {
 
         Intent intentMain = new Intent();
         intentMain.setClass(PopInfo.this, MainActivity.class);
-        PopInfo.this.finish();
         startActivity(intentMain);
+        finish();
 
 
     }

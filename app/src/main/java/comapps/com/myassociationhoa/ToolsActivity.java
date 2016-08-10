@@ -2,6 +2,7 @@ package comapps.com.myassociationhoa;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
 
+import comapps.com.myassociationhoa.calendar.CalendarActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -75,7 +77,7 @@ public class ToolsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .withListener(new Animator.AnimatorListener() {
 
                             @Override
@@ -83,6 +85,11 @@ public class ToolsActivity extends AppCompatActivity {
 
                             @Override
                             public void onAnimationEnd(Animator animation) {
+
+                                Intent intentEventComposer = new Intent();
+                                intentEventComposer.setClass(getApplicationContext(), CalendarActivity.class);
+                                intentEventComposer.putExtra("FROMTOOLS", true);
+                                startActivity(intentEventComposer);
 
                             }
 
@@ -103,7 +110,7 @@ public class ToolsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .withListener(new Animator.AnimatorListener() {
 
                             @Override
@@ -130,7 +137,7 @@ public class ToolsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .playOn(v);
 
 
@@ -142,7 +149,7 @@ public class ToolsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .withListener(new Animator.AnimatorListener() {
 
                             @Override
@@ -169,7 +176,7 @@ public class ToolsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .withListener(new Animator.AnimatorListener() {
 
                             @Override
@@ -197,7 +204,7 @@ public class ToolsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .withListener(new Animator.AnimatorListener() {
 
                             @Override
@@ -223,7 +230,7 @@ public class ToolsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .withListener(new Animator.AnimatorListener() {
 
                             @Override
@@ -250,7 +257,7 @@ public class ToolsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .withListener(new Animator.AnimatorListener() {
 
                             @Override
@@ -276,7 +283,7 @@ public class ToolsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .withListener(new Animator.AnimatorListener() {
 
                             @Override
@@ -303,7 +310,7 @@ public class ToolsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .withListener(new Animator.AnimatorListener() {
 
                             @Override
@@ -330,7 +337,7 @@ public class ToolsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .withListener(new Animator.AnimatorListener() {
 
                             @Override
@@ -356,7 +363,7 @@ public class ToolsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.Shake)
-                        .duration(700)
+                        .duration(0)
                         .withListener(new Animator.AnimatorListener() {
 
                             @Override

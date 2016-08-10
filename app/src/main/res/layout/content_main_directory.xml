@@ -12,6 +12,17 @@
     android:id="@+id/directorylayout"
     android:background="@android:color/black">
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_below="@+id/search_view"
+        android:background="@drawable/info_background_noframe"
+        android:padding="30dp"
+        android:layout_margin="5dp"
+        android:focusableInTouchMode="true"
+        android:headerDividersEnabled="true" />
+
     <SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
@@ -22,15 +33,7 @@
         android:background="#fcf8f8" />
 
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/search_view"
-        android:background="@drawable/stroke_bg"
-        android:padding="20dp"
-        android:layout_margin="5dp"
-        android:headerDividersEnabled="true" />
+
 
 
 </RelativeLayout>

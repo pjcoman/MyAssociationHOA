@@ -3,31 +3,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".maintenance.MaintenanceActivity"
+    tools:context=".maintenance.MaintenanceActivityWithFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="false"
     android:clickable="false"
     android:id="@+id/content_main_maintenance"
     android:orientation="vertical"
-    android:background="@drawable/blonde"
+    android:background="@drawable/blackandwhite"
 
-    >
+    android:padding="10dp">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_to_category_list"
+        android:id="@+id/backToCatList"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:background="@drawable/button_rounded_corners_black_gray_bg"
+        android:textSize="12sp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_margin="20dp" />
 
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/listViewMaintenanceCats"
-        android:background="@drawable/blonde"
+        android:id="@+id/listViewMaintenanceCategories"
+        android:background="@drawable/blackandwhite"
         android:visibility="visible" />
 
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="comapps.com.myassociationhoa.maintenance.MaintenanceFragment"
-        android:id="@+id/mbActivityFragment"
-        tools:layout="@layout/content_main_maintenance_row" />
+
 
 
 </LinearLayout>

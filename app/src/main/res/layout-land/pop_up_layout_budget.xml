@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:weightSum="10"
+    android:padding="10dp">
 
 
     <TextView
@@ -25,14 +26,15 @@
         android:id="@+id/textViewTitle2"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
-        android:layout_marginBottom="20dp"
         android:layout_weight="1"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:padding="10dp" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,11 +44,9 @@
             android:id="@+id/textViewBudget"
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:clickable="true"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:gravity="center|center_vertical" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,12 +55,10 @@
             android:id="@+id/textViewExpenses"
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:clickable="true"
             android:layout_weight="1"
-            android:text="@string/expenses"
-            android:gravity="center" />
+            android:gravity="center|center_vertical"
+            android:text="@string/expenses" />
 
     </LinearLayout>
 
@@ -72,8 +70,6 @@
         android:id="@+id/textViewCancel"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:clickable="true"
         android:layout_weight="1"
         android:gravity="center" />

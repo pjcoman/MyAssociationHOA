@@ -78,6 +78,11 @@
         </activity>
 
         <activity
+            android:name=".tools.AddEvent"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
             android:name=".myinfo.PopInfo"
             android:screenOrientation="unspecified"
             android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
@@ -87,7 +92,7 @@
             android:screenOrientation="unspecified"></activity>
 
         <activity
-            android:name=".autos.AutoActivity"
+            android:name=".autos.AutosActivity"
             android:screenOrientation="unspecified"></activity>
 
         <activity
@@ -99,13 +104,36 @@
             android:screenOrientation="unspecified"></activity>
 
         <activity
-            android:name=".guests.GuestActivity"
+            android:name=".autos.PopAutosAddAuto"
+            android:screenOrientation="unspecified"></activity>
+
+        <activity
+            android:name=".guests.PopGuestsAddGuest"
+            android:screenOrientation="unspecified"></activity>
+
+
+
+        <activity
+            android:name=".guests.GuestsActivity"
             android:screenOrientation="unspecified"></activity>
 
 
         <activity
+            android:name=".maintenance.MaintenanceActivityWithFragment"
+            android:screenOrientation="unspecified"></activity>
+
+        <activity
+            android:name=".ToolsActivity"
+            android:screenOrientation="unspecified"></activity>
+
+        <activity
             android:name=".maintenance.MaintenanceActivity"
             android:screenOrientation="unspecified"></activity>
+
+        <activity
+            android:name=".maintenance.MaintenanceComment"
+            android:screenOrientation="unspecified"></activity>
+
 
         <activity
             android:name=".budget.BudgetActivity"
@@ -141,6 +169,11 @@
             android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
 
         <activity
+            android:name=".AdminPushActivity"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+
+        <activity
             android:name=".messageboard.PopMBAddMessage"
             android:screenOrientation="unspecified"
             android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
@@ -172,6 +205,17 @@
         </activity>
 
         <activity
+            android:name=".service_providers.ServiceProviderEditActivity"
+            android:screenOrientation="unspecified"  >
+        </activity>
+
+        <activity
+            android:name=".service_providers.ServiceProviderAddCategoryPop"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppTheme.CutomThemeTranslucent">
+        </activity>
+
+        <activity
             android:name=".documents.DocumentReaderActivity"
             android:screenOrientation="unspecified"  >
         </activity>
@@ -181,10 +225,7 @@
             android:screenOrientation="unspecified"  >
         </activity>
 
-        <activity
-            android:name=".ToolsActivity"
-            android:screenOrientation="unspecified"  >
-        </activity>
+
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"

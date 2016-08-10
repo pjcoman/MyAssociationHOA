@@ -337,11 +337,12 @@
             style="?android:attr/buttonBarButtonStyle"
             android:visibility="visible"
             android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp" />
+            android:layout_marginRight="2dp"
+            android:lines="2" />
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:text="@string/b14"
             android:id="@+id/button14"
             android:layout_weight="1"
@@ -360,7 +361,7 @@
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:text="@string/b15"
             android:id="@+id/button15"
             android:layout_weight="1"
@@ -376,6 +377,7 @@
             android:visibility="visible"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -426,7 +428,7 @@
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:text="@string/b18"
             android:id="@+id/button18"
             android:layout_weight="1"
@@ -442,6 +444,7 @@
             android:visibility="visible"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp" />
+
     </LinearLayout>
 
 </LinearLayout>

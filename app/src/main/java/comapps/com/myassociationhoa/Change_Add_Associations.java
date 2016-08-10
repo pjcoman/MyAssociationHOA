@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
 
 import java.util.ArrayList;
@@ -27,19 +28,19 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class Change_Add_Associations extends AppCompatActivity {
 
     private static final String TAG = "CHANGE_ADD_ASSOC";
-    private static final String MYPREFERENCES = "MyPrefs";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
     ListView listView;
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferencesVisited;
 
     private FloatingActionButton mFab;
 
     ParseInstallation installation;
 
     String[] associationsData;
-    ArrayList<String> associationLongName;
-    ArrayList<String> associationMemberType;
-    ArrayList<String> associationCode;
+    ArrayList<String> associationLongNameList;
+    ArrayList<String> associationMemberTypeList;
+    ArrayList<String> associationCodeForParseList;
 
 
 
@@ -64,26 +65,31 @@ public class Change_Add_Associations extends AppCompatActivity {
 
         }
 
-        sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
-        associationsData = sharedPreferences.getString("ASSOCIATIONS_JOINED", "").split("\\|");
+        sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
+        associationsData = sharedPreferencesVisited.getString("ASSOCIATIONS_JOINED", "").split("\\|", -1);
+
 
 
         int i;
 
-        associationLongName = new ArrayList<>();
-        associationMemberType = new ArrayList<>();
-        associationCode = new ArrayList<>();
+        associationLongNameList = new ArrayList<>();
+        associationMemberTypeList = new ArrayList<>();
+        associationCodeForParseList = new ArrayList<>();
 
         for ( i = 0; i < associationsData.length; i++) {
 
-            Log.d(TAG, "aj -------> " + associationsData[i]);
-            String[] tempStringArray = associationsData[i].split("\\^");
-            Log.d(TAG, "aj -------> " + tempStringArray[0]);
-            Log.d(TAG, "aj -------> " + tempStringArray[1]);
-            Log.d(TAG, "aj -------> " + tempStringArray[2]);
-            associationLongName.add(tempStringArray[0]);
-            associationMemberType.add(tempStringArray[1]);
-            associationCode.add(tempStringArray[2]);
+
+            String[] associationData = associationsData[i].split("\\^", -1);
+
+
+            if ( associationData[1].substring(0,1).toLowerCase().equals("a")) {
+                associationLongNameList.add(associationData[0] + " (a)");
+            } else {
+                associationLongNameList.add(associationData[0]);
+            }
+
+            associationMemberTypeList.add(associationData[1]);
+            associationCodeForParseList.add(associationData[2]);
 
 
         }
@@ -108,7 +114,7 @@ public class Change_Add_Associations extends AppCompatActivity {
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.textviewlist, associationLongName);
+                R.layout.textviewlist, associationLongNameList);
 
 
         // Assign adapter to ListView
@@ -133,14 +139,23 @@ public class Change_Add_Associations extends AppCompatActivity {
 */
                 installation = ParseInstallation.getCurrentInstallation();
 
-                installation.put("MemberType", associationMemberType.get(position));
-                installation.put("AssociationCode", associationCode.get(position));
+                installation.put("MemberType", associationMemberTypeList.get(position));
+                installation.put("AssociationCode", associationCodeForParseList.get(position));
+                installation.put("memberNumber", sharedPreferencesVisited.getString(installation.get("AssociationCode") + "MemberNumber", ""));
 
+                Log.d(TAG, "member number ----> " + sharedPreferencesVisited.getString(installation.get("AssociationCode") + "MemberNumber", ""));
+
+                try {
+                    installation.save();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
 
                 Intent mainActivity = new Intent();
                 mainActivity.setClass(Change_Add_Associations.this, MainActivity.class);
                 startActivity(mainActivity);
+                finish();
 
 
             }
@@ -185,7 +200,18 @@ public class Change_Add_Associations extends AppCompatActivity {
 
     public void AddChangeAssoc(View v) {
 
-        startActivity(new Intent(Change_Add_Associations.this, PopEnterPasscode.class));
+        installation = ParseInstallation.getCurrentInstallation();
+
+        Intent addChangeActivity = new Intent();
+        addChangeActivity.setClass(Change_Add_Associations.this, PopEnterPasscode.class);
+        addChangeActivity.putExtra("FROMCHANGEADD", true);
+        addChangeActivity.putExtra("OLDMEMBERNUMBER", installation.getString("memberNumber"));
+        startActivity(addChangeActivity);
+        finish();
+
+
+
+
 
     }
 

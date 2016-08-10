@@ -55,7 +55,8 @@
             android:textColor="#179fc5"
             android:textStyle="bold"
             android:layout_margin="10dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:background="@drawable/button_rounded_corners_black_gray_bg" />
 
         <Button
             android:layout_width="wrap_content"
@@ -66,7 +67,8 @@
             android:textColor="#179fc5"
             android:textStyle="bold"
             android:layout_margin="10dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:background="@drawable/button_rounded_corners_black_gray_bg" />
     </LinearLayout>
 
 </LinearLayout>

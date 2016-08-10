@@ -27,9 +27,12 @@ import java.util.List;
 public class ParseApplication extends Application  {
 
     private static final String TAG = "PARSEAPPLICATION";
-    private static final String MYPREFERENCES = "MyPrefs";
 
-    private SharedPreferences sharedPreferences;
+    private static final String ASSOCPREFERENCES = "AssocPrefs";
+
+
+    private SharedPreferences sharedPreferencesAssoc;
+
 
     @Override
     public void onCreate() {
@@ -61,7 +64,7 @@ public class ParseApplication extends Application  {
 
         //   PushService.setDefaultPushCallback(this, MainActivity.class);
 
-        sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferencesAssoc = getSharedPreferences(ASSOCPREFERENCES, Context.MODE_PRIVATE);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Home");
         try {
@@ -79,9 +82,9 @@ public class ParseApplication extends Application  {
             //   Log.d(TAG, "codes -----> " + codesFileString);
 
 
-            String passCodes[] = codesFileString.split("(\\|)|(\\^)");
+            String passCodes[] = codesFileString.split("(\\|)|(\\^)", -1);
 
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+            SharedPreferences.Editor editor = sharedPreferencesAssoc.edit();
 
             int i = 0;
             int j = 1;
@@ -97,35 +100,35 @@ public class ParseApplication extends Application  {
                         k++;
 
                         editor.putString("passcodeASSOC_LONGNAME" + "(" + i + ")", passcode);
-                        Log.d(TAG, passcode + "----->" + i + "passcodeASSOC_LONGNAME" + j + " " + k);
+                        Log.d(TAG, "Assoc Long Name ----> " + passcode);
                         break;
                     case 2:
                         j++;
                         k++;
 
                         editor.putString("passcodeASSOC_NAME" + "(" + i + ")", passcode);
-                        Log.d(TAG, passcode + "----->  " + i + "passcodeASSOC_NAME");
+                        Log.d(TAG, "Assoc name for Parse ----> " + passcode );
                         break;
                     case 3:
                         j++;
                         k++;
 
                         editor.putString("passcodeADMIN_PW" + "(" + i + ")", passcode);
-                        Log.d(TAG, passcode + "----->  " + i + "passcodeADMIN_PW");
+                        Log.d(TAG, "Assoc admin password ----> " + passcode);
                         break;
                     case 4:
                         j++;
                         k++;
 
                         editor.putString("passcodeMEMBER_PW" + "(" + i + ")", passcode);
-                        Log.d(TAG, passcode + "----->  " + i + "passcodeMEMBER_PW");
+                        Log.d(TAG, "Assoc member password ----> " + passcode);
                         break;
                     case 5:
                         j = 1;
                         k++;
 
                         editor.putString("passcodeASSOC_SHORTNAME" + "(" + i + ")", passcode);
-                        Log.d(TAG, passcode + "----->" + i + "passcodeSHORTNAME" + j + " " + k);
+                        Log.d(TAG, "Assoc short name ----> " + passcode);
                         break;
                 }
 

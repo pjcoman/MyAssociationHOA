@@ -19,7 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Done"
-        android:id="@+id/buttonDone" />
+        android:id="@+id/buttonDone"
+        android:background="@drawable/button_rounded_corners_black_gray_bg" />
 
 
     <ListView

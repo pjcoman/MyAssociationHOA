@@ -12,11 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 
 import java.io.UnsupportedEncodingException;
@@ -26,6 +28,7 @@ import java.util.List;
 
 import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.objects.MBObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -42,12 +45,15 @@ public class PopMBComment extends AppCompatActivity {
     String messageFileString;
     String messageFileUpdate = "";
 
+    MBObject mbObject;
+
     EditText newComment;
     Button addButton;
 
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
-    int messageIndex;
+    int position;
 
 
     @Override
@@ -69,8 +75,14 @@ public class PopMBComment extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            messageIndex = extras.getInt("messageindex");
-            Log.d(TAG, "message index ---> " + messageIndex);
+            position = extras.getInt("position");
+            String jsonMbObject = extras.getString("jsonMbObject");
+            Log.d(TAG, "position ---> " + position);
+
+            Gson gson = new Gson();
+            mbObject = gson.fromJson(jsonMbObject, MBObject.class);
+            mbObject.toString();
+
         }
 
 
@@ -80,7 +92,7 @@ public class PopMBComment extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * 1), (int) (height * 1));
+        getWindow().setLayout(width * 1, height * 1);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,11 +128,8 @@ public class PopMBComment extends AppCompatActivity {
                         String[] memberInfoArray = memberInfo.split("\\^");
 
 
-                        Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy H:mm a");
-                        SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
-                        String strDate = sdf.format(c.getTime());
-                        String strDate2 = sdf2.format(c.getTime());
+
+
 
                         String[] messageStringArray = messageFileString.split("\\|");
 
@@ -134,10 +143,26 @@ public class PopMBComment extends AppCompatActivity {
                             i++;
                         }
 
-                        Log.d(TAG, "post item to add comment to ---->  " + messageStringArray[(messageIndex * 5) + 2]);
-                        messageStringArray[(messageIndex * 5) + 2] = messageStringArray[(messageIndex * 5) + 2] + "\n\nComment by: " +
+                        Log.d(TAG, "post item to add comment to ---->  " + messageStringArray[(position * 5) + 2]);
+                        messageStringArray[(position * 5) + 2] = messageStringArray[(position * 5) + 2] + "\n\nComment by: " +
                                 installation.getString("memberName") + "\n" + newComment.getText();
-                        Log.d(TAG, "post comment item ---->  " + messageStringArray[(messageIndex * 5) + 2]);
+                        Log.d(TAG, "post comment item ---->  " + messageStringArray[(position * 5) + 2]);
+
+                        MBObject mbObjectUpdated;
+                        String postUpdate = mbObject.getMbPost() + "\n\nComment by: " +
+                                installation.getString("memberName") + "\n" + newComment.getText();
+                        mbObjectUpdated = mbObject;
+                        mbObjectUpdated.setMbPost(postUpdate);
+
+                        editor = sharedPreferences.edit();
+                        Gson gson = new Gson();
+                        String jsonMbObject = gson.toJson(mbObjectUpdated); // myObject - instance of MyObject
+                        editor.putString("mbObject" + "[" + position + "]", jsonMbObject);
+                        //    editor.putInt("mbSize", mbSizeInt + 1);
+                        editor.apply();
+
+
+
 
 
                         for (String postItems : messageStringArray) {
@@ -152,6 +177,14 @@ public class PopMBComment extends AppCompatActivity {
                         byte[] data = messageFileUpdate.getBytes();
                         ParseFile MessageFile = new ParseFile("message.txt", data);
 
+                        Calendar c = Calendar.getInstance();
+                        System.out.println("Current time => " + c.getTime());
+
+                        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy, hh:mm a");
+                        String formattedDate = df.format(c.getTime());
+
+
+
 
                         try {
                             MessageFile.save();
@@ -161,13 +194,31 @@ public class PopMBComment extends AppCompatActivity {
 
 
                         assoc.get(0).put("MessageFile", MessageFile);
+                        assoc.get(0).put("Eventdate", formattedDate);
+
                         try {
                             assoc.get(0).save();
                         } catch (ParseException e1) {
                             e1.printStackTrace();
                         }
 
+
+
+
+
                         Toast.makeText(getBaseContext(), "MESSAGE POSTED", Toast.LENGTH_LONG).show();
+
+                        ParseQuery pushQuery = ParseInstallation.getQuery();
+                        pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
+
+                        ParsePush push = new ParsePush();
+                        push.setQuery(pushQuery); // Set our Installation query
+
+                        push.setMessage("By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
+                                installation.getString("memberName") +
+                                " has commented on a message on the Message Board.");
+
+                        push.sendInBackground();
 
 
                         Intent mainActivity = new Intent();
