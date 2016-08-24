@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".guests.GuestsActivity"
     android:layout_width="match_parent"
@@ -31,7 +30,7 @@
 
             android:src="@drawable/fab"
             android:alpha=".65"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="100dp"
             android:layout_marginRight="20dp" />
     </FrameLayout>
 

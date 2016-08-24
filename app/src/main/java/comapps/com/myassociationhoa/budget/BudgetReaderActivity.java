@@ -48,8 +48,11 @@ public class BudgetReaderActivity extends AppCompatActivity {
         switch (pdfChoice) {
             case "budget":
                 pdfURL = sharedPreferences.getString("budgetpdfurl", "");
+                break;
             case "expense":
                 pdfURL = sharedPreferences.getString("expensepdfurl", "");
+                break;
+
         }
 
 

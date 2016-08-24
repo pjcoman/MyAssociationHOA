@@ -286,10 +286,18 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="append">Append</string>
     <string name="event_title">Event Title</string>
     <string name="event_detail">Event Detail</string>
-    <string name="start_date_mm_dd_yyyy">Start Date mm/dd/yyyy</string>
-    <string name="end_date_mm_dd_yyyy">End Date mm/dd/yyyy</string>
     <string name="event_action">Event Action</string>
     <string name="save_event">Save Event</string>
+    <string name="description_of_maintenance_issue">Description of Maintenance Issue</string>
+    <string name="notes_on_maintenance_issue">Notes on Maintenance Issue</string>
+    <string name="backup_association_files">Backup Association Files</string>
+    <string name="roster">Roster</string>
+    <string name="service_providers">Service Providers</string>
+    <string name="guest_file">Guest File</string>
+    <string name="pets_file">Pets File</string>
+    <string name="automobile_file">Automobile File</string>
+    <string name="description_of_maintenance_item">Description of Maintenance Item</string>
+    <string name="notes_on_maintenance_item">Notes on Maintenance Item</string>
 
 
 </resources>

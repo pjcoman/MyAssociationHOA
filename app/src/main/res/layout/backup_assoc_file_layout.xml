@@ -3,28 +3,28 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:weightSum="10"
+    android:clickable="true">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textViewTitle"
+        android:text="@string/my_association_hoa"
+        android:id="@+id/textViewAssocName"
         android:layout_gravity="center_horizontal"
         android:textSize="24sp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center_vertical" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/display_hoa_documents"
+        android:text="@string/backup_association_files"
         android:id="@+id/textViewTitle2"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
-        android:layout_marginBottom="20dp"
         android:layout_weight="1"
         android:gravity="center_vertical" />
 
@@ -32,97 +32,140 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/rules"
-        android:id="@+id/textViewRules"
+        android:text="@string/roster"
+        android:id="@+id/textViewRosterBU"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
         android:clickable="true"
         android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:textColor="#2261ea" />
+        android:gravity="bottom"
+        android:textColor="#2468de" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/bylaws"
-        android:id="@+id/textViewByLaws"
+        android:id="@+id/textViewRosterBUDate"
         android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:textSize="12sp"
         android:clickable="true"
-        android:layout_weight="1"
+        android:layout_weight=".2"
         android:gravity="center_vertical"
-        android:textColor="#2261ea" />
+        android:textColor="#f40808" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/minutes"
-        android:id="@+id/textViewMinutes"
+        android:text="@string/service_providers"
+        android:id="@+id/textViewServiceProviderBU"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
         android:clickable="true"
         android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:textColor="#2261ea" />
+        android:gravity="bottom"
+        android:textColor="#2468de" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-
-        android:id="@+id/textViewMisc1Pdf"
+        android:id="@+id/textViewServiceProviderBUDate"
         android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:textSize="12sp"
         android:clickable="true"
-        android:layout_weight="1"
+        android:layout_weight=".2"
         android:gravity="center_vertical"
-        android:visibility="visible" />
+        android:textColor="#f40808" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-
-        android:id="@+id/textViewMisc2Pdf"
+        android:text="@string/guest_file"
+        android:id="@+id/textViewGuestBU"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
         android:clickable="true"
         android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:visibility="visible" />
+        android:gravity="bottom"
+        android:textColor="#2468de" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-
-        android:id="@+id/textViewMisc3Pdf"
+        android:id="@+id/textViewGuestBUDate"
         android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:textSize="12sp"
         android:clickable="true"
-        android:layout_weight="1"
+        android:layout_weight=".2"
         android:gravity="center_vertical"
-        android:visibility="visible" />
+        android:textColor="#f40808" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/cancel"
+        android:text="@string/pets_file"
+        android:id="@+id/textViewPetsBU"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:textColor="#2468de" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textViewPetsBUDate"
+        android:layout_gravity="center_horizontal"
+        android:textSize="12sp"
+        android:clickable="true"
+        android:layout_weight=".2"
+        android:gravity="center_vertical"
+        android:textColor="#f40808" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/automobile_file"
+        android:id="@+id/textViewAutoBU"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:textColor="#2468de" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textViewAutoBUDate"
+        android:layout_gravity="center_horizontal"
+        android:textSize="12sp"
+        android:clickable="true"
+        android:layout_weight=".2"
+        android:gravity="center_vertical"
+        android:textColor="#f40808" />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Cancel"
         android:id="@+id/textViewCancel"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
@@ -131,5 +174,5 @@
         android:clickable="true"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:textColor="#2261ea" />
+        android:textColor="#2468de" />
 </LinearLayout>

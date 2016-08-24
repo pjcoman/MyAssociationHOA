@@ -1,15 +1,19 @@
 package comapps.com.myassociationhoa.guests;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -27,8 +31,8 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
-import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
 import comapps.com.myassociationhoa.myinfo.PersonalInfoActivity;
 import comapps.com.myassociationhoa.objects.GuestObject;
@@ -38,7 +42,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/28/2016.
  */
-public class PopGuestsAddGuest extends AppCompatActivity {
+public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "POPADDGUEST";
     public static final String MYPREFERENCES = "MyPrefs";
@@ -56,6 +60,11 @@ public class PopGuestsAddGuest extends AppCompatActivity {
 
     EditText etStartDate;
     EditText etEndDate;
+
+    private DatePickerDialog fromDatePickerDialog;
+    private DatePickerDialog toDatePickerDialog;
+
+    private SimpleDateFormat dateFormatter;
 
     ToggleButton tbMonday;
     ToggleButton tbTuesday;
@@ -76,6 +85,8 @@ public class PopGuestsAddGuest extends AppCompatActivity {
     SharedPreferences.Editor editor;
     SharedPreferences.Editor editorVisited;
 
+    TextWatcher tw;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,6 +105,10 @@ public class PopGuestsAddGuest extends AppCompatActivity {
             bar.setTitle("Update Guest Info");
         }
 
+        dateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+
+
+
 
         etGuestName = (EditText) findViewById(R.id.editTextGuestName);
         guestType = (Button) findViewById(R.id.buttonGuestType);
@@ -101,8 +116,7 @@ public class PopGuestsAddGuest extends AppCompatActivity {
 
         datesLayout = (LinearLayout) findViewById(R.id.datesLayout);
 
-        etStartDate = (EditText) findViewById(R.id.editTextStartDate);
-        etEndDate = (EditText) findViewById(R.id.editTextEndDate);
+
 
         tbMonday = (ToggleButton) findViewById(R.id.toggleButtonMonday);
         tbTuesday = (ToggleButton) findViewById(R.id.toggleButtonTuesday);
@@ -134,6 +148,7 @@ public class PopGuestsAddGuest extends AppCompatActivity {
         getWindow().setLayout(width * 1, height * 1);
 
         guestType.setText("Permanent");
+        datesLayout.setVisibility(View.GONE);
         notifyBy.setText("Mobile");
 
         guestType.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +160,8 @@ public class PopGuestsAddGuest extends AppCompatActivity {
                 if ( guestTypeString.equals("Permanent")) {
                     guestType.setText("Temporary");
                     datesLayout.setVisibility(View.VISIBLE);
+                    findViewsById();
+                    setDateTimeField();
                 } else {
                     guestType.setText("Permanent");
                     datesLayout.setVisibility(View.GONE);
@@ -152,6 +169,8 @@ public class PopGuestsAddGuest extends AppCompatActivity {
 
             }
         });
+
+
 
         notifyBy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +194,15 @@ public class PopGuestsAddGuest extends AppCompatActivity {
 
             }
         });
+
+
+
+        if ( datesLayout.getVisibility() == View.VISIBLE) {
+
+
+
+
+        }
 
 
 
@@ -282,14 +310,14 @@ public class PopGuestsAddGuest extends AppCompatActivity {
 
                         int lengthOfGuestFileString = guestFileString.length();
 
-                        String newGuest = "|" + sharedPreferences.getString("MEMBERNAME", "") + "^" +
-                                sharedPreferences.getString("MEMBERNUMBER", "") + "^" + guestType.getText() + "^" + etStartDate.getText() + "^" + etEndDate.getText()
+                        String newGuest = "|" + installation.getString("memberName") + "^" +
+                                installation.getString("memberNumber") + "^" + guestType.getText() + "^" + etStartDate.getText() + "^" + etEndDate.getText()
                                 + "^" + tbMonday.getText()+ "^" + tbTuesday.getText()+ "^" + tbWednesday.getText()+ "^" + tbThursday.getText()+ "^" + tbFriday.getText()
                                 + "^" + tbSaturday.getText()+ "^" + tbSunday.getText()+ "^" + etGuesNotes.getText()+ "^" + etGuestName.getText()+ "^" + notifyBy.getText()
                                 + "^" + notify;
 
-                        guestFileUpdate = guestFileString + "|" + sharedPreferences.getString("MEMBERNAME", "") + "^" +
-                                sharedPreferences.getString("MEMBERNUMBER", "") + "^" + guestType.getText() + "^" + etStartDate.getText() + "^" + etEndDate.getText()
+                        guestFileUpdate = guestFileString + "|" + installation.getString("memberName") + "^" +
+                                installation.getString("memberNumber") + "^" + guestType.getText() + "^" + etStartDate.getText() + "^" + etEndDate.getText()
                                 + "^" + tbMonday.getText()+ "^" + tbTuesday.getText()+ "^" + tbWednesday.getText()+ "^" + tbThursday.getText()+ "^" + tbFriday.getText()
                                 + "^" + tbSaturday.getText()+ "^" + tbSunday.getText()+ "^" + etGuesNotes.getText()+ "^" + etGuestName.getText()+ "^" + notifyBy.getText()
                                 + "^" + notify;
@@ -314,8 +342,8 @@ public class PopGuestsAddGuest extends AppCompatActivity {
 
 
                         GuestObject guestObject = new GuestObject();
-                        guestObject.setGuestOwner(sharedPreferences.getString("MEMBERNAME", ""));
-                        guestObject.setGuestOwnerMemberNumber(sharedPreferences.getString("MEMBERNUMBER", ""));
+                        guestObject.setGuestOwner(installation.getString("memberName"));
+                        guestObject.setGuestOwnerMemberNumber(installation.getString("memberNumber"));
                         guestObject.setGuestType(guestType.getText().toString());
                         guestObject.setGuestStartdate(etStartDate.getText().toString());
                         guestObject.setGuestEnddate(etEndDate.getText().toString());
@@ -360,6 +388,7 @@ public class PopGuestsAddGuest extends AppCompatActivity {
                             assoc.get(0).save();
                         } catch (ParseException e1) {
                             e1.printStackTrace();
+                            assoc.get(0).saveEventually();
                         }
 
 
@@ -371,9 +400,7 @@ public class PopGuestsAddGuest extends AppCompatActivity {
 
 
 
-                        Intent mainActivity = new Intent();
-                        mainActivity.setClass(getApplicationContext(), MainActivity.class);
-                        startActivity(mainActivity);
+
                         finish();
 
 
@@ -384,6 +411,47 @@ public class PopGuestsAddGuest extends AppCompatActivity {
         });
 
 
+    }
+
+    private void findViewsById() {
+
+
+
+            etStartDate = (EditText) findViewById(R.id.textViewAutoYear);
+            etStartDate.setInputType(InputType.TYPE_NULL);
+            etStartDate.requestFocus();
+
+            etEndDate = (EditText) findViewById(R.id.editTextEndDate);
+            etEndDate.setInputType(InputType.TYPE_NULL);
+
+
+
+    }
+
+    private void setDateTimeField() {
+        etStartDate.setOnClickListener(this);
+        etEndDate.setOnClickListener(this);
+
+        Calendar newCalendar = Calendar.getInstance();
+        fromDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                etStartDate.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        toDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                etEndDate.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
 
@@ -397,14 +465,20 @@ public class PopGuestsAddGuest extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intentMain = new Intent();
-        intentMain.setClass(PopGuestsAddGuest.this, GuestsActivity.class);
-        PopGuestsAddGuest.this.finish();
-        startActivity(intentMain);
-
+       finish();
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+        if(v == etStartDate) {
+            fromDatePickerDialog.show();
+        } else if(v == etEndDate) {
+            toDatePickerDialog.show();
+        }
+
+    }
 }
 
 

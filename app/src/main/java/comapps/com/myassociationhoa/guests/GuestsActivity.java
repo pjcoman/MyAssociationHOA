@@ -86,8 +86,10 @@ public class GuestsActivity extends AppCompatActivity implements
         if ( bundle != null ) {
 
             memberFilter = bundle.getString("memberNumber");
-            if ( bundle.getString("fromPopInfo").equals("YES")) {
+            if ( bundle.getBoolean("fromPopInfo")) {
                 mFab.setVisibility(View.VISIBLE);
+            } else {
+                mFab.setVisibility(View.GONE);
             }
 
             bar.setTitle("My Guests");

@@ -453,20 +453,24 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/info_background_noframe"
                 android:padding="20dp"
-                android:gravity="center"
-                android:id="@+id/otherInfoLayout">
+                android:id="@+id/otherInfoLayout"
+                android:weightSum="2"
+                android:baselineAligned="false"
+                android:gravity="center">
 
 
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="2">
+                    android:weightSum="2"
+                    android:id="@+id/other"
+                    android:layout_weight="1">
 
                     <Button
                         android:layout_width="match_parent"
@@ -474,7 +478,6 @@
                         android:text="@string/display_pets"
                         android:id="@+id/petsButton"
                         android:background="#fcf7f7"
-                        android:layout_weight="1"
                         android:layout_margin="6dp"
                         android:padding="4dp"
                         android:textSize="12sp" />
@@ -485,7 +488,6 @@
                         android:text="@string/display_autos"
                         android:id="@+id/autosButton"
                         android:background="#fcf7f7"
-                        android:layout_weight="1"
                         android:layout_margin="6dp"
                         android:padding="4dp"
                         android:textSize="12sp" />
@@ -493,10 +495,12 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="2">
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="2"
+                    android:id="@+id/other2"
+                    android:layout_weight="1">
 
                     <Button
                         android:layout_width="match_parent"
@@ -504,7 +508,6 @@
                         android:text="@string/display_guests"
                         android:id="@+id/guestsButton"
                         android:background="#fcf7f7"
-                        android:layout_weight="1"
                         android:layout_margin="6dp"
                         android:padding="4dp"
                         android:textSize="12sp" />
@@ -515,11 +518,10 @@
                         android:text="@string/display_other"
                         android:id="@+id/otherButton"
                         android:background="#fcf7f7"
-                        android:layout_weight="1"
                         android:layout_margin="6dp"
-                        android:visibility="invisible"
                         android:padding="4dp"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
             </LinearLayout>

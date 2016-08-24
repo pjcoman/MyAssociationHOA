@@ -194,12 +194,13 @@ public class PopMBComment extends AppCompatActivity {
 
 
                         assoc.get(0).put("MessageFile", MessageFile);
-                        assoc.get(0).put("Eventdate", formattedDate);
+                        assoc.get(0).put("MessageDate", formattedDate);
 
                         try {
                             assoc.get(0).save();
                         } catch (ParseException e1) {
                             e1.printStackTrace();
+                            assoc.get(0).saveEventually();
                         }
 
 

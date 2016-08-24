@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
     tools:context=".calendar.CalendarActivity"
@@ -58,14 +57,14 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="10dp"
                 android:textSize="18sp"
-                android:textColor="#530944" />
+                android:textColor="#d41515" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="@string/to"
-                android:id="@+id/textView7"
-                android:textColor="#530944"
+                android:id="@+id/textViewTo"
+                android:textColor="#d41515"
                 android:textSize="18sp" />
 
             <TextView
@@ -76,7 +75,7 @@
                 android:id="@+id/textViewDateEnd"
                 android:layout_marginLeft="10dp"
                 android:textSize="18sp"
-                android:textColor="#530944" />
+                android:textColor="#d41515" />
         </LinearLayout>
 
         <LinearLayout

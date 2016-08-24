@@ -25,7 +25,10 @@
         android:id="@+id/ll1"
         android:layout_weight="2"
         android:weightSum="3"
-        android:padding="10dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <Button
                         android:layout_width="0dp"
@@ -42,7 +45,7 @@
                         android:shadowRadius="1"
                         style="?android:attr/buttonBarButtonStyle"
                         android:visibility="visible"
-                        android:layout_margin="2dp"
+                        android:layout_margin="0dp"
                         android:capitalize="characters"
             android:onClick="button1Dial"
             android:padding="4dp" />
@@ -62,7 +65,7 @@
                     android:shadowRadius="1"
                     style="?android:attr/buttonBarButtonStyle"
                     android:visibility="visible"
-                    android:layout_margin="2dp"
+                    android:layout_margin="0dp"
             android:onClick="button2Dial"
             android:padding="4dp" />
 
@@ -81,7 +84,7 @@
                     android:shadowRadius="1"
                     style="?android:attr/buttonBarButtonStyle"
                     android:visibility="visible"
-                    android:layout_margin="2dp"
+                    android:layout_margin="0dp"
             android:onClick="button3Dial"
             android:padding="4dp" />
     </LinearLayout>
@@ -95,13 +98,16 @@
         android:layout_weight="2"
         android:weightSum="3"
         android:gravity="center"
-        android:padding="10dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <Button
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:id="@+id/button4"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1"
                     android:textSize="10sp"
                     android:background="@drawable/button_rounded_corners_white"
                     android:textColor="#885906"
@@ -113,17 +119,19 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:visibility="visible"
             android:onClick="button4Dial"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:padding="4dp" />
+            android:padding="4dp"
+            android:layout_margin="0dp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
 
         <Button
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:id="@+id/button5"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1"
                     android:textSize="10sp"
                     android:background="@drawable/button_rounded_corners_white"
                     android:textColor="#885906"
@@ -135,10 +143,6 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:visibility="visible"
             android:onClick="button5Dial"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:padding="4dp" />
     </LinearLayout>
 
@@ -150,7 +154,10 @@
         android:id="@+id/ll3"
         android:layout_weight="2"
         android:weightSum="3"
-        android:padding="10dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <Button
                     android:layout_width="0dp"
@@ -168,7 +175,7 @@
                     android:shadowRadius="1"
                     style="?android:attr/buttonBarButtonStyle"
                     android:visibility="visible"
-                    android:layout_margin="2dp"
+                    android:layout_margin="0dp"
             android:onClick="button6Dial"
             android:padding="4dp" />
 
@@ -187,7 +194,7 @@
                     android:shadowRadius="1"
                     style="?android:attr/buttonBarButtonStyle"
                     android:visibility="visible"
-                    android:layout_margin="2dp"
+                    android:layout_margin="0dp"
             android:onClick="button7Dial"
             android:padding="4dp" />
 
@@ -206,7 +213,7 @@
                     android:shadowRadius="1"
                     style="?android:attr/buttonBarButtonStyle"
                     android:visibility="visible"
-                    android:layout_margin="2dp"
+                    android:layout_margin="0dp"
             android:onClick="button8Dial"
             android:padding="4dp" />
     </LinearLayout>
@@ -217,39 +224,41 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:background="@drawable/info_background_noframe">
+        android:background="@drawable/info_background_noframe"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/my_association_address"
 
             android:textColor="#764904"
-            android:textSize="22sp"
+            android:textSize="16sp"
             android:id="@+id/textViewAssociationName"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/my_association_address"
 
             android:textColor="#764904"
-            android:textSize="22sp"
+            android:textSize="16sp"
             android:id="@+id/textViewAssociationName2"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/my_association_address"
 
             android:textColor="#764904"
-            android:textSize="22sp"
+            android:textSize="16sp"
             android:id="@+id/textViewAssociationName3"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"

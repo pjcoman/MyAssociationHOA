@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
 import comapps.com.myassociationhoa.objects.MaintenanceObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -41,7 +43,6 @@ public class MaintenanceComment extends AppCompatActivity {
     ParseQuery<ParseObject> query;
     String[] maintenanceFileArray;
     String maintenanceFileString;
-    String maintenanceFileUpdate = "";
     MaintenanceObject maintenanceObject;
 
     EditText description;
@@ -50,6 +51,7 @@ public class MaintenanceComment extends AppCompatActivity {
     Button mTypeButton;
 
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     int maintenanceIndex;
 
@@ -72,7 +74,6 @@ public class MaintenanceComment extends AppCompatActivity {
         }
 
 
-
         description = (EditText) findViewById(R.id.editTextDescription);
         notes = (EditText) findViewById(R.id.editTextNotes);
         saveButton = (Button) findViewById(R.id.buttonAddComment);
@@ -82,17 +83,16 @@ public class MaintenanceComment extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            maintenanceIndex = extras.getInt("MAINTENANCEINDEX");
+
             Gson gson = new Gson();
             maintenanceObject = gson.fromJson(extras.getString("MAINTENANCEOBJECT"), MaintenanceObject.class);
-            Log.d(TAG, "maintenance index ---> " + maintenanceIndex);
+
 
         }
 
         description.setText(maintenanceObject.getMaintenanceDesc());
         notes.setText(maintenanceObject.getMaintenanceNotes());
         mTypeButton.setText(maintenanceObject.getMaintenanceCategory());
-
 
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -116,51 +116,55 @@ public class MaintenanceComment extends AppCompatActivity {
                     public void done(List<ParseObject> assoc, ParseException e) {
 
 
-                        ParseFile messageFile = assoc.get(0).getParseFile("MessageFile");
+                        ParseFile maintenanceFile = assoc.get(0).getParseFile("MaintenanceFile");
                         maintenanceFileArray = null;
 
+
+                        byte[] file = new byte[0];
                         try {
-                            byte[] file = messageFile.getData();
-                            try {
-                                maintenanceFileString = new String(file, "UTF-8");
-
-                                Log.d(TAG, "existing mitems --->" + maintenanceFileString);
-
-                            } catch (UnsupportedEncodingException e1) {
-                                e1.printStackTrace();
-                            }
+                            file = maintenanceFile.getData();
                         } catch (ParseException e1) {
                             e1.printStackTrace();
                         }
 
-                      /*  String memberInfo = sharedPreferences.getString("MEMBER_INFO", "");
-                        String[] memberInfoArray = memberInfo.split("\\^");
+                        try {
+                            maintenanceFileString = new String(file, "UTF-8");
+                        } catch (UnsupportedEncodingException e1) {
+                            e1.printStackTrace();
+                        }
+
+
 
 
                         Calendar c = Calendar.getInstance();
                         SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy H:mm a");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                         String strDate = sdf.format(c.getTime());
-                        String strDate2 = sdf2.format(c.getTime());*/
+                        String strDate2 = sdf2.format(c.getTime());
 
 
+                        Log.d(TAG, "existing maintenance items --->" + maintenanceFileString);
 
-                       maintenanceFileUpdate = maintenanceFileString.replace(maintenanceObject.getMaintenanceDesc(), description.getText());
-                       String maintenanceFileUpdateForUpload = maintenanceFileUpdate.replace(maintenanceObject.getMaintenanceNotes(), notes.getText());
+                        String maintenanceObjectToUpdate = maintenanceObject.getMaintenanceName() + "^" + maintenanceObject.getMaintenanceDate() + "^" +
+                                maintenanceObject.getMaintenanceDesc() + "^" + maintenanceObject.getMaintenanceNotes() + "^" + maintenanceObject.getMaintenanceCategory();
+
+                        String maintenanceObjectUpdated = maintenanceObject.getMaintenanceName() + "^" + maintenanceObject.getMaintenanceDate() +
+                                "^" + description.getText().toString() + "^" + notes.getText().toString() + "^" + maintenanceObject.getMaintenanceCategory();
+                        Log.d(TAG, "existing maintenance to update --->" + maintenanceObjectToUpdate);
+                        Log.d(TAG, "existing maintenance item updated --->" + maintenanceObjectUpdated);
+
+                    //    String maintenanceFileUpdate = maintenanceFileString.replaceAll(maintenanceObjectToUpdate, maintenanceObjectUpdated);
+
+                        String maintenanceFileUpdate = maintenanceFileString.replace(maintenanceObjectToUpdate, maintenanceObjectUpdated);
 
 
+                        Log.i(TAG, "maintenanceFileUpdate ----> " + maintenanceFileUpdate + " <----");
 
-
-                        Log.i(TAG, "maintenanceFileUpdate ---->" + maintenanceFileUpdateForUpload + "<----");
+                        String maintenanceFileUpdateForUpload = maintenanceFileUpdate.trim();
 
                         byte[] data = maintenanceFileUpdateForUpload.getBytes();
                         ParseFile MaintenanceFile = new ParseFile("Maintenance.txt", data);
 
-                        Calendar c = Calendar.getInstance();
-                        System.out.println("Current time => " + c.getTime());
-
-                        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy, hh:mm a");
-                        String formattedDate = df.format(c.getTime());
 
 
                         try {
@@ -171,31 +175,40 @@ public class MaintenanceComment extends AppCompatActivity {
 
 
                         assoc.get(0).put("MaintenanceFile", MaintenanceFile);
-                        assoc.get(0).put("MaintenanceDate", formattedDate);
+                        assoc.get(0).put("MaintenanceDate", strDate);
 
                         try {
                             assoc.get(0).save();
                         } catch (ParseException e1) {
                             e1.printStackTrace();
+                            assoc.get(0).saveEventually();
                         }
 
-                        Toast.makeText(getBaseContext(), "MAINTENANCE ITEM UPDATED", Toast.LENGTH_LONG).show();
+                       /* editor = sharedPreferences.edit();
+                        Gson gson = new Gson();
+                        String jsonMaintenanceObject = gson.toJson(maintenanceObject);
+                        editor.putString("maintenanceObject" + "[" + maintenanceIndex + "]", jsonMaintenanceObject);
+                        editor.apply();*/
+
+
+                        Toast toast = Toast.makeText(getBaseContext(), "MAINTENANCE ITEM UPDATED", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
 
 
                         Intent mainActivity = new Intent();
-                        mainActivity.setClass(getApplicationContext(), MaintenanceActivityWithFragment.class);
+                        mainActivity.setClass(getApplicationContext(), MainActivity.class);
                         startActivity(mainActivity);
                         finish();
 
 
                     }
                 });
-
             }
         });
 
-
     }
+
 
 
     @Override
@@ -209,7 +222,7 @@ public class MaintenanceComment extends AppCompatActivity {
     public void onBackPressed() {
 
         Intent intentMain = new Intent();
-        intentMain.setClass(MaintenanceComment.this, MaintenanceActivityWithFragment.class);
+        intentMain.setClass(MaintenanceComment.this, MaintenanceActivity.class);
         MaintenanceComment.this.finish();
         startActivity(intentMain);
 

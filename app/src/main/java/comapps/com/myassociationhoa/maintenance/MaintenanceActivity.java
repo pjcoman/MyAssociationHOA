@@ -6,21 +6,38 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
+import java.util.List;
 
 import comapps.com.myassociationhoa.GuideActivity;
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.objects.MaintenanceCategoryObject;
 import comapps.com.myassociationhoa.objects.MaintenanceObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -33,18 +50,39 @@ public class MaintenanceActivity extends AppCompatActivity {
     private static final String TAG = "SERVICEPROVIDERACTIVITY";
     private static final String MYPREFERENCES = "MyPrefs";
 
+    private ParseQuery query;
+
+
+
     private MaintenanceObject maintenanceObject;
     private ArrayList<MaintenanceObject> maintenanceObjects;
+    private MaintenanceCategoryObject maintenanceCategoryObject;
+    private ArrayList<MaintenanceCategoryObject> maintenanceCategoryObjects;
     private MaintenanceAdapter maintenanceAdapter;
 
     private SharedPreferences sharedPreferences;
     private ArrayList<String> maintenanceCategories = new ArrayList<String>();
+    String[] maintenanceCategoriesAll;
+    private ArrayList<String> maintenanceItemCategories = new ArrayList<String>();
 
 
     private String maintenanceCatString;
+    private String maintenanceString;
+
+    private EditText etMaintenanceDesc;
+    private EditText etMaintenanceNotes;
 
     private ListView maintenanceCatList;
     private Button back;
+    private Button saveItem;
+    private Button buttonItemType;
+
+    private FloatingActionButton mFab;
+    private ScrollView addItem;
+
+    int i = 0;
+    int j = 0;
+
 
 
     @Override
@@ -59,7 +97,17 @@ public class MaintenanceActivity extends AppCompatActivity {
         setContentView(R.layout.content_main_maintenance);
 
         maintenanceCatList = (ListView) findViewById(R.id.listViewMaintenanceCategories);
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
         back = (Button) findViewById(R.id.backToCatList);
+        addItem = (ScrollView) findViewById(R.id.scrollViewAddItem);
+        saveItem = (Button) findViewById(R.id.buttonSaveItem);
+        buttonItemType = (Button) findViewById(R.id.buttonItemType);
+
+        etMaintenanceDesc = (EditText) findViewById(R.id.editTextMaintenanceDesc);
+        etMaintenanceNotes = (EditText) findViewById(R.id.editTextMaintenanceNotes);
+
+        addItem.setVisibility(View.GONE);
+        saveItem.setVisibility(View.GONE);
 
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
@@ -70,13 +118,12 @@ public class MaintenanceActivity extends AppCompatActivity {
             bar.setTitle("Select Category");
         }
 
-
+        //***************************************************MAINTENANCE ITEMS*****************************************************************************
 
         final int maintenanceObjectSize = Integer.valueOf(sharedPreferences.getString("maintenanceObjectsSize", "0"));
 
         maintenanceObjects = new ArrayList<>();
-
-        maintenanceCategories.add("All");
+        maintenanceCategoryObjects = new ArrayList<>();
 
         for (int i = 0; i < maintenanceObjectSize; i++) {
 
@@ -85,21 +132,47 @@ public class MaintenanceActivity extends AppCompatActivity {
             maintenanceObject = gson.fromJson(jsonMaintenanceObject, MaintenanceObject.class);
 
 
-            Log.d(TAG, "maintenance cat is " + maintenanceObject.getMaintenanceCategory());
-
-
-            if ( !maintenanceCategories.contains(maintenanceObject.getMaintenanceCategory())) {
-                maintenanceCategories.add(maintenanceObject.getMaintenanceCategory());
-
-            }
-
+            Log.d(TAG, "maintenance category for item is " + maintenanceObject.getMaintenanceCategory());
+            maintenanceItemCategories.add(maintenanceObject.getMaintenanceCategory());
             maintenanceObjects.add(maintenanceObject);
 
 
         }
 
 
+        //***************************************************MAINTENANCE CATEGORIES*****************************************************************************
 
+
+        final int maintenanceCategoryObjectSize = Integer.valueOf(sharedPreferences.getInt("maintenanceCategoryObjectsSize", 0));
+
+        maintenanceCategories.add("All");
+        maintenanceCategoriesAll = new String[maintenanceCategoryObjectSize];
+
+        for (int i = 0; i < maintenanceCategoryObjectSize; i++) {
+
+            String jsonMaintenanceCategoryObject = sharedPreferences.getString("maintenanceCategoryObject" + "[" + i + "]", "");
+            Gson gson = new Gson();
+            maintenanceCategoryObject = gson.fromJson(jsonMaintenanceCategoryObject, MaintenanceCategoryObject.class);
+
+
+            Log.d(TAG, "maintenance category is " + maintenanceCategoryObject.getMaintenanceCatName());
+
+            maintenanceCategoriesAll[i] = maintenanceCategoryObject.getMaintenanceCatName();
+
+            for (String itemCategory : maintenanceItemCategories) {
+
+                if (itemCategory.contains(maintenanceCategoryObject.getMaintenanceCatName()) &&
+                        !maintenanceCategories.contains(maintenanceCategoryObject.getMaintenanceCatName())) {
+                    maintenanceCategories.add(maintenanceCategoryObject.getMaintenanceCatName());
+                }
+
+
+            }
+
+            maintenanceCategoryObjects.add(maintenanceCategoryObject);
+
+        }
+        //*******************************************************************************************************************************************************
 
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -114,8 +187,6 @@ public class MaintenanceActivity extends AppCompatActivity {
         });
 
 
-
-
         ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, R.layout.textviewlist, maintenanceCategories);
 
         listAdapter.sort(new Comparator<String>() {
@@ -126,109 +197,220 @@ public class MaintenanceActivity extends AppCompatActivity {
         });
 
 
-
         maintenanceCatList.setAdapter(listAdapter);
 
 
         maintenanceCatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View v, int position,
-                                    long arg3) {
+                                                      @Override
+                                                      public void onItemClick(AdapterView<?> adapter, View v, int position,
+                                                                              long arg3) {
+
+                                                          mFab.setVisibility(View.VISIBLE);
+                                                          maintenanceCatString = (String) adapter.getItemAtPosition(position);
+
+                                                          Log.d(TAG, "maintenance cat clicked is " + maintenanceCatString);
 
 
-                maintenanceCatString = (String) adapter.getItemAtPosition(position);
+                                                          final android.support.v7.app.ActionBar bar = getSupportActionBar();
 
-                Log.d(TAG, "maintenance cat clicked is " + maintenanceCatString);
-                String providerTypeSizeString;
+                                                          if (bar != null) {
+                                                              bar.setTitle(maintenanceCatString);
+                                                          }
 
+                                                          back.setVisibility(View.VISIBLE);
 
-                    android.support.v7.app.ActionBar bar = getSupportActionBar();
+                                                          maintenanceCatList.invalidateViews();
 
-                    if (bar != null) {
-                        bar.setTitle(maintenanceCatString);
-                    }
-
-                    back.setVisibility(View.VISIBLE);
-
-                maintenanceCatList.invalidateViews();
-
-                maintenanceCatList = (ListView) findViewById(R.id.listViewMaintenanceCategories);
+                                                          maintenanceCatList = (ListView) findViewById(R.id.listViewMaintenanceCategories);
 
 
-
-                maintenanceObjects.clear();
-
-
-                for (int i = 0; i < maintenanceObjectSize; i++) {
-
-                    String jsonMaintenanceObject = sharedPreferences.getString("maintenanceObject" + "[" + i + "]", "");
-                    Gson gson = new Gson();
-                    maintenanceObject = gson.fromJson(jsonMaintenanceObject, MaintenanceObject.class);
+                                                          maintenanceObjects.clear();
 
 
+                                                          for (int i = 0; i < maintenanceObjectSize; i++) {
 
-                    if ( maintenanceObject.getMaintenanceCategory().equals(maintenanceCatString) || maintenanceCatString.equals("All")) {
-                        maintenanceObjects.add(maintenanceObject);
-
-                    }
-
-
+                                                              String jsonMaintenanceObject = sharedPreferences.getString("maintenanceObject" + "[" + i + "]", "");
+                                                              Gson gson = new Gson();
+                                                              maintenanceObject = gson.fromJson(jsonMaintenanceObject, MaintenanceObject.class);
 
 
-                }
+                                                              if (maintenanceObject.getMaintenanceCategory().equals(maintenanceCatString) || maintenanceCatString.equals("All") ||
+                                                                      maintenanceObject.getMaintenanceCategory().contains(maintenanceCatString)) {
+                                                                  maintenanceObjects.add(maintenanceObject);
+
+                                                              }
+
+
+                                                          }
+
+
+                                                          maintenanceAdapter = new MaintenanceAdapter(MaintenanceActivity.this,
+                                                                  maintenanceObjects);
+
+
+                                                          // Binds the Adapter to the ListView
+                                                          maintenanceCatList.setAdapter(maintenanceAdapter);
+
+                                                          mFab.setOnClickListener(new View.OnClickListener() {
+                                                              @Override
+                                                              public void onClick(View v) {
+
+                                                                  Log.d(TAG, "mfab clicked");
+                                                                  addItem.setVisibility(View.VISIBLE);
+                                                                  saveItem.setVisibility(View.VISIBLE);
+                                                                  back.setVisibility(View.GONE);
+                                                                  mFab.setVisibility(View.GONE);
+                                                                  maintenanceCatList.setVisibility(View.GONE);
+                                                                  buttonItemType.setText(maintenanceCategoriesAll[j]);
+
+
+                                                                  bar.setTitle("Add Maintenance Item");
+
+                                                                  saveItem.setOnClickListener(new View.OnClickListener() {
+                                                                      @Override
+                                                                      public void onClick(View v) {
+
+                                                                          final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+
+                                                                          query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+
+                                                                          query.findInBackground(new FindCallback<ParseObject>() {
+                                                                              @Override
+                                                                              public void done(List<ParseObject> assoc, ParseException e) {
+
+
+                                                                                  ParseFile categoryFile = assoc.get(0).getParseFile("MaintenanceFile");
+
+
+                                                                                  try {
+                                                                                      byte[] file = categoryFile.getData();
+                                                                                      try {
+                                                                                          maintenanceString = new String(file, "UTF-8");
+
+                                                                                          Log.d(TAG, "existing maintenance items --->" + maintenanceString);
+
+                                                                                      } catch (UnsupportedEncodingException e1) {
+                                                                                          e1.printStackTrace();
+                                                                                      }
+                                                                                  } catch (ParseException e1) {
+                                                                                      e1.printStackTrace();
+                                                                                  }
+
+
+                                                                                  Calendar c = Calendar.getInstance();
+                                                                                  SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                                                                                  SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
+                                                                                  String strDate = sdf.format(c.getTime());
+
+
+                                                                                  String newMaintenanceItem = "|" + installation.getString("memberName") + "^" + strDate +
+                                                                                          "^" + etMaintenanceDesc.getText() + "^" + etMaintenanceNotes.getText() + "^" + buttonItemType.getText();
+
+                                                                                  String maintenanceFileUpdate = maintenanceString + newMaintenanceItem;
+
+                                                                                  if (maintenanceString.length() < 1) {
+
+                                                                                      maintenanceFileUpdate = maintenanceFileUpdate.substring(1);
+
+                                                                                  }
+
+
+                                                                                  byte[] data = maintenanceFileUpdate.getBytes();
+                                                                                  ParseFile maintenanceFile = new ParseFile("Maintenance.txt", data);
+
+
+                                                                                  try {
+                                                                                      maintenanceFile.save();
+                                                                                  } catch (ParseException e1) {
+                                                                                      e1.printStackTrace();
+                                                                                  }
+
+
+                                                                                  assoc.get(0).put("MaintenanceDate", strDate);
+                                                                                  assoc.get(0).put("MaintenanceFile", maintenanceFile);
+
+                                                                                  try {
+                                                                                      assoc.get(0).save();
+                                                                                  } catch (ParseException e1) {
+                                                                                      e1.printStackTrace();
+                                                                                  }
+
+
+                                                                                  Toast toast = Toast.makeText(getBaseContext(), "Maintenance item added.", Toast.LENGTH_LONG);
+                                                                                  toast.setGravity(Gravity.CENTER, 0, 0);
+                                                                                  toast.show();
+
+                                                                                  ParseQuery pushQuery = ParseInstallation.getQuery();
+                                                                                  pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
+                                                                                  pushQuery.whereEqualTo("MemberType", "Administrator");
+
+                                                                                  ParsePush push = new ParsePush();
+                                                                                  push.setQuery(pushQuery); // Set our Installation query
+
+                                                                                  push.setMessage("Maintenance item for " + buttonItemType.getText() + "\nSubmitted By: "
+                                                                                          + installation.getString("memberName"));
+
+                                                                                  push.sendInBackground();
+
+                                                                                  Intent intentSendEmail = new Intent(android.content.Intent.ACTION_SEND);
+                                                                                  intentSendEmail.setType("text/plain");
+
+                                                                                  for (MaintenanceCategoryObject object: maintenanceCategoryObjects) {
+
+                                                                                      if ( object.getMaintenanceCatName().equals(buttonItemType.getText())) {
+
+                                                                                          String[] address = {object.getMaintenanceCatEmail()};
+                                                                                          intentSendEmail.putExtra(android.content.Intent.EXTRA_EMAIL, address);
+                                                                                      }
+                                                                                  }
+
+
+                                                                                  intentSendEmail.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                                                                                          "Maintenance Request from " + installation.getString("memberName"));
+                                                                                  intentSendEmail.putExtra(Intent.EXTRA_TEXT,
+                                                                                          installation.getString("AssociationCode") + "\nMaintenance Description:\n" +
+                                                                                  etMaintenanceDesc.getText() + "\nDate Submitted: " + strDate);
+
+                                                                                  startActivityForResult((Intent.createChooser(intentSendEmail, "Email")), 1);
 
 
 
-                maintenanceAdapter = new MaintenanceAdapter(MaintenanceActivity.this,
-                        maintenanceObjects);
 
 
+                                                                              }
+                                                                          });
 
-                // Binds the Adapter to the ListView
-                maintenanceCatList.setAdapter(maintenanceAdapter);
+                                                                      }
+                                                                  });
 
-
-
-
-
-
+                                                                  buttonItemType.setOnClickListener(new View.OnClickListener() {
 
 
-            /*    } else {
-
-                    Intent intentEditServiceProvider = new Intent();
-                    intentEditServiceProvider.setClass(getApplicationContext(), ServiceProviderEditActivity.class);
-                    intentEditServiceProvider.putExtra("serviceProviderObjectGson", "");
-                    intentEditServiceProvider.putExtra("FROMSERVICEPROVIDERADD", "YES");
-                    intentEditServiceProvider.putExtra("PROVIDERTYPE", providerTypeString);
-                    startActivity(intentEditServiceProvider);
+                                                                      @Override
+                                                                      public void onClick(View v) {
 
 
+                                                                          j++;
+                                                                          buttonItemType.setText(maintenanceCategoriesAll[j]);
+
+                                                                          if (j == maintenanceCategoriesAll.length - 1) {
+                                                                              j = 0;
+                                                                          }
+
+                                                                      }
+                                                                  });
 
 
-                }*/
-            }
-        });
+                                                              }
+                                                          });
 
 
+                                                      }
 
 
-
-
-
-
-
-
+                                                  }
+        );
     }
-
-
-
-
-
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

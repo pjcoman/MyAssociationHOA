@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +16,20 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
 
 import comapps.com.myassociationhoa.R;
 import comapps.com.myassociationhoa.objects.GuestObject;
@@ -26,6 +40,9 @@ import comapps.com.myassociationhoa.objects.GuestObject;
 class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
 
     public static final String TAG = "GUESTSADAPTER";
+
+    ParseInstallation installation;
+    ParseQuery query;
 
     private ArrayList<GuestObject> guestsList;
     private Context context;
@@ -43,6 +60,8 @@ class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
         this.guestsList = guestsList;
         this.context = context;
         guestsFilterList = guestsList;
+
+        installation = ParseInstallation.getCurrentInstallation();
 
     }
 
@@ -62,7 +81,7 @@ class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        GuestObject guestObject = getItem(position);
+        final GuestObject guestObject = getItem(position);
 
         LayoutInflater inflater = (LayoutInflater) context .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
@@ -75,13 +94,14 @@ class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
 
         LinearLayout datesLayout = (LinearLayout) convertView.findViewById(R.id.datesLayout);
 
-        TextView guestName = (TextView) convertView.findViewById(R.id.autoMake);
+        TextView guestName = (TextView) convertView.findViewById(R.id.tvAutoMake);
         TextView guestType = (TextView) convertView.findViewById(R.id.guestType);
-        TextView guestContactType = (TextView) convertView.findViewById(R.id.autoModel);
-        TextView guestStartDate = (TextView) convertView.findViewById(R.id.autoColor);
-        TextView guestEndDate = (TextView) convertView.findViewById(R.id.petWeight);
+        TextView guestContactType = (TextView) convertView.findViewById(R.id.tvAutoModel);
+        TextView guestStartDate = (TextView) convertView.findViewById(R.id.tvAutoColor);
+        TextView guestEndDate = (TextView) convertView.findViewById(R.id.guestEndDate);
+        TextView guestNotes = (TextView) convertView.findViewById(R.id.guestNotes);
 
-        TextView guestMondayAccess = (TextView) convertView.findViewById(R.id.autoPlate);
+        TextView guestMondayAccess = (TextView) convertView.findViewById(R.id.tvAutoPlate);
         TextView guestTuesdayAccess = (TextView) convertView.findViewById(R.id.guestTuesdayAccess);
         TextView guestWednesdayAccess = (TextView) convertView.findViewById(R.id.guestWednesdayAccess);
         TextView guestThursdayAccess = (TextView) convertView.findViewById(R.id.guestThursdayAccess);
@@ -92,6 +112,16 @@ class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
         TextView guestOwnerName = (TextView) convertView.findViewById(R.id.guestOwnerName);
 
         recordAccess = (Button) convertView.findViewById(R.id.guestRecordAccess);
+
+        if ( installation.getString("MemberType").equals("Member")) {
+
+            recordAccess.setVisibility(View.GONE);
+
+        } else {
+
+            recordAccess.setVisibility(View.VISIBLE);
+
+        }
 
 
 
@@ -228,7 +258,13 @@ class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
             e.printStackTrace();
         }
 
-recordAccess.setOnClickListener(new View.OnClickListener() {
+        try {
+            guestNotes.setText(guestObject.getGuestDescription());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        recordAccess.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
 
@@ -245,6 +281,97 @@ recordAccess.setOnClickListener(new View.OnClickListener() {
 
 
         }
+
+
+        query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+
+        ParseFile guestAccessFile;
+        byte[] data = new byte[0];
+        String guestAccessString = null;
+        String[] guestAccessStringArray;
+        ArrayList<String> guestAccessArray;
+        String guestAccessUpdate = "";
+
+        try {
+            guestAccessFile =  query.getFirst().getParseFile("GuestAccessFile");
+            data = guestAccessFile.getData();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            guestAccessString = new String(data, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
+        String strDate = sdf.format(c.getTime());
+
+        Log.d(TAG, "existing guestAccessString ---> " + guestAccessString);
+
+        if ( guestAccessString.length() != 0 ) {
+
+            guestAccessUpdate = guestAccessString + "|" + guestObject.getGuestOwner() + "^" + strDate + "^" + guestObject.getGuestName() + "^" + guestObject.getGuestType()
+                    + "^" + guestObject.getOwnerContactNumberType();
+            Log.d(TAG, "updated guestAccessString ---> " + guestAccessString);
+
+            guestAccessStringArray = guestAccessUpdate.split("\\|", -1);
+            guestAccessArray = new ArrayList<String>(Arrays.asList(guestAccessStringArray));
+
+
+            Collections.sort(guestAccessArray);
+
+            for ( String accessItem: guestAccessArray) {
+
+                Log.d(TAG, "access item ---> " + accessItem);
+
+
+            }
+
+
+        } else {
+
+            guestAccessString = guestObject.getGuestOwner() + "^" + strDate + "^" + guestObject.getGuestName() + "^" + guestObject.getGuestType()
+                    + "^" + guestObject.getOwnerContactNumberType();
+            Log.d(TAG, "updated guestAccessString from empty ---> " + guestAccessString);
+
+        }
+
+
+        data = guestAccessUpdate.getBytes();
+        guestAccessFile = new ParseFile("GuestAccess.txt", data);
+
+
+        try {
+            guestAccessFile.save();
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+
+
+        try {
+            query.getFirst().put("GuestAccessDate", strDate);
+            query.getFirst().put("GuestAccessFile", guestAccessFile);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            query.getFirst().save();
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+
+
+        Toast toast = Toast.makeText(getContext(), "Guest access updated.", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
 
 
     }

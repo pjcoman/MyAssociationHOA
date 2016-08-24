@@ -1,7 +1,6 @@
 package comapps.com.myassociationhoa.autos;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
 import comapps.com.myassociationhoa.objects.AutoObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -80,9 +78,9 @@ public class PopAutosAddAuto extends AppCompatActivity {
         }
 
 
-        etAutoMan = (EditText) findViewById(R.id.editTextEventTitle);
-        etAutoModel = (EditText) findViewById(R.id.editTextEventDetail);
-        etAutoYear = (EditText) findViewById(R.id.editTextStartDate);
+        etAutoMan = (EditText) findViewById(R.id.textViewAutoMake);
+        etAutoModel = (EditText) findViewById(R.id.textViewAutoModel);
+        etAutoYear = (EditText) findViewById(R.id.textViewAutoYear);
         etAutoColor = (EditText) findViewById(R.id.editTextAutoColor);
         etAutoLicense = (EditText) findViewById(R.id.editTextAutoLicense);
         etAutoTag = (EditText) findViewById(R.id.editTextHoaTag);
@@ -141,16 +139,16 @@ public class PopAutosAddAuto extends AppCompatActivity {
 
                         int lengthOfAutoFileString = autoFileString.length();
 
-                        String newAuto = "|" + sharedPreferences.getString("MEMBERNAME", "") + "^" +
-                                sharedPreferences.getString("MEMBERNUMBER", "") + "^" + etAutoMan.getText() +
+                        String newAuto = "|" + installation.getString("memberName") + "^" +
+                                installation.getString("memberNumber") + "^" + etAutoMan.getText() +
                                 "^" + etAutoModel.getText() +
                                 "^" + etAutoColor.getText() +
                                 "^" + etAutoYear.getText() +
                                 "^" + etAutoLicense.getText() +
                                 "^" + etAutoTag.getText();
 
-                        autoFileUpdate = autoFileString + "|" + sharedPreferences.getString("MEMBERNAME", "") + "^" +
-                                sharedPreferences.getString("MEMBERNUMBER", "") + "^" + etAutoMan.getText() +
+                        autoFileUpdate = autoFileString + "|" + installation.getString("memberName") + "^" +
+                                installation.getString("memberNumber") + "^" + etAutoMan.getText() +
                                 "^" + etAutoModel.getText() +
                                 "^" + etAutoColor.getText() +
                                 "^" + etAutoYear.getText() +
@@ -177,8 +175,8 @@ public class PopAutosAddAuto extends AppCompatActivity {
 
 
                         AutoObject autoObject = new AutoObject();
-                        autoObject.setOwner(sharedPreferences.getString("MEMBERNAME", ""));
-                        autoObject.setMemberNumber(sharedPreferences.getString("MEMBERNUMBER", ""));
+                        autoObject.setOwner(installation.getString("memberName"));
+                        autoObject.setMemberNumber(installation.getString("memberNumber"));
                         autoObject.setMake(String.valueOf(etAutoMan.getText()));
                         autoObject.setModel(String.valueOf(etAutoModel.getText()));
                         autoObject.setYear(String.valueOf(etAutoYear.getText()));
@@ -214,6 +212,7 @@ public class PopAutosAddAuto extends AppCompatActivity {
                             assoc.get(0).save();
                         } catch (ParseException e1) {
                             e1.printStackTrace();
+                            assoc.get(0).saveEventually();
                         }
 
 
@@ -223,9 +222,7 @@ public class PopAutosAddAuto extends AppCompatActivity {
 
 
 
-                        Intent mainActivity = new Intent();
-                        mainActivity.setClass(getApplicationContext(), MainActivity.class);
-                        startActivity(mainActivity);
+
                         finish();
 
 
@@ -249,10 +246,7 @@ public class PopAutosAddAuto extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intentMain = new Intent();
-        intentMain.setClass(PopAutosAddAuto.this, AutosActivity.class);
-        PopAutosAddAuto.this.finish();
-        startActivity(intentMain);
+       finish();
 
     }
 

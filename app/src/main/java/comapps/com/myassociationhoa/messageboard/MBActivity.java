@@ -15,7 +15,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import comapps.com.myassociationhoa.GuideActivity;
-import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -135,11 +134,7 @@ public class MBActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intentMain = new Intent();
-        intentMain.setClass(MBActivity.this, MainActivity.class);
-        MBActivity.this.finish();
-        startActivity(intentMain);
-
+       this.finish();
     }
 
 

@@ -338,6 +338,7 @@ public class ServiceProviderEditActivity extends AppCompatActivity {
                             assoc.get(0).save();
                         } catch (ParseException e1) {
                             e1.printStackTrace();
+                            assoc.get(0).saveEventually();
                         }
 
 

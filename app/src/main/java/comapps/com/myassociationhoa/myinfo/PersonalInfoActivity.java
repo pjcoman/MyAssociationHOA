@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -33,7 +34,6 @@ import java.util.Collections;
 import java.util.List;
 
 import comapps.com.myassociationhoa.GuideActivity;
-import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -90,7 +90,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
     SharedPreferences sharedPreferencesVisited;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
+    SharedPreferences.Editor editorSharedPreferences;
     ScrollView scrollView;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +110,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
         if (bar != null) {
             bar.setTitle("Directory Update");
         }
+
+        hideSoftKeyboard();
 
         bundle = getIntent().getExtras();
 
@@ -340,9 +342,14 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         memberInfoArray[24];
 
 
-                editor = sharedPreferencesVisited.edit();
-                editor.putString("MEMBER_INFO", updatedMemberInfo);
-                editor.apply();
+                editorSharedPreferences = sharedPreferencesVisited.edit();
+
+                editorSharedPreferences.putString("MEMBER_INFO", updatedMemberInfo);
+                editorSharedPreferences.putString("SUMMER_EMAIL", emailEditText.getText().toString());
+                editorSharedPreferences.putString("FULL_NAME", firstNameEditText.getText().toString() + " " + lastNameEditText.getText().toString());
+                editorSharedPreferences.apply();
+
+
 
 
 
@@ -445,6 +452,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                             assoc.get(0).save();
                         } catch (ParseException e1) {
                             e1.printStackTrace();
+                            assoc.get(0).saveEventually();
                         }
 
 
@@ -458,21 +466,17 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 toast.show();
 
 
-                if ( !fromAddGuest) {
 
-                    Intent mainActivity = new Intent();
-                    mainActivity.setClass(getApplicationContext(), MainActivity.class);
-                    startActivity(mainActivity);
-                    finish();
 
-                } else {
 
                     finish();
 
 
 
 
-                }
+
+
+
 
 
 
@@ -538,6 +542,14 @@ public class PersonalInfoActivity extends AppCompatActivity {
         }
     }
 
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -548,9 +560,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent mainActivity = new Intent();
-        mainActivity.setClass(getApplicationContext(), MainActivity.class);
-        startActivity(mainActivity);
+
         finish();
     }
 

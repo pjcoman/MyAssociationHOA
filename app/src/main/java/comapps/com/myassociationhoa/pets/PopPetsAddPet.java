@@ -140,8 +140,8 @@ public class PopPetsAddPet extends AppCompatActivity {
 
                         int lengthOfPetFileString = petFileString.length();
 
-                        String newPet = "|" + sharedPreferences.getString("MEMBERNAME", "") + "^" +
-                                sharedPreferences.getString("MEMBERNUMBER", "") + "^" + etPetName.getText() +
+                        String newPet = "|" + installation.getString("memberName") + "^" +
+                                installation.getString("memberNumber") + "^" + etPetName.getText() +
                                 "^" + etPetType.getText() +
                                 "^" + etPetBreed.getText() +
                                 "^" + etPetColor.getText() +
@@ -149,8 +149,8 @@ public class PopPetsAddPet extends AppCompatActivity {
                                 "^" + etPetMisc.getText();
 
 
-                        petFileUpdate = petFileString + "|" + sharedPreferences.getString("MEMBERNAME", "") + "^" +
-                                sharedPreferences.getString("MEMBERNUMBER", "") + "^" + etPetName.getText() +
+                        petFileUpdate = petFileString + "|" + installation.getString("memberName") + "^" +
+                                installation.getString("memberNumber") + "^" + etPetName.getText() +
                                 "^" + etPetType.getText() +
                                 "^" + etPetBreed.getText() +
                                 "^" + etPetColor.getText() +
@@ -177,8 +177,8 @@ public class PopPetsAddPet extends AppCompatActivity {
 
 
                         PetObject petObject = new PetObject();
-                        petObject.setOwner(sharedPreferences.getString("MEMBERNAME", ""));
-                        petObject.setMemberNumber(sharedPreferences.getString("MEMBERNUMBER", ""));
+                        petObject.setOwner(installation.getString("memberName"));
+                        petObject.setMemberNumber(installation.getString("memberNumber"));
                         petObject.setName(String.valueOf(etPetName.getText()));
                         petObject.setType(String.valueOf(etPetType.getText()));
                         petObject.setBreed(String.valueOf(etPetBreed.getText()));
@@ -214,6 +214,7 @@ public class PopPetsAddPet extends AppCompatActivity {
                             assoc.get(0).save();
                         } catch (ParseException e1) {
                             e1.printStackTrace();
+                            assoc.get(0).saveEventually();
                         }
 
 
@@ -251,11 +252,7 @@ public class PopPetsAddPet extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intentMain = new Intent();
-        intentMain.setClass(PopPetsAddPet.this, PetsActivity.class);
-        PopPetsAddPet.this.finish();
-        startActivity(intentMain);
-
+      finish();
     }
 
 

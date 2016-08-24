@@ -1,49 +1,49 @@
 package comapps.com.myassociationhoa.tools;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import comapps.com.myassociationhoa.R;
-import comapps.com.myassociationhoa.ToolsActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by me on 6/28/2016.
  */
-public class AddEvent extends AppCompatActivity {
+public class AddEvent extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ADDEVENT";
     public static final String MYPREFERENCES = "MyPrefs";
     public static final String VISITEDPREFERENCES = "VisitedPrefs";
 
 
-    ParseQuery<ParseObject> query;
-    String[] eventFileArray;
-    String eventFileString = "";
-    String eventFileUpdate = "";
 
     EditText etEventTitle;
     EditText etEventDetail;
     EditText etEventStartDate;
     EditText etEventEndDate;
+
+    private DatePickerDialog fromDatePickerDialog;
+    private DatePickerDialog toDatePickerDialog;
+    private SimpleDateFormat dateFormatter;
 
 
     Button saveButton;
@@ -69,13 +69,13 @@ public class AddEvent extends AppCompatActivity {
         android.support.v7.app.ActionBar bar = getSupportActionBar();
 
         if (bar != null) {
-            bar.setTitle("Update Auto Info");
+            bar.setTitle("Event Manager");
         }
 
 
-        etEventTitle = (EditText) findViewById(R.id.editTextEventTitle);
-        etEventDetail = (EditText) findViewById(R.id.editTextEventDetail);
-        etEventStartDate = (EditText) findViewById(R.id.editTextStartDate);
+        etEventTitle = (EditText) findViewById(R.id.textViewAutoMake);
+        etEventDetail = (EditText) findViewById(R.id.textViewAutoModel);
+        etEventStartDate = (EditText) findViewById(R.id.textViewAutoYear);
         etEventEndDate = (EditText) findViewById(R.id.editTextEndDate);
 
 
@@ -99,47 +99,9 @@ public class AddEvent extends AppCompatActivity {
 
         getWindow().setLayout(width * 1, height * 1);
 
-        etEventStartDate.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-
-
-            }
-        });
-
-        etEventEndDate.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                saveButton.setEnabled(true);
-
-            }
-        });
+        findViewsById();
+        setDateTimeField();
+        dateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
 
         typeButton.setOnClickListener(new View.OnClickListener() {
@@ -248,6 +210,49 @@ public class AddEvent extends AppCompatActivity {
 
     }
 
+    private void findViewsById() {
+
+
+
+        etEventStartDate = (EditText) findViewById(R.id.textViewAutoYear);
+        etEventStartDate.setInputType(InputType.TYPE_NULL);
+        etEventStartDate.requestFocus();
+
+        etEventEndDate = (EditText) findViewById(R.id.editTextEndDate);
+        etEventEndDate.setInputType(InputType.TYPE_NULL);
+
+
+
+    }
+
+    private void setDateTimeField() {
+        etEventStartDate.setOnClickListener(this);
+        etEventEndDate.setOnClickListener(this);
+
+
+
+        Calendar newCalendar = Calendar.getInstance();
+        fromDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                etEventStartDate.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        toDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                etEventEndDate.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+    }
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -259,14 +264,25 @@ public class AddEvent extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intentMain = new Intent();
-        intentMain.setClass(AddEvent.this, ToolsActivity.class);
-        AddEvent.this.finish();
-        startActivity(intentMain);
+       finish();
 
     }
 
 
+
+
+    @Override
+    public void onClick(View v) {
+
+        if(v == etEventStartDate ) {
+            fromDatePickerDialog.show();
+        } else if(v == etEventEndDate) {
+            toDatePickerDialog.show();
+        }
+
+       
+
+    }
 }
 
 

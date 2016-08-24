@@ -142,7 +142,8 @@ public class Change_Add_Associations extends AppCompatActivity {
                 installation.put("MemberType", associationMemberTypeList.get(position));
                 installation.put("AssociationCode", associationCodeForParseList.get(position));
                 installation.put("memberNumber", sharedPreferencesVisited.getString(installation.get("AssociationCode") + "MemberNumber", ""));
-
+                Log.d(TAG, "member type ----> " + associationMemberTypeList.get(position));
+                Log.d(TAG, "member number ----> " + associationCodeForParseList.get(position));
                 Log.d(TAG, "member number ----> " + sharedPreferencesVisited.getString(installation.get("AssociationCode") + "MemberNumber", ""));
 
                 try {
@@ -207,7 +208,7 @@ public class Change_Add_Associations extends AppCompatActivity {
         addChangeActivity.putExtra("FROMCHANGEADD", true);
         addChangeActivity.putExtra("OLDMEMBERNUMBER", installation.getString("memberNumber"));
         startActivity(addChangeActivity);
-        finish();
+
 
 
 

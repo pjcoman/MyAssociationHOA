@@ -32,7 +32,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PetsActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 
-    private static final String TAG = "PETACTIVITY";
+    private static final String TAG = "PETSACTIVITY";
     public static final String MYPREFERENCES = "MyPrefs";
     ArrayList<PetObject> petsList;
     PetsAdapter adapter;
@@ -86,8 +86,10 @@ public class PetsActivity extends AppCompatActivity implements
         if ( bundle != null ) {
 
             memberFilter = bundle.getString("memberNumber");
-            if ( bundle.getString("fromPopInfo").equals("YES")) {
+            if ( bundle.getBoolean("fromPopInfo")) {
                 mFab.setVisibility(View.VISIBLE);
+            } else {
+                mFab.setVisibility(View.GONE);
             }
 
             bar.setTitle("My Pets");
@@ -136,7 +138,7 @@ public class PetsActivity extends AppCompatActivity implements
                 @Override
                 public int compare(PetObject p1, PetObject p2) {
 
-                    return p1.getName().compareTo(p2.getName());
+                    return p1.getType().compareTo(p2.getType());
                 }
             });
 

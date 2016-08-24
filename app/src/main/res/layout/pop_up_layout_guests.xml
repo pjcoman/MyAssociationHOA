@@ -105,14 +105,14 @@
                     android:layout_height="0dp"
                     android:weightSum="2"
                     android:layout_weight="2"
-                    android:visibility="gone"
-                    android:id="@+id/layoutDates">
+                    android:id="@+id/datesLayout"
+                    android:visibility="visible">
 
                     <EditText
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:ems="10"
-                        android:id="@+id/editTextStartDate"
+                        android:id="@+id/textViewAutoYear"
                         android:layout_gravity="center_horizontal"
                         android:background="#ffffff"
                         android:hint="@string/start_date"

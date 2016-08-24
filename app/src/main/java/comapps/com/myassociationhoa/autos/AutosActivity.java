@@ -75,7 +75,7 @@ public class AutosActivity extends AppCompatActivity implements
 
 
         search_view = (SearchView) findViewById(R.id.search_view_autos);
-        search_view.setQueryHint("Search Make, Model or Plate");
+        search_view.setQueryHint("Search Make, Model, Color or Plate");
 
         int searchSrcTextId = getResources().getIdentifier("android:id/search_src_text", null, null);
         EditText searchEditText = (EditText) search_view.findViewById(searchSrcTextId);
@@ -92,8 +92,10 @@ public class AutosActivity extends AppCompatActivity implements
         if ( bundle != null ) {
 
             memberFilter = bundle.getString("memberNumber");
-            if ( bundle.getString("fromPopInfo").equals("YES")) {
+            if ( bundle.getBoolean("fromPopInfo")) {
                 mFab.setVisibility(View.VISIBLE);
+            } else {
+                mFab.setVisibility(View.GONE);
             }
 
             bar.setTitle("My Autos");
@@ -117,6 +119,7 @@ public class AutosActivity extends AppCompatActivity implements
             autoObject.getColor();
             autoObject.getPlate();
             autoObject.getYear();
+            autoObject.getTag();
 
             if (memberFilter.equals("")) {
 

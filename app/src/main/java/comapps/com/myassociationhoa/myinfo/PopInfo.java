@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.parse.ParseInstallation;
 
-import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
 import comapps.com.myassociationhoa.autos.AutosActivity;
 import comapps.com.myassociationhoa.guests.GuestsActivity;
@@ -30,6 +30,7 @@ public class PopInfo extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
 
+    ParseInstallation installation;
 
     Context context;
 
@@ -50,6 +51,8 @@ public class PopInfo extends AppCompatActivity {
         TextView guestInfo = (TextView) findViewById(R.id.textViewGuestInfo);
 
         TextView cancel = (TextView) findViewById(R.id.textViewCancel);
+
+        installation = ParseInstallation.getCurrentInstallation();
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
@@ -81,8 +84,7 @@ public class PopInfo extends AppCompatActivity {
         getWindow().setLayout((int) (width * .9), (int) (height * .7));
 
 
-
-
+        assert personalInfo != null;
         personalInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,11 +95,12 @@ public class PopInfo extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(PopInfo.this, PersonalInfoActivity.class);
                 startActivity(intent);
-                finish();
+
 
             }
         });
 
+        assert petInfo != null;
         petInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,14 +110,14 @@ public class PopInfo extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(PopInfo.this, PetsActivity.class);
-                intent.putExtra("memberNumber", sharedPreferences.getString("MEMBERNUMBER", ""));
-                intent.putExtra("fromPopInfo", "YES");
+                intent.putExtra("memberNumber", installation.getString("memberNumber"));
+                intent.putExtra("fromPopInfo", true);
                 startActivity(intent);
-                finish();
 
             }
         });
 
+        assert autoInfo != null;
         autoInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,14 +127,14 @@ public class PopInfo extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(PopInfo.this, AutosActivity.class);
-                intent.putExtra("memberNumber", sharedPreferences.getString("MEMBERNUMBER", ""));
-                intent.putExtra("fromPopInfo", "YES");
+                intent.putExtra("memberNumber", installation.getString("memberNumber"));
+                intent.putExtra("fromPopInfo", true);
                 startActivity(intent);
-                finish();
 
             }
         });
 
+        assert guestInfo != null;
         guestInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,15 +144,16 @@ public class PopInfo extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(PopInfo.this, GuestsActivity.class);
-                intent.putExtra("memberNumber", sharedPreferences.getString("MEMBERNUMBER", ""));
-                intent.putExtra("fromPopInfo", "YES");
+                intent.putExtra("memberNumber", installation.getString("memberNumber"));
+                intent.putExtra("fromPopInfo", true);
                 startActivity(intent);
-                finish();
+
 
             }
         });
 
 
+        assert cancel != null;
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,10 +161,7 @@ public class PopInfo extends AppCompatActivity {
                         .duration(0)
                         .playOn(v);
 
-                Intent intentCancel = new Intent();
-                intentCancel.setClass(PopInfo.this, MainActivity.class);
-                startActivity(intentCancel);
-                finish();
+              finish();
 
             }
         });
@@ -179,9 +180,7 @@ public class PopInfo extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intentMain = new Intent();
-        intentMain.setClass(PopInfo.this, MainActivity.class);
-        startActivity(intentMain);
+
         finish();
 
 

@@ -3,9 +3,6 @@ package comapps.com.myassociationhoa;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -13,17 +10,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,11 +34,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class WeatherActivity extends AppCompatActivity {
 
     private static final String TAG = "WEATHERACTIVITY";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
     private static final String MYPREFERENCES = "MyPrefs";
 
+    private SharedPreferences sharedPreferencesVisited;
     private SharedPreferences sharedPreferences;
     private Context context;
-    private LinearLayout weatherLayout;
+    private FrameLayout weatherLayout;
     private JSONObject jsonObj;
 
     private TextView currentWeatherDescription;
@@ -62,6 +61,8 @@ public class WeatherActivity extends AppCompatActivity {
     private String forecastDescriptionText;
     private String forecastWindDirectionText;
     private String forecastWindSpeedText;
+
+    private ImageLoader imageLoader;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class WeatherActivity extends AppCompatActivity {
 
         }
 
-        weatherLayout = (LinearLayout) findViewById(R.id.content_main_weather);
+        weatherLayout = (FrameLayout) findViewById(R.id.content_main_weather);
         TextView associationName = (TextView) findViewById(R.id.textViewAssociationName);
 
         currentWeatherDescription = (TextView) findViewById(R.id.textViewCurrentDescription);
@@ -100,32 +101,25 @@ public class WeatherActivity extends AppCompatActivity {
 
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
 
         ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
 
-        String backgroundImageUrl = sharedPreferences.getString("backgroundImage2Url", "");
+        String backgroundImageUrl = sharedPreferencesVisited.getString("backgroundImage2Url", "");
 
         Log.d(TAG, "background image address is " + backgroundImageUrl);
 
 
-        Picasso.with(context).load(backgroundImageUrl).into(new Target() {
+        imageLoader = CustomVolleyRequest.getInstance(getApplicationContext()).getImageLoader();
 
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                weatherLayout.setBackgroundDrawable(new BitmapDrawable(getApplicationContext().getResources(), bitmap));
-            }
 
-            @Override
-            public void onBitmapFailed(final Drawable errorDrawable) {
-                Log.d("TAG", "FAILED");
-            }
 
-            @Override
-            public void onPrepareLoad(final Drawable placeHolderDrawable) {
-                Log.d("TAG", "Prepare Load");
-            }
-        });
+        NetworkImageView niv = (NetworkImageView) findViewById(R.id.networkImageViewWeather);
+        if(backgroundImageUrl.length() > 0)
+            niv.setImageUrl(backgroundImageUrl, imageLoader);
+                           /*     niv.setDefaultImageResId(R.drawable.button_rounded_corners_black);
+                                niv.setErrorImageResId(R.drawable.blonde_engraved);*/
 
         associationName.setText(sharedPreferences.getString("defaultRecord(1)", ""));
 

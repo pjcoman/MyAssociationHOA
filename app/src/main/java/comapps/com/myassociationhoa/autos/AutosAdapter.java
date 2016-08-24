@@ -56,7 +56,7 @@ class AutosAdapter extends ArrayAdapter<AutoObject> implements Filterable {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        AutoObject autoObject = getItem(position);
+
 
         LayoutInflater inflater = (LayoutInflater) context .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
@@ -67,14 +67,16 @@ class AutosAdapter extends ArrayAdapter<AutoObject> implements Filterable {
 
         }
 
-        TextView ownerName = (TextView) convertView.findViewById(R.id.autoOwner);
-        TextView autoMake = (TextView) convertView.findViewById(R.id.autoMake);
-        TextView autoModel = (TextView) convertView.findViewById(R.id.autoModel);
-        TextView autoColor = (TextView) convertView.findViewById(R.id.autoColor);
-        TextView autoPlate = (TextView) convertView.findViewById(R.id.autoPlate);
-        TextView autoYear = (TextView) convertView.findViewById(R.id.autoYear);
+        TextView ownerName = (TextView) convertView.findViewById(R.id.tvAutoOwner);
+        TextView autoMake = (TextView) convertView.findViewById(R.id.tvAutoMake);
+        TextView autoModel = (TextView) convertView.findViewById(R.id.tvAutoModel);
+        TextView autoColor = (TextView) convertView.findViewById(R.id.tvAutoColor);
+        TextView autoPlate = (TextView) convertView.findViewById(R.id.tvAutoPlate);
+        TextView autoYear = (TextView) convertView.findViewById(R.id.tvAutoYear);
+        TextView autoTag = (TextView) convertView.findViewById(R.id.tvAutoTag);
 
-        AutoObject auto = autosList.get(position);
+
+        AutoObject autoObject = getItem(position);
 
 
         try {
@@ -106,6 +108,21 @@ class AutosAdapter extends ArrayAdapter<AutoObject> implements Filterable {
         }
         try {
             autoYear.setText(autoObject.getYear());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+
+            if ( autoObject.getTag().length() == 0 || autoObject.getTag().equals("") || autoObject.getTag().toUpperCase().equals("NONE") ||
+                    autoObject.getTag().toUpperCase().replaceAll(" ","").equals("NOTAG")
+                    || autoObject.getTag().toUpperCase().equals("N/A")) {
+                autoTag.setText("No HOA tag");
+            } else {
+
+                autoTag.setText(autoObject.getTag());
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -144,7 +161,8 @@ class AutosAdapter extends ArrayAdapter<AutoObject> implements Filterable {
 
 
                     if ( (auto.getMake().toUpperCase()).contains(searchString) || (auto.getModel().toUpperCase()).contains(searchString) ||
-                            (auto.getPlate().toUpperCase()).contains(searchString) ) {
+                            (auto.getPlate().toUpperCase()).contains(searchString) ||
+                            (auto.getColor().toUpperCase()).contains(searchString) ) {
                         filterList.add(auto);
                     }
                 }

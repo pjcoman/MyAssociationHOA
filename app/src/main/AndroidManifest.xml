@@ -31,19 +31,25 @@
         android:name=".ParseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+      >
         <activity
-            android:name=".MainActivity"
+            android:name=".Splash"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.CustomThemeTranslucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="unspecified"  >
         </activity>
 
         <activity
@@ -85,7 +91,7 @@
         <activity
             android:name=".myinfo.PopInfo"
             android:screenOrientation="unspecified"
-            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+            android:theme="@style/AppTheme.CustomThemeTranslucent"></activity>
 
         <activity
             android:name=".myinfo.PersonalInfoActivity"
@@ -161,32 +167,32 @@
         <activity
             android:name=".documents.PopDocuments"
             android:screenOrientation="unspecified"
-            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+            android:theme="@style/AppTheme.CustomThemeTranslucent"></activity>
 
         <activity
             android:name=".budget.PopBudget"
             android:screenOrientation="unspecified"
-            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+            android:theme="@style/AppTheme.CustomThemeTranslucent"></activity>
 
         <activity
             android:name=".AdminPushActivity"
             android:screenOrientation="unspecified"
-            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+            android:theme="@style/AppTheme.CustomThemeTranslucent"></activity>
 
         <activity
             android:name=".messageboard.PopMBAddMessage"
             android:screenOrientation="unspecified"
-            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+            android:theme="@style/AppTheme.CustomThemeTranslucent"></activity>
 
         <activity
             android:name=".messageboard.PopMBComment"
             android:screenOrientation="unspecified"
-            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+            android:theme="@style/AppTheme.CustomThemeTranslucent"></activity>
 
         <activity
             android:name=".PopEnterPasscode"
             android:screenOrientation="unspecified"
-            android:theme="@style/AppTheme.CutomThemeTranslucent"></activity>
+            android:theme="@style/AppTheme.CustomThemeTranslucent"></activity>
 
 
         <activity
@@ -212,7 +218,7 @@
         <activity
             android:name=".service_providers.ServiceProviderAddCategoryPop"
             android:screenOrientation="unspecified"
-            android:theme="@style/AppTheme.CutomThemeTranslucent">
+            android:theme="@style/AppTheme.CustomThemeTranslucent">
         </activity>
 
         <activity
@@ -224,6 +230,26 @@
             android:name=".Change_Add_Associations"
             android:screenOrientation="unspecified"  >
         </activity>
+
+        <activity
+            android:name=".documents.PopEmailDocuments"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppTheme.CustomThemeTranslucent">
+        </activity>
+
+        <activity
+            android:name=".tools.BackupRestoreFilesActivity"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppTheme.CustomThemeTranslucent">
+        </activity>
+
+        <activity
+            android:name=".maintenance.AddMaintenanceCategory"
+            android:screenOrientation="unspecified"
+            android:theme="@style/AppTheme.CustomThemeTranslucent">
+        </activity>
+
+
 
 
 

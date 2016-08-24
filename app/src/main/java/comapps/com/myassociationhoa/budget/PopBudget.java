@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -68,10 +67,11 @@ public class PopBudget extends AppCompatActivity {
                         .duration(700)
                         .playOn(v);
 
-                Intent intentRules = new Intent();
-                intentRules.setClass(PopBudget.this, BudgetReaderActivity.class);
-                intentRules.putExtra("file", "budget");
-                startActivity(intentRules);
+                Intent intentBudget = new Intent();
+                intentBudget.setClass(PopBudget.this, BudgetReaderActivity.class);
+                intentBudget.putExtra("file", "budget");
+                startActivity(intentBudget);
+                finish();
 
             }
         });
@@ -83,10 +83,11 @@ public class PopBudget extends AppCompatActivity {
                         .duration(700)
                         .playOn(v);
 
-                Intent intentByLaws = new Intent();
-                intentByLaws.setClass(PopBudget.this, BudgetReaderActivity.class);
-                intentByLaws.putExtra("file", "expense");
-                startActivity(intentByLaws);
+                Intent intentExpenses = new Intent();
+                intentExpenses.setClass(PopBudget.this, BudgetReaderActivity.class);
+                intentExpenses.putExtra("file", "expense");
+                startActivity(intentExpenses);
+                finish();
 
             }
         });
@@ -99,10 +100,7 @@ public class PopBudget extends AppCompatActivity {
                         .duration(700)
                         .playOn(v);
 
-                Intent intentCancel = new Intent();
-                intentCancel.setClass(PopBudget.this, MainActivity.class);
-                PopBudget.this.finish();
-                startActivity(intentCancel);
+               finish();
 
             }
         });
@@ -121,10 +119,7 @@ public class PopBudget extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intentMain = new Intent();
-        intentMain.setClass(PopBudget.this, MainActivity.class);
-        PopBudget.this.finish();
-        startActivity(intentMain);
+      this.finish();
 
     }
 

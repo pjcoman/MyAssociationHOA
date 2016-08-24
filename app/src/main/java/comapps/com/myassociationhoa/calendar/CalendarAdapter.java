@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.parse.ParseInstallation;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +31,10 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
 
     private Calendar calendar;
     SharedPreferences sharedPreferences;
+
+    ParseInstallation installation;
+    String memberName;
+    String assocCode;
 
 
     public CalendarAdapter(Context context, ArrayList<CalendarObject> events) {
@@ -52,16 +58,25 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
 
         calendar = Calendar.getInstance();
 
-        TextView eventName = (TextView) convertView.findViewById(R.id.textViewEventName);
+        final TextView eventName = (TextView) convertView.findViewById(R.id.textViewEventName);
         TextView eventDetail = (TextView) convertView.findViewById(R.id.textViewEventDetail);
         TextView eventStartDate = (TextView) convertView.findViewById(R.id.textViewDateStart);
         TextView eventEndDate = (TextView) convertView.findViewById(R.id.textViewDateEnd);
+        TextView textViewTo = (TextView) convertView.findViewById(R.id.textViewTo);
         Button addButton = (Button) convertView.findViewById(R.id.addButton);
         Button respondButton = (Button) convertView.findViewById(R.id.respondButton);
 
         SimpleDateFormat input = new SimpleDateFormat("MM/dd/yyyy");
         SimpleDateFormat outputStart = new SimpleDateFormat("E, MMM d");
         SimpleDateFormat outputEnd = new SimpleDateFormat("E, MMM d, yyyy");
+
+        if ( (eventEndDate.getText().toString()).contains(eventStartDate.getText())) {
+            eventStartDate.setVisibility(View.GONE);
+            textViewTo.setVisibility(View.GONE);
+        } else {
+            eventStartDate.setVisibility(View.VISIBLE);
+            textViewTo.setVisibility(View.VISIBLE);
+        }
 
 
         Date d1 = null;
@@ -71,7 +86,7 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        eventStartDate.setText(outputStart.format(d1));
+
 
         Date d2 = null;
         // parse input
@@ -80,7 +95,23 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        eventEndDate.setText(outputEnd.format(d2));
+
+        if ( (eventEndDate.getText().toString()).contains(eventStartDate.getText())) {
+            eventEndDate.setText(outputEnd.format(d2));
+            textViewTo.setText("");
+            notifyDataSetChanged();
+        } else {
+            eventStartDate.setText(outputStart.format(d1));
+            eventEndDate.setText(outputEnd.format(d2));
+            textViewTo.setText("to");
+            notifyDataSetChanged();
+        }
+
+
+        installation = ParseInstallation.getCurrentInstallation();
+        memberName = installation.getString("memberName");
+        assocCode = installation.getString("AssociationCode");
+
 
         eventName.setText(calendarObject.getCalendarText());
         eventDetail.setText(calendarObject.getCalendarDetailText());
@@ -121,11 +152,12 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
             public void onClick(View v) {
 
                 Intent intentSendEmail = new Intent(android.content.Intent.ACTION_SEND);
+                intentSendEmail.putExtra(Intent.EXTRA_EMAIL  , new String[]{sharedPreferences.getString("defaultRecord(2)","")});
                 intentSendEmail.setType("text/plain");
-
+            //    String[] address = {sharedPreferences.getString("", "")};
                 intentSendEmail.putExtra(android.content.Intent.EXTRA_SUBJECT,
-                        calendarObject.getCalendarText() + " Request");
-                intentSendEmail.putExtra(Intent.EXTRA_TEXT, sharedPreferences.getString("MEMBERNAME", "member") + " responding to " + calendarObject.getCalendarText2());
+                         assocCode + " Event Request");
+                intentSendEmail.putExtra(Intent.EXTRA_TEXT, memberName + " responding to: " + eventName.getText().toString());
 
                 getContext().startActivity((Intent.createChooser(intentSendEmail, "Email")));
 

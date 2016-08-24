@@ -2,6 +2,7 @@ package comapps.com.myassociationhoa.maintenance;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,12 +91,18 @@ class MaintenanceAdapter extends ArrayAdapter<MaintenanceObject> {
             @Override
             public void onClick(View v) {
 
+
+                Log.d(TAG, "maintenanceObject info pos --->" + position);
+
+
                 Gson gson = new Gson();
                 String jsonMaintenanceObject = gson.toJson(maintenanceObject);
+                Log.d(TAG, "maintenanceObject --->" + jsonMaintenanceObject);
+
 
                 Intent intentEditMaintenanceNotes = new Intent();
                 intentEditMaintenanceNotes.setClass(getContext(), MaintenanceComment.class);
-                intentEditMaintenanceNotes.putExtra("MAINTENANCEINDEX", position);
+
                 intentEditMaintenanceNotes.putExtra("MAINTENANCEOBJECT", jsonMaintenanceObject);
                 getContext().startActivity(intentEditMaintenanceNotes);
 

@@ -16,12 +16,15 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Space;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.parse.ParseInstallation;
 
 import comapps.com.myassociationhoa.GuideActivity;
 import comapps.com.myassociationhoa.R;
 import comapps.com.myassociationhoa.autos.AutosActivity;
+import comapps.com.myassociationhoa.guests.GuestsActivity;
 import comapps.com.myassociationhoa.objects.RosterObject;
 import comapps.com.myassociationhoa.pets.PetsActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -75,9 +78,13 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
     private Button guestsButton;
     private Button otherButton;
     private LinearLayout otherInfoLayout;
+    private LinearLayout other1InfoLayout;
+    private LinearLayout other2InfoLayout;
 
     TextView summerAddress;
     TextView winterAddress;
+
+    ParseInstallation installation;
 
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -106,10 +113,49 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
         otherInfoLayout = (LinearLayout) findViewById(R.id.otherInfoLayout);
+        other1InfoLayout = (LinearLayout) findViewById(R.id.other);
+        other2InfoLayout = (LinearLayout) findViewById(R.id.other2);
         petsButton = (Button) findViewById(R.id.petsButton);
         autosButton = (Button) findViewById(R.id.autosButton);
         guestsButton = (Button) findViewById(R.id.guestsButton);
         otherButton = (Button) findViewById(R.id.otherButton);
+
+
+
+        installation = ParseInstallation.getCurrentInstallation();
+
+        if ( installation.getString("MemberType").equals("Member")) {
+            if (guestsButton != null) {
+                guestsButton.setVisibility(View.GONE);
+            } else {
+                guestsButton.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (sharedPreferences.getString("defaultRecord(35)", "No").equals("No")) {
+            if (petsButton != null) {
+                petsButton.setVisibility(View.GONE);
+            } else {
+                petsButton.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (sharedPreferences.getString("defaultRecord(37)", "No").equals("No")) {
+            if (autosButton != null) {
+                autosButton.setVisibility(View.GONE);
+            } else {
+                autosButton.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if ( guestsButton.getVisibility() == View.GONE && otherButton.getVisibility() == View.GONE) {
+            other2InfoLayout.setVisibility(View.GONE);
+
+        }
+
+        if ( autosButton.getVisibility() == View.GONE && petsButton.getVisibility() == View.GONE) {
+            other1InfoLayout.setVisibility(View.GONE);
+        }
 
         if (sharedPreferences.getString("defaultRecord(34)", "No").equals("No")) {
 
@@ -281,8 +327,16 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
         buttonCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", String.valueOf(textViewHomePhone.getText()), null));
-                startActivity(intent);
+
+                try {
+                    Log.d(TAG, "to dial ----> " + String.valueOf(textViewHomePhone.getText()));
+
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", textViewHomePhone.getText().toString(), null));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+                }
 
 
             }
@@ -294,8 +348,21 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(DirectoryRosterMemberActivity.this, PetsActivity.class);
-                intent.putExtra("memberNumber", rosterObject.getMemberNumber());
-                intent.putExtra("fromPopInfo", "NO");
+                intent.putExtra("memberNumber", ParseInstallation.getCurrentInstallation().getString("memberNumber"));
+                intent.putExtra("fromPopInfo", false);
+                startActivity(intent);
+
+            }
+        });
+
+        guestsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                intent.setClass(DirectoryRosterMemberActivity.this, GuestsActivity.class);
+                intent.putExtra("memberNumber", ParseInstallation.getCurrentInstallation().getString("memberNumber"));
+                intent.putExtra("fromPopInfo", false);
                 startActivity(intent);
 
             }
@@ -307,8 +374,8 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(DirectoryRosterMemberActivity.this, AutosActivity.class);
-                intent.putExtra("memberNumber", rosterObject.getMemberNumber());
-                intent.putExtra("fromPopInfo", "NO");
+                intent.putExtra("memberNumber", ParseInstallation.getCurrentInstallation().getString("memberNumber"));
+                intent.putExtra("fromPopInfo", false);
                 startActivity(intent);
 
             }
@@ -317,8 +384,14 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
         buttonCallMobile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", String.valueOf(textViewMobilePhone.getText()), null));
-                startActivity(intent);
+                try {
+                    Log.d(TAG, "to dial ----> " + String.valueOf(textViewMobilePhone.getText()));
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", textViewMobilePhone.getText().toString(), null));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+                }
 
 
             }
@@ -341,8 +414,14 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
         buttonCallEmergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", String.valueOf(textViewEmergencyContactPhone.getText()), null));
-                startActivity(intent);
+                try {
+                    Log.d(TAG, "to dial ----> " + String.valueOf(textViewEmergencyContactPhone.getText()));
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", textViewEmergencyContactPhone.getText().toString(), null));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+                }
 
 
             }
@@ -351,8 +430,14 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
         buttonCallWinter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", String.valueOf(textViewWinterPhone.getText()), null));
-                startActivity(intent);
+                try {
+                    Log.d(TAG, "to dial ----> " + String.valueOf(textViewWinterPhone.getText()));
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", textViewWinterPhone.getText().toString(), null));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "No phone service.", Toast.LENGTH_SHORT).show();
+                }
 
 
             }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
 import comapps.com.myassociationhoa.objects.MBObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -38,6 +40,7 @@ public class PopMBAddMessage extends AppCompatActivity {
 
     private static final String TAG = "POPMB";
     public static final String MYPREFERENCES = "MyPrefs";
+    public static final String VISITEDPREFERENCES = "VisitedPrefs";
 
     ParseQuery<ParseObject> query;
     String[] messageFileArray;
@@ -47,8 +50,10 @@ public class PopMBAddMessage extends AppCompatActivity {
     EditText newMessage;
     Button saveButton;
 
+    SharedPreferences sharedVisitedPreferences;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    SharedPreferences.Editor editorVisited;
 
 
     @Override
@@ -66,6 +71,7 @@ public class PopMBAddMessage extends AppCompatActivity {
         newMessage = (EditText) findViewById(R.id.editTextMessage);
         saveButton = (Button) findViewById(R.id.buttonSaveMessage);
 
+        sharedVisitedPreferences = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
 
@@ -107,8 +113,7 @@ public class PopMBAddMessage extends AppCompatActivity {
                             e1.printStackTrace();
                         }
 
-                        String memberInfo = sharedPreferences.getString("MEMBER_INFO", "");
-                        String[] memberInfoArray = memberInfo.split("\\^");
+
 
                         Calendar c = Calendar.getInstance();
                         SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
@@ -116,13 +121,14 @@ public class PopMBAddMessage extends AppCompatActivity {
                         String strDate = sdf.format(c.getTime());
                         String strDate2 = sdf2.format(c.getTime());
 
-                        String memberEmail;
+                        String memberEmail = sharedVisitedPreferences.getString("SUMMER_EMAIL","");
 
-                        if ( memberInfoArray[11].length() == 0 || memberInfoArray[11] == null) {
+                        if ( memberEmail.length() == 0 ) {
+
                             memberEmail = "email not available";
-                        } else {
-                            memberEmail = memberInfoArray[11];
+
                         }
+
 
 
 
@@ -137,15 +143,117 @@ public class PopMBAddMessage extends AppCompatActivity {
                         mbObject.setMbPostDate(strDate);
                         mbObject.setMbPost(String.valueOf(newMessage.getText()));
                         mbObject.setMbPostDate2(strDate2);
-                        mbObject.setMbPosterEmailAddress(memberInfoArray[11]);
+                        mbObject.setMbPosterEmailAddress(memberEmail);
 
-                        Integer mbSizeInt = sharedPreferences.getInt("mbSize", 0);
+                        if (sharedPreferences.getString("defaultRecord(48)", "Yes").equals("Yes")) {
+
+                            String adminMessageFileString = "";
+
+                            ParseFile adminMessageFile = assoc.get(0).getParseFile("AdminMessageFile");
+                            messageFileArray = null;
+
+                            try {
+                                byte[] file = adminMessageFile.getData();
+                                try {
+                                    adminMessageFileString = new String(file, "UTF-8");
+
+                                    Log.d(TAG, "existing admin messages --->" + adminMessageFileString);
+
+                                } catch (UnsupportedEncodingException e1) {
+                                    e1.printStackTrace();
+                                }
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+
+
+
+                            String adminMessageToAdd = "|" + installation.getString("memberName") + "|"
+                                    + strDate + "|"
+                                    + newMessage.getText() + "|"
+                                    + strDate2  + "|"
+                                    + sharedVisitedPreferences.getString("SUMMER_EMAIL","") + "|"
+                                    + "0" + "|"
+                                    + sharedVisitedPreferences.getString("FULL_NAME","") + "|"
+                                    + " |" ;
+
+
+
+
+                            String adminMessageFileUpdate = adminMessageFileString + adminMessageToAdd.trim();
+                            Log.d(TAG, "adminMessageFileUpdate ---->" + adminMessageFileUpdate);
+
+                            if ( adminMessageFileUpdate.substring(adminMessageFileUpdate.length() - 1).equals("|")) {
+                                adminMessageFileUpdate = adminMessageFileUpdate.substring(0, adminMessageFileUpdate.length() - 1);
+                            }
+
+                            Log.d(TAG, "adminMessageFileUpdate after | removed from end ---->" + adminMessageFileUpdate);
+
+                            byte[] data = adminMessageFileUpdate.getBytes();
+                            ParseFile AdminMessageFile = new ParseFile("AdminMessage.txt", data);
+
+
+                            try {
+                                AdminMessageFile.save();
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+
+
+                            assoc.get(0).put("AdminMessageDate", strDate);
+                            assoc.get(0).put("AdminMessageFile", AdminMessageFile);
+
+                            try {
+                                assoc.get(0).save();
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+
+                            Toast toast = Toast.makeText(getBaseContext(),"Your message has been sent to the\nAssociation Admi" +
+                                    "nistrator for review\nbefore posting", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+
+
+
+                            ParseQuery pushQuery = ParseInstallation.getQuery();
+                            pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
+                            pushQuery.whereEqualTo("MemberType", "Administrator");
+
+                            ParsePush push = new ParsePush();
+                            push.setQuery(pushQuery); // Set our Installation query
+
+                            push.setMessage(installation.getString("memberName") +
+                                    " has posted a new message comment for review for the Message Board");
+
+                            push.sendInBackground();
+
+                            Intent mainActivity = new Intent();
+                            mainActivity.setClass(getApplicationContext(), MainActivity.class);
+                            startActivity(mainActivity  );
+                            finish();
+
+
+
+
+
+
+
+                        } else {
+
+
+
+                        Integer mbSizeInt = sharedVisitedPreferences.getInt("mbSize", 0);
 
                         editor = sharedPreferences.edit();
                         Gson gson = new Gson();
                         String jsonMbObject = gson.toJson(mbObject); // myObject - instance of MyObject
                         editor.putString("mbObject" + "[" + String.valueOf(mbSizeInt + 1) + "]", jsonMbObject);
                     //    editor.putInt("mbSize", mbSizeInt + 1);
+                        editor.apply();
+
+                        editorVisited = sharedVisitedPreferences.edit();
+                        editorVisited.putInt("mbSize", mbSizeInt + 1);
                         editor.apply();
 
 
@@ -170,9 +278,14 @@ public class PopMBAddMessage extends AppCompatActivity {
                             assoc.get(0).save();
                         } catch (ParseException e1) {
                             e1.printStackTrace();
+                            assoc.get(0).saveEventually();
                         }
 
-                        Toast.makeText(getBaseContext(), "MESSAGE POSTED", Toast.LENGTH_LONG).show();
+                            Toast toast = Toast.makeText(getBaseContext(),"MESSAGE POSTED", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+
+
 
                         ParseQuery pushQuery = ParseInstallation.getQuery();
                         pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
@@ -187,10 +300,12 @@ public class PopMBAddMessage extends AppCompatActivity {
                         push.sendInBackground();
 
 
-                        Intent mbActivity = new Intent();
-                        mbActivity.setClass(getApplicationContext(), MBActivity.class);
-                        startActivity(mbActivity);
+                        Intent mainActivity = new Intent();
+                        mainActivity.setClass(getApplicationContext(), MainActivity.class);
+                        startActivity(mainActivity  );
                         finish();
+
+                        }
 
 
                     }

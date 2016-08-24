@@ -74,6 +74,7 @@ public class CalendarActivity extends AppCompatActivity {
         mFab = (FloatingActionButton) findViewById(R.id.fab);
         createAndSend = (Button) findViewById(R.id.createAndSend);
         mFab.setVisibility(View.GONE);
+        createAndSend.setVisibility(View.GONE);
 
         if (bar != null) {
             bar.setTitle("Calendar of Events");
@@ -90,6 +91,10 @@ public class CalendarActivity extends AppCompatActivity {
                 mFab.setVisibility(View.VISIBLE);
                 createAndSend.setVisibility(View.VISIBLE);
                 bar.setTitle("Event Manager");
+            } else {
+                mFab.setVisibility(View.GONE);
+                createAndSend.setVisibility(View.GONE);
+
             }
 
 
