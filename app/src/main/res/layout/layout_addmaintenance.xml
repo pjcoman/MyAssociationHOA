@@ -3,51 +3,46 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="5"
     android:background="@drawable/blonde"
-    android:paddingTop="20dp"
-    android:paddingLeft="30dp"
-    android:paddingRight="30dp"
-    android:paddingBottom="20dp">
+    android:padding="20dp">
 
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:weightSum="2"
-        android:layout_weight="1"
         android:layout_margin="10dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Add New Category"
+            android:text="@string/add_new_category"
             android:id="@+id/textViewTitle"
             android:layout_gravity="center"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:layout_weight="1"
+            android:textColor="#050505"
             android:gravity="center_horizontal"
-            android:textColor="#050505" />
+            android:layout_margin="20dp" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/save"
             android:id="@+id/buttonSaveMessage"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:textSize="14sp"
-            android:gravity="center_vertical|center_horizontal"
-            android:background="@drawable/button_rounded_corners_black_gray_bg" />
+            android:background="@drawable/button_rounded_corners_black_gray_bg"
+            android:layout_margin="20dp" />
     </LinearLayout>
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:id="@+id/scrollView2"
-        android:layout_weight="4">
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView2">
 
         <RelativeLayout
             android:orientation="vertical"
@@ -58,10 +53,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/textViewAutoMake"
+                android:id="@+id/editTextCatName"
                 android:layout_gravity="center_horizontal"
                 android:background="#ffffff"
-                android:hint="Category Name"
+                android:hint="@string/category_name"
                 android:gravity="center_vertical"
                 android:textColorHint="@color/abc_secondary_text_material_light"
                 android:inputType="textCapWords"
@@ -75,18 +70,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/textViewAutoModel"
+                android:id="@+id/editTextEmail"
                 android:layout_gravity="center_horizontal"
                 android:background="#ffffff"
-                android:hint="Email Address"
+                android:hint="@string/email_addressCap"
                 android:gravity="center_vertical"
                 android:textColorHint="@color/abc_secondary_text_material_light"
-                android:inputType="textCapWords"
                 android:textColor="#1d59c2"
-                android:layout_below="@+id/textViewAutoMake"
+                android:layout_below="@+id/editTextCatName"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:padding="15dp" />
+                android:padding="15dp"
+                android:inputType="textWebEmailAddress" />
 
         </RelativeLayout>
     </ScrollView>

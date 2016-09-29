@@ -1,8 +1,9 @@
 package comapps.com.myassociationhoa.pets;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -11,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -26,8 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.RemoteDataTaskClass;
 import comapps.com.myassociationhoa.objects.PetObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -53,12 +55,25 @@ public class PopPetsAddPet extends AppCompatActivity {
     EditText etPetWeight;
     EditText etPetMisc;
 
+    TextView title;
+
     Button saveButton;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     SharedPreferences sharedPreferencesVisited;
     SharedPreferences.Editor editorVisited;
+
+    Bundle bundle;
+    Boolean forEdit = false;
+    Boolean forDelete = false;
+
+    String petPassed;
+
+    PetObject petObject;
+
+    Toast toast;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +92,26 @@ public class PopPetsAddPet extends AppCompatActivity {
             bar.setTitle("Update Pet Info");
         }
 
+        bundle = getIntent().getExtras();
+
+        if ( bundle != null ) {
+
+            forEdit = bundle.getBoolean("FOREDIT");
+            forDelete = bundle.getBoolean("FORDELETE");
+            petPassed = bundle.getString("PETFOREDIT");
+
+            Gson gson = new Gson();
+            petObject = gson.fromJson(petPassed, PetObject.class);
+
+            Log.d(TAG, "pet object passed ----> " + petObject.toString());
+
+
+
+        }
+
+
+
+
 
         etPetName = (EditText) findViewById(R.id.editTextPetName);
         etPetType = (EditText) findViewById(R.id.editTextPetType);
@@ -85,7 +120,40 @@ public class PopPetsAddPet extends AppCompatActivity {
         etPetWeight = (EditText) findViewById(R.id.editTextPetWeight);
         etPetMisc = (EditText) findViewById(R.id.editTextPetMisc);
 
+
+
         saveButton = (Button) findViewById(R.id.buttonSaveMessage);
+        title = (TextView) findViewById(R.id.textViewTitle);
+
+        if ( forEdit ) {
+
+            etPetName.setText(petObject.getName());
+            etPetType.setText(petObject.getType());
+            etPetBreed.setText(petObject.getBreed());
+            etPetColor.setText(petObject.getColor());
+            etPetWeight.setText(petObject.getWeight());
+            etPetMisc.setText(petObject.getMisc());
+            title.setText("Update Pet");
+            bar.setTitle("Update Pet");
+
+        }
+
+        if ( forDelete ) {
+
+            etPetName.setText(petObject.getName());
+            etPetType.setText(petObject.getType());
+            etPetBreed.setText(petObject.getBreed());
+            etPetColor.setText(petObject.getColor());
+            etPetWeight.setText(petObject.getWeight());
+            etPetMisc.setText(petObject.getMisc());
+            title.setText("Delete Pet");
+            saveButton.setText("DELETE");
+            saveButton.setTextColor(Color.RED);
+
+            bar.setTitle("Delete Pet");
+
+        }
+
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
         sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_APPEND);
@@ -140,60 +208,108 @@ public class PopPetsAddPet extends AppCompatActivity {
 
                         int lengthOfPetFileString = petFileString.length();
 
-                        String newPet = "|" + installation.getString("memberName") + "^" +
-                                installation.getString("memberNumber") + "^" + etPetName.getText() +
-                                "^" + etPetType.getText() +
-                                "^" + etPetBreed.getText() +
-                                "^" + etPetColor.getText() +
-                                "^" + etPetWeight.getText() +
-                                "^" + etPetMisc.getText();
+                        if ( forEdit ) {
+
+                            String preEditPet = petObject.getName() + "^" +
+                                    petObject.getType() + "^" +
+                                    petObject.getBreed() + "^" +
+                                    petObject.getColor() + "^" +
+                                    petObject.getWeight() + "^" +
+                                    petObject.getMisc();
+
+                            String postEditPet = etPetName.getText() +
+                                    "^" + etPetType.getText() +
+                                    "^" + etPetBreed.getText() +
+                                    "^" + etPetColor.getText() +
+                                    "^" + etPetWeight.getText() +
+                                    "^" + etPetMisc.getText();
 
 
-                        petFileUpdate = petFileString + "|" + installation.getString("memberName") + "^" +
-                                installation.getString("memberNumber") + "^" + etPetName.getText() +
-                                "^" + etPetType.getText() +
-                                "^" + etPetBreed.getText() +
-                                "^" + etPetColor.getText() +
-                                "^" + etPetWeight.getText() +
-                                "^" + etPetMisc.getText();
+                            petFileUpdate = petFileString.replace(preEditPet, postEditPet);
 
-                        if ( lengthOfPetFileString < 1 ) {
+                            Log.d(TAG, "update pets --->" + petFileUpdate);
 
-                            petFileUpdate = petFileUpdate.substring(1);
+
+
+                        } else if ( forDelete ) {
+
+                            String preEditPet = "|" + installation.getString("memberName") + "^" +
+                                    installation.getString("memberNumber") + "^" + petObject.getName() + "^" +
+                                    petObject.getType() + "^" +
+                                    petObject.getBreed() + "^" +
+                                    petObject.getColor() + "^" +
+                                    petObject.getWeight() + "^" +
+                                    petObject.getMisc();
+
+                            petFileUpdate = petFileString.replace(preEditPet, "");
+
+                            Log.d(TAG, "update pets --->" + petFileUpdate);
+
+
+                        } else {
+
+
+                            String newPet = "|" + installation.getString("memberName") + "^" +
+                                    installation.getString("memberNumber") + "^" + etPetName.getText() +
+                                    "^" + etPetType.getText() +
+                                    "^" + etPetBreed.getText() +
+                                    "^" + etPetColor.getText() +
+                                    "^" + etPetWeight.getText() +
+                                    "^" + etPetMisc.getText();
+
+
+                            petFileUpdate = petFileString + "|" + installation.getString("memberName") + "^" +
+                                    installation.getString("memberNumber") + "^" + etPetName.getText() +
+                                    "^" + etPetType.getText() +
+                                    "^" + etPetBreed.getText() +
+                                    "^" + etPetColor.getText() +
+                                    "^" + etPetWeight.getText() +
+                                    "^" + etPetMisc.getText();
+
+                            if (lengthOfPetFileString < 1) {
+
+                                petFileUpdate = petFileUpdate.substring(1);
+
+                            }
+
+                            editorVisited = sharedPreferencesVisited.edit();
+
+                            if (sharedPreferencesVisited.getString("MYPETS", "").equals("")) {
+                                editorVisited.putString("MYPETS", newPet.substring(1));
+                            } else if (!sharedPreferencesVisited.getString("MYPETS", "").contains(newPet)) {
+                                editorVisited.putString("MYPETS", sharedPreferencesVisited.getString("MYPETS", "") + newPet);
+                            }
+                            editorVisited.apply();
+
+                            Log.d(TAG, "update pets --->" + petFileUpdate);
+
+
+                            PetObject petObject = new PetObject();
+                            petObject.setOwner(installation.getString("memberName"));
+                            petObject.setMemberNumber(installation.getString("memberNumber"));
+                            petObject.setName(String.valueOf(etPetName.getText()));
+                            petObject.setType(String.valueOf(etPetType.getText()));
+                            petObject.setBreed(String.valueOf(etPetBreed.getText()));
+                            petObject.setColor(String.valueOf(etPetColor.getText()));
+                            petObject.setWeight(String.valueOf(etPetWeight.getText()));
+                            petObject.setMisc(String.valueOf(etPetMisc.getText()));
+
+                            Integer petSizeInt = sharedPreferences.getInt("petObjectsSize", 0);
+
+                            editor = sharedPreferences.edit();
+                            Gson gson = new Gson();
+                            String jsonPetObject = gson.toJson(petObject);
+                            editor.putString("petObject" + "[" + String.valueOf(petSizeInt + 1) + "]", jsonPetObject);
+                            editor.putInt("petObjectsSize", petSizeInt + 1);
+                            editor.apply();
+
+                            if (petFileUpdate.substring(0, 1).equals("|")) {
+                                petFileUpdate = petFileUpdate.substring(1, petFileUpdate.length());
+                            } else if (petFileUpdate.substring(petFileUpdate.length() - 1, petFileUpdate.length()).equals("|")) {
+                                petFileUpdate = petFileUpdate.substring(0, petFileUpdate.length() - 1);
+                            }
 
                         }
-
-                        editorVisited = sharedPreferencesVisited.edit();
-
-                        if ( sharedPreferencesVisited.getString("MYPETS", "").equals("")) {
-                            editorVisited.putString("MYPETS", newPet.substring(1));
-                        } else if (!sharedPreferencesVisited.getString("MYPETS","").contains(newPet)){
-                            editorVisited.putString("MYPETS", sharedPreferencesVisited.getString("MYPETS","") + newPet);
-                        }
-                        editorVisited.apply();
-
-                        Log.d(TAG, "update pets --->" + petFileUpdate);
-
-
-
-                        PetObject petObject = new PetObject();
-                        petObject.setOwner(installation.getString("memberName"));
-                        petObject.setMemberNumber(installation.getString("memberNumber"));
-                        petObject.setName(String.valueOf(etPetName.getText()));
-                        petObject.setType(String.valueOf(etPetType.getText()));
-                        petObject.setBreed(String.valueOf(etPetBreed.getText()));
-                        petObject.setColor(String.valueOf(etPetColor.getText()));
-                        petObject.setWeight(String.valueOf(etPetWeight.getText()));
-                        petObject.setMisc(String.valueOf(etPetMisc.getText()));
-
-                        Integer petSizeInt = sharedPreferences.getInt("petObjectsSize", 0);
-
-                        editor = sharedPreferences.edit();
-                        Gson gson = new Gson();
-                        String jsonPetObject = gson.toJson(petObject);
-                        editor.putString("petObject" + "[" + String.valueOf(petSizeInt + 1) + "]", jsonPetObject);
-                        editor.putInt("petObjectsSize", petSizeInt + 1);
-                        editor.apply();
 
 
                         byte[] data = petFileUpdate.getBytes();
@@ -219,16 +335,20 @@ public class PopPetsAddPet extends AppCompatActivity {
 
 
 
-                        Toast toast = Toast.makeText(getBaseContext(), petObject.getName() + " added.", Toast.LENGTH_LONG);
+                        if ( forEdit ) {
+                            toast = Toast.makeText(getBaseContext(), etPetName.getText() + " updated.", Toast.LENGTH_LONG);
+                        } else if ( forDelete) {
+                            toast = Toast.makeText(getBaseContext(), etPetName.getText() + " deleted.", Toast.LENGTH_LONG);
+                        } else {
+                            toast = Toast.makeText(getBaseContext(), etPetName.getText() + " added.", Toast.LENGTH_LONG);
+                        }
+
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
 
+                        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+                        remoteDataTaskClass.execute();
 
-
-
-                        Intent mainActivity = new Intent();
-                        mainActivity.setClass(getApplicationContext(), MainActivity.class);
-                        startActivity(mainActivity);
                         finish();
 
 

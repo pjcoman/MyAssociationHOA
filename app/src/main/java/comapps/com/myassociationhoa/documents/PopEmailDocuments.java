@@ -104,16 +104,25 @@ public class PopEmailDocuments extends AppCompatActivity {
             misc3.setVisibility(View.GONE);
         }
 
-        if ( sharedPreferences.getString("m1pdfurl", null) == null ) {
+        if ( sharedPreferences.getString("defaultRecord(31)", null) == null ) {
             misc1.setVisibility(View.GONE);
+        } else {
+
+            misc1.setText(sharedPreferences.getString("defaultRecord(31)",""));
         }
 
-        if ( sharedPreferences.getString("m2pdfurl", null) == null ) {
+        if ( sharedPreferences.getString("defaultRecord(32)", null) == null ) {
             misc2.setVisibility(View.GONE);
+        }  else {
+
+            misc2.setText(sharedPreferences.getString("defaultRecord(32)",""));
         }
 
-        if ( sharedPreferences.getString("m3pdfurl", null) == null ) {
+        if ( sharedPreferences.getString("defaultRecord(33)", null) == null ) {
             misc3.setVisibility(View.GONE);
+        }  else {
+
+            misc3.setText(sharedPreferences.getString("defaultRecord(33)",""));
         }
 
 
@@ -350,7 +359,8 @@ public class PopEmailDocuments extends AppCompatActivity {
 
 
                                 try {
-                                    pdfToEmail = new File (getApplicationContext().getExternalFilesDir(null), "misc1.pdf");
+                                    pdfToEmail = new File (getApplicationContext().getExternalFilesDir(null), sharedPreferences.getString("defaultRecord(31)", null)
+                                            + ".pdf");
                                     pdfToEmail.deleteOnExit();
                                     FileOutputStream fileoutputstream = new FileOutputStream(pdfToEmail.getPath());
                                     fileoutputstream.write(data);
@@ -409,7 +419,8 @@ public class PopEmailDocuments extends AppCompatActivity {
 
 
                                 try {
-                                    pdfToEmail = new File (getApplicationContext().getExternalFilesDir(null), "misc2.pdf");
+                                    pdfToEmail = new File (getApplicationContext().getExternalFilesDir(null), sharedPreferences.getString("defaultRecord(32)", null)
+                                            + ".pdf");
                                     pdfToEmail.deleteOnExit();
                                     FileOutputStream fileoutputstream = new FileOutputStream(pdfToEmail.getPath());
                                     fileoutputstream.write(data);
@@ -468,7 +479,8 @@ public class PopEmailDocuments extends AppCompatActivity {
 
 
                                 try {
-                                    pdfToEmail = new File (getApplicationContext().getExternalFilesDir(null), "misc3.pdf");
+                                    pdfToEmail = new File (getApplicationContext().getExternalFilesDir(null), sharedPreferences.getString("defaultRecord(33)", null)
+                                            + ".pdf");
                                     pdfToEmail.deleteOnExit();
                                     FileOutputStream fileoutputstream = new FileOutputStream(pdfToEmail.getPath());
                                     fileoutputstream.write(data);

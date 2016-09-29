@@ -3,7 +3,6 @@ package comapps.com.myassociationhoa.guests;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.view.Gravity;
@@ -51,8 +50,6 @@ class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
 
     Button recordAccess;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
 
 
     public GuestsAdapter(Context context, ArrayList<GuestObject> guestsList) {
@@ -94,22 +91,22 @@ class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
 
         LinearLayout datesLayout = (LinearLayout) convertView.findViewById(R.id.datesLayout);
 
-        TextView guestName = (TextView) convertView.findViewById(R.id.tvAutoMake);
-        TextView guestType = (TextView) convertView.findViewById(R.id.guestType);
-        TextView guestContactType = (TextView) convertView.findViewById(R.id.tvAutoModel);
-        TextView guestStartDate = (TextView) convertView.findViewById(R.id.tvAutoColor);
-        TextView guestEndDate = (TextView) convertView.findViewById(R.id.guestEndDate);
-        TextView guestNotes = (TextView) convertView.findViewById(R.id.guestNotes);
+        TextView guestName = (TextView) convertView.findViewById(R.id.tvGuestName);
+        TextView guestType = (TextView) convertView.findViewById(R.id.tvGuestType);
+        TextView guestContactType = (TextView) convertView.findViewById(R.id.tvGuestContactType);
+        TextView guestStartDate = (TextView) convertView.findViewById(R.id.tvGuestStartDate);
+        TextView guestEndDate = (TextView) convertView.findViewById(R.id.tvGuestEndDate);
+        TextView guestNotes = (TextView) convertView.findViewById(R.id.tvGuestNotes);
 
-        TextView guestMondayAccess = (TextView) convertView.findViewById(R.id.tvAutoPlate);
-        TextView guestTuesdayAccess = (TextView) convertView.findViewById(R.id.guestTuesdayAccess);
-        TextView guestWednesdayAccess = (TextView) convertView.findViewById(R.id.guestWednesdayAccess);
-        TextView guestThursdayAccess = (TextView) convertView.findViewById(R.id.guestThursdayAccess);
-        TextView guestFridayAccess = (TextView) convertView.findViewById(R.id.guestFridayAccess);
-        TextView guestSaturdayAccess = (TextView) convertView.findViewById(R.id.guestSaturdayAccess);
-        TextView guestSundayAccess = (TextView) convertView.findViewById(R.id.guestSundayAccess);
+        TextView guestMondayAccess = (TextView) convertView.findViewById(R.id.tvGuestAccessMonday);
+        TextView guestTuesdayAccess = (TextView) convertView.findViewById(R.id.tvGuestTuesdayAccess);
+        TextView guestWednesdayAccess = (TextView) convertView.findViewById(R.id.tvGuestWednesdayAccess);
+        TextView guestThursdayAccess = (TextView) convertView.findViewById(R.id.tvGuestThursdayAccess);
+        TextView guestFridayAccess = (TextView) convertView.findViewById(R.id.tvGuestFridayAccess);
+        TextView guestSaturdayAccess = (TextView) convertView.findViewById(R.id.tvGuestSaturdayAccess);
+        TextView guestSundayAccess = (TextView) convertView.findViewById(R.id.tvGuestSundayAccess);
 
-        TextView guestOwnerName = (TextView) convertView.findViewById(R.id.guestOwnerName);
+        TextView guestOwnerName = (TextView) convertView.findViewById(R.id.tvGuestOwnerName);
 
         recordAccess = (Button) convertView.findViewById(R.id.guestRecordAccess);
 
@@ -127,16 +124,6 @@ class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
 
         final GuestObject guest = guestsList.get(position);
 
-     /*   if ( guest.getOwnerContactNumberType().equals("None")) {
-
-            recordAccess.setVisibility(View.GONE);
-
-        } else {
-
-            recordAccess.setVisibility(View.VISIBLE);
-
-        }
-*/
         try {
             guestName.setText(guestObject.getGuestName());
         } catch (Exception e) {
@@ -434,5 +421,6 @@ class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
         }
 
     }
+
 
 }

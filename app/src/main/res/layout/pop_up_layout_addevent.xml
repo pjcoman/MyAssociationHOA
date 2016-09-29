@@ -42,13 +42,14 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:background="@drawable/button_rounded_corners_white_white_bg"
                 android:textColor="#1c5ea1"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:ems="10"
-                android:id="@+id/textViewAutoMake"
                 android:layout_gravity="center_horizontal"
                 android:background="#fbfafa"
                 android:hint="@string/event_title"
@@ -59,28 +60,28 @@
                 android:padding="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:gravity="top" />
+                android:gravity="top"
+                android:id="@+id/editTextEventTitle" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:ems="10"
-                android:id="@+id/textViewAutoModel"
                 android:layout_gravity="center_horizontal"
                 android:background="#fbfafa"
                 android:hint="@string/event_detail"
                 android:textColorHint="@color/abc_secondary_text_material_light"
-                android:inputType="textCapWords"
+                android:inputType="textCapSentences"
                 android:textColor="#040404"
                 android:padding="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                android:gravity="top" />
+                android:gravity="top"
+                android:id="@+id/editTextEventDetail" />
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textViewAutoYear"
                 android:layout_gravity="center_horizontal"
                 android:background="#fbfafa"
                 android:hint="@string/start_date"
@@ -90,12 +91,12 @@
                 android:padding="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:inputType="date" />
+                android:inputType="date"
+                android:id="@+id/editTextSetStartDate" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextEndDate"
                 android:layout_gravity="center_horizontal"
                 android:background="#fbfafa"
                 android:hint="@string/end_date"
@@ -105,7 +106,8 @@
                 android:padding="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:inputType="date" />
+                android:inputType="date"
+                android:id="@+id/editTextSetEndDate" />
 
             <TextView
                 android:layout_width="fill_parent"

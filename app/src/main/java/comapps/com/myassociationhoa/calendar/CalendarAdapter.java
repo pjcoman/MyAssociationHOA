@@ -3,6 +3,7 @@ package comapps.com.myassociationhoa.calendar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.parse.ParseInstallation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import comapps.com.myassociationhoa.R;
 import comapps.com.myassociationhoa.objects.CalendarObject;
@@ -29,12 +31,31 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
     private static final String TAG = "CALENDARADAPTER";
     private static final String MYPREFERENCES = "MyPrefs";
 
-    private Calendar calendar;
+
     SharedPreferences sharedPreferences;
 
     ParseInstallation installation;
     String memberName;
     String assocCode;
+
+    Date d1;
+    Date d2;
+    Date endDate;
+
+    TextView eventName;
+    TextView eventDetail;
+    TextView eventStartDate;
+    TextView eventEndDate;
+    TextView textViewTo;
+    Button addButton;
+    Button respondButton;
+    SimpleDateFormat input;
+    SimpleDateFormat outputStart;
+    SimpleDateFormat outputEnd;
+    SimpleDateFormat calendarAddFormat;
+    String startDateString;
+    String endDateString;
+
 
 
     public CalendarAdapter(Context context, ArrayList<CalendarObject> events) {
@@ -44,7 +65,9 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
 
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
+
+        Log.d(TAG, "position ----> " + position);
 
         final CalendarObject calendarObject = getItem(position);
 
@@ -53,59 +76,62 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
         if (convertView == null) {
 
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.content_main_calendar_row, parent, false);
+            convertView.setTag(position);
 
         }
 
-        calendar = Calendar.getInstance();
-
-        final TextView eventName = (TextView) convertView.findViewById(R.id.textViewEventName);
-        TextView eventDetail = (TextView) convertView.findViewById(R.id.textViewEventDetail);
-        TextView eventStartDate = (TextView) convertView.findViewById(R.id.textViewDateStart);
-        TextView eventEndDate = (TextView) convertView.findViewById(R.id.textViewDateEnd);
-        TextView textViewTo = (TextView) convertView.findViewById(R.id.textViewTo);
-        Button addButton = (Button) convertView.findViewById(R.id.addButton);
-        Button respondButton = (Button) convertView.findViewById(R.id.respondButton);
-
-        SimpleDateFormat input = new SimpleDateFormat("MM/dd/yyyy");
-        SimpleDateFormat outputStart = new SimpleDateFormat("E, MMM d");
-        SimpleDateFormat outputEnd = new SimpleDateFormat("E, MMM d, yyyy");
-
-        if ( (eventEndDate.getText().toString()).contains(eventStartDate.getText())) {
-            eventStartDate.setVisibility(View.GONE);
-            textViewTo.setVisibility(View.GONE);
-        } else {
-            eventStartDate.setVisibility(View.VISIBLE);
-            textViewTo.setVisibility(View.VISIBLE);
-        }
 
 
-        Date d1 = null;
-        // parse input
+        eventName = (TextView) convertView.findViewById(R.id.textViewEventName);
+        eventDetail = (TextView) convertView.findViewById(R.id.textViewEventDetail);
+        eventStartDate = (TextView) convertView.findViewById(R.id.textViewDateStart);
+        eventEndDate = (TextView) convertView.findViewById(R.id.textViewDateEnd);
+        textViewTo = (TextView) convertView.findViewById(R.id.textViewTo);
+        addButton = (Button) convertView.findViewById(R.id.addButton);
+        respondButton = (Button) convertView.findViewById(R.id.respondButton);
+
+        input = new SimpleDateFormat("MM/dd/yyyy");
+        outputStart = new SimpleDateFormat("E, MMM d");
+        outputEnd = new SimpleDateFormat("E, MMM d, yyyy");
+        calendarAddFormat = new SimpleDateFormat("yyyyMMdd");
+
+
+
+
+
+        startDateString = calendarObject.getCalendarStartDate();
+        endDateString = calendarObject.getCalendarEndDate();
+
         try {
-            d1 = input.parse(calendarObject.getCalendarStartDate());
+            d1 = input.parse(startDateString);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
 
-        Date d2 = null;
-        // parse input
+
+
         try {
-            d2 = input.parse(calendarObject.getCalendarEndDate());
+            d2 = input.parse(endDateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        if ( (eventEndDate.getText().toString()).contains(eventStartDate.getText())) {
+        if ( (eventEndDate.getText().toString()).contains(eventStartDate.getText().toString())) {
             eventEndDate.setText(outputEnd.format(d2));
             textViewTo.setText("");
-            notifyDataSetChanged();
+            eventStartDate.setVisibility(View.GONE);
+
         } else {
             eventStartDate.setText(outputStart.format(d1));
             eventEndDate.setText(outputEnd.format(d2));
             textViewTo.setText("to");
-            notifyDataSetChanged();
+            eventStartDate.setVisibility(View.VISIBLE);
+
         }
+
+        notifyDataSetChanged();
 
 
         installation = ParseInstallation.getCurrentInstallation();
@@ -117,34 +143,83 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
         eventDetail.setText(calendarObject.getCalendarDetailText());
 
 
+
+
+
+
+
+
+
+
+
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                Gson gson = new Gson();
+                String jsonCalendarObject = gson.toJson(calendarObject);
+                CalendarObject calendarObject = gson.fromJson(jsonCalendarObject, CalendarObject.class);
 
-                Intent intent = new Intent(Intent.ACTION_EDIT);
+                Log.d(TAG, "calendarObject on click ----> " + calendarObject.toString());
 
-                try {
-                    calendar.setTime(new SimpleDateFormat("E, MMM d").parse(calendarObject.getCalendarStartDate()));
-                    intent.putExtra("beginTime", calendar.getTimeInMillis());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
 
+                Intent intent = new Intent(Intent.ACTION_INSERT);
                 intent.setType("vnd.android.cursor.item/event");
-
                 try {
-                    calendar.setTime(new SimpleDateFormat("E, MMM d yyyy").parse(calendarObject.getCalendarEndDate()));
-                    intent.putExtra("endTime", calendar.getTimeInMillis());
+                    intent.putExtra("beginTime", input.parse(calendarObject.getCalendarStartDate()).getTime());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
 
-                intent.putExtra("title", calendarObject.getCalendarText());
+
+
+                intent.putExtra("allDay", false);
+
+                try {
+                    endDate = input.parse(calendarObject.getCalendarEndDate());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+                Log.d(TAG, "position calendar end date ----> " + calendarObject.getCalendarEndDate());
+
+                String until = calendarObject.getCalendarEndDate().substring(6) + calendarObject.getCalendarEndDate().substring(0,2) +
+                        calendarObject.getCalendarEndDate().substring(3,5);
+
+                Log.d(TAG, "position until ----> " + until);
+
+                if ( !calendarObject.getCalendarStartDate().equals(calendarObject.getCalendarEndDate())) {
+
+                    intent.putExtra("rrule", "FREQ=DAILY;UNTIL=" + until);
+
+                }
+
+
+
+                try {
+                    intent.putExtra("endTime", input.parse(calendarObject.getCalendarEndDate()).getTime() + (TimeUnit.DAYS.toMillis(1) - 60000));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                    intent.putExtra("title", calendarObject.getCalendarText());
+                    //   intent.putExtra(CalendarContract.Events.CALENDAR_ID,3);
                 getContext().startActivity(intent);
 
             }
         });
+
+
+
+
+
+
+
+
 
 
         respondButton.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +227,7 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
             public void onClick(View v) {
 
                 Intent intentSendEmail = new Intent(android.content.Intent.ACTION_SEND);
-                intentSendEmail.putExtra(Intent.EXTRA_EMAIL  , new String[]{sharedPreferences.getString("defaultRecord(2)","")});
+                intentSendEmail.putExtra(Intent.EXTRA_EMAIL  , new String[]{sharedPreferences.getString("defaultRecord(5)","")});
                 intentSendEmail.setType("text/plain");
             //    String[] address = {sharedPreferences.getString("", "")};
                 intentSendEmail.putExtra(android.content.Intent.EXTRA_SUBJECT,

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".pets.PetsActivity"
     android:layout_width="match_parent"
@@ -43,7 +42,8 @@
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
         android:padding="2dp"
-        android:queryHint="Search...." />
+        android:queryHint="Search...."
+        android:background="#faf8f8" />
 
     <!-- ListView -->
 

@@ -35,21 +35,23 @@ public class GuestsActivity extends AppCompatActivity implements
     private static final String TAG = "GUESTACTIVITY";
     public static final String MYPREFERENCES = "MyPrefs";
     ArrayList<GuestObject> guestsList;
+    ListView lv;
     GuestsAdapter adapter;
-    Bundle bundle;
     String memberFilter = "";
 
     SearchView search_view;
     private FloatingActionButton mFab;
 
+    Bundle bundle;
+
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+
+    int guestsCount;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -70,16 +72,14 @@ public class GuestsActivity extends AppCompatActivity implements
         }
 
 
-
         search_view = (SearchView) findViewById(R.id.search_view_guests);
-        search_view.setQueryHint("Search Guest Name");
+        search_view.setQueryHint("Search Owner or Guest Name");
 
         int searchSrcTextId = getResources().getIdentifier("android:id/search_src_text", null, null);
         EditText searchEditText = (EditText) search_view.findViewById(searchSrcTextId);
         searchEditText.setTextSize(14);
 
-       hideSoftKeyboard();
-
+        hideSoftKeyboard();
 
         bundle = getIntent().getExtras();
 
@@ -92,7 +92,7 @@ public class GuestsActivity extends AppCompatActivity implements
                 mFab.setVisibility(View.GONE);
             }
 
-            bar.setTitle("My Guests");
+            bar.setTitle("My Pets");
             search_view.setVisibility(View.GONE);
 
 
@@ -100,88 +100,45 @@ public class GuestsActivity extends AppCompatActivity implements
 
 
 
-
-
-
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
 
-        guestsList = new ArrayList<GuestObject>();
-
-        for (int i = 0; i < sharedPreferences.getInt("guestObjectsSize", 0); i++) {
-
-            String jsonGuestObject = sharedPreferences.getString("guestObject" + "[" + i + "]", "");
-            Gson gson = new Gson();
-            GuestObject guestObject = gson.fromJson(jsonGuestObject, GuestObject.class);
-            guestObject.getGuestOwner();
-            guestObject.getGuestOwnerMemberNumber();
-            guestObject.getGuestType();
-            guestObject.getGuestStartdate();
-            guestObject.getGuestEnddate();
-            guestObject.getMondayAccess();
-            guestObject.getTuesdayAccess();
-            guestObject.getWednesdayAccess();
-            guestObject.getThursdayAccess();
-            guestObject.getFridayAccess();
-            guestObject.getSaturdayAccess();
-            guestObject.getSundayAccess();
-            guestObject.getGuestDescription();
-            guestObject.getGuestName();
-            guestObject.getOwnerContactNumberType();
-            guestObject.getOwnerContactNumber();
-
-
-            if (memberFilter.equals("")) {
-
-                guestsList.add(guestObject);
-
-            } else if (memberFilter.equals(guestObject.getGuestOwnerMemberNumber())) {
-
-
-                guestsList.add(guestObject);
-
-            }
-
-            Collections.sort(guestsList, new Comparator<GuestObject>()
-            {
-                @Override
-                public int compare(GuestObject g1, GuestObject g2) {
-
-                    return g1.getGuestName().compareTo(g2.getGuestName());
-                }
-            });
 
 
 
 
-            ListView lv = (ListView) findViewById(R.id.list_view);
-            lv.setTextFilterEnabled(true);
+
+        getData();
+
+        lv = (ListView) findViewById(R.id.list_view);
+        lv.setTextFilterEnabled(true);
+
 
 
             adapter = new GuestsAdapter(this, guestsList);
             lv.setAdapter(adapter);
 
 
-            search_view.setOnQueryTextListener(this);
-
-        }
-
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
 
-                Intent guestAddActivity = new Intent();
-                guestAddActivity.setClass(getApplicationContext(), PopGuestsAddGuest.class);
-                startActivity(guestAddActivity);
+        search_view.setOnQueryTextListener(this);
 
 
-            }
-        });
+
+
+
+
+
 
 
 
     }
+
+
+
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -229,6 +186,62 @@ public class GuestsActivity extends AppCompatActivity implements
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
+    }
+
+    public void getData() {
+
+        guestsList = new ArrayList<GuestObject>();
+
+        for (int i = 0; i < sharedPreferences.getInt("guestObjectsSize", 0); i++) {
+
+            String jsonGuestObject = sharedPreferences.getString("guestObject" + "[" + i + "]", "");
+            Gson gson = new Gson();
+            GuestObject guestObject = gson.fromJson(jsonGuestObject, GuestObject.class);
+            guestObject.getGuestOwner();
+            guestObject.getGuestOwnerMemberNumber();
+            guestObject.getGuestType();
+            guestObject.getGuestStartdate();
+            guestObject.getGuestEnddate();
+            guestObject.getMondayAccess();
+            guestObject.getTuesdayAccess();
+            guestObject.getWednesdayAccess();
+            guestObject.getThursdayAccess();
+            guestObject.getFridayAccess();
+            guestObject.getSaturdayAccess();
+            guestObject.getSundayAccess();
+            guestObject.getGuestDescription();
+            guestObject.getGuestName();
+            guestObject.getOwnerContactNumberType();
+            guestObject.getOwnerContactNumber();
+
+
+            if (memberFilter.equals("")) {
+
+                guestsList.add(guestObject);
+
+            } else if (memberFilter.equals(guestObject.getGuestOwnerMemberNumber())) {
+
+
+                guestsList.add(guestObject);
+                guestsCount++;
+
+            }
+
+            Collections.sort(guestsList, new Comparator<GuestObject>()
+            {
+                @Override
+                public int compare(GuestObject g1, GuestObject g2) {
+
+                    return g1.getGuestName().compareTo(g2.getGuestName());
+                }
+            });
+
+
+
+
+        }
+
+
     }
 
 

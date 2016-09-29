@@ -1,368 +1,444 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/whiteengravedlandscape"
+    android:orientation="vertical"
     android:padding="20dp">
 
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tvGuestLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/guest"
-            android:id="@+id/textView10"
-            android:textColor="#0a0a0a"
-            android:textSize="16sp"
+            android:layout_gravity="left"
             android:paddingLeft="10dp"
             android:paddingRight="20dp"
-            android:layout_gravity="left" />
+            android:text="@string/guest"
+            android:textColor="#0a0a0a"
+            android:textSize="16sp" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/tvAutoMake"
-                android:layout_gravity="left"
-                android:text="@string/guest_name"
-                android:textColor="#6b050c"
-                android:textSize="16sp"
-                android:capitalize="words"
-                android:textIsSelectable="false"
-                android:gravity="center"
-                android:autoText="true"
-                android:inputType="textNoSuggestions"
-                android:textStyle="bold" />
+            android:id="@+id/tvGuestName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:autoText="true"
+            android:capitalize="words"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="center"
+            android:inputType="textNoSuggestions"
+            android:linksClickable="false"
+            android:longClickable="false"
+            android:text="@string/guest_name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#6b050c"
+            android:textIsSelectable="false"
+
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <RelativeLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/textViewTypeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="2dp"
             android:text="@string/typestring"
-            android:id="@+id/textView11"
             android:textColor="#0a0a0a"
-            android:textSize="14sp"
-            android:paddingRight="2dp"
-            android:paddingLeft="10dp" />
+            android:textSize="14sp" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/guestType"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/guest_type"
-                android:textColor="#a58b5d"
-                android:textSize="14sp"
-                android:capitalize="words"
-            android:textIsSelectable="false"
-            android:autoText="true"
-                android:inputType="textNoSuggestions"
-            android:layout_toRightOf="@+id/textView11"
-            android:paddingLeft="4dp" />
-
-        <TextView
+            android:id="@+id/tvGuestType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/contact"
-            android:id="@+id/textView12"
-            android:textColor="#0a0a0a"
-            android:textSize="14sp"
-            android:paddingRight="2dp"
-            android:layout_toLeftOf="@+id/tvAutoModel" />
+            android:layout_gravity="center_horizontal"
+            android:layout_toRightOf="@+id/textViewTypeLabel"
+            android:autoText="true"
+            android:capitalize="words"
+            android:inputType="textNoSuggestions"
+            android:paddingLeft="4dp"
+            android:text="@string/guest_type"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#a58b5d"
+            android:textIsSelectable="false"
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="14sp" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/tvAutoModel"
-            android:text="@string/guest_contact"
-                android:textColor="#a58b5d"
-                android:textSize="14sp"
-                android:capitalize="words"
-            android:textIsSelectable="false"
-            android:autoText="true"
-                android:inputType="textNoSuggestions"
+            android:id="@+id/tvContactLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tvGuestContactType"
+            android:paddingRight="2dp"
+            android:text="@string/contact"
+            android:textColor="#0a0a0a"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvGuestContactType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:autoText="true"
+            android:capitalize="words"
+            android:inputType="textNoSuggestions"
             android:paddingLeft="4dp"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp"
+            android:text="@string/guest_contact"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#a58b5d"
+            android:textIsSelectable="false"
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/datesLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/datesLayout"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
 
         <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/tvAutoColor"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/start_date"
-                android:textColor="#a58b5d"
-                android:textSize="18sp"
-                android:capitalize="words"
-            android:textIsSelectable="false"
+            android:id="@+id/tvGuestStartDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:autoText="true"
+            android:capitalize="words"
             android:gravity="center"
-                android:autoText="true"
-                android:inputType="textNoSuggestions|date"
-            android:layout_weight="1" />
+            android:inputType="textNoSuggestions|date"
+            android:text="@string/start_date"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#a58b5d"
+            android:textIsSelectable="false"
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/tvToLabel"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/to"
-            android:id="@+id/textView15"
-            android:textColor="#a58b5d"
+            android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:gravity="center" />
+            android:text="@string/to"
+            android:textColor="#a58b5d" />
 
         <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/guestEndDate"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/end_date"
-                android:textColor="#a58b5d"
-                android:textSize="18sp"
-                android:capitalize="words"
+            android:id="@+id/tvGuestEndDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
+            android:inputType="textNoSuggestions|date"
+            android:text="@string/end_date"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#a58b5d"
             android:textIsSelectable="false"
-                android:gravity="center"
-                android:autoText="true"
-                android:inputType="textNoSuggestions|date"
-            android:layout_weight="1" />
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:weightSum="8"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp">
+        android:weightSum="8">
 
         <TextView
+            android:id="@+id/tvDaysLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/textView13"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
             android:text="@string/days"
             android:textColor="#050505"
-            android:textSize="12sp"
-            android:capitalize="words"
             android:textIsSelectable="false"
-            android:autoText="true"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
-            android:layout_weight="1"
-            android:layout_gravity="left"
-            android:gravity="center" />
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="12sp" />
 
         <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-
-                android:id="@+id/tvAutoPlate"
-            android:text="@string/mon"
-                android:textColor="#a58b5d"
-                android:textSize="12sp"
-                android:capitalize="words"
-                android:textIsSelectable="false"
-            android:autoText="true"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
-            android:layout_weight="1"
-            android:gravity="center" />
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-
-                android:id="@+id/guestTuesdayAccess"
-            android:text="@string/tue"
-                android:textColor="#a58b5d"
-                android:textSize="12sp"
-                android:capitalize="words"
-                android:textIsSelectable="false"
-                android:gravity="center"
-                android:autoText="true"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
-            android:layout_weight="1" />
-
-        <TextView
+            android:id="@+id/tvGuestAccessMonday"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
 
-            android:id="@+id/guestWednesdayAccess"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:text="@string/mon"
+            android:textColor="#a58b5d"
+            android:textIsSelectable="false"
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvGuestTuesdayAccess"
+            android:layout_width="0dp"
+
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:text="@string/tue"
+            android:textColor="#a58b5d"
+            android:textIsSelectable="false"
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvGuestWednesdayAccess"
+            android:layout_width="0dp"
+
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
             android:text="@string/wed"
             android:textColor="#a58b5d"
-            android:textSize="12sp"
-            android:capitalize="words"
             android:textIsSelectable="false"
-            android:gravity="center"
-            android:autoText="true"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
-            android:layout_weight="1" />
+            android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/tvGuestThursdayAccess"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
 
-            android:id="@+id/guestThursdayAccess"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
             android:text="@string/thu"
             android:textColor="#a58b5d"
-            android:textSize="12sp"
-            android:capitalize="words"
             android:textIsSelectable="false"
-            android:gravity="center"
-            android:autoText="true"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
-            android:layout_weight="1" />
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/tvGuestFridayAccess"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
 
-            android:id="@+id/guestFridayAccess"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
             android:text="@string/fri"
             android:textColor="#a58b5d"
-            android:textSize="12sp"
-            android:capitalize="words"
             android:textIsSelectable="false"
-            android:gravity="center"
-            android:autoText="true"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
-            android:layout_weight="1" />
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/tvGuestSaturdayAccess"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
 
-            android:id="@+id/guestSaturdayAccess"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
             android:text="@string/satstring"
             android:textColor="#a58b5d"
-            android:textSize="12sp"
-            android:capitalize="words"
             android:textIsSelectable="false"
-            android:gravity="center"
-            android:autoText="true"
-            android:paddingLeft="1dp"
-            android:paddingRight="1dp"
-            android:layout_weight="1" />
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/tvGuestSundayAccess"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
 
-            android:id="@+id/guestSundayAccess"
-            android:text="@string/sun"
-            android:textColor="#a58b5d"
-            android:textSize="12sp"
-            android:capitalize="words"
-            android:textIsSelectable="false"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
             android:paddingLeft="1dp"
             android:paddingRight="1dp"
-            android:layout_weight="1" />
+            android:text="@string/sun"
+            android:textColor="#a58b5d"
+            android:textIsSelectable="false"
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tvOwnerLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/textView14"
             android:layout_gravity="center_horizontal"
-            android:text="@string/owner"
-            android:textColor="#0b0a0a"
-            android:textSize="16sp"
-            android:capitalize="words"
-            android:textIsSelectable="false"
-            android:gravity="center"
             android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
             android:inputType="textNoSuggestions"
-            android:textStyle="bold"
+            android:paddingLeft="10dp"
             android:paddingRight="5dp"
-            android:paddingLeft="10dp" />
+            android:text="@string/owner"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#0b0a0a"
+            android:textIsSelectable="false"
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tvGuestOwnerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/guestOwnerName"
             android:layout_gravity="center_horizontal"
-            android:text="@string/pet_owner"
-            android:textColor="#6b050c"
-            android:textSize="16sp"
-            android:capitalize="words"
-            android:textIsSelectable="false"
-            android:gravity="center"
             android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
             android:inputType="textNoSuggestions"
+            android:text="@string/pet_owner"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#6b050c"
+            android:textIsSelectable="false"
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvGuestNotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/guestNotes"
-            android:text="@string/owner"
-            android:textColor="#204de1"
-            android:textSize="16sp"
-            android:capitalize="words"
-            android:textIsSelectable="false"
-            android:gravity="center"
-            android:autoText="true"
-            android:inputType="textNoSuggestions"
-            android:textStyle="bold"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:autoText="true"
+            android:capitalize="words"
+            android:gravity="center"
+            android:inputType="textNoSuggestions"
+            android:text="@string/owner"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#204de1"
+            android:textIsSelectable="false"
+            android:clickable="false"
+            android:linksClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <Button
+            android:id="@+id/guestRecordAccess"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/record_access"
-            android:id="@+id/guestRecordAccess"
-            android:background="@drawable/button_rounded_corners_black_gray_bg"
+            android:layout_margin="10dp"
             android:layout_weight="1"
+            android:background="@drawable/button_rounded_corners_black_gray_bg"
+            android:padding="10dp"
             android:shadowColor="#f6e142"
             android:shadowDx="4"
             android:shadowDy="4"
             android:shadowRadius="2"
-            android:padding="10dp"
-            android:layout_margin="10dp" />
+            android:text="@string/record_access" />
 
     </LinearLayout>
 

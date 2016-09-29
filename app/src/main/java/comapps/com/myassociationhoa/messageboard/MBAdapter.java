@@ -1,5 +1,6 @@
 package comapps.com.myassociationhoa.messageboard;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -51,6 +52,8 @@ class MBAdapter extends ArrayAdapter<MBObject> {
 
         final MBObject mbObject = getItem(position);
 
+        sharedPreferences = getContext().getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+
 
         if (convertView == null) {
 
@@ -86,7 +89,7 @@ class MBAdapter extends ArrayAdapter<MBObject> {
         mbPost.setText(mbObject.getMbPost());
 
 
-        sharedPreferences = getContext().getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+
 
         if (sharedPreferences.getString("defaultRecord(42)", "No").equals("No")) {
             if (addComment != null) {
@@ -147,6 +150,8 @@ class MBAdapter extends ArrayAdapter<MBObject> {
                 intentAddComment.putExtra("position", position);
                 intentAddComment.putExtra("jsonMbObject", jsonMbObject);
                 getContext().startActivity(intentAddComment);
+
+                ((Activity)getContext()).finish();
 
 
             }

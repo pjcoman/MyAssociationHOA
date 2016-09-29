@@ -29,7 +29,9 @@ import com.parse.ParseQuery;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -44,7 +46,10 @@ public class RegistrationActivity extends AppCompatActivity {
     private static final String TAG = "REGISTRATIONACTIVITY";
     private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
+
+
     SharedPreferences sharedPreferencesVisited;
+
 
     Context context;
 
@@ -75,6 +80,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
     String rosterString;
+    String rosterFileUpdate = "";
 
 
     Button saveButton;
@@ -91,7 +97,7 @@ public class RegistrationActivity extends AppCompatActivity {
     String assocCode;
     String oldMemberNumber;
     Bundle bundle;
-    Boolean fromChangeAddActivity;
+    boolean fromChangeAddActivity;
 
     String myPets;
     String myGuests;
@@ -101,7 +107,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
     ParseQuery query;
-    ParseInstallation installation;
+    SharedPreferences.Editor editorVisited;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,16 +184,14 @@ public class RegistrationActivity extends AppCompatActivity {
 
         sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
 
+
         summerAddress.setText(sharedPreferencesVisited.getString("defaultRecord(24)", "Summer Address"));
         winterAddress.setText(sharedPreferencesVisited.getString("defaultRecord(25)", "Winter Address"));
 
 
         final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-        memberName = installation.getString("memberName");
-        assocCode = installation.getString("AssociationCode");
-        Log.d(TAG, "memberName is " + memberName);
-        Log.d(TAG, "assocCode is " + assocCode);
+
 
         //*************************************************************************************************************************************
 
@@ -304,8 +308,13 @@ public class RegistrationActivity extends AppCompatActivity {
                 installation.put("memberDeviceName", getDeviceName());
                 installation.saveInBackground();
 
-                SharedPreferences.Editor editor;
-                editor = sharedPreferencesVisited.edit();
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
+                String strDate = sdf.format(c.getTime());
+
+
+                editorVisited = sharedPreferencesVisited.edit();
 
                 String memberInfo = String.valueOf(numberOfMembers) + "^" +
                         lastNameEditText.getText() + "^" +
@@ -331,11 +340,12 @@ public class RegistrationActivity extends AppCompatActivity {
                         installation.getString("MemberType") + "^" +
                         emerContactEditText.getText() + "^" +
                         emerContactPhoneEditText.getText() + "^" +
-                        installation.getCreatedAt().toString() + "^";
+                        strDate + "^";
 
-                editor.putString("MEMBER_INFO", memberInfo);
-                editor.putString(assocCode + "MemberNumber", memberNumberRandom);
-                editor.apply();
+                editorVisited.putString("MEMBER_INFO", memberInfo);
+                editorVisited.putString(installation.getString("AssociationCode") + "MemberNumber", memberNumberRandom);
+                editorVisited.putString("MEMBERNAME", firstNameEditText.getText() + " " + lastNameEditText.getText());
+                editorVisited.apply();
 
 
                 String homePhone = homePhoneEditText.getText().toString();
@@ -352,6 +362,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 String mobilePhoneForUpdate = mobilePhone.replaceAll(p,e).replaceAll(p2,e).replaceAll(d,e).replaceAll(" ", "").trim();
                 String winterPhoneForUpdate = winterPhone.replaceAll(p,e).replaceAll(p2,e).replaceAll(d,e).replaceAll(" ", "").trim();
                 String emerPhoneForUpdate = emerPhone.replaceAll(p,e).replaceAll(p2,e).replaceAll(d,e).replaceAll(" ", "").trim();
+
 
 
                 rosterString = rosterString + "|" +
@@ -379,13 +390,49 @@ public class RegistrationActivity extends AppCompatActivity {
                         installation.getString("MemberType") + "^" +
                         emerContactEditText.getText() + "^" +
                         emerPhoneForUpdate + "^" +
-                        installation.getCreatedAt().toString() + "^";
+                        strDate + "^";
 
 
                 Log.d(TAG, "rosterString is " + rosterString);
 
-                Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                rosterFileArray = rosterString.split("\\|");
+
+                ArrayList<String> rosterArrayForSort = new ArrayList<String>();
+
+
+                for (String member : rosterFileArray) {
+
+                    String memberRemovedIndex = member.substring(member.indexOf("^") + 1);
+                    rosterArrayForSort.add(memberRemovedIndex);
+
+                }
+
+                Collections.sort(rosterArrayForSort, String.CASE_INSENSITIVE_ORDER);
+
+
+                int i = 0;
+
+                for (String member : rosterArrayForSort) {
+
+                    Log.d(TAG, "member before index -->" + member + "<--");
+
+                    String memberIndexed = String.valueOf(i) + "^" + member.substring(0, member.length());
+
+                    Log.d(TAG, "member after index -->" + memberIndexed + "<--");
+
+                    rosterFileUpdate = rosterFileUpdate + memberIndexed + "|";
+
+                    i++;
+
+                }
+
+
+                rosterFileUpdate = rosterFileUpdate.substring(0, rosterFileUpdate.length() - 1);
+
+
+                Log.d(TAG, "rosterFileUpdate for load -->" + rosterFileUpdate + "<--");
+
+
                 updateDate = sdf.format(c.getTime());
 
 
@@ -395,7 +442,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     @Override
                     public void done(List<ParseObject> assoc, ParseException e) {
 
-                        byte[] data = rosterString.getBytes();
+                        byte[] data = rosterFileUpdate.getBytes();
                         ParseFile RosterFile = new ParseFile("Roster.txt", data);
                         try {
                             RosterFile.save();
@@ -411,12 +458,23 @@ public class RegistrationActivity extends AppCompatActivity {
                             e1.printStackTrace();
                         }
 
+
+
                         if ( fromChangeAddActivity) {
                             Toast toast = Toast.makeText(getBaseContext(), "Added to roster. Member size\nis " + (numberOfMembers + 1) + ".", Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
                             thread.start();
+                        } else {
+
+                            Intent mainActivity = new Intent();
+                            mainActivity.setClass(getApplicationContext(), MainActivity.class);
+                            startActivity(mainActivity);
+                            finish();
+
+
                         }
+
                     }
 
                 });
@@ -427,16 +485,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
             }
         });
-
 
 
 
@@ -736,7 +786,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if ( fromChangeAddActivity && (myPets.length() + myGuests.length() + myAutos.length() != 0 )) {
                     loadPreviousAssocInfo(oldMemberNumber, updateDate);
 
-                } else if (!fromChangeAddActivity) {
+                } else {
 
                     Intent mainActivity = new Intent();
                     mainActivity.setClass(getApplicationContext(), MainActivity.class);

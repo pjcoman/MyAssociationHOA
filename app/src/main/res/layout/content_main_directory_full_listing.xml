@@ -292,12 +292,13 @@
                     android:inputType="textCapWords|textPostalAddress"
                     android:ems="10"
                     android:id="@+id/winter_address2TextView"
-                    android:layout_gravity="center"
                     android:gravity="center|center_vertical|center_horizontal"
                     android:textSize="16sp"
                     android:visibility="visible"
                     android:textColor="#105ceb"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_gravity="center|left"
+                    android:layout_weight="1" />
 
                 <LinearLayout
                     android:orientation="horizontal"

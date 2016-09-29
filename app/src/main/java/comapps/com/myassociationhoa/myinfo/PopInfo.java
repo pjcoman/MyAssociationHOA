@@ -3,6 +3,8 @@ package comapps.com.myassociationhoa.myinfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -14,9 +16,9 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.parse.ParseInstallation;
 
 import comapps.com.myassociationhoa.R;
-import comapps.com.myassociationhoa.autos.AutosActivity;
-import comapps.com.myassociationhoa.guests.GuestsActivity;
-import comapps.com.myassociationhoa.pets.PetsActivity;
+import comapps.com.myassociationhoa.autos.AutosMyInfoActivity;
+import comapps.com.myassociationhoa.guests.GuestsMyInfoActivity;
+import comapps.com.myassociationhoa.pets.PetsMyInfoActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -77,6 +79,7 @@ public class PopInfo extends AppCompatActivity {
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         int width = dm.widthPixels;
         int height = dm.heightPixels;
@@ -93,8 +96,10 @@ public class PopInfo extends AppCompatActivity {
                         .playOn(v);
 
                 Intent intent = new Intent();
+                intent.putExtra("FROMMYINFO", true);
                 intent.setClass(PopInfo.this, PersonalInfoActivity.class);
                 startActivity(intent);
+
 
 
             }
@@ -109,10 +114,11 @@ public class PopInfo extends AppCompatActivity {
                         .playOn(v);
 
                 Intent intent = new Intent();
-                intent.setClass(PopInfo.this, PetsActivity.class);
+                intent.setClass(PopInfo.this, PetsMyInfoActivity.class);
                 intent.putExtra("memberNumber", installation.getString("memberNumber"));
                 intent.putExtra("fromPopInfo", true);
                 startActivity(intent);
+
 
             }
         });
@@ -126,10 +132,12 @@ public class PopInfo extends AppCompatActivity {
                         .playOn(v);
 
                 Intent intent = new Intent();
-                intent.setClass(PopInfo.this, AutosActivity.class);
+                intent.setClass(PopInfo.this, AutosMyInfoActivity.class);
                 intent.putExtra("memberNumber", installation.getString("memberNumber"));
                 intent.putExtra("fromPopInfo", true);
                 startActivity(intent);
+
+
 
             }
         });
@@ -143,10 +151,11 @@ public class PopInfo extends AppCompatActivity {
                         .playOn(v);
 
                 Intent intent = new Intent();
-                intent.setClass(PopInfo.this, GuestsActivity.class);
+                intent.setClass(PopInfo.this, GuestsMyInfoActivity.class);
                 intent.putExtra("memberNumber", installation.getString("memberNumber"));
                 intent.putExtra("fromPopInfo", true);
                 startActivity(intent);
+
 
 
             }

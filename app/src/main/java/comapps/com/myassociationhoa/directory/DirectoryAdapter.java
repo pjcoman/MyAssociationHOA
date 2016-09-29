@@ -102,11 +102,11 @@ class DirectoryAdapter extends ArrayAdapter<RosterObject> implements Filterable 
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Position " + position);
-                Log.d(TAG, "Original Position " + roster.getNumber());
+         //       Log.d(TAG, "Original Position " + roster.getNumber());
 
                 Intent intentFullMember = new Intent();
                 intentFullMember.setClass(getContext().getApplicationContext(), DirectoryRosterMemberActivity.class);
-                intentFullMember.putExtra("object_number", Integer.valueOf(roster.getNumber()));
+                intentFullMember.putExtra("object_number", position);
                 getContext().startActivity(intentFullMember);
 
             }

@@ -17,8 +17,17 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import comapps.com.myassociationhoa.R;
@@ -73,19 +82,16 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener 
         }
 
 
-        etEventTitle = (EditText) findViewById(R.id.textViewAutoMake);
-        etEventDetail = (EditText) findViewById(R.id.textViewAutoModel);
-        etEventStartDate = (EditText) findViewById(R.id.textViewAutoYear);
-        etEventEndDate = (EditText) findViewById(R.id.editTextEndDate);
-
-
-
+        etEventTitle = (EditText) findViewById(R.id.editTextEventTitle);
+        etEventDetail = (EditText) findViewById(R.id.editTextEventDetail);
+        etEventStartDate = (EditText) findViewById(R.id.editTextSetStartDate);
+        etEventEndDate = (EditText) findViewById(R.id.editTextSetEndDate);
         saveButton = (Button) findViewById(R.id.buttonSave);
         typeButton = (Button) findViewById(R.id.buttonType);
 
         typeButton.setText("Append");
 
-        saveButton.setEnabled(false);
+
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
         sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_APPEND);
@@ -152,50 +158,84 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
+
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                try {
-                    String[] eventStartDateArray = etEventStartDate.getText().toString().split("\\/");
-                    if ( eventStartDateArray[1].length() == 1 ) {
-                        eventStartDateArray[1] = "0" + eventStartDateArray[1];
-                    }
-                    if ( eventStartDateArray[0].length() == 1 ) {
-                    eventStartDateArray[0] = "0" + eventStartDateArray[0];
-                    }
+                ParseQuery query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
 
-                    String newEvent = "|" + etEventTitle.getText() +
-                            "|" + etEventDetail.getText() +
-                            "|" + etEventStartDate.getText() +
-                            "|" + etEventEndDate.getText() + "|" + eventStartDateArray[2] + eventStartDateArray[0] + eventStartDateArray[1];
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> assoc, ParseException e) {
 
-                    editor = sharedPreferences.edit();
-                    editor.putString("NEWCALENDAR", sharedPreferences.getString("NEWCALENDAR","") + newEvent);
+                        String eventFileString = "";
+
+                        ParseFile eventFile = assoc.get(0).getParseFile("EventFile");
 
 
-                    if ( typeButton.getText().toString().equals("Append")) {
-                        editor.putBoolean("CALENDAR_APPEND", true);
-                    } else {
-                        editor.putBoolean("CALENDAR_APPEND", false);
-                    }
+                        try {
+                            byte[] file = eventFile.getData();
+                            try {
+                                eventFileString = new String(file, "UTF-8");
+
+                                Log.d(TAG, "existing events ----> " + eventFileString);
+
+                            } catch (UnsupportedEncodingException e1) {
+                                e1.printStackTrace();
+                            }
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+
+                        String eventsForUpload;
+
+                    String eventSort = (etEventStartDate.getText().toString()).substring(6) + (etEventStartDate.getText().toString()).substring(0,2) +
+                            (etEventStartDate.getText().toString()).substring(3,5);
+
+                     if ( typeButton.getText().toString().equals("Append")) {
+
+                         eventsForUpload = eventFileString + "|" + etEventTitle.getText().toString() + "|" +  etEventDetail.getText().toString() + "|" +
+                                 etEventStartDate.getText().toString() + "|" +
+                                 etEventEndDate.getText().toString() + "|" + eventSort;
+
+                     } else {
+
+                         eventsForUpload = "Android Event|" + etEventTitle.getText().toString() + "|" +  etEventDetail.getText().toString() + "|" +
+                                 etEventStartDate.getText().toString() + "|" +
+                                 etEventEndDate.getText().toString() + "|" + eventSort;
 
 
-                    editor.apply();
 
-                    Log.d(TAG, "events added --->" + sharedPreferences.getString("NEWCALENDAR",""));
+                     }
 
 
-                    Toast toast = Toast.makeText(getBaseContext(), "Event added.", Toast.LENGTH_LONG);
+
+
+                        Log.d(TAG, "events for upload --->" + eventsForUpload);
+
+                        Calendar c = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                        String strDate = sdf.format(c.getTime());
+
+
+                        assoc.get(0).put("EventDate", strDate);
+                        assoc.get(0).put("EventFile", eventFile);
+
+                        try {
+                            assoc.get(0).save();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                            assoc.get(0).saveEventually();
+                        }
+
+
+                        Toast toast = Toast.makeText(getBaseContext(), "Event added.", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
-
-
-                } catch (Exception e) {
-
-                    e.printStackTrace();
-                }
 
 
                 finish();
@@ -205,20 +245,20 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener 
                 });
 
 
-
-
-
     }
+    });}
+
+
 
     private void findViewsById() {
 
 
 
-        etEventStartDate = (EditText) findViewById(R.id.textViewAutoYear);
+      //  etEventStartDate = (EditText) findViewById(R.id.);
         etEventStartDate.setInputType(InputType.TYPE_NULL);
         etEventStartDate.requestFocus();
 
-        etEventEndDate = (EditText) findViewById(R.id.editTextEndDate);
+    //    etEventEndDate = (EditText) findViewById(R.id.editTextEndDate);
         etEventEndDate.setInputType(InputType.TYPE_NULL);
 
 

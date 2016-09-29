@@ -36,9 +36,11 @@ public class AutosActivity extends AppCompatActivity implements
     public static final String MYPREFERENCES = "MyPrefs";
     ArrayList<AutoObject> autosList;
     AutosAdapter adapter;
+    ListView lv;
     Bundle bundle;
     String memberFilter = "";
 
+    int autoCount = 0;
 
     SearchView search_view;
 
@@ -52,8 +54,6 @@ public class AutosActivity extends AppCompatActivity implements
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -84,9 +84,6 @@ public class AutosActivity extends AppCompatActivity implements
 
         hideSoftKeyboard();
 
-
-        sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
-
         bundle = getIntent().getExtras();
 
         if ( bundle != null ) {
@@ -105,49 +102,14 @@ public class AutosActivity extends AppCompatActivity implements
         }
 
 
-        autosList = new ArrayList<AutoObject>();
 
-        for (int i = 0; i < sharedPreferences.getInt("autosObjectsSize", 0); i++) {
-
-            String jsonAutoObject = sharedPreferences.getString("autoObject" + "[" + i + "]", "");
-            Gson gson = new Gson();
-            AutoObject autoObject = gson.fromJson(jsonAutoObject, AutoObject.class);
-            autoObject.getOwner();
-            autoObject.getMake();
-            autoObject.getModel();
-            autoObject.getMemberNumber();
-            autoObject.getColor();
-            autoObject.getPlate();
-            autoObject.getYear();
-            autoObject.getTag();
-
-            if (memberFilter.equals("")) {
-
-                autosList.add(autoObject);
-
-            } else if (memberFilter.equals(autoObject.getMemberNumber())) {
+        sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
 
-                autosList.add(autoObject);
+        getData();
 
-            }
-
-            Collections.sort(autosList, new Comparator<AutoObject>()
-            {
-                @Override
-                public int compare(AutoObject a1, AutoObject a2) {
-
-                    return a1.getMake().compareTo(a2.getMake());
-                }
-            });
-
-
-
-        }
-
-        ListView lv = (ListView) findViewById(R.id.list_view);
+        lv = (ListView) findViewById(R.id.list_view);
         lv.setTextFilterEnabled(true);
-
 
 
         adapter = new AutosAdapter(this, autosList);
@@ -155,22 +117,6 @@ public class AutosActivity extends AppCompatActivity implements
 
 
         search_view.setOnQueryTextListener(this);
-
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                Intent autoAddActivity = new Intent();
-                autoAddActivity.setClass(getApplicationContext(), PopAutosAddAuto.class);
-                startActivity(autoAddActivity);
-
-
-            }
-        });
-
-
-
 
     }
 
@@ -215,11 +161,70 @@ public class AutosActivity extends AppCompatActivity implements
 
     }
 
+    public static String bundle2string(Bundle bundle) {
+        if (bundle == null) {
+            return null;
+        }
+        String string = "Bundle{";
+        for (String key : bundle.keySet()) {
+            string += " " + key + " => " + bundle.get(key) + ";";
+        }
+        string += " }Bundle";
+        return string;
+    }
+
     public void hideSoftKeyboard() {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
+    }
+
+    public void getData() {
+
+        autosList = new ArrayList<AutoObject>();
+
+        for (int i = 0; i < sharedPreferences.getInt("autosObjectsSize", 0); i++) {
+
+            String jsonAutoObject = sharedPreferences.getString("autoObject" + "[" + i + "]", "");
+            Gson gson = new Gson();
+            AutoObject autoObject = gson.fromJson(jsonAutoObject, AutoObject.class);
+            autoObject.getOwner();
+            autoObject.getMake();
+            autoObject.getModel();
+            autoObject.getMemberNumber();
+            autoObject.getColor();
+            autoObject.getPlate();
+            autoObject.getYear();
+            autoObject.getTag();
+
+            if (memberFilter.equals("")) {
+
+                autosList.add(autoObject);
+
+            } else if (memberFilter.equals(autoObject.getMemberNumber())) {
+
+
+                autosList.add(autoObject);
+                autoCount++;
+
+
+            }
+
+            Collections.sort(autosList, new Comparator<AutoObject>()
+            {
+                @Override
+                public int compare(AutoObject a1, AutoObject a2) {
+
+                    return a1.getMake().compareTo(a2.getMake());
+                }
+            });
+
+
+
+        }
+
+
     }
 
 

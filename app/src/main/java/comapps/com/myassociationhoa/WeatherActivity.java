@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -36,33 +35,28 @@ public class WeatherActivity extends AppCompatActivity {
     private static final String TAG = "WEATHERACTIVITY";
     private static final String VISITEDPREFERENCES = "VisitedPrefs";
     private static final String MYPREFERENCES = "MyPrefs";
-
-    private SharedPreferences sharedPreferencesVisited;
     private SharedPreferences sharedPreferences;
-    private Context context;
-    private FrameLayout weatherLayout;
     private JSONObject jsonObj;
-
     private TextView currentWeatherDescription;
     private TextView currentWeatherTemp;
     private TextView currentWeatherWindDirection;
-    TextView currentWeatherWindSpeed;
     private TextView forecastTempMaxMin;
     private TextView forecastDescription;
     private TextView forecastWindDirection;
-    TextView forecastWindSpeed;
 
-    String associationNameText;
+
+
     private String currentWeatherDescriptionText;
     private String currentWeatherTempText;
     private String currentWeatherWindDirectionText;
-    private String currentWeatherWindSpeedText;
     private String forecastTempMaxMinText;
     private String forecastDescriptionText;
     private String forecastWindDirectionText;
-    private String forecastWindSpeedText;
+
+
 
     private ImageLoader imageLoader;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +81,8 @@ public class WeatherActivity extends AppCompatActivity {
 
         }
 
-        weatherLayout = (FrameLayout) findViewById(R.id.content_main_weather);
-        TextView associationName = (TextView) findViewById(R.id.textViewAssociationName);
 
+        TextView associationName = (TextView) findViewById(R.id.textViewAssociationName);
         currentWeatherDescription = (TextView) findViewById(R.id.textViewCurrentDescription);
         currentWeatherTemp = (TextView) findViewById(R.id.textViewCurrentTemp);
         currentWeatherWindDirection = (TextView) findViewById(R.id.textViewCurrentWindDirection);
@@ -101,12 +94,13 @@ public class WeatherActivity extends AppCompatActivity {
 
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
-        sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
+
 
         ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
 
-        String backgroundImageUrl = sharedPreferencesVisited.getString("backgroundImage2Url", "");
+        String backgroundImageUrl = sharedPreferences.getString("backgroundImage2Url","");
+
 
         Log.d(TAG, "background image address is " + backgroundImageUrl);
 

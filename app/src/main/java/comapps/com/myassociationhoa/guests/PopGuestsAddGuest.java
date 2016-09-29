@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -34,6 +37,7 @@ import java.util.List;
 import java.util.Locale;
 
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.RemoteDataTaskClass;
 import comapps.com.myassociationhoa.myinfo.PersonalInfoActivity;
 import comapps.com.myassociationhoa.objects.GuestObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -86,6 +90,20 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
     SharedPreferences.Editor editorVisited;
 
     TextWatcher tw;
+    
+    Bundle bundle;
+    
+    Boolean forEdit = false;
+    Boolean forDelete = false;
+    String guestPassed;
+    
+    GuestObject guestObject;
+
+    String startDate;
+    String endDate;
+
+    TextView title;
+    
 
 
     @Override
@@ -115,6 +133,8 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
         notifyBy = (Button) findViewById(R.id.buttonNotifyBy);
 
         datesLayout = (LinearLayout) findViewById(R.id.datesLayout);
+        etStartDate = (EditText) findViewById(R.id.editTextStartDate);
+        etEndDate = (EditText) findViewById(R.id.editTextEndDate);
 
 
 
@@ -134,6 +154,128 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
         etGuesNotes = (EditText) findViewById(R.id.editTextGuestNotes);
 
         saveButton = (Button) findViewById(R.id.buttonSaveMessage);
+        title = (TextView) findViewById(R.id.textViewTitle);
+
+        bundle = getIntent().getExtras();
+
+        if ( bundle != null ) {
+
+            forEdit = bundle.getBoolean("FOREDIT");
+            forDelete = bundle.getBoolean("FORDELETE");
+            guestPassed = bundle.getString("GUESTFOREDIT");
+
+            Gson gson = new Gson();
+            guestObject = gson.fromJson(guestPassed, GuestObject.class);
+
+            Log.d(TAG, "guest object passed ----> " + guestObject.toString());
+
+          
+
+        }
+
+        if ( forEdit ) {
+
+            etGuestName.setText(guestObject.getGuestName());
+            guestType.setText(guestObject.getGuestType());
+            notifyBy.setText(guestObject.getOwnerContactNumberType());
+            etStartDate.setText(guestObject.getGuestStartdate());
+            etEndDate.setText(guestObject.getGuestEnddate());
+            if ( guestObject.getSundayAccess().equals("Yes")) {
+                tbSunday.setChecked(true);
+            } else {
+                tbSunday.setChecked(false);
+            }
+            if ( guestObject.getMondayAccess().equals("Yes")) {
+                tbMonday.setChecked(true);
+            } else {
+                tbMonday.setChecked(false);
+            }
+            if ( guestObject.getTuesdayAccess().equals("Yes")) {
+                tbTuesday.setChecked(true);
+            } else {
+                tbTuesday.setChecked(false);
+            }
+            if ( guestObject.getWednesdayAccess().equals("Yes")) {
+                tbWednesday.setChecked(true);
+            } else {
+                tbWednesday.setChecked(false);
+            }
+            if ( guestObject.getThursdayAccess().equals("Yes")) {
+                tbThursday.setChecked(true);
+            } else {
+                tbThursday.setChecked(false);
+            }
+            if ( guestObject.getFridayAccess().equals("Yes")) {
+                tbFriday.setChecked(true);
+            } else {
+                tbFriday.setChecked(false);
+            }
+            if ( guestObject.getSaturdayAccess().equals("Yes")) {
+                tbSaturday.setChecked(true);
+            } else {
+                tbSaturday.setChecked(false);
+            }
+
+            etGuesNotes.setText(guestObject.getGuestDescription());
+
+            bar.setTitle("Update Guest");
+            title.setText("Update Guest");
+
+        }
+
+        if ( forDelete ) {
+
+            etGuestName.setText(guestObject.getGuestName());
+            guestType.setText(guestObject.getGuestType());
+            notifyBy.setText(guestObject.getOwnerContactNumberType());
+            etStartDate.setText(guestObject.getGuestStartdate());
+            etEndDate.setText(guestObject.getGuestEnddate());
+            if ( guestObject.getSundayAccess().equals("Yes")) {
+                tbSunday.setChecked(true);
+            } else {
+                tbSunday.setChecked(false);
+            }
+            if ( guestObject.getMondayAccess().equals("Yes")) {
+                tbMonday.setChecked(true);
+            } else {
+                tbMonday.setChecked(false);
+            }
+            if ( guestObject.getTuesdayAccess().equals("Yes")) {
+                tbTuesday.setChecked(true);
+            } else {
+                tbTuesday.setChecked(false);
+            }
+            if ( guestObject.getWednesdayAccess().equals("Yes")) {
+                tbWednesday.setChecked(true);
+            } else {
+                tbWednesday.setChecked(false);
+            }
+            if ( guestObject.getThursdayAccess().equals("Yes")) {
+                tbThursday.setChecked(true);
+            } else {
+                tbThursday.setChecked(false);
+            }
+            if ( guestObject.getFridayAccess().equals("Yes")) {
+                tbFriday.setChecked(true);
+            } else {
+                tbFriday.setChecked(false);
+            }
+            if ( guestObject.getSaturdayAccess().equals("Yes")) {
+                tbSaturday.setChecked(true);
+            } else {
+                tbSaturday.setChecked(false);
+            }
+
+            etGuesNotes.setText(guestObject.getGuestDescription());
+
+            title.setText("Delete Guest");
+
+            saveButton.setText("DELETE");
+            saveButton.setTextColor(Color.RED);
+
+            bar.setTitle("Delete Guest");
+
+        }
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
         sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_APPEND);
@@ -151,50 +293,56 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
         datesLayout.setVisibility(View.GONE);
         notifyBy.setText("Mobile");
 
-        guestType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if ( !forDelete ) {
 
-                String guestTypeString = guestType.getText().toString();
+            guestType.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                if ( guestTypeString.equals("Permanent")) {
-                    guestType.setText("Temporary");
-                    datesLayout.setVisibility(View.VISIBLE);
-                    findViewsById();
-                    setDateTimeField();
-                } else {
-                    guestType.setText("Permanent");
-                    datesLayout.setVisibility(View.GONE);
+                    String guestTypeString = guestType.getText().toString();
+
+                    if (guestTypeString.equals("Permanent")) {
+                        guestType.setText("Temporary");
+                        datesLayout.setVisibility(View.VISIBLE);
+                        findViewsById();
+                        setDateTimeField();
+                    } else {
+                        guestType.setText("Permanent");
+                        datesLayout.setVisibility(View.GONE);
+                    }
+
                 }
-
-            }
-        });
+            });
 
 
+            notifyBy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String notifyByString = notifyBy.getText().toString();
 
-        notifyBy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String notifyByString = notifyBy.getText().toString();
+                    switch (notifyByString) {
+                        case "Mobile":
+                            notifyBy.setText("Text");
+                            break;
+                        case "Text":
+                            notifyBy.setText("Home");
+                            break;
+                        case "Home":
+                            notifyBy.setText("None");
+                            break;
+                        case "None":
+                            notifyBy.setText("Mobile");
+                            break;
+                    }
 
-                switch (notifyByString) {
-                    case "Mobile":
-                        notifyBy.setText("Text");
-                        break;
-                    case "Text":
-                        notifyBy.setText("Home");
-                        break;
-                    case "Home":
-                        notifyBy.setText("None");
-                        break;
-                    case "None":
-                        notifyBy.setText("Mobile");
-                        break;
                 }
+            });
 
-            }
-        });
+        } else {
 
+            guestType.setEnabled(false);
+            notifyBy.setEnabled(false);
+        }
 
 
         if ( datesLayout.getVisibility() == View.VISIBLE) {
@@ -310,64 +458,104 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
 
                         int lengthOfGuestFileString = guestFileString.length();
 
-                        String newGuest = "|" + installation.getString("memberName") + "^" +
-                                installation.getString("memberNumber") + "^" + guestType.getText() + "^" + etStartDate.getText() + "^" + etEndDate.getText()
-                                + "^" + tbMonday.getText()+ "^" + tbTuesday.getText()+ "^" + tbWednesday.getText()+ "^" + tbThursday.getText()+ "^" + tbFriday.getText()
-                                + "^" + tbSaturday.getText()+ "^" + tbSunday.getText()+ "^" + etGuesNotes.getText()+ "^" + etGuestName.getText()+ "^" + notifyBy.getText()
-                                + "^" + notify;
+                        if ( forEdit ) {
 
-                        guestFileUpdate = guestFileString + "|" + installation.getString("memberName") + "^" +
-                                installation.getString("memberNumber") + "^" + guestType.getText() + "^" + etStartDate.getText() + "^" + etEndDate.getText()
-                                + "^" + tbMonday.getText()+ "^" + tbTuesday.getText()+ "^" + tbWednesday.getText()+ "^" + tbThursday.getText()+ "^" + tbFriday.getText()
-                                + "^" + tbSaturday.getText()+ "^" + tbSunday.getText()+ "^" + etGuesNotes.getText()+ "^" + etGuestName.getText()+ "^" + notifyBy.getText()
-                                + "^" + notify;
 
-                        if ( lengthOfGuestFileString < 1 ) {
 
-                            guestFileUpdate = guestFileUpdate.substring(1);
+                            if (etStartDate.getText().equals(null)) {
+                                startDate = "";
+                                endDate = "";
+                            } else {
+                                startDate = etStartDate.getText().toString();
+                                endDate = etEndDate.getText().toString();
+                            }
+
+                            String preEditGuest = guestObject.getGuestType() + "^" + guestObject.getGuestStartdate() + "^" + guestObject.getGuestEnddate()
+                                    + "^" + guestObject.getMondayAccess() + "^" + guestObject.getTuesdayAccess() + "^" + guestObject.getWednesdayAccess() +
+                                    "^" + guestObject.getThursdayAccess() + "^" + guestObject.getFridayAccess()
+                                    + "^" + guestObject.getSaturdayAccess() + "^" + guestObject.getSundayAccess() + "^" + guestObject.getGuestDescription() +
+                                    "^" + guestObject.getGuestName() + "^" + guestObject.getOwnerContactNumberType()
+                                    + "^" + guestObject.getOwnerContactNumber();
+
+                            String postEditGuest = guestType.getText() + "^" + startDate + "^" + endDate
+                                    + "^" + tbMonday.getText() + "^" + tbTuesday.getText() + "^" + tbWednesday.getText() + "^" + tbThursday.getText() + "^" + tbFriday.getText()
+                                    + "^" + tbSaturday.getText() + "^" + tbSunday.getText() + "^" + etGuesNotes.getText() + "^" + etGuestName.getText() + "^" + notifyBy.getText()
+                                    + "^" + notify;
+
+
+                            guestFileUpdate = guestFileString.replace(preEditGuest, postEditGuest);
+
+                            Log.d(TAG, "update guests --->" + guestFileUpdate);
+
+
+
+                        } else if ( forDelete ) {
+
+                            String preEditGuest = "|" + installation.getString("memberName") + "^" +
+                                    installation.getString("memberNumber") + "^" + guestObject.getGuestType() + "^" + guestObject.getGuestStartdate() + "^" + guestObject.getGuestEnddate()
+                                    + "^" + guestObject.getMondayAccess() + "^" + guestObject.getTuesdayAccess() + "^" + guestObject.getWednesdayAccess() +
+                                    "^" + guestObject.getThursdayAccess() + "^" + guestObject.getFridayAccess()
+                                    + "^" + guestObject.getSaturdayAccess() + "^" + guestObject.getSundayAccess() + "^" + guestObject.getGuestDescription() +
+                                    "^" + guestObject.getGuestName() + "^" + guestObject.getOwnerContactNumberType()
+                                    + "^" + guestObject.getOwnerContactNumber();
+
+                            guestFileUpdate = guestFileString.replace(preEditGuest, "");
+
+                            Log.d(TAG, "update guests --->" + guestFileUpdate);
+
+
+                        } else {
+
+
+                            String startDate;
+                            String endDate;
+
+                            if (etStartDate.getText().equals(null)) {
+                                startDate = "";
+                                endDate = "";
+                            } else {
+                                startDate = etStartDate.getText().toString();
+                                endDate = etEndDate.getText().toString();
+                            }
+
+                            String newGuest = "|" + installation.getString("memberName") + "^" +
+                                    installation.getString("memberNumber") + "^" + guestType.getText() + "^" + startDate + "^" + endDate
+                                    + "^" + tbMonday.getText() + "^" + tbTuesday.getText() + "^" + tbWednesday.getText() + "^" + tbThursday.getText() + "^" + tbFriday.getText()
+                                    + "^" + tbSaturday.getText() + "^" + tbSunday.getText() + "^" + etGuesNotes.getText() + "^" + etGuestName.getText() + "^" + notifyBy.getText()
+                                    + "^" + notify;
+
+                            guestFileUpdate = guestFileString + "|" + installation.getString("memberName") + "^" +
+                                    installation.getString("memberNumber") + "^" + guestType.getText() + "^" + startDate + "^" + endDate
+                                    + "^" + tbMonday.getText() + "^" + tbTuesday.getText() + "^" + tbWednesday.getText() + "^" + tbThursday.getText() + "^" + tbFriday.getText()
+                                    + "^" + tbSaturday.getText() + "^" + tbSunday.getText() + "^" + etGuesNotes.getText() + "^" + etGuestName.getText() + "^" + notifyBy.getText()
+                                    + "^" + notify;
+
+                            if (lengthOfGuestFileString < 1) {
+
+                                guestFileUpdate = guestFileUpdate.substring(1);
+
+                            }
+
+                            editorVisited = sharedPreferencesVisited.edit();
+
+                            if (sharedPreferencesVisited.getString("MYGUESTS", "").equals("")) {
+                                editorVisited.putString("MYGUESTS", newGuest.substring(1));
+                            } else if (!sharedPreferencesVisited.getString("MYGUESTS", "").contains(newGuest)) {
+                                editorVisited.putString("MYGUESTS", sharedPreferencesVisited.getString("MYGUESTS", "") + newGuest);
+                            }
+                            editorVisited.apply();
+
+                            Log.d(TAG, "update guests --->" + guestFileUpdate);
+
+
 
                         }
 
-                        editorVisited = sharedPreferencesVisited.edit();
-
-                        if ( sharedPreferencesVisited.getString("MYGUESTS", "").equals("")) {
-                            editorVisited.putString("MYGUESTS", newGuest.substring(1));
-                        } else if (!sharedPreferencesVisited.getString("MYGUESTS","").contains(newGuest)){
-                            editorVisited.putString("MYGUESTS", sharedPreferencesVisited.getString("MYGUESTS","") + newGuest);
+                        if ( guestFileUpdate.substring(0,1).equals("|")) {
+                            guestFileUpdate = guestFileUpdate.substring(1, guestFileUpdate.length());
+                        } else if (guestFileUpdate.substring(guestFileUpdate.length() - 1, guestFileUpdate.length()).equals("|")) {
+                            guestFileUpdate = guestFileUpdate.substring(0, guestFileUpdate.length() - 1);
                         }
-                        editorVisited.apply();
-
-                        Log.d(TAG, "update guests --->" + guestFileUpdate);
-
-
-
-                        GuestObject guestObject = new GuestObject();
-                        guestObject.setGuestOwner(installation.getString("memberName"));
-                        guestObject.setGuestOwnerMemberNumber(installation.getString("memberNumber"));
-                        guestObject.setGuestType(guestType.getText().toString());
-                        guestObject.setGuestStartdate(etStartDate.getText().toString());
-                        guestObject.setGuestEnddate(etEndDate.getText().toString());
-                        guestObject.setMondayAccess(tbMonday.getText().toString());
-                        guestObject.setTuesdayAccess(tbTuesday.getText().toString());
-                        guestObject.setWednesdayAccess(tbWednesday.getText().toString());
-                        guestObject.setThursdayAccess(tbThursday.getText().toString());
-                        guestObject.setFridayAccess(tbFriday.getText().toString());
-                        guestObject.setSaturdayAccess(tbSaturday.getText().toString());
-                        guestObject.setSundayAccess(tbSunday.getText().toString());
-                        guestObject.setGuestDescription(etGuesNotes.getText().toString());
-                        guestObject.setGuestName(etGuestName.getText().toString());
-                        guestObject.setOwnerContactNumberType(notifyBy.getText().toString());
-                        guestObject.setOwnerContactNumber(notify);
-
-
-                        Integer guestSizeInt = sharedPreferences.getInt("guestObjectsSize", 0);
-
-                        editor = sharedPreferences.edit();
-                        Gson gson = new Gson();
-                        String jsonGuestObject = gson.toJson(guestObject);
-                        editor.putString("guestObject" + "[" + (guestSizeInt + 1) + "]", jsonGuestObject);
-                        editor.putInt("guestObjectsSize", guestSizeInt + 1);
-                        editor.apply();
 
 
                         byte[] data = guestFileUpdate.getBytes();
@@ -391,14 +579,27 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
                             assoc.get(0).saveEventually();
                         }
 
+                        Toast toast;
 
 
-                        Toast toast = Toast.makeText(getBaseContext(), guestObject.getGuestName() + " added to guests.", Toast.LENGTH_LONG);
+                        if ( forEdit ) {
+                            toast = Toast.makeText(getBaseContext(), guestObject.getGuestName() + " updated.", Toast.LENGTH_LONG);
+                        } else if ( forDelete) {
+                            toast = Toast.makeText(getBaseContext(), guestObject.getGuestName() + " deleted.", Toast.LENGTH_LONG);
+                        } else {
+                            toast = Toast.makeText(getBaseContext(), etGuestName.getText() + " added to guests.", Toast.LENGTH_LONG);
+                        }
+
+
+
+
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
 
 
 
+                        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+                        remoteDataTaskClass.execute();
 
 
                         finish();
@@ -417,7 +618,7 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
 
 
 
-            etStartDate = (EditText) findViewById(R.id.textViewAutoYear);
+            etStartDate = (EditText) findViewById(R.id.editTextStartDate);
             etStartDate.setInputType(InputType.TYPE_NULL);
             etStartDate.requestFocus();
 

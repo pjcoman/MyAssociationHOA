@@ -2,14 +2,18 @@ package comapps.com.myassociationhoa.maintenance;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -26,6 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.RemoteDataTaskClass;
 import comapps.com.myassociationhoa.objects.MaintenanceCategoryObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -47,13 +52,20 @@ public class AddMaintenanceCategory extends AppCompatActivity {
 
     EditText etCategoryName;
     EditText etCategoryEmail;
+    TextView title;
 
     Button saveButton;
 
     SharedPreferences sharedPreferences;
-    SharedPreferences sharedPreferencesVisited;
     SharedPreferences.Editor editor;
-    SharedPreferences.Editor editorVisited;
+
+    Bundle bundle;
+    String passedCat;
+    String passedEmail;
+    String passedPosition;
+    String passedJsonObject;
+
+
 
 
     @Override
@@ -67,20 +79,53 @@ public class AddMaintenanceCategory extends AppCompatActivity {
 
         setContentView(R.layout.layout_addmaintenance);
 
+
+
         android.support.v7.app.ActionBar bar = getSupportActionBar();
 
         if (bar != null) {
-            bar.setTitle("Update Auto Info");
+            bar.setTitle("Add Maint. Category");
         }
 
 
-        etCategoryName = (EditText) findViewById(R.id.textViewAutoMake);
-        etCategoryEmail = (EditText) findViewById(R.id.textViewAutoModel);
+        etCategoryName = (EditText) findViewById(R.id.editTextCatName);
+        etCategoryEmail = (EditText) findViewById(R.id.editTextEmail);
+        title = (TextView) findViewById(R.id.textViewTitle);
+
+        bundle = getIntent().getExtras();
+
+
+
+        if ( bundle != null ) {
+
+            bar.setTitle("Edit Maint. Category");
+            title.setText("Edit Category");
+
+            passedCat = bundle.getString("MAINTENANCECAT", "Category");
+            passedEmail = bundle.getString("MAINTENANCEEMAIL", "Email Address");
+            passedPosition = bundle.getString("MAINTENANCEPOSITION", "");
+            passedJsonObject = bundle.getString("MAINTENACEJSONOBJECT", "");
+
+            Log.d(TAG, "passedCat ----> " + passedCat);
+            Log.d(TAG, "passedEmail ----> " + passedEmail);
+            Log.d(TAG, "passedPosition ----> " + passedPosition);
+
+            Log.d(TAG, "passed jsonObject ----> " + passedJsonObject);
+
+            etCategoryName.setText(passedCat);
+            etCategoryEmail.setText(passedEmail);
+
+            getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+            );
+
+        }
+
 
         saveButton = (Button) findViewById(R.id.buttonSaveMessage);
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
-        sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_APPEND);
+
 
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -90,6 +135,9 @@ public class AddMaintenanceCategory extends AppCompatActivity {
         int height = dm.heightPixels;
 
         getWindow().setLayout(width * 1, height * 1);
+
+
+
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,33 +177,94 @@ public class AddMaintenanceCategory extends AppCompatActivity {
                         String strDate = sdf.format(c.getTime());
 
 
-                        String newCategory = "|" + etCategoryName.getText() +
-                                "|" + etCategoryEmail.getText();
+                        if ( bundle == null ) {
 
-                        maintenanceCategoryFileUpdate = maintenanceCategoryFileString + newCategory;
 
-                        if ( maintenanceCategoryFileString.length() < 1 ) {
+                            String newCategory = "|" + etCategoryName.getText() +
+                                    "|" + etCategoryEmail.getText();
 
-                            maintenanceCategoryFileUpdate = maintenanceCategoryFileUpdate.substring(1);
+                            maintenanceCategoryFileUpdate = maintenanceCategoryFileString + newCategory;
+
+                            if (maintenanceCategoryFileString.length() < 1) {
+
+                                maintenanceCategoryFileUpdate = maintenanceCategoryFileUpdate.substring(1);
+
+                            }
+
+
+                            MaintenanceCategoryObject object = new MaintenanceCategoryObject();
+                            object.setMaintenanceCatName(String.valueOf(etCategoryName.getText()));
+                            object.setMaintenanceCatEmail(String.valueOf(etCategoryEmail.getText()));
+
+                            Integer categorySizeInt = sharedPreferences.getInt("maintenanceCategoryObjectSize", 0);
+
+                            editor = sharedPreferences.edit();
+                            Gson gson = new Gson();
+                            String jsonMCObject = gson.toJson(object);
+                            editor.putString("maintenanceCategoryObject" + "[" + String.valueOf(categorySizeInt) + "]", jsonMCObject);
+                            editor.putInt("maintenanceCategoryObjectsSize", categorySizeInt + 1);
+                            editor.apply();
+
+                            Toast toast = Toast.makeText(getBaseContext(), object.getMaintenanceCatName() + " added.", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+
+                        } else {
+
+                            String existing = passedCat + "|" + passedEmail;
+                            Log.d(TAG, "existingCatObject ----> " + existing);
+                            String edited = String.valueOf(etCategoryName.getText()) + "|" + String.valueOf(etCategoryEmail.getText());
+                            Log.d(TAG, "editedCatObject ----> " + edited);
+
+                            maintenanceCategoryFileUpdate = maintenanceCategoryFileString;
+
+                            Log.d(TAG, "pre update ----> " + maintenanceCategoryFileUpdate);
+
+                            maintenanceCategoryFileUpdate = maintenanceCategoryFileUpdate.replace(existing, edited);
+
+                            Log.d(TAG, "post update ----> " + maintenanceCategoryFileUpdate);
+
+  /*                          MaintenanceCategoryObject maintenanceCategoryObject = new MaintenanceCategoryObject();
+                            maintenanceCategoryObject.setMaintenanceCatName(String.valueOf(etCategoryName.getText()));
+                            maintenanceCategoryObject.setMaintenanceCatEmail(String.valueOf(etCategoryEmail.getText()));
+                            Gson gson = new Gson();
+                            String jsonMCObject = gson.toJson(maintenanceCategoryObject);
+
+
+
+
+
+                            for (int i = 0; i < Integer.valueOf(sharedPreferences.getInt("maintenanceCategoryObjectsSize", 0)); i++) {
+
+                                String categoryObject = sharedPreferences.getString("maintenanceCategoryObject" + "[" + i + "]", "");
+
+                               if ( passedJsonObject.equals(categoryObject)) {
+
+                                    Log.d(TAG, "categoryObject is " + categoryObject);
+
+                                    editor = sharedPreferences.edit();
+                                    editor.putString("maintenanceCategoryObject" + "[" + i + "]", jsonMCObject);
+                                    editor.apply();
+
+
+
+                                }
+
+
+                            }*/
+
+                            AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+                            remoteDataTaskClass.execute();
+
+
+
+                            Toast toast = Toast.makeText(getBaseContext(), passedCat + " edited.", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
 
                         }
 
-
-
-
-
-                        MaintenanceCategoryObject object = new MaintenanceCategoryObject();
-                        object.setMaintenanceCatName(String.valueOf(etCategoryName.getText()));
-                        object.setMaintenanceCatEmail(String.valueOf(etCategoryEmail.getText()));
-
-                        Integer categorySizeInt = sharedPreferences.getInt("maintenanceCategoryObjectSize", 0);
-
-                        editor = sharedPreferences.edit();
-                        Gson gson = new Gson();
-                        String jsonMCObject = gson.toJson(object);
-                        editor.putString("maintenanceCategoryObject" + "[" + String.valueOf(categorySizeInt) + "]", jsonMCObject);
-                        editor.putInt("maintenanceCategoryObjectsSize", categorySizeInt + 1);
-                        editor.apply();
+                        Log.d(TAG, "updated Category.txt ----> " + maintenanceCategoryFileUpdate);
 
 
                         byte[] data = maintenanceCategoryFileUpdate.getBytes();
@@ -179,15 +288,7 @@ public class AddMaintenanceCategory extends AppCompatActivity {
                         }
 
 
-                        Toast toast = Toast.makeText(getBaseContext(), object.getMaintenanceCatName() + " added.", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
 
-
-
-                       /* Intent mainActivity = new Intent();
-                        mainActivity.setClass(getApplicationContext(), MainActivity.class);
-                        startActivity(mainActivity);*/
                         finish();
 
 
@@ -207,6 +308,14 @@ public class AddMaintenanceCategory extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
 
     }
+
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
 
     @Override
     public void onBackPressed() {

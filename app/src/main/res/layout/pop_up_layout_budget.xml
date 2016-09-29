@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:weightSum="10"
+    android:background="@drawable/button_rounded_corners_white_white_bg_forpops">
 
 
     <TextView

@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.parse.ParseObject;
@@ -25,16 +24,11 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MBActivity extends AppCompatActivity {
 
     private static final String TAG = "MBACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
     ParseQuery<ParseObject> query;
-    String[] messageFileArray;
-    String messageFileString;
-    String messageFileUpdate = "";
-
-    EditText newMessage;
-
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferencesVisited;
+    SharedPreferences.Editor editorVisited;
 
     private FloatingActionButton mFab;
 
@@ -58,19 +52,24 @@ public class MBActivity extends AppCompatActivity {
         }
 
 
-        sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
-        String type = sharedPreferences.getString("MEMBERTYPE", "");
+
+        sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
+        String type = sharedPreferencesVisited.getString("MEMBERTYPE", "");
+
+        editorVisited = sharedPreferencesVisited.edit();
+        editorVisited.putBoolean("FROMMB", true);
+        editorVisited.putBoolean("MBFIRSTVIEW", false);
+        editorVisited.putBoolean("SHOWREDDOT", false);
+        editorVisited.apply();
+
+
+
 
         mFab = (FloatingActionButton) findViewById(R.id.fab);
 
-        if ( type.equals("Member")) {
+
 
             mFab.setVisibility(View.VISIBLE);
-
-        } else {
-
-            mFab.setVisibility(View.VISIBLE);
-        }
 
 
 
@@ -82,6 +81,7 @@ public class MBActivity extends AppCompatActivity {
                 Intent mbAddActivity = new Intent();
                 mbAddActivity.setClass(getApplicationContext(), PopMBAddMessage.class);
                 startActivity(mbAddActivity);
+                finish();
 
 
             }
@@ -134,7 +134,8 @@ public class MBActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-       this.finish();
+
+        this.finish();
     }
 
 

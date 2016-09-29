@@ -22,6 +22,7 @@ public class MBFragment extends ListFragment {
     private static final String MYPREFERENCES = "MyPrefs";
 
     SharedPreferences sharedPreferencesVisited;
+    SharedPreferences.Editor sditorVisted;
     SharedPreferences sharedPreferences;
 
 
@@ -33,7 +34,7 @@ public class MBFragment extends ListFragment {
         sharedPreferences = getActivity().getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
         ArrayList<MBObject> posts = new ArrayList<>();
-        Integer mbItems = sharedPreferencesVisited.getInt("mbSize", 0);
+        Integer mbItems = sharedPreferences.getInt("mbSize", 0);
 
         for (int i = 0; i < mbItems; i++) {
 
@@ -44,6 +45,8 @@ public class MBFragment extends ListFragment {
             posts.add(mbObject);
 
         }
+
+
 
 
         MBAdapter mbAdapter = new MBAdapter(getActivity(), posts);

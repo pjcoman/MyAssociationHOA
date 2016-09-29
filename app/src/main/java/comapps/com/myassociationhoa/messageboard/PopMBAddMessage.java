@@ -3,6 +3,7 @@ package comapps.com.myassociationhoa.messageboard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -29,6 +30,7 @@ import java.util.List;
 
 import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.RemoteDataTaskClass;
 import comapps.com.myassociationhoa.objects.MBObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -47,6 +49,8 @@ public class PopMBAddMessage extends AppCompatActivity {
     String messageFileString = "";
     String messageFileUpdate = "";
 
+    String pushFileString;
+
     EditText newMessage;
     Button saveButton;
 
@@ -54,6 +58,8 @@ public class PopMBAddMessage extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     SharedPreferences.Editor editorVisited;
+
+    RemoteDataTaskClass rdtc;
 
 
     @Override
@@ -118,8 +124,10 @@ public class PopMBAddMessage extends AppCompatActivity {
                         Calendar c = Calendar.getInstance();
                         SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
+                        SimpleDateFormat month = new SimpleDateFormat("M");
                         String strDate = sdf.format(c.getTime());
                         String strDate2 = sdf2.format(c.getTime());
+                        String strMonth = month.format(c.getTime());
 
                         String memberEmail = sharedVisitedPreferences.getString("SUMMER_EMAIL","");
 
@@ -145,7 +153,7 @@ public class PopMBAddMessage extends AppCompatActivity {
                         mbObject.setMbPostDate2(strDate2);
                         mbObject.setMbPosterEmailAddress(memberEmail);
 
-                        if (sharedPreferences.getString("defaultRecord(48)", "Yes").equals("Yes")) {
+                        if (sharedPreferences.getString("defaultRecord(48)", "Yes").equals("Yes") && installation.getString("MemberType").equals("Member")) {
 
                             String adminMessageFileString = "";
 
@@ -228,9 +236,44 @@ public class PopMBAddMessage extends AppCompatActivity {
 
                             push.sendInBackground();
 
+                            ParseFile pushFile = assoc.get(0).getParseFile("PushFile");
+
+                            try {
+                                byte[] file = pushFile.getData();
+                                pushFileString = new String(file, "UTF-8");
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            } catch (UnsupportedEncodingException e1) {
+                                e1.printStackTrace();
+                            }
+
+                            Log.d(TAG, "existing push notifications --->" + pushFileString);
+
+                            String pushFileUpdate = pushFileString + "|" + strMonth + "^" + installation.getString("AssociationCode") + "^" + strDate
+                                    + "^" + installation.getString("memberName") +
+                                    " has posted a new message comment for review for the Message Board";
+
+                            pushFileUpdate = pushFileUpdate.trim();
+
+                            byte[] pushData = pushFileUpdate.getBytes();
+                            pushFile = new ParseFile("Push.txt", pushData);
+
+                            assoc.get(0).put("PushFile", pushFile);
+                            try {
+                                assoc.get(0).save();
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                                assoc.get(0).saveEventually();
+                            }
+
+
+                            AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+                            remoteDataTaskClass.execute();
+
+
                             Intent mainActivity = new Intent();
                             mainActivity.setClass(getApplicationContext(), MainActivity.class);
-                            startActivity(mainActivity  );
+                            startActivity(mainActivity);
                             finish();
 
 
@@ -250,10 +293,6 @@ public class PopMBAddMessage extends AppCompatActivity {
                         String jsonMbObject = gson.toJson(mbObject); // myObject - instance of MyObject
                         editor.putString("mbObject" + "[" + String.valueOf(mbSizeInt + 1) + "]", jsonMbObject);
                     //    editor.putInt("mbSize", mbSizeInt + 1);
-                        editor.apply();
-
-                        editorVisited = sharedVisitedPreferences.edit();
-                        editorVisited.putInt("mbSize", mbSizeInt + 1);
                         editor.apply();
 
 
@@ -299,11 +338,48 @@ public class PopMBAddMessage extends AppCompatActivity {
 
                         push.sendInBackground();
 
+                            ParseFile pushFile = assoc.get(0).getParseFile("PushFile");
 
-                        Intent mainActivity = new Intent();
-                        mainActivity.setClass(getApplicationContext(), MainActivity.class);
-                        startActivity(mainActivity  );
-                        finish();
+                            try {
+                                byte[] file = pushFile.getData();
+                                pushFileString = new String(file, "UTF-8");
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            } catch (UnsupportedEncodingException e1) {
+                                e1.printStackTrace();
+                            }
+
+                            Log.d(TAG, "existing push notifications --->" + pushFileString);
+
+                            String pushFileUpdate = pushFileString + "|" + strMonth + "^" + installation.getString("AssociationCode") + "^" + strDate
+                                    + "^" + installation.getString("memberName") +
+                                    " has posted a new message comment for review for the Message Board";
+
+                            pushFileUpdate = pushFileUpdate.trim();
+
+                            byte[] pushData = pushFileUpdate.getBytes();
+                            pushFile = new ParseFile("Push.txt", pushData);
+
+                            assoc.get(0).put("PushFile", pushFile);
+                            try {
+                                assoc.get(0).save();
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                                assoc.get(0).saveEventually();
+                            }
+
+
+
+                            AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+                            remoteDataTaskClass.execute();
+
+                            Intent mainActivity = new Intent();
+                            mainActivity.setClass(getApplicationContext(), MainActivity.class);
+                            startActivity(mainActivity);
+                            finish();
+
+
+
 
                         }
 
@@ -328,10 +404,7 @@ public class PopMBAddMessage extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intentMain = new Intent();
-        intentMain.setClass(PopMBAddMessage.this, MBActivity.class);
-        PopMBAddMessage.this.finish();
-        startActivity(intentMain);
+       finish();
 
     }
 

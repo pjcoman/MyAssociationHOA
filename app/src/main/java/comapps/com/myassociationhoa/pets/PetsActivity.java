@@ -163,6 +163,7 @@ public class PetsActivity extends AppCompatActivity implements
                 Intent petAddActivity = new Intent();
                 petAddActivity.setClass(getApplicationContext(), PopPetsAddPet.class);
                 startActivity(petAddActivity);
+                finish();
 
 
             }

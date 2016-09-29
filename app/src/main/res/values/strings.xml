@@ -298,6 +298,34 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="automobile_file">Automobile File</string>
     <string name="description_of_maintenance_item">Description of Maintenance Item</string>
     <string name="notes_on_maintenance_item">Notes on Maintenance Item</string>
+    <string name="add_new_category">Add New Category</string>
+    <string name="group_1">Group 1</string>
+    <string name="group_2">Group 2</string>
+    <string name="member_groups">Member Groups</string>
+    <string name="group_3">Group 3</string>
+    <string name="group_4">Group 4</string>
+    <string name="group_5">Group 5</string>
+    <string name="group_6">Group 6</string>
+    <string name="group_7">Group 7</string>
+    <string name="group_8">Group 8</string>
+    <string name="process">Process</string>
+    <string name="build_text_file_and_email">Build Text File and Email</string>
+    <string name="build_html_file_and_email">Build HTML File and Email</string>
+    <string name="clear_guest_access_file">Clear Guest Access File</string>
+    <string name="add_auto">Add Auto</string>
+    <string name="build_txt_directory">Build TXT Directory</string>
+    <string name="build_txt_directory_file">Build TXT Directory File</string>
+    <string name="category_name">Category Name</string>
+    <string name="email_addressCap">Email Address</string>
+    <string name="winter">Winter</string>
+    <string name="status">status</string>
+    <string name="load_documents">Load Documents</string>
+    <string name="misc1">Misc1</string>
+    <string name="misc2">Misc2</string>
+    <string name="misc3">Misc3</string>
+    <string name="ok">OK</string>
+    <string name="email_poster">Email Poster</string>
+    <string name="add_message">Add Message</string>
 
 
 </resources>

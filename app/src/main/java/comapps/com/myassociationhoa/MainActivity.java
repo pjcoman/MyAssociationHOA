@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -26,6 +28,7 @@ import com.parse.ParseFile;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -42,16 +45,8 @@ import comapps.com.myassociationhoa.guests.GuestsActivity;
 import comapps.com.myassociationhoa.maintenance.MaintenanceActivity;
 import comapps.com.myassociationhoa.messageboard.MBActivity;
 import comapps.com.myassociationhoa.myinfo.MyInfoActivity;
-import comapps.com.myassociationhoa.objects.AutoObject;
-import comapps.com.myassociationhoa.objects.CalendarObject;
-import comapps.com.myassociationhoa.objects.GuestObject;
+import comapps.com.myassociationhoa.objects.AdminMBObject;
 import comapps.com.myassociationhoa.objects.MBObject;
-import comapps.com.myassociationhoa.objects.MaintenanceCategoryObject;
-import comapps.com.myassociationhoa.objects.MaintenanceObject;
-import comapps.com.myassociationhoa.objects.PetObject;
-import comapps.com.myassociationhoa.objects.ProviderObject;
-import comapps.com.myassociationhoa.objects.PushObject;
-import comapps.com.myassociationhoa.objects.RosterObject;
 import comapps.com.myassociationhoa.pets.PetsActivity;
 import comapps.com.myassociationhoa.push_history.PushActivity;
 import comapps.com.myassociationhoa.service_providers.ServiceProviderActivity;
@@ -72,43 +67,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor editor;
     SharedPreferences.Editor editorVisited;
 
+    MBObject mbObject;
+    private ArrayList<MBObject> mbObjects;
+
+    AdminMBObject admin_mbObject;
+    private ArrayList<AdminMBObject> admin_mbObjects;
+
 
 
     private ParseInstallation installation;
     ParseQuery<ParseObject> queryAssociations;
 
-
-
-    private RosterObject rosterObject;
-    private ArrayList<RosterObject> rosterObjects;
-
-    private CalendarObject calendarObject;
-    private ArrayList<CalendarObject> calendarObjects;
-
-    MaintenanceObject maintenanceObject;
-    private ArrayList<MaintenanceObject> maintenanceObjects;
-
-    MaintenanceCategoryObject maintenanceCategoryObject;
-    private ArrayList<MaintenanceCategoryObject> maintenanceCategoryObjects;
-
-    ProviderObject providerObject;
-    private ArrayList<ProviderObject> providerObjects;
-
-    MBObject mbObject;
-    private ArrayList<MBObject> mbObjects;
-
-    PushObject pushObject;
-    private ArrayList<PushObject> pushObjectsMember;
-    private ArrayList<PushObject> pushObjects;
-
-    PetObject petObject;
-    private ArrayList<PetObject> petObjects;
-
-    AutoObject autoObject;
-    private ArrayList<AutoObject> autoObjects;
-
-    GuestObject guestObject;
-    private ArrayList<GuestObject> guestObjects;
+    int messageCount = 0;
 
 
 
@@ -121,30 +91,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String memberName;
     private String memberType;
-    private String memberDeviceName;
     private String memberNumber;
     private String associationCode;
     private TextView associationName;
 
-    Button b1; //email button
-    Button b2; //contact button
-    Button b3; //directory button
-    Button b4; //weather button
-    Button b5; //calendar button
-    Button b6; //budget button
-    Button b7; //documents button
-    Button b8; //message board button
-    Button b9; //my info button
-    Button b10; //push history button
-    Button b11; //service providers button
-    Button b12; //change add assoc button
-    Button b13; //pets directory button
-    Button b14; //guests directory button
-    Button b15; //auto directory button
-    Button b16; //tools button
-    Button b17; //push email button
-    Button b18; //maintenance items button
-    Button b18b;
+    Button b1_email; //email button
+    Button b2_contacts; //contact button
+    Button b3_directory; //directory button
+    Button b4_weather; //weather button
+    Button b5_calendar; //calendar button
+    Button b6_budget; //budget button
+    Button b7_documents; //documents button
+    Button b8_messageboard; //message board button
+    Button b9_myinfo; //my info button
+    Button b10_pushhistory; //push history button
+    Button b11_serviceproviders; //service providers button
+    Button b12_changeadd; //change add assoc button
+    Button b13_pets; //pets directory button
+    Button b14_guests; //guests directory button
+    Button b15_autos; //auto directory button
+    Button b16_tools; //tools button
+    Button b17_pushemail; //push email button
+    Button b18_maintenance; //maintenance items button
+    Button b18_maintenance_b;
 
     LinearLayout contentMain;
 
@@ -152,11 +121,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout ll2;
     LinearLayout ll3;
 
+    Boolean mbVisit = false;
+
     ImageView redDot;
 
     int i = 0;
     int j = 0;
     int k = 0;
+
+    int oldMBSize;
+
+    boolean objectPinned;
+    boolean fromChangeAdd;
+    boolean fromImport;
+    Bundle bundle;
 
 
     @Override
@@ -192,40 +170,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
-
-
-
-
-
         associationName = (TextView) findViewById(R.id.textViewAssociationName);
 
         redDot = (ImageView) findViewById(R.id.imageViewRedDot);
 
-        b1 = (Button) findViewById(R.id.button);
-        b2 = (Button) findViewById(R.id.button2);
-        b3 = (Button) findViewById(R.id.button3);
-        b4 = (Button) findViewById(R.id.button4);
-        b5 = (Button) findViewById(R.id.button5);
-        b6 = (Button) findViewById(R.id.button6);
-        b7 = (Button) findViewById(R.id.button7);
-        b8 = (Button) findViewById(R.id.button8);
-        b9 = (Button) findViewById(R.id.button9);
-        b10 = (Button) findViewById(R.id.button10);
-        b11 = (Button) findViewById(R.id.button11);
-        b12 = (Button) findViewById(R.id.button12);
-        b13 = (Button) findViewById(R.id.button13);
-        b14 = (Button) findViewById(R.id.button14);
-        b15 = (Button) findViewById(R.id.button15);
-        b16 = (Button) findViewById(R.id.button16);
-        b17 = (Button) findViewById(R.id.button17);
-        b18 = (Button) findViewById(R.id.button18);
-        b18b = (Button) findViewById(R.id.button18_b);
+        b1_email = (Button) findViewById(R.id.button);
+        b2_contacts = (Button) findViewById(R.id.button2);
+        b3_directory = (Button) findViewById(R.id.button3);
+        b4_weather = (Button) findViewById(R.id.button4);
+        b5_calendar = (Button) findViewById(R.id.button5);
+        b6_budget = (Button) findViewById(R.id.button6);
+        b7_documents = (Button) findViewById(R.id.button7);
+        b8_messageboard = (Button) findViewById(R.id.button8);
+        b9_myinfo = (Button) findViewById(R.id.button9);
+        b10_pushhistory = (Button) findViewById(R.id.button10);
+        b11_serviceproviders = (Button) findViewById(R.id.button11);
+        b12_changeadd = (Button) findViewById(R.id.button12);
+        b13_pets = (Button) findViewById(R.id.button13);
+        b14_guests = (Button) findViewById(R.id.button14);
+        b15_autos = (Button) findViewById(R.id.button15);
+        b16_tools = (Button) findViewById(R.id.button16);
+        b17_pushemail = (Button) findViewById(R.id.button17);
+        b18_maintenance = (Button) findViewById(R.id.button18);
+        b18_maintenance_b = (Button) findViewById(R.id.button18_b);
 
 
         ll1 = (LinearLayout) findViewById(R.id.ll1);
         ll2 = (LinearLayout) findViewById(R.id.ll2);
         ll3 = (LinearLayout) findViewById(R.id.ll3);
+
+        installation = ParseInstallation.getCurrentInstallation();
 
 
 
@@ -239,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editorVisited.apply();*/
 
          Log.d(TAG, "visited before ------> " + sharedPreferences.getBoolean("visitedBefore", false));
+        Log.d(TAG, "visited before ------> " + sharedPreferencesVisited.getBoolean("visitedBefore", false));
 
 
         if (!sharedPreferencesVisited.getBoolean("visitedBefore", false)) {
@@ -246,28 +221,96 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             // Log.d(TAG, "visited before ------> " + sharedPreferences.getBoolean("visitedBefore", false));
-            startActivity(new Intent(MainActivity.this, PopEnterPasscode.class));
+
+            Intent enterPasscode = new Intent();
+            enterPasscode.setClass(MainActivity.this, PopEnterPasscode.class);
+            enterPasscode.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(enterPasscode);
+
 
 
         } else {
 
-            // Log.d(TAG, "NOT FIRST VISIT");
+            Log.d(TAG, "NOT FIRST VISIT");
+
+            if ( sharedPreferencesVisited.getBoolean("SHOWREDDOT", true) || sharedPreferencesVisited.getBoolean("MBFIRSTVIEW", true)) {
+
+                redDot.setVisibility(View.VISIBLE);
 
 
+            }
 
-            installation = ParseInstallation.getCurrentInstallation();
-            memberType = installation.getString("MemberType");
-            associationCode = installation.getString("AssociationCode");
-            memberName = installation.getString("memberName");
-            memberNumber = installation.getString("memberNumber");
+            Log.i(TAG, "message count from visited ----> " + sharedPreferencesVisited.getInt("mbSize", 0));
 
-            editor = sharedPreferences.edit();
-            editor.putString("MEMBERNUMBER", memberNumber);
-            editor.putString("MEMBERTYPE", memberType);
-            editor.putString("MEMBERNAME", memberName);
+            bundle = getIntent().getExtras();
 
+            if ( bundle != null ) {
 
-            editor.apply();
+                fromChangeAdd = bundle.getBoolean("FROMCHANGEADD");
+                fromImport = bundle.getBoolean("FROMIMPORTDOCS");
+
+                if ( fromImport ) {
+
+                    Toast toast = Toast.makeText(getBaseContext(), bundle.getString("FILEUPLOADED", "pdf") + " uploaded.", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+
+            }
+
+            Log.d(TAG, "MEMBERTYPE ----> " + installation.getString("MemberType") +  " <----");
+            
+            if ( installation.getString("MemberType").equals("Resigned") ||
+                    installation.getString("MemberType").equals("Guest") || installation.getString("MemberType").equals("Master")  ) {
+
+                b1_email.setEnabled(false);
+                b2_contacts.setEnabled(false);
+                b3_directory.setEnabled(false);
+                b4_weather.setEnabled(false);
+                b5_calendar.setEnabled(false);
+                b6_budget.setEnabled(false);
+                b7_documents.setEnabled(false);
+                b8_messageboard.setEnabled(false);
+                b9_myinfo.setEnabled(false);
+                b10_pushhistory.setEnabled(false);
+                b11_serviceproviders.setEnabled(false);
+                b12_changeadd.setEnabled(false);
+                b13_pets.setEnabled(false);
+                b14_guests.setEnabled(false);
+                b15_autos.setEnabled(false);
+                b16_tools.setEnabled(false);
+                b17_pushemail.setEnabled(false);
+                b18_maintenance.setEnabled(false);
+                b18_maintenance_b.setEnabled(false);
+
+                Toast toast = Toast.makeText(getBaseContext(), "NOT REGISTERED", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                
+                
+            } else if ( installation.getString("MemberType").equals("Security")){
+
+                b1_email.setEnabled(true);
+                b2_contacts.setEnabled(true);
+                b3_directory.setEnabled(true);
+                b4_weather.setEnabled(false);
+                b5_calendar.setEnabled(false);
+                b6_budget.setEnabled(false);
+                b7_documents.setEnabled(false);
+                b8_messageboard.setEnabled(false);
+                b9_myinfo.setEnabled(false);
+                b10_pushhistory.setEnabled(false);
+                b11_serviceproviders.setEnabled(false);
+                b12_changeadd.setEnabled(true);
+                b13_pets.setEnabled(true);
+                b14_guests.setEnabled(true);
+                b15_autos.setEnabled(true);
+                b16_tools.setEnabled(false);
+                b17_pushemail.setEnabled(false);
+                b18_maintenance.setEnabled(false);
+                b18_maintenance_b.setEnabled(false);
+
+            }
 
 
             new RemoteDataTask().execute();
@@ -276,25 +319,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-        b1.setOnClickListener(this);
-        b2.setOnClickListener(this);
-        b3.setOnClickListener(this);
-        b4.setOnClickListener(this);
-        b5.setOnClickListener(this);
-        b6.setOnClickListener(this);
-        b7.setOnClickListener(this);
-        b8.setOnClickListener(this);
-        b9.setOnClickListener(this);
-        b10.setOnClickListener(this);
-        b11.setOnClickListener(this);
-        b12.setOnClickListener(this);
-        b13.setOnClickListener(this);
-        b14.setOnClickListener(this);
-        b15.setOnClickListener(this);
-        b16.setOnClickListener(this);
-        b17.setOnClickListener(this);
-        b18.setOnClickListener(this);
-        b18b.setOnClickListener(this);
+        b1_email.setOnClickListener(this);
+        b2_contacts.setOnClickListener(this);
+        b3_directory.setOnClickListener(this);
+        b4_weather.setOnClickListener(this);
+        b5_calendar.setOnClickListener(this);
+        b6_budget.setOnClickListener(this);
+        b7_documents.setOnClickListener(this);
+        b8_messageboard.setOnClickListener(this);
+        b9_myinfo.setOnClickListener(this);
+        b10_pushhistory.setOnClickListener(this);
+        b11_serviceproviders.setOnClickListener(this);
+        b12_changeadd.setOnClickListener(this);
+        b13_pets.setOnClickListener(this);
+        b14_guests.setOnClickListener(this);
+        b15_autos.setOnClickListener(this);
+        b16_tools.setOnClickListener(this);
+        b17_pushemail.setOnClickListener(this);
+        b18_maintenance.setOnClickListener(this);
+        b18_maintenance_b.setOnClickListener(this);
 
 
 
@@ -392,6 +435,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button12:
                 intent.setClass(this, Change_Add_Associations.class);
+                finish();
                 break;
             case R.id.button13:
                 intent.setClass(this, PetsActivity.class);
@@ -416,14 +460,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
 
-        startActivity(intent);
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
-    private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
+    public class RemoteDataTask extends AsyncTask<Void, Void, Void> {
+
+
+
+
+
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            installation = ParseInstallation.getCurrentInstallation();
+
+            memberType = installation.getString("MemberType");
+            associationCode = installation.getString("AssociationCode");
+            memberName = installation.getString("memberName");
+            memberNumber = installation.getString("memberNumber");
+
+            editorVisited = sharedPreferencesVisited.edit();
+            editorVisited.putString("MEMBERNUMBER", memberNumber);
+            editorVisited.putString("MEMBERTYPE", memberType);
+            editorVisited.putString("MEMBERNAME", memberName);
+            editorVisited.putString("ASSOCIATIONCODE", associationCode);
+            editorVisited.apply();
+
+            Log.d(TAG, "associationCode is " + associationCode);
+
 
         }
 
@@ -432,12 +503,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-            try {
-                queryAssociations = new ParseQuery<>(installation.getString("AssociationCode")).fromLocalDatastore();
-            } catch (Exception e) {
-                queryAssociations = new ParseQuery<>(installation.getString("AssociationCode"));
-                e.printStackTrace();
-            }
+                if ( objectPinned && !fromChangeAdd) {
+                    Log.d(TAG, "objectPinned is " + objectPinned);
+                    queryAssociations = new ParseQuery<>(associationCode).fromLocalDatastore();
+                } else {
+                    Log.d(TAG, "objectPinned is " + objectPinned);
+                    queryAssociations = new ParseQuery<>(associationCode);
+                }
+
 
 
             queryAssociations.findInBackground(new FindCallback<ParseObject>() {
@@ -447,1260 +520,564 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
                                 ParseObject.unpinAllInBackground(associationObject, new DeleteCallback() {
                                     public void done(ParseException e) {
                                         // Cache the new results.
-                                        ParseObject.pinAllInBackground(associationCode, associationObject);
 
-                                        Log.d(TAG, "association object pinned");
 
 
-                                    }
-                                });
+                                        ParseObject.pinAllInBackground(associationCode, associationObject, new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
 
+                                                objectPinned = true;
 
-                                contentMain.setVisibility(View.VISIBLE);
 
 
 
-                                ParseFile backgroundImage = null;
-                                try {
-                                    backgroundImage = (ParseFile) associationObject.get(0).get("Image1File");
 
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
-                                ParseFile backgroundImage2 = null;
-                                try {
-                                    backgroundImage2 = (ParseFile) associationObject.get(0).get("Image2File");
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
+                                                ParseFile backgroundImage = null;
+                                                try {
+                                                    backgroundImage = (ParseFile) associationObject.get(0).get("Image1File");
 
-                                url = backgroundImage.getUrl();
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
+                                                }
+                                                ParseFile backgroundImage2 = null;
+                                                try {
+                                                    backgroundImage2 = (ParseFile) associationObject.get(0).get("Image2File");
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
+                                                }
 
+                                                url = backgroundImage.getUrl();
 
-                                imageLoader = CustomVolleyRequest.getInstance(getApplicationContext()).getImageLoader();
 
+                                                imageLoader = CustomVolleyRequest.getInstance(getApplicationContext()).getImageLoader();
 
 
-                                    NetworkImageView niv = (NetworkImageView) findViewById(R.id.networkImageView);
-                                    if(url.length() > 0)
-                                        niv.setImageUrl(url, imageLoader);
-                           /*     niv.setDefaultImageResId(R.drawable.button_rounded_corners_black);
-                                niv.setErrorImageResId(R.drawable.blonde_engraved);*/
 
+                                                NetworkImageView niv = (NetworkImageView) findViewById(R.id.networkImageView);
+                                                if(url.length() > 0) {
+                                                    niv.setImageUrl(url, imageLoader);
+                                                }
 
 
-
-
-                                editorVisited = sharedPreferencesVisited.edit();
-                                editorVisited.putString("backgroundImageUrl", backgroundImage.getUrl());
-                                editorVisited.putString("backgroundImage2Url", backgroundImage2.getUrl());
-
-                                editorVisited.apply();
-
-
-                                Log.d(TAG, "bg image 1 " + backgroundImage.getUrl());
-                                Log.d(TAG, "bg image 2 " + backgroundImage2.getUrl());
-
-                                Log.d(TAG, "bg image 1 " + sharedPreferencesVisited.getString("backgroundImageUrl",""));
-                                Log.d(TAG, "bg image 2 " + sharedPreferencesVisited.getString("backgroundImage2Url",""));
-
-
-
-                                ParseFile defaultsFile = associationObject.get(0).getParseFile("DefaultsFile");
-                                String[] defaultsFileArray = null;
-
-
-                                byte[] file = new byte[0];
-                                try {
-                                    file = defaultsFile.getData();
-                                } catch (ParseException e1) {
-                                    e1.printStackTrace();
-                                }
-
-
-                                String defaultsFileString = null;
-                                try {
-                                    defaultsFileString = new String(file, "UTF-8");
-                                } catch (UnsupportedEncodingException e3) {
-                                    e3.printStackTrace();
-                                }
-                                // Log.d(TAG, "defaultsFileString is " + defaultsFileString);
-                                defaultsFileArray = defaultsFileString.split("\\|");
-
-
-                                for (int i = 0; i < defaultsFileArray.length; i++) {
-                                    // Log.d(TAG, "defaultRecord(" + Integer.toString(i) + ") " + defaultsFileArray[i]);
-                                    editor = sharedPreferences.edit();
-                                    editor.putString("defaultRecord(" + Integer.toString(i) + ")", defaultsFileArray[i]);
-                                    editor.apply();
-                                }
-
-                                associationName.setText(sharedPreferences.getString("defaultRecord(30)", ""));
-
-                                if (sharedPreferences.getString("defaultRecord(34)", "No").equals("No")) {
-                                    if (b13 != null) {
-                                        b13.setVisibility(View.GONE);
-                                    } else {
-                                        b13.setVisibility(View.VISIBLE);
-                                    }
-                                    }
-
-
-                                // check defaults for auto
-
-                                if (sharedPreferences.getString("defaultRecord(36)", "No").equals("No")) {
-                                    if (b15 != null) {
-                                        b15.setVisibility(View.GONE);
-                                    } else {
-                                        b15.setVisibility(View.VISIBLE);
-                                    }
-                                    }
-
-
-                                // check defaults for guests
-
-                                if (sharedPreferences.getString("defaultRecord(39)", "No").equals("No")) {
-                                    if (b14 != null) {
-                                        b14.setVisibility(View.GONE);
-                                    } else {
-                                        b14.setVisibility(View.VISIBLE);
-                                    }
-                                    }
-
-
-                                // check defaults for maintenance items
-
-                                if (sharedPreferences.getString("defaultRecord(46)", "No").equals("No")) {
-                                    if (b18 != null) {
-                                        b18b.setVisibility(View.GONE);
-                                    } else {
-                                        b18b.setVisibility(View.VISIBLE);
-                                    }
-                                }
-
-                                // check defaults for service providers
-
-                                if (sharedPreferences.getString("defaultRecord(47)", "No").equals("No")) {
-                                    if (b11 != null) {
-                                        b11.setVisibility(View.GONE);
-                                    } else {
-                                        b11.setVisibility(View.VISIBLE);
-                                    }
-                                    }
-
-                                switch (memberType) {
-
-
-                                    case "Member":
-                                        b14.setVisibility(View.GONE);
-                                        b16.setVisibility(View.GONE);
-                                        b17.setVisibility(View.GONE);
-                                        b18.setVisibility(View.GONE);
-                                        b18b.setVisibility(View.VISIBLE);
-                                        ll1.setWeightSum(5);
-                                        ll2.setWeightSum(5);
-                                        ll3.setWeightSum(5);
-
-
-                                        break;
-                                    case "Administrator":
-
-
-                                        b13.setVisibility(View.VISIBLE);
-                                        b14.setVisibility(View.VISIBLE);
-                                        b15.setVisibility(View.VISIBLE);
-                                        b16.setVisibility(View.VISIBLE);
-                                        b17.setVisibility(View.VISIBLE);
-                                        b18.setVisibility(View.VISIBLE);
-                                        b18b.setVisibility(View.GONE);
-
-                                        break;
-
-                                    case "Master":
-
-
-                                        b13.setVisibility(View.VISIBLE);
-                                        b14.setVisibility(View.VISIBLE);
-                                        b15.setVisibility(View.VISIBLE);
-                                        b16.setVisibility(View.VISIBLE);
-                                        b17.setVisibility(View.VISIBLE);
-                                        b18.setVisibility(View.VISIBLE);
-                                        b18b.setVisibility(View.GONE);
-
-                                        break;
-
-
-                                }
-
-
-
-                                TextView associationName = (TextView) findViewById(R.id.textViewAssociationName);
-                                associationName.setText(defaultsFileArray[1]);
-
-
-
-
-
-//****************************************************************************ROSTER**********************************************************************************
-
-
-                                try {
-                                    ParseFile rosterFile = associationObject.get(0).getParseFile("RosterFile");
-
-                                    String[] rosterFileArray = null;
-
-
-                                    byte[] rosterFileData = new byte[0];
-                                    try {
-                                        rosterFileData = rosterFile.getData();
-                                    } catch (ParseException e1) {
-                                        e1.printStackTrace();
-                                    }
-
-
-                                    String rosterFileString = null;
-                                    try {
-                                        rosterFileString = new String(rosterFileData, "UTF-8");
-                                    } catch (UnsupportedEncodingException e2) {
-                                        e2.printStackTrace();
-                                    }
-
-                                    rosterFileArray = rosterFileString.split("\\|");
-
-
-                                    for (String member : rosterFileArray) {
-
-                                        member.trim();
-
-                                    }
-
-
-                                    rosterObjects = new ArrayList<RosterObject>();
-
-                                    for (i = 0; i < rosterFileArray.length; i++) {
-
-
-                                        String[] rosterFields = rosterFileArray[i].split("\\^");
-
-                                        //    // Log.d(TAG, "rosterFileArray[" + i + "] is " + rosterFileArray[i].substring(0, 40));
-                                        //     // Log.d(TAG, "rosterFileArray[" + i + "] number of fields is " + count(rosterFileArray[i], '^'));
-                                        //    // Log.d(TAG, "rosterFileArray member is " + rosterFileArray[i]);
-
-                                        rosterObject = new RosterObject();
-
-                                        for (j = 0; j < rosterFields.length; j++) {
-
-                                            // Log.d(TAG, "rosterFileArray[" + i + "] field" + j + " is " + rosterFields[j]);
-
-                                            switch (j) {
-                                                case 0:
-                                                    rosterObject.setNumber(rosterFields[j]);
-                                                    break;
-                                                case 1:
-                                                    rosterObject.setLastName(rosterFields[j]);
-                                                    break;
-                                                case 2:
-                                                    rosterObject.setFirstName(rosterFields[j]);
-                                                    break;
-                                                case 3:
-                                                    rosterObject.setMiddleName(rosterFields[j]);
-                                                    break;
-                                                case 4:
-                                                    rosterObject.setHomeAddress1(rosterFields[j]);
-                                                    break;
-                                                case 5:
-                                                    rosterObject.setHomeAddress2(rosterFields[j]);
-                                                    break;
-                                                case 6:
-                                                    rosterObject.setHomeCity(rosterFields[j]);
-                                                    break;
-                                                case 7:
-                                                    rosterObject.setHomeState(rosterFields[j]);
-                                                    break;
-                                                case 8:
-                                                    rosterObject.setHomeZip(rosterFields[j]);
-                                                    break;
-                                                case 9:
-                                                    rosterObject.setHomePhone(rosterFields[j]);
-                                                    break;
-                                                case 10:
-                                                    rosterObject.setMobilePhone(rosterFields[j]);
-                                                    break;
-                                                case 11:
-                                                    rosterObject.setEmail(rosterFields[j]);
-                                                    break;
-                                                case 12:
-                                                    rosterObject.setWinterName(rosterFields[j]);
-                                                    break;
-                                                case 13:
-                                                    rosterObject.setWinterAddress1(rosterFields[j]);
-                                                    break;
-                                                case 14:
-                                                    rosterObject.setWinterAddress2(rosterFields[j]);
-                                                    break;
-                                                case 15:
-                                                    rosterObject.setWinterCity(rosterFields[j]);
-                                                    break;
-                                                case 16:
-                                                    rosterObject.setWinterState(rosterFields[j]);
-                                                    break;
-                                                case 17:
-                                                    rosterObject.setWinterZip(rosterFields[j]);
-                                                    break;
-                                                case 18:
-                                                    rosterObject.setWinterPhone(rosterFields[j]);
-                                                    break;
-                                                case 19:
-                                                    rosterObject.setWinterEmail(rosterFields[j]);
-                                                    break;
-                                                case 20:
-                                                    rosterObject.setMemberNumber(rosterFields[j]);
-                                                    break;
-                                                case 21:
-                                                    rosterObject.setStatus(rosterFields[j]);
-                                                    break;
-                                                case 22:
-                                                    rosterObject.setEmergencyName(rosterFields[j]);
-                                                    break;
-                                                case 23:
-                                                    rosterObject.setEmergencyPhoneNumber(rosterFields[j]);
-                                                    break;
-                                                case 24:
-                                                    rosterObject.setActivationDate(rosterFields[j]);
-                                                    break;
-                                                case 25:
-                                                    rosterObject.setGroups(rosterFields[j]);
-                                                    break;
-                                            }
-
-
-                                        }
-
-
-                                        rosterObjects.add(rosterObject);
-
-                                        Log.d(TAG, "rosterObject added ----> " + rosterObject.toString() + "<----");
-
-                                        editor = sharedPreferences.edit();
-                                        Gson gson = new Gson();
-                                        String jsonRosterObject = gson.toJson(rosterObject); // myObject - instance of MyObject
-                                        editor.putString("rosterObject" + "[" + i + "]", jsonRosterObject);
-                                        editor.putInt("rosterSize", rosterObjects.size());
-
-                                        editor.apply();
-
-
-                                    }
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
-
-
-//*************************************************************************CALENDAR************************************************************************************
-
-
-                                try {
-                                    ParseFile eventFile = associationObject.get(0).getParseFile("EventFile");
-
-                                    String[] eventFileArray = null;
-
-
-                                    byte[] eventFileData = new byte[0];
-                                    try {
-                                        eventFileData = eventFile.getData();
-                                    } catch (ParseException e1) {
-                                        e1.printStackTrace();
-                                    }
-
-                                    String eventFileString = null;
-                                    try {
-                                        eventFileString = new String(eventFileData, "UTF-8");
-                                    } catch (UnsupportedEncodingException e2) {
-                                        e2.printStackTrace();
-                                    }
-
-                                    eventFileArray = eventFileString.split("\\|", -1);
-
-
-                                    for (String event : eventFileArray) {
-
-                                        event.trim();
-
-
-                                        Log.v(TAG, "EVENT: " + event);
-
-                                    }
-
-                                    Log.v(TAG, "eventFileArray length: " + eventFileArray.length);
-
-
-                                    calendarObjects = new ArrayList<CalendarObject>();
-
-                                    for (i = 1, j = 0, k = 0; i < eventFileArray.length; i++) {
-
-                                        switch (j) {
-                                            case 0:
-                                                calendarObject = new CalendarObject();
-                                                calendarObject.setCalendarText(eventFileArray[i]);
-                                                j = j + 1;
-                                                break;
-                                            case 1:
-                                                calendarObject.setCalendarDetailText(eventFileArray[i]);
-                                                j = j + 1;
-                                                break;
-                                            case 2:
-                                                calendarObject.setCalendarStartDate(eventFileArray[i]);
-                                                j = j + 1;
-                                                break;
-                                            case 3:
-                                                calendarObject.setCalendarEndDate(eventFileArray[i]);
-                                                j = j + 1;
-                                                break;
-                                            case 4:
-                                                calendarObject.setCalendarSortDate(eventFileArray[i]);
-                                                calendarObjects.add(calendarObject);
-
-                                                Log.v(TAG, "calendarObject ----> " + calendarObject.toString());
 
                                                 editor = sharedPreferences.edit();
-                                                Gson gson = new Gson();
-                                                String jsonCalendarObject = gson.toJson(calendarObject); // myObject - instance of MyObject
-                                                editor.putString("calendarObject" + "[" + k + "]", jsonCalendarObject);
-                                                editor.putString("calendarSize", String.valueOf(calendarObjects.size()));
+                                                editor.putString("backgroundImageUrl", backgroundImage.getUrl());
+                                                editor.putString("backgroundImage2Url", backgroundImage2.getUrl());
+
                                                 editor.apply();
 
-                                                j = 0;
-                                                k++;
-
-                                                break;
-                                        }
 
 
-                                    }
-
-                                    // Will invoke overrided `toString()` method
 
 
-                                    // Log.d(TAGC, "calendarObjects size is " + calendarObjects.size());
-
-                                    for (CalendarObject object : calendarObjects) {
-                                        Log.i(TAG, object.toString());
-                                    }
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
-
-//**************************************************************************PROVIDER************************************************************************************
-                                try {
-                                    if (!sharedPreferences.getString("defaultRecord(47)", "No").equals("No")) {
 
 
-                                        ParseFile providerFile = associationObject.get(0).getParseFile("ProviderFile");
-
-                                        ArrayList<String> providerType = new ArrayList();
-                                        String[] providerFileArray = null;
+//****************************************************************DEFAULTS************************************************************************************************
 
 
-                                        byte[] providerFileData = new byte[0];
-                                        try {
-                                            providerFileData = providerFile.getData();
-                                        } catch (ParseException e1) {
-                                            e1.printStackTrace();
-                                        }
-
-                                        String providerFileString = null;
-                                        try {
-                                            providerFileString = new String(providerFileData, "UTF-8");
-                                        } catch (UnsupportedEncodingException e2) {
-                                            e2.printStackTrace();
-                                        }
-                                        Log.v(TAG, "providerFileString -----> " + providerFileString);
-
-                                        providerFileArray = providerFileString.split("\\|", -1);
-
-                                        Log.v(TAG, "providerFileArrayLength -----> " + providerFileArray.length);
-
-                                        for (String providerField : providerFileArray) {
-
-                                            Log.v(TAG, "providerField -----> " + providerField);
+                                                ParseFile defaultsFile = associationObject.get(0).getParseFile("DefaultsFile");
+                                                String[] defaultsFileArray = null;
 
 
-                                        }
+                                                byte[] file = new byte[0];
+                                                try {
+                                                    file = defaultsFile.getData();
+                                                } catch (ParseException e1) {
+                                                    e1.printStackTrace();
+                                                }
 
 
-                                        providerObjects = new ArrayList<ProviderObject>();
+                                                String defaultsFileString = null;
+                                                try {
+                                                    defaultsFileString = new String(file, "UTF-8");
+                                                } catch (UnsupportedEncodingException e3) {
+                                                    e3.printStackTrace();
+                                                }
+                                                // Log.d(TAG, "defaultsFileString is " + defaultsFileString);
+                                                defaultsFileArray = defaultsFileString.split("\\|");
 
 
-                                        for (i = 0, j = 0; i < providerFileArray.length; i++) {
-
-
-                                            switch (j) {
-                                                case 0:
-                                                    providerObject = new ProviderObject();
-                                                    providerObject.setProviderType(providerFileArray[i]);
-                                                    j++;
-                                                    Log.d(TAG, "provider type is " + providerFileArray[i]);
-                                                    break;
-                                                case 1:
-                                                    providerObject.setProviderCount(providerFileArray[i]);
-                                                    j++;
-                                                    Log.d(TAG, "provider count is " + providerFileArray[i]);
-                                                    break;
-                                                case 2:
-                                                    providerObject.setProviderList(providerFileArray[i]);
-                                                    providerObjects.add(providerObject);
-                                                    j = 0;
-
+                                                for (int i = 0; i < defaultsFileArray.length; i++) {
+                                                    // Log.d(TAG, "defaultRecord(" + Integer.toString(i) + ") " + defaultsFileArray[i]);
                                                     editor = sharedPreferences.edit();
-                                                    Gson gson = new Gson();
-                                                    String jsonProviderObject = gson.toJson(providerObject); // myObject - instance of MyObject
-                                                    editor.putString("providerObject" + "[" + ((i + 1) / 3 - 1) + "]", jsonProviderObject);
-                                                    editor.putString("providerSize", String.valueOf(providerObjects.size()));
+                                                    editor.putString("defaultRecord(" + Integer.toString(i) + ")", defaultsFileArray[i].trim());
                                                     editor.apply();
+                                                }
 
-                                            }
+                                                associationName.setText(sharedPreferences.getString("defaultRecord(30)", ""));
 
-                                        }
 
 
-                                        Log.d(TAG, "providerObjects size is " + providerObjects.size());
+                                                switch (memberType) {
 
-                                        for (ProviderObject object : providerObjects) {
-                                            Log.i(TAG, object.toString());
-                                        }
-                                    }
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
 
-//***************************************************************************MESSAGE***********************************************************************************
+                                                    case "Member":
+                                                        b14_guests.setVisibility(View.GONE);
+                                                        b16_tools.setVisibility(View.GONE);
+                                                        b17_pushemail.setVisibility(View.GONE);
 
+                                                        ll1.setWeightSum(5);
+                                                        ll2.setWeightSum(5);
+                                                        ll3.setWeightSum(5);
 
-                                try {
-                                    ParseFile postsFile = associationObject.get(0).getParseFile("MessageFile");
 
-                                    String[] postFileArray = null;
 
+                                                        if (sharedPreferences.getString("defaultRecord(34)", "No").equals("No")) {
+                                                            if (b13_pets != null) {
+                                                                b13_pets.setVisibility(View.GONE);
+                                                            } else {
+                                                                b13_pets.setVisibility(View.VISIBLE);
 
-                                    byte[] postFileData = new byte[0];
-                                    try {
-                                        postFileData = postsFile.getData();
-                                    } catch (ParseException e1) {
-                                        e1.printStackTrace();
-                                    }
 
-                                    String postsFileString = null;
-                                    try {
-                                        postsFileString = new String(postFileData, "UTF-8");
-                                    } catch (UnsupportedEncodingException e2) {
-                                        e2.printStackTrace();
-                                    }
+                                                            }
+                                                        }
 
-                                    Log.v(TAG, "postsFileString ---> " + postsFileString);
+                                                        if (sharedPreferences.getString("defaultRecord(35)", "No").equals("No") && memberType.equals("Member")) {
 
-                                    postFileArray = postsFileString.split("\\|", -1);
+                                                            b13_pets.setVisibility(View.GONE);
 
+                                                        }
 
-                                    for (int i = 0; i < postFileArray.length; i++) {
 
 
-                                        Log.v(TAG, i + " post " + postFileArray[i]);
 
+                                                        // check defaults for auto
 
-                                    }
+                                                        if (sharedPreferences.getString("defaultRecord(36)", "No").equals("No")) {
+                                                            if (b15_autos != null) {
+                                                                b15_autos.setVisibility(View.GONE);
+                                                            } else {
+                                                                b15_autos.setVisibility(View.VISIBLE);
 
 
-                                    mbObjects = new ArrayList<MBObject>();
+                                                            }
+                                                        }
 
-                                    for (i = 0, j = 0; i < postFileArray.length; i++) {
+                                                        if (sharedPreferences.getString("defaultRecord(37)", "No").equals("No") && memberType.equals("Member")) {
 
-                                        switch (j) {
-                                            case 0:
-                                                mbObject = new MBObject();
-                                                mbObject.setMbName(postFileArray[i]);
-                                                j++;
-                                                break;
-                                            case 1:
-                                                mbObject.setMbPostDate(postFileArray[i]);
-                                                j++;
-                                                break;
-                                            case 2:
-                                                mbObject.setMbPost(postFileArray[i]);
-                                                j++;
-                                                break;
-                                            case 3:
-                                                mbObject.setMbPostDate2(postFileArray[i]);
-                                                j++;
-                                                break;
+                                                            b15_autos.setVisibility(View.GONE);
 
-                                            case 4:
-                                                mbObject.setMbPosterEmailAddress(postFileArray[i]);
-                                                mbObjects.add(mbObject);
-                                                editor = sharedPreferences.edit();
-                                                Gson gson = new Gson();
-                                                String jsonMbObject = gson.toJson(mbObject); // myObject - instance of MyObject
-                                                editor.putString("mbObject" + "[" + (((i + 1) / 5) - 1) + "]", jsonMbObject);
-                                                editor.apply();
+                                                        }
 
-                                                j = 0;
 
-                                                break;
-                                        }
+                                                        // check defaults for guests
 
+                                                        if (sharedPreferences.getString("defaultRecord(39)", "No").equals("No")) {
+                                                            if (b14_guests != null) {
+                                                                b14_guests.setVisibility(View.GONE);
+                                                            } else {
+                                                                b14_guests.setVisibility(View.VISIBLE);
+                                                            }
+                                                        }
 
-                                    }
+                                                        // check default for service providers
 
-                                    // Will invoke overrided `toString()` method
+                                                        if (sharedPreferences.getString("defaultRecord(43)", "No").equals("No")) {
+                                                            if (b11_serviceproviders != null) {
+                                                                b11_serviceproviders.setVisibility(View.GONE);
+                                                            } else {
+                                                                b11_serviceproviders.setVisibility(View.VISIBLE);
+                                                            }
+                                                        }
 
+                                                        // check default for service providers
 
-                                    // Log.d(TAG, "oldMbSize ---------> " + String.valueOf(sharedPreferences.getInt("mbSize", 0)));
-                                    // Log.d(TAG, "newMbSize mbObjects.size ---------> " + String.valueOf(mbObjects.size()));
+                                                        if (sharedPreferences.getString("defaultRecord(46)", "No").equals("No")) {
+                                                            if (b18_maintenance != null) {
+                                                                b18_maintenance.setVisibility(View.GONE);
+                                                            } else {
+                                                                b18_maintenance.setVisibility(View.VISIBLE);
+                                                            }
+                                                        }
 
 
-                                    if (sharedPreferencesVisited.getInt("mbSize", 0) < mbObjects.size()) {
+         /* if ( b15_autos.getVisibility() == View.GONE && b13_pets.getVisibility() == View.GONE && b18_maintenance.getVisibility()
+                                                        == View.GONE) {
 
+                                                    ll1.setWeightSum(4);
+                                                    ll2.setWeightSum(4);
+                                                    ll3.setWeightSum(4);
 
-                                        redDot.setVisibility(View.VISIBLE);
+                                                }
 
-                                        editor = sharedPreferencesVisited.edit();
-                                        editor.putInt("mbSize", mbObjects.size());
-                                        editor.apply();
+*/
 
-                                        // Log.d(TAG, "red dot visible");
 
 
-                                    } else {
 
-                                        editor = sharedPreferencesVisited.edit();
-                                        editor.putInt("mbSize", mbObjects.size());
-                                        editor.apply();
 
-                                        // Log.d(TAG, "red dot gone");
 
-                                    }
 
+                                                        break;
+                                                    case "Administrator":
 
-                                    // Log.d(TAGMBPOST, "mbObjects size is " + mbObjects.size());
 
-                                    for (MBObject object : mbObjects) {
-                                        Log.i(TAG, object.toString());
-                                    }
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
+                                                        b13_pets.setVisibility(View.VISIBLE);
+                                                        b14_guests.setVisibility(View.VISIBLE);
+                                                        b15_autos.setVisibility(View.VISIBLE);
+                                                        b16_tools.setVisibility(View.VISIBLE);
+                                                        b17_pushemail.setVisibility(View.VISIBLE);
+                                                        b18_maintenance.setVisibility(View.VISIBLE);
 
 
-                                try {
-                                    ParseFile maintenanceCategoryFile = associationObject.get(0).getParseFile("MaintenanceCategoryFile");
 
-                                    String[] maintenanceCategoryFileArray;
 
+                                                        break;
 
+                                                    case "Master":
 
-                                    byte[] mcFileData = new byte[0];
-                                    try {
-                                        mcFileData = maintenanceCategoryFile.getData();
-                                    } catch (ParseException e1) {
-                                        e1.printStackTrace();
-                                    }
 
-                                    String maintenanceCategoryFileString = null;
-                                    try {
-                                        maintenanceCategoryFileString = new String(mcFileData, "UTF-8");
-                                    } catch (UnsupportedEncodingException e2) {
-                                        e2.printStackTrace();
-                                    }
-                                    Log.d(TAG, "maintenanceCategoryFileString --->" + maintenanceCategoryFileString);
-                                    maintenanceCategoryFileArray = maintenanceCategoryFileString.split("\\|", -1);
+                                                        b13_pets.setVisibility(View.VISIBLE);
+                                                        b14_guests.setVisibility(View.VISIBLE);
+                                                        b15_autos.setVisibility(View.VISIBLE);
+                                                        b16_tools.setVisibility(View.VISIBLE);
+                                                        b17_pushemail.setVisibility(View.VISIBLE);
+                                                        b18_maintenance.setVisibility(View.VISIBLE);
 
 
-                                    maintenanceCategoryObjects = new ArrayList<>();
 
-                                    i = 0;
-                                    j = 0;
-                                    for (String maintenanceCatItem : maintenanceCategoryFileArray) {
 
-                                        Log.d(TAG, "maintenanceCategoryObject item --->" + maintenanceCatItem + " i = " + i + " j = " + j);
+                                                        break;
 
-                                        switch (j) {
-                                            case 0:
-                                                maintenanceCategoryObject = new MaintenanceCategoryObject();
-                                                maintenanceCategoryObject.setMaintenanceCatName(maintenanceCatItem);
-                                                j++;
-                                                break;
-                                            case 1:
-                                                maintenanceCategoryObject.setMaintenanceCatEmail(maintenanceCatItem);
-                                                maintenanceCategoryObjects.add(maintenanceCategoryObject);
-                                                Log.d(TAG, "maintenanceCategoryObject --->" + maintenanceCategoryObject.toString());
 
-                                                editor = sharedPreferences.edit();
-                                                Gson gson = new Gson();
-                                                String jsonMaintenanceCategoryObject = gson.toJson(maintenanceCategoryObject); // myObject - instance of MyObject
-                                                editor.putString("maintenanceCategoryObject" + "[" + (maintenanceCategoryObjects.size() - 1) + "]", jsonMaintenanceCategoryObject);
-                                                editor.putInt("maintenanceCategoryObjectsSize", maintenanceCategoryObjects.size());
-                                                editor.apply();
+                                                }
 
-                                                j = 0;
 
-                                                break;
-                                         }
 
 
-                                    }
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
 
+                                                TextView associationName = (TextView) findViewById(R.id.textViewAssociationName);
+                                                associationName.setText(defaultsFileArray[1]);
 
-                                try {
-                                    ParseFile maintenanceFile = associationObject.get(0).getParseFile("MaintenanceFile");
+                                                contentMain.setVisibility(View.VISIBLE);
 
-                                    String[] maintenanceFileArray;
-                                    String[] maintenanceItems;
 
+                                                ll1.setVisibility(View.VISIBLE);
+                                                ll2.setVisibility(View.VISIBLE);
+                                                ll3.setVisibility(View.VISIBLE);
 
-                                    byte[] mFileData = new byte[0];
-                                    try {
-                                        mFileData = maintenanceFile.getData();
-                                    } catch (ParseException e1) {
-                                        e1.printStackTrace();
-                                    }
 
-                                    String maintenanceFileString = null;
-                                    try {
-                                        maintenanceFileString = new String(mFileData, "UTF-8");
-                                    } catch (UnsupportedEncodingException e2) {
-                                        e2.printStackTrace();
-                                    }
-                                    Log.d(TAG, "maintenanceFileString --->" + maintenanceFileString);
-                                    maintenanceFileArray = maintenanceFileString.split("\\|", -1);
 
+                                                AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+                                                remoteDataTaskClass.execute();
 
-                                    maintenanceObjects = new ArrayList<>();
 
-                                    i = 0;
-                                    for (String maintenanceMember : maintenanceFileArray) {
 
-                                        maintenanceItems = maintenanceMember.split("\\^", -1);
-                                        maintenanceObject = new MaintenanceObject();
-                                        maintenanceObject.setMaintenanceName(maintenanceItems[0]);
-                                        maintenanceObject.setMaintenanceDate(maintenanceItems[1]);
-                                        maintenanceObject.setMaintenanceDesc(maintenanceItems[2]);
-                                        maintenanceObject.setMaintenanceNotes(maintenanceItems[3]);
-                                        maintenanceObject.setMaintenanceCategory(maintenanceItems[4]);
-                                        maintenanceObjects.add(maintenanceObject);
-                                        Log.d(TAG, "maintenanceObject --->" + maintenanceObject.toString());
+                                                Map<String, ?> keysVisited = sharedPreferencesVisited.getAll();
+                                                for (Map.Entry<String, ?> entry : keysVisited.entrySet()) {
+                                                    Log.d(TAG, "map values VISITEDPREFERENCES " + entry.getKey() + ": " + entry.getValue().toString());
+                                                }
 
-                                        editor = sharedPreferences.edit();
-                                        Gson gson = new Gson();
-                                        String jsonMaintenanceObject = gson.toJson(maintenanceObject); // myObject - instance of MyObject
-                                        editor.putString("maintenanceObject" + "[" + i + "]", jsonMaintenanceObject);
-                                        editor.putString("maintenanceObjectsSize", String.valueOf(maintenanceObjects.size()));
-                                        editor.apply();
+  //***************************************************************************MESSAGE***********************************************************************************
 
-                                        i++;
 
+                                                try {
+                                                    ParseFile postsFile = associationObject.get(0).getParseFile("MessageFile");
 
-                                    }
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
+                                                    String[] postFileArray = null;
 
 
-//******************************************************************************GUESTS********************************************************************************
+                                                    byte[] postFileData = new byte[0];
+                                                    try {
+                                                        postFileData = postsFile.getData();
+                                                    } catch (ParseException e1) {
+                                                        e1.printStackTrace();
+                                                    }
 
-                                try {
-                                    ParseFile guestFile = associationObject.get(0).getParseFile("GuestFile");
+                                                    String postsFileString = null;
+                                                    try {
+                                                        postsFileString = new String(postFileData, "UTF-8");
+                                                    } catch (UnsupportedEncodingException e2) {
+                                                        e2.printStackTrace();
+                                                    }
 
-                                    String[] guestFileArray;
-                                    String[] guestItems;
+                                                    Log.v(TAG, "postsFileString ---> " + postsFileString);
 
+                                                    postFileArray = postsFileString.split("\\|", -1);
 
-                                    byte[] guestFileData = new byte[0];
-                                    try {
-                                        guestFileData = guestFile.getData();
-                                    } catch (ParseException e1) {
-                                        e1.printStackTrace();
-                                    }
 
-                                    String guestFileString = null;
-                                    try {
-                                        guestFileString = new String(guestFileData, "UTF-8");
-                                    } catch (UnsupportedEncodingException e2) {
-                                        e2.printStackTrace();
-                                    }
-                                    Log.d(TAG, "guestFileString ---->" + guestFileString);
-                                    guestFileArray = guestFileString.split("\\|", -1);
+                                                    for (int i = 0; i < postFileArray.length; i++) {
 
 
-                                    guestObjects = new ArrayList<>();
+                                                        Log.v(TAG, i + " post " + postFileArray[i]);
 
-                                    i = 0;
-                                    for (String guest : guestFileArray) {
-
-                                        guestItems = guest.split("\\^", -1);
-                                        guestObject = new GuestObject();
-                                        guestObject.setGuestOwner(guestItems[0]);
-                                        guestObject.setGuestOwnerMemberNumber(guestItems[1]);
-                                        guestObject.setGuestType(guestItems[2]);
-                                        guestObject.setGuestStartdate(guestItems[3]);
-                                        guestObject.setGuestEnddate(guestItems[4]);
-                                        guestObject.setMondayAccess(guestItems[5]);
-                                        guestObject.setTuesdayAccess(guestItems[6]);
-                                        guestObject.setWednesdayAccess(guestItems[7]);
-                                        guestObject.setThursdayAccess(guestItems[8]);
-                                        guestObject.setFridayAccess(guestItems[9]);
-                                        guestObject.setSaturdayAccess(guestItems[10]);
-                                        guestObject.setSundayAccess(guestItems[11]);
-                                        guestObject.setGuestDescription(guestItems[12]);
-                                        guestObject.setGuestName(guestItems[13]);
-                                        guestObject.setOwnerContactNumberType(guestItems[14]);
-                                        guestObject.setOwnerContactNumber(guestItems[15]);
-                                        guestObjects.add(guestObject);
-
-                                        Log.d(TAG, "guestObject --->" + guestObject.toString());
-
-                                        editor = sharedPreferences.edit();
-                                        Gson gson = new Gson();
-                                        String jsonGuestObject = gson.toJson(guestObject); // myObject - instance of MyObject
-                                        editor.putString("guestObject" + "[" + i + "]", jsonGuestObject);
-                                        editor.putInt("guestObjectsSize", guestObjects.size());
-                                        editor.apply();
-
-                                        i++;
-
-
-                                    }
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
-
-
-//***********************************************************************PUSH***************************************************************************************
-
-
-                                try {
-                                    ParseFile pushHistoryFile = associationObject.get(0).getParseFile("PushFile");
-
-                                    String[] pushHistoryFileArray = null;
-                                    String[] pushHistoryFileArray2 = null;
-
-
-                                    byte[] pushFileData = new byte[0];
-                                    try {
-                                        pushFileData = pushHistoryFile.getData();
-                                    } catch (ParseException e1) {
-                                        e1.printStackTrace();
-                                    }
-
-                                    String pushHistoryFileString = null;
-                                    try {
-                                        pushHistoryFileString = new String(pushFileData, "UTF-8");
-                                    } catch (UnsupportedEncodingException e2) {
-                                        e2.printStackTrace();
-                                    }
-
-                                    pushHistoryFileArray = pushHistoryFileString.split("\\|");
-
-
-                                    for (String pushMessage : pushHistoryFileArray) {
-
-                                        pushMessage.trim();
-
-
-                                        // Log.v(PM, "push message: " + pushMessage);
-
-                                    }
-
-                                    // Log.v(PM, "pushHistoryFileArray length: " + pushHistoryFileArray.length);
-
-                                    pushObjects = new ArrayList<PushObject>();
-                                    pushObjectsMember = new ArrayList<PushObject>();
-
-
-                                    for (i = 1, j = 1, k = 0; i < pushHistoryFileArray.length; i++) {
-
-                                        pushHistoryFileArray2 = pushHistoryFileArray[i].split("\\^");
-
-                                        for (String pf2member : pushHistoryFileArray2) {
-                                            // Log.d(PM, "member is ---> " + pf2member + " i= " + i + " j= " + j);
-
-                                            switch (j) {
-                                                case 1:
-                                                    j = j + 1;
-                                                    break;
-                                                case 2:
-                                                    j = j + 1;
-                                                    break;
-                                                case 3:
-                                                    pushObject = new PushObject();
-                                                    pushObject.setDate(pf2member);
-                                                    j = j + 1;
-                                                    break;
-                                                case 4:
-                                                    pushObject.setPushNotifacation(pf2member);
-
-                                                    pushObjects.add(pushObject);
-                                                    editor = sharedPreferences.edit();
-                                                    Gson gson = new Gson();
-                                                    String jsonPushObject = gson.toJson(pushObject); // myObject - instance of MyObject
-                                                    editor.putString("pushObject" + "[" + (i - 1) + "]", jsonPushObject);
-                                                    editor.putInt("pushObjectsSize", pushObjects.size());
-                                                    editor.commit();
-                                                    j = 1;
-
-
-
-                                                    if ( !pf2member.contains("Admin group only")) {
-
-                                                        pushObjectsMember.add(pushObject);
-                                                        editor = sharedPreferences.edit();
-                                                        gson = new Gson();
-                                                        jsonPushObject = gson.toJson(pushObject); // myObject - instance of MyObject
-                                                        editor.putString("pushObjectMember" + "[" + k + "]", jsonPushObject);
-                                                        editor.putInt("pushObjectsMemberSize", pushObjectsMember.size());
-                                                        editor.commit();
-                                                        k++;
-                                                        j = 1;
 
                                                     }
 
 
-                                            }
+                                                    mbObjects = new ArrayList<MBObject>();
 
 
-                                        }
 
-                                    }
+                                                    for (i = 0, j = 0; i < postFileArray.length; i++) {
 
+                                                        switch (j) {
+                                                            case 0:
+                                                                mbObject = new MBObject();
+                                                                mbObject.setMbName(postFileArray[i]);
+                                                                j++;
+                                                                break;
+                                                            case 1:
+                                                                mbObject.setMbPostDate(postFileArray[i]);
+                                                                j++;
+                                                                break;
+                                                            case 2:
+                                                                mbObject.setMbPost(postFileArray[i]);
+                                                                j++;
+                                                                break;
+                                                            case 3:
+                                                                mbObject.setMbPostDate2(postFileArray[i]);
+                                                                j++;
+                                                                break;
 
-                                    // Log.d(PM, "pushObjects size is " + pushObjects.size());
-
-                                    for (PushObject object : pushObjects) {
-                                         Log.i(TAG, object.toString());
-                                    }
-
-
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
-
-
-//***********************************************************************PETS*************************************************************************************************
-
-                                try {
-                                    if (!sharedPreferences.getString("defaultRecord(34)", "No").equals("No")) {
-
-
-                                        ParseFile petFile = associationObject.get(0).getParseFile("PetFile");
-
-                                        String[] petFileArray = null;
-                                        String[] petFileArray2 = null;
-
-
-                                        byte[] petFileData = new byte[0];
-                                        try {
-                                            petFileData = petFile.getData();
-                                        } catch (ParseException e1) {
-                                            e1.printStackTrace();
-                                        }
-
-                                        String petFileString = null;
-                                        try {
-                                            petFileString = new String(petFileData, "UTF-8");
-                                        } catch (UnsupportedEncodingException e2) {
-                                            e2.printStackTrace();
-                                        }
-
-                                        petFileArray = petFileString.split("\\|", -1);
+                                                            case 4:
+                                                                mbObject.setMbPosterEmailAddress(postFileArray[i]);
+                                                                mbObjects.add(mbObject);
+                                                                messageCount++;
+                                                                editor = sharedPreferences.edit();
+                                                                Gson gson = new Gson();
+                                                                String jsonMbObject = gson.toJson(mbObject); // myObject - instance of MyObject
+                                                                editor.putString("mbObject" + "[" + (((i + 1) / 5) - 1) + "]", jsonMbObject);
+                                                                editor.putInt("mbSize", postFileArray.length/5);
+                                                                editor.apply();
 
 
-                                        for (String pet : petFileArray) {
-
-                                            pet.trim();
 
 
-                                             Log.v(TAG, "pet: " + pet);
 
-                                        }
-
-                                         Log.v(TAG, "petFileArray length: " + petFileArray.length);
-
-                                        petObjects = new ArrayList<PetObject>();
-
-                                        for (i = 0, j = 1; i < petFileArray.length; i++) {
-
-                                            petFileArray2 = petFileArray[i].split("\\^", -1);
-
-                                            for (String petField : petFileArray2) {
-                                                 Log.d(TAG, "pet is ---> " + petField + " i = " + i + " j = " + j);
-
-                                                switch (j) {
-                                                    case 1:
-                                                        petObject = new PetObject();
-                                                        petObject.setOwner(petField);
-                                                        j = j + 1;
-                                                        break;
-                                                    case 2:
-                                                        petObject.setMemberNumber(petField);
-                                                        j = j + 1;
-                                                        break;
-                                                    case 3:
-                                                        petObject.setName(petField);
-                                                        j = j + 1;
-                                                        break;
-                                                    case 4:
-                                                        petObject.setType(petField);
-                                                        j = j + 1;
-                                                        break;
-                                                    case 5:
-                                                        petObject.setBreed(petField);
-                                                        j = j + 1;
-                                                        break;
-                                                    case 6:
-                                                        petObject.setColor(petField);
-                                                        j = j + 1;
-                                                        break;
-                                                    case 7:
-                                                        petObject.setWeight(petField);
-                                                        j = j + 1;
-                                                        break;
-                                                    case 8:
-                                                        petObject.setMisc(petField);
-                                                        petObjects.add(petObject);
-
-                                                        editor = sharedPreferences.edit();
-                                                        Gson gson = new Gson();
-                                                        String jsonPetObject = gson.toJson(petObject); // myObject - instance of MyObject
-                                                        editor.putString("petObject" + "[" + i + "]", jsonPetObject);
-                                                        editor.putInt("petObjectsSize", petObjects.size());
-                                                        editor.commit();
-                                                        j = 1;
+                                                                j = 0;
 
 
+
+
+                                                                break;
+                                                        }
+
+
+
+
+
+                                                    }
+
+                                                    if ( mbObjects.size() > sharedPreferencesVisited.getInt("mbSize", 0) && mbVisit == false) {
+                                                        redDot.setVisibility(View.VISIBLE);
+
+                                                        mbVisit = true;
+
+                                                        editorVisited = sharedPreferencesVisited.edit();
+                                                        editorVisited.putBoolean("SHOWREDDOT", true);
+                                                        editorVisited.apply();
+
+                                                    } else if ( mbVisit == true ) {
+
+                                                        editorVisited = sharedPreferencesVisited.edit();
+                                                        editorVisited.putInt("mbSize", mbObjects.size());
+                                                        editorVisited.apply();
+                                                    }
+
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
                                                 }
 
 
-                                            }
+
+//***************************************************************************ADMIN MESSAGE**********************************************************************************
+
+
+                                                try {
+                                                    ParseFile admin_postsFile = associationObject.get(0).getParseFile("AdminMessageFile");
+
+
+                                                    String[] admin_postFileArray = null;
+
+
+                                                    byte[] admin_postFileData = new byte[0];
+                                                    try {
+                                                        admin_postFileData = admin_postsFile.getData();
+                                                    } catch (ParseException e1) {
+                                                        e1.printStackTrace();
+                                                    }
+
+                                                    String admin_postsFileString = "";
+                                                    try {
+                                                        admin_postsFileString = new String(admin_postFileData, "UTF-8");
+                                                    } catch (UnsupportedEncodingException e2) {
+                                                        e2.printStackTrace();
+                                                    }
+
+                                                    Log.v(TAG, "adminPostsFileString ---> " + admin_postsFileString);
+
+                                                    admin_postFileArray = admin_postsFileString.split("\\|", -1);
+
+
+                                     /*   for (int i = 0; i < admin_postFileArray.length; i++) {
+
+
+                                            Log.v(TAG, i + "admin post ----> " + admin_postFileArray[i]);
+
 
                                         }
+*/
+
+                                                    admin_mbObjects = new ArrayList<>();
+
+                                                    int adminmessageCount = 0;
+
+                                                    for (i = 0, j = 0; i < admin_postFileArray.length; i++) {
+
+                                                        switch (j) {
+                                                            case 0:
+                                                                admin_mbObject = new AdminMBObject();
+                                                                admin_mbObject.setField1(admin_postFileArray[i].trim());
+                                                                j++;
+                                                                break;
+                                                            case 1:
+                                                                admin_mbObject.setField2(admin_postFileArray[i].trim());
+                                                                j++;
+                                                                break;
+                                                            case 2:
+                                                                admin_mbObject.setField3(admin_postFileArray[i].trim());
+                                                                j++;
+                                                                break;
+                                                            case 3:
+                                                                admin_mbObject.setField4(admin_postFileArray[i].trim());
+                                                                j++;
+                                                                break;
+                                                            case 4:
+                                                                admin_mbObject.setField5(admin_postFileArray[i].trim());
+                                                                j++;
+                                                                break;
+                                                            case 5:
+                                                                admin_mbObject.setField6(admin_postFileArray[i].trim());
+                                                                j++;
+                                                                break;
+                                                            case 6:
+                                                                admin_mbObject.setField7(admin_postFileArray[i].trim());
+                                                                j++;
+                                                                break;
+
+                                                            case 7:
+                                                                admin_mbObject.setField8(admin_postFileArray[i].trim());
+                                                                admin_mbObjects.add(admin_mbObject);
+                                                                adminmessageCount++;
+                                                                editor = sharedPreferences.edit();
+                                                                editorVisited = sharedPreferencesVisited.edit();
+                                                                Gson gson = new Gson();
+                                                                String jsonAdminMbObject = gson.toJson(admin_mbObject); // myObject - instance of MyObject
+                                                                editor.putString("admin_mbObject" + "[" + (((i + 1) / 8) - 1) + "]", jsonAdminMbObject);
+                                                                editorVisited.putInt("admin_mbSize", adminmessageCount);
+                                                                editorVisited.apply();
+                                                                editor.apply();
+
+                                                                j = 0;
+
+                                                                break;
+                                                        }
 
 
-                                        // Log.d(PM, "petObjects size is " + petObjects.size());
+                                                    }
 
-                                        for (PetObject object : petObjects) {
-                                            // Log.i(PM, object.toString());
-                                        }
-
-                                    }
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
-//************************************************************AUTOS**************************************************************************************************************
-
-                                try {
-                                    if (!sharedPreferences.getString("defaultRecord(36)", "No").equals("No")) {
-
-
-                                        ParseFile autoFile = associationObject.get(0).getParseFile("AutoFile");
-
-                                        String[] autoFileArray = null;
-                                        String[] autoFileArray2 = null;
-
-
-                                        byte[] autoFileData = new byte[0];
-                                        try {
-                                            autoFileData = autoFile.getData();
-                                        } catch (ParseException e1) {
-                                            e1.printStackTrace();
-                                        }
-
-                                        String autoFileString = null;
-                                        try {
-                                            autoFileString = new String(autoFileData, "UTF-8");
-                                        } catch (UnsupportedEncodingException e2) {
-                                            e2.printStackTrace();
-                                        }
-
-                                        autoFileArray = autoFileString.split("\\|", -1);
-
-
-                                        for (String auto : autoFileArray) {
-
-                                            auto.trim();
-
-
-                                            Log.v(TAG, "auto ---> " + auto);
-
-                                        }
-
-                                        Log.v(TAG, "autoFileArray length ---> " + autoFileArray.length);
-
-                                        autoObjects = new ArrayList<AutoObject>();
-
-                                        for (i = 0, j = 0; i < autoFileArray.length; i++) {
-
-                                            autoFileArray2 = autoFileArray[i].split("\\^", -1);
-
-                                            for (String autoField : autoFileArray2) {
-
-                                                autoField = autoField.trim();
-
-                                                switch (j) {
-                                                    case 0:
-                                                        autoObject = new AutoObject();
-                                                        autoObject.setOwner(autoField);
-                                                        j++;
-                                                        break;
-                                                    case 1:
-                                                        autoObject.setMemberNumber(autoField);
-                                                        j++;
-                                                        break;
-                                                    case 2:
-                                                        autoObject.setMake(autoField);
-                                                        j++;
-                                                        break;
-                                                    case 3:
-                                                        autoObject.setModel(autoField);
-                                                        j++;
-                                                        break;
-                                                    case 4:
-                                                        autoObject.setColor(autoField);
-                                                        j++;
-                                                        break;
-                                                    case 5:
-                                                        autoObject.setYear(autoField);
-                                                        j++;
-                                                        break;
-                                                    case 6:
-                                                        autoObject.setPlate(autoField);
-                                                        j++;
-                                                        break;
-                                                    case 7:
-                                                        autoObject.setTag(autoField);
-                                                        autoObjects.add(autoObject);
-
-                                                        editor = sharedPreferences.edit();
-                                                        Gson gson = new Gson();
-                                                        String jsonAutoObject = gson.toJson(autoObject); // myObject - instance of MyObject
-                                                        editor.putString("autoObject" + "[" + i + "]", jsonAutoObject);
-                                                        editor.putInt("autosObjectsSize", autoObjects.size());
-                                                        editor.apply();
-                                                        j = 0;
-
-
+                                                    i = 0;
+                                                    for (AdminMBObject object : admin_mbObjects) {
+                                                        Log.i(TAG, i + " admin mb post -----> " + object.toString());
+                                                        i++;
+                                                    }
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
                                                 }
 
 
-                                            }
-
-                                        }
 
 
-                                        // Log.d(PM, "autoObjects size is " + autoObjects.size());
-
-                                        for (AutoObject object : autoObjects) {
-                                            Log.i(TAG, object.toString());
-                                        }
-
-
-                                    }
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
 //************************************************************************PDFS**************************************************************************************************
 
 
-                                ParseFile budgetFile = associationObject.get(0).getParseFile("BudgetFile");
-                                ParseFile byLawsFile = associationObject.get(0).getParseFile("ByLawsFile");
-                                ParseFile expenseFile = associationObject.get(0).getParseFile("ExpenseFile");
-                                ParseFile rulesFile = associationObject.get(0).getParseFile("RulesFile");
-                                ParseFile minutesFile = associationObject.get(0).getParseFile("MinutesFile");
-                                ParseFile misc1File = associationObject.get(0).getParseFile("MiscDoc1File");
-                                ParseFile misc2File = associationObject.get(0).getParseFile("MiscDoc2File");
-                                ParseFile misc3File = associationObject.get(0).getParseFile("MiscDoc3File");
+                                                ParseFile budgetFile = associationObject.get(0).getParseFile("BudgetFile");
+                                                ParseFile byLawsFile = associationObject.get(0).getParseFile("ByLawsFile");
+                                                ParseFile expenseFile = associationObject.get(0).getParseFile("ExpenseFile");
+                                                ParseFile rulesFile = associationObject.get(0).getParseFile("RulesFile");
+                                                ParseFile minutesFile = associationObject.get(0).getParseFile("MinutesFile");
+                                                ParseFile misc1File = associationObject.get(0).getParseFile("MiscDoc1File");
+                                                ParseFile misc2File = associationObject.get(0).getParseFile("MiscDoc2File");
+                                                ParseFile misc3File = associationObject.get(0).getParseFile("MiscDoc3File");
 
 
 
 
-                                try {
-                                    editor.putString("budgetpdfurl", budgetFile.getUrl());
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                    // Log.d(TAG, "no such pdf file ");
-                                    editor.putString("budgetpdfurl", null);
-                                }
-                                try {
-                                    editor.putString("bylawspdfurl", byLawsFile.getUrl());
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                    // Log.d(TAG, "no such pdf file ");
-                                    editor.putString("bylawspdfurl", null);
-                                }
-                                try {
-                                    editor.putString("expensepdfurl", expenseFile.getUrl());
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                    // Log.d(TAG, "no such pdf file ");
-                                    editor.putString("expensepdfurl", null);
-                                }
-                                try {
-                                    editor.putString("rulespdfurl", rulesFile.getUrl());
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                    // Log.d(TAG, "no such pdf file ");
-                                    editor.putString("rulespdf", null);
-                                }
-                                try {
-                                    editor.putString("minutespdfurl", minutesFile.getUrl());
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                    // Log.d(TAG, "no such pdf file ");
-                                    editor.putString("minutespdfurl", null);
-                                }
-                                try {
-                                    editor.putString("m1pdfurl", misc1File.getUrl());
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                    // Log.d(TAG, "no such pdf file ");
-                                }
-                                try {
-                                    editor.putString("m2pdfurl", misc2File.getUrl());
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                    // Log.d(TAG, "no such pdf file ");
-                                    editor.putString("m2pdfurl", null);
-                                }
-                                try {
-                                    editor.putString("m3pdfurl", misc3File.getUrl());
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                    // Log.d(TAG, "no such pdf file ");
-                                    editor.putString("m3pdfurl", null);
-                                }
+                                                try {
+                                                    editor.putString("budgetpdfurl", budgetFile.getUrl());
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
+                                                    // Log.d(TAG, "no such pdf file ");
+                                                    editor.putString("budgetpdfurl", null);
+                                                }
+                                                try {
+                                                    editor.putString("bylawspdfurl", byLawsFile.getUrl());
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
+                                                    // Log.d(TAG, "no such pdf file ");
+                                                    editor.putString("bylawspdfurl", null);
+                                                }
+                                                try {
+                                                    editor.putString("expensepdfurl", expenseFile.getUrl());
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
+                                                    // Log.d(TAG, "no such pdf file ");
+                                                    editor.putString("expensepdfurl", null);
+                                                }
+                                                try {
+                                                    editor.putString("rulespdfurl", rulesFile.getUrl());
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
+                                                    // Log.d(TAG, "no such pdf file ");
+                                                    editor.putString("rulespdf", null);
+                                                }
+                                                try {
+                                                    editor.putString("minutespdfurl", minutesFile.getUrl());
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
+                                                    // Log.d(TAG, "no such pdf file ");
+                                                    editor.putString("minutespdfurl", null);
+                                                }
+                                                try {
+                                                    editor.putString("m1pdfurl", misc1File.getUrl());
+                                                    editor.putString("m1pdfname", misc1File.getName().replaceAll(" ",""));
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
+                                                    // Log.d(TAG, "no such pdf file ");
+                                                    editor.putString("m1pdfurl", null);
+                                                }
+                                                try {
+                                                    editor.putString("m2pdfurl", misc2File.getUrl());
+                                                    editor.putString("m2pdfname", misc2File.getName().replaceAll(" ",""));
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
+                                                    // Log.d(TAG, "no such pdf file ");
+                                                    editor.putString("m2pdfurl", null);
+                                                }
+                                                try {
+                                                    editor.putString("m3pdfurl", misc3File.getUrl());
+                                                    editor.putString("m3pdfname", misc3File.getName().replaceAll(" ",""));
+                                                } catch (Exception e1) {
+                                                    e1.printStackTrace();
+                                                    // Log.d(TAG, "no such pdf file ");
+                                                    editor.putString("m3pdfurl", null);
+                                                }
 
-                                editor.apply();
-
-
-
-
-//***************************************************************************************************************************************************************************
-                                Map<String, ?> keys = sharedPreferences.getAll();
-                                for (Map.Entry<String, ?> entry : keys.entrySet()) {
-                                    Log.d(TAG, "map values MYPREFERENCES" + entry.getKey() + ": " + entry.getValue().toString());
-                                }
-
-                                keys = sharedPreferencesVisited.getAll();
-                                for (Map.Entry<String, ?> entry : keys.entrySet()) {
-                                    Log.d(TAG, "map values VISITEDPREFERENCES " + entry.getKey() + ": " + entry.getValue().toString());
-                                }
-//****************************************************************************************************************************************************************************
+                                                editor.apply();
 
 
+
+
+                                            }
+                                        });
+
+                                    }
+                                });
 
 
                             } else {
@@ -1715,9 +1092,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return null;
         }
 
+
+
+
         }
-
-
 
 
 
@@ -1732,21 +1110,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onResume() {
         super.onResume();  // Always call the superclass method first
 
-        if (sharedPreferences.getBoolean("visitedBefore", false)) {
+        if ( sharedPreferencesVisited.getBoolean("FROMMB", false) ) {
 
-            try {
-                queryAssociations = new ParseQuery<>(installation.getString("AssociationCode"));
-            } catch (Exception e) {
-                queryAssociations = new ParseQuery<>(installation.getString("AssociationCode")).fromLocalDatastore();
-                e.printStackTrace();
-            }
+            redDot.setVisibility(View.INVISIBLE);
+
+
+        }
+
+
+
+        if (sharedPreferencesVisited.getBoolean("visitedBefore", false)) {
+
+            new RemoteDataTask().execute();
 
         }
     }
 
 
+
+  /*  @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (sharedPreferencesVisited.getBoolean("visitedBefore", false)) {
+
+            new RemoteDataTask().execute();
+
+        }
+    }
+*/
+
     @Override
     public void onBackPressed() {
+
+
 
         this.finish();
     }

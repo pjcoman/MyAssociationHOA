@@ -14,10 +14,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -32,6 +39,7 @@ public class Change_Add_Associations extends AppCompatActivity {
 
     ListView listView;
     SharedPreferences sharedPreferencesVisited;
+
 
     private FloatingActionButton mFab;
 
@@ -83,7 +91,9 @@ public class Change_Add_Associations extends AppCompatActivity {
 
 
             if ( associationData[1].substring(0,1).toLowerCase().equals("a")) {
-                associationLongNameList.add(associationData[0] + " (a)");
+                associationLongNameList.add(associationData[0] + " (" + associationData[1].substring(0, 1) + ")");
+            } else if ( associationData[1].substring(0,2).toLowerCase().equals("me")) {
+                associationLongNameList.add(associationData[0] + " (" + associationData[1].substring(0, 1) + ")");
             } else {
                 associationLongNameList.add(associationData[0]);
             }
@@ -125,7 +135,7 @@ public class Change_Add_Associations extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+                                    final int position, long id) {
 
 
 
@@ -152,11 +162,95 @@ public class Change_Add_Associations extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                ParseQuery<ParseObject> queryAssociations;
+                queryAssociations = new ParseQuery<>(associationCodeForParseList.get(position));
+                queryAssociations.getFirstInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
 
-                Intent mainActivity = new Intent();
-                mainActivity.setClass(Change_Add_Associations.this, MainActivity.class);
-                startActivity(mainActivity);
-                finish();
+                        ParseFile rosterFile = object.getParseFile("RosterFile");
+
+                        String[] rosterFileArray;
+
+                        byte[] rosterFileData = new byte[0];
+
+                        try {
+                            rosterFileData = rosterFile.getData();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+
+                        String rosterFileString = null;
+
+                        try {
+                            rosterFileString = new String(rosterFileData, "UTF-8");
+                        } catch (UnsupportedEncodingException e2) {
+                            e2.printStackTrace();
+                        }
+
+
+                        Log.d(TAG, "rosterFileString is " + rosterFileString);
+
+                        String memberNumber = sharedPreferencesVisited.getString(installation.get("AssociationCode") + "MemberNumber", "");
+                        String memberType = associationMemberTypeList.get(position);
+
+                        String numberAndType = memberNumber + "^" + memberType;
+
+
+                        Log.d(TAG, "numberAndType is " + numberAndType);
+
+                        String numberAndTypeToReplace[] = rosterFileString.split(memberNumber + "\\^");
+
+                        Log.d(TAG, "numberAndTypeToReplace is " + numberAndTypeToReplace[1]);
+
+                        String finalNumberAndTypeToReplace = memberNumber + "^" + numberAndTypeToReplace[1].substring(0, numberAndTypeToReplace[1].indexOf("^"));
+
+                        Log.d(TAG, "finalNumberAndTypeToReplace is " + finalNumberAndTypeToReplace);
+
+                        String rosterFileStringForUpdate = rosterFileString.replace(finalNumberAndTypeToReplace, numberAndType);
+
+                        Log.d(TAG, "rosterFileForUpdate is " + rosterFileStringForUpdate);
+
+                        byte[] data = rosterFileStringForUpdate.getBytes();
+                        ParseFile RosterFile = new ParseFile("Roster.txt", data);
+
+
+                        try {
+                            RosterFile.save();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+
+                        Calendar c = Calendar.getInstance();
+                        System.out.println("Current time => " + c.getTime());
+
+                        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy, hh:mm a");
+                        final String formattedDate = df.format(c.getTime());
+
+
+
+                        object.put("RosterFile", RosterFile);
+                        object.put("RosterDate", formattedDate);
+
+                        try {
+                            object.save();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+
+
+                        Intent mainActivity = new Intent();
+                        mainActivity.setClass(Change_Add_Associations.this, MainActivity.class);
+                        mainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mainActivity.putExtra("FROMCHANGEADD", true);
+                        startActivity(mainActivity);
+                        finish();
+
+
+                    }
+                });
+
+
 
 
             }
@@ -213,7 +307,6 @@ public class Change_Add_Associations extends AppCompatActivity {
 
 
 
-
     }
 
 
@@ -227,7 +320,13 @@ public class Change_Add_Associations extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        this.finish();
+        Intent mainActivity = new Intent();
+        mainActivity.setClass(getApplicationContext(), MainActivity.class);
+        mainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(mainActivity);
+        finish();
+
+
     }
 
 

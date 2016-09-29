@@ -17,6 +17,7 @@ import android.widget.ListView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
+import com.parse.ParseInstallation;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -155,7 +156,17 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
                     back.setVisibility(View.VISIBLE);
                     mFabAddService.setVisibility(View.GONE);
+
+                if (sharedPreferences.getString("defaultRecord(47)", "No").equals("No") && ParseInstallation.getCurrentInstallation().get("MemberType").equals("Member")) {
+
+                    mFabAddService.setVisibility(View.GONE);
+
+                } else {
+
                     mFabAddProvider.setVisibility(View.VISIBLE);
+
+                }
+
 
 
 
@@ -176,6 +187,13 @@ public class ServiceProviderActivity extends AppCompatActivity {
                 }*/
             }
         });
+
+        if (sharedPreferences.getString("defaultRecord(47)", "No").equals("No") && ParseInstallation.getCurrentInstallation().get("MemberType").equals("Member")) {
+
+            mFabAddService.setVisibility(View.GONE);
+
+        }
+
 
         mFabAddService.setOnClickListener(new View.OnClickListener() {
             @Override

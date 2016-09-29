@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    android:background="@drawable/button_rounded_corners_white_white_bg_forpops">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textViewTitle"
+        android:layout_gravity="center_horizontal"
+        android:textSize="24sp"
+        android:layout_weight="2"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/load_documents"
+        android:id="@+id/textViewTitle2"
+        android:textSize="30sp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/budget"
+            android:id="@+id/textViewBudget"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#2261ea" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textViewExpenses"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/expenses"
+            android:textColor="#2261ea" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/rules"
+            android:id="@+id/textViewRules"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#2261ea" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textViewByLaws"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/bylaws"
+            android:textColor="#2261ea" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textViewMinutes"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/minutes"
+            android:textColor="#2261ea" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/misc1"
+            android:id="@+id/textViewMisc1"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#2261ea" />
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textViewMisc2"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/misc2"
+            android:textColor="#2261ea" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textViewMisc3"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/misc3"
+            android:textColor="#2261ea" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/cancel"
+        android:id="@+id/textViewCancel"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:textColor="#2261ea"
+        android:textIsSelectable="false"
+        tools:background="@drawable/button_rounded_corners_white_white_bg_forpops" />
+</LinearLayout>

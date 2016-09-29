@@ -11,8 +11,13 @@ import android.widget.Button;
 
 import comapps.com.myassociationhoa.calendar.CalendarActivity;
 import comapps.com.myassociationhoa.documents.PopEmailDocuments;
-import comapps.com.myassociationhoa.maintenance.AddMaintenanceCategory;
+import comapps.com.myassociationhoa.tools.AdminMBActivity;
 import comapps.com.myassociationhoa.tools.BackupRestoreFilesActivity;
+import comapps.com.myassociationhoa.tools.BuildTextDirectoryActivity;
+import comapps.com.myassociationhoa.tools.DirectoryUpdateActivity;
+import comapps.com.myassociationhoa.tools.EditMaintenanceActivity;
+import comapps.com.myassociationhoa.tools.GuestAccessActivity;
+import comapps.com.myassociationhoa.tools.ImportActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -23,6 +28,10 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
 
     private static final String TAG = "TOOLSACTIVITY";
     public static final String MYPREFERENCES = "MyPrefs";
+
+    Context context;
+
+    int FILE_CODE = 0;
 
     SharedPreferences sharedPreferences;
 
@@ -44,37 +53,42 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
             bar.setTitle("Tool Box");
         }
 
+        Button bEventCal = (Button) findViewById(R.id.button);
+        Button bLoadBudgetExpense = (Button) findViewById(R.id.button2);
+        Button bUpdateRoster = (Button) findViewById(R.id.button3);
+        Button bBackupAssoc = (Button) findViewById(R.id.button4);
+        Button bRestoreAssoc = (Button) findViewById(R.id.button5);
+        Button bBuildText = (Button) findViewById(R.id.button6);
+        Button bEmailPdf = (Button) findViewById(R.id.button7);
+        Button bLoadMisc = (Button) findViewById(R.id.button8);
+        Button bLoadAssoc = (Button) findViewById(R.id.button9);
+        Button bGuestAccess = (Button) findViewById(R.id.button10);
+        Button bEditMaint = (Button) findViewById(R.id.button11);
+        Button bAdminMessage = (Button) findViewById(R.id.button12);
 
-        Button b1 = (Button) findViewById(R.id.button);
-        Button b2 = (Button) findViewById(R.id.button2);
-        Button b3 = (Button) findViewById(R.id.button3);
-        Button b4 = (Button) findViewById(R.id.button4);
-        Button b5 = (Button) findViewById(R.id.button5);
-        Button b6 = (Button) findViewById(R.id.button6);
-        Button b7 = (Button) findViewById(R.id.button7);
-        Button b8 = (Button) findViewById(R.id.button8);
-        Button b9 = (Button) findViewById(R.id.button9);
-        Button b10 = (Button) findViewById(R.id.button10);
-        Button b11 = (Button) findViewById(R.id.button11);
-        Button b12 = (Button) findViewById(R.id.button12);
+
+
+
+        bEventCal.setOnClickListener(this);
+        bLoadBudgetExpense.setOnClickListener(this);
+        bUpdateRoster.setOnClickListener(this);
+        bBackupAssoc.setOnClickListener(this);
+        bRestoreAssoc.setOnClickListener(this);
+        bBuildText.setOnClickListener(this);
+        bEmailPdf.setOnClickListener(this);
+        bLoadMisc.setOnClickListener(this);
+        bLoadAssoc.setOnClickListener(this);
+        bGuestAccess.setOnClickListener(this);
+        bEditMaint.setOnClickListener(this);
+        bAdminMessage.setOnClickListener(this);
+
 
 
 
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
-        b1.setOnClickListener(this);
-        b2.setOnClickListener(this);
-        b3.setOnClickListener(this);
-        b4.setOnClickListener(this);
-        b5.setOnClickListener(this);
-        b6.setOnClickListener(this);
-        b7.setOnClickListener(this);
-        b8.setOnClickListener(this);
-        b9.setOnClickListener(this);
-        b10.setOnClickListener(this);
-        b11.setOnClickListener(this);
-        b12.setOnClickListener(this);
+
 
 
     }
@@ -93,14 +107,26 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
 
         Intent intent = new Intent();
 
+        int FILE_CODE = 0;
+
         switch (v.getId()) {
             //handle multiple view click events
             case R.id.button:
                 intent.setClass(getApplicationContext(), CalendarActivity.class);
                 break;
+
             case R.id.button2:
+                intent.setClass(getApplicationContext(), ImportActivity.class);
                 break;
+            case R.id.button8:
+                intent.setClass(getApplicationContext(), ImportActivity.class);
+                break;
+            case R.id.button9:
+                intent.setClass(getApplicationContext(), ImportActivity.class);
+                break;
+
             case R.id.button3:
+                intent.setClass(getApplicationContext(), DirectoryUpdateActivity.class);
                 break;
             case R.id.button4:
                 intent.setClass(getApplicationContext(), BackupRestoreFilesActivity.class);
@@ -111,20 +137,19 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
                 intent.putExtra("FROMTOOLSRESTORE", true);
                 break;
             case R.id.button6:
+                intent.setClass(getApplicationContext(), BuildTextDirectoryActivity.class);
                 break;
             case R.id.button7:
                 intent.setClass(getApplicationContext(), PopEmailDocuments.class);
                 break;
-            case R.id.button8:
-                break;
-            case R.id.button9:
-                break;
             case R.id.button10:
+                intent.setClass(getApplicationContext(), GuestAccessActivity.class);
                 break;
             case R.id.button11:
-                intent.setClass(getApplicationContext(), AddMaintenanceCategory.class);
+                intent.setClass(getApplicationContext(), EditMaintenanceActivity.class);
                 break;
             case R.id.button12:
+                intent.setClass(getApplicationContext(), AdminMBActivity.class);
                 break;
 
         }
@@ -137,9 +162,11 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onBackPressed() {
 
-
         this.finish();
     }
+
+
+
 
 
 }

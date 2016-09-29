@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".calendar.CalendarActivity"
     android:layout_width="match_parent"
@@ -28,7 +27,6 @@
         android:layout_gravity="right"
         android:layout_alignParentEnd="true"
         android:layout_margin="10dp"
-        android:onClick="AddChangeAssoc"
         android:src="@drawable/fab"
         android:alpha=".65" />
 

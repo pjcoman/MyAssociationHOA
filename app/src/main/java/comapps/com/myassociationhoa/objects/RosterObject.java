@@ -13,7 +13,7 @@ public class RosterObject {
     private String homeAddress2;            // 5
     private String homeCity;                // 6
     private String homeState;               // 7
-    private String HomeZip;                 // 8
+    private String homeZip;                 // 8
     private String homePhone;               // 9
     private String mobilePhone;             // 10
     private String email;                   // 11
@@ -30,8 +30,7 @@ public class RosterObject {
     private String emergencyName;           //  22
     private String emergencyPhoneNumber;    // 23
     private String activationDate;          // 24
-    private String groups;                  //  25
-
+    private String groups = "";                  //  25
 
 
     public String getNumber() {
@@ -116,11 +115,11 @@ public class RosterObject {
     //******************************************************************************
 
     public String getHomeZip() {
-        return HomeZip;
+        return homeZip;
     }
 
     public void setHomeZip(String homeZip) {
-        HomeZip = homeZip;
+        this.homeZip = homeZip;
     }
 
     //******************************************************************************
@@ -154,7 +153,7 @@ public class RosterObject {
 
     //******************************************************************************
 
-    public String getWinterName() {
+    public String getBusinessName() {
         return businessName;
     }
 
@@ -293,33 +292,31 @@ public class RosterObject {
 
     @Override
     public String toString() {
-        return "RosterObject{" +
-                "number='" + number + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", homeAddress1='" + homeAddress1 + '\'' +
-                ", homeAddress2='" + homeAddress2 + '\'' +
-                ", homeCity='" + homeCity + '\'' +
-                ", homeState='" + homeState + '\'' +
-                ", HomeZip='" + HomeZip + '\'' +
-                ", homePhone='" + homePhone + '\'' +
-                ", mobilePhone='" + mobilePhone + '\'' +
-                ", email='" + email + '\'' +
-                ", businessName='" + businessName + '\'' +
-                ", winterAddress1='" + winterAddress1 + '\'' +
-                ", winterAddress2='" + winterAddress2 + '\'' +
-                ", winterCity='" + winterCity + '\'' +
-                ", winterState='" + winterState + '\'' +
-                ", winterZip='" + winterZip + '\'' +
-                ", winterPhone='" + winterPhone + '\'' +
-                ", winterEmail='" + winterEmail + '\'' +
-                ", memberNumber='" + memberNumber + '\'' +
-                ", status='" + status + '\'' +
-                ", emergencyName='" + emergencyName + '\'' +
-                ", emergencyPhoneNumber='" + emergencyPhoneNumber + '\'' +
-                ", activationDate='" + activationDate + '\'' +
-                ", groups='" + groups + '\'' +
-                '}';
+        return number + "^" +
+                lastName + "^" +
+                firstName + "^" +
+                middleName + "^" +
+                homeAddress1 + "^" +
+                homeAddress2 + "^" +
+                homeCity + "^" +
+                homeState + "^" +
+                homeZip + "^" +
+                homePhone + "^" +
+                mobilePhone + "^" +
+                email + "^" +
+                businessName + "^" +
+                winterAddress1 + "^" +
+                winterAddress2 + "^" +
+                winterCity + "^" +
+                winterState + "^" +
+                winterZip + "^" +
+                winterPhone + "^" +
+                winterEmail + "^" +
+                memberNumber + "^" +
+                status + "^" +
+                emergencyName + "^" +
+                emergencyPhoneNumber + "^" +
+                activationDate + "^" +
+                groups;
     }
 }

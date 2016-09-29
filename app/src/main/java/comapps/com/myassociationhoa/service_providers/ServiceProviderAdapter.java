@@ -2,6 +2,7 @@ package comapps.com.myassociationhoa.service_providers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.parse.ParseInstallation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,10 @@ class ServiceProviderAdapter extends BaseAdapter {
 
     public static final String TAG = "SERVICEPROVIDERADAPTER";
 
+    private static final String MYPREFERENCES = "MyPrefs";
+
+    private SharedPreferences sharedPreferences;
+
     private final Context context;
     private final ArrayList<ServiceProviderObject> providerList;
     private final LayoutInflater inflater;
@@ -39,6 +45,8 @@ class ServiceProviderAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
         this.providerList = new ArrayList<ServiceProviderObject>();
         this.providerList.addAll(list);
+
+        sharedPreferences = getContext().getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
 
     }
@@ -121,6 +129,12 @@ class ServiceProviderAdapter extends BaseAdapter {
 
 
         final String phoneNumber = providerList.get(position).getProviderPhoneNumber();
+
+        if (sharedPreferences.getString("defaultRecord(47)", "No").equals("No") && ParseInstallation.getCurrentInstallation().get("MemberType").equals("Member")) {
+
+            holder.editButton.setVisibility(View.GONE);
+
+        }
 
 
         holder.callButton.setOnClickListener(new View.OnClickListener() {

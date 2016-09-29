@@ -3,6 +3,8 @@ package comapps.com.myassociationhoa.budget;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -53,6 +55,7 @@ public class PopBudget extends AppCompatActivity {
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         int width = dm.widthPixels;
         int height = dm.heightPixels;

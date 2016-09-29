@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="@style/Theme.AppCompat.Light.DarkActionBar">
@@ -21,6 +22,18 @@
 
     <style name="AppTheme.CustomThemeTranslucent">
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.CustomThemeTranslucentImport">
+        <item name="android:windowBackground">@drawable/info_background_noborder</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.CustomThemeTranslucentPasscode">
+        <item name="android:windowBackground">@drawable/frontgatebg</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -42,6 +55,26 @@
 
     <style name="custom_toolbar" parent="@style/Widget.AppCompat.Toolbar">
         <item name="titleTextColor">#97B3EF</item>
+    </style>
+
+    <style name="FilePickerTheme" parent="NNF_BaseTheme">
+        <!-- Set these to match your theme -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+
+        <!-- Need to set this also to style create folder dialog -->
+        <item name="alertDialogTheme">@style/FilePickerAlertDialogTheme</item>
+
+        <!-- If you want to set a specific toolbar theme, do it here -->
+        <!-- <item name="nnf_toolbarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item> -->
+    </style>
+
+    <style name="FilePickerAlertDialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
 </resources>

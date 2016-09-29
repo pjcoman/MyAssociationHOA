@@ -95,6 +95,7 @@ public class DirectoryActivity extends AppCompatActivity implements
             rosterObject.getEmail();
             rosterObject.getEmergencyName();
             rosterObject.getEmergencyPhoneNumber();
+            rosterObject.getStatus();
             rosterObject.getWinterAddress1();
             rosterObject.getWinterAddress2();
             rosterObject.getWinterCity();

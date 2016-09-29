@@ -3,6 +3,7 @@ package comapps.com.myassociationhoa.maintenance;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -26,8 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.RemoteDataTaskClass;
 import comapps.com.myassociationhoa.objects.MaintenanceObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -196,9 +197,10 @@ public class MaintenanceComment extends AppCompatActivity {
                         toast.show();
 
 
-                        Intent mainActivity = new Intent();
-                        mainActivity.setClass(getApplicationContext(), MainActivity.class);
-                        startActivity(mainActivity);
+                        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+                        remoteDataTaskClass.execute();
+
+
                         finish();
 
 

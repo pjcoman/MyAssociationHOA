@@ -3,6 +3,7 @@ package comapps.com.myassociationhoa.messageboard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.RemoteDataTaskClass;
 import comapps.com.myassociationhoa.objects.MBObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -45,6 +47,8 @@ public class PopMBComment extends AppCompatActivity {
     String messageFileString;
     String messageFileUpdate = "";
 
+    String pushFileString;
+
     MBObject mbObject;
 
     EditText newComment;
@@ -54,6 +58,8 @@ public class PopMBComment extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
     int position;
+
+    MainActivity mainActivity;
 
 
     @Override
@@ -180,8 +186,17 @@ public class PopMBComment extends AppCompatActivity {
                         Calendar c = Calendar.getInstance();
                         System.out.println("Current time => " + c.getTime());
 
+                        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d H:mma");
+                        SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
+                        SimpleDateFormat month = new SimpleDateFormat("M");
+                        String strDate = sdf.format(c.getTime());
+                        String strDate2 = sdf2.format(c.getTime());
+                        String strMonth = month.format(c.getTime());
+
                         SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy, hh:mm a");
+
                         String formattedDate = df.format(c.getTime());
+                        String formattedMonth = month.format(c.getTime());
 
 
 
@@ -221,11 +236,46 @@ public class PopMBComment extends AppCompatActivity {
 
                         push.sendInBackground();
 
+                        ParseFile pushFile = assoc.get(0).getParseFile("PushFile");
 
-                        Intent mainActivity = new Intent();
-                        mainActivity.setClass(getApplicationContext(), MainActivity.class);
-                        startActivity(mainActivity);
+                        try {
+                            byte[] file = pushFile.getData();
+                            pushFileString = new String(file, "UTF-8");
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        } catch (UnsupportedEncodingException e1) {
+                            e1.printStackTrace();
+                        }
+
+                        Log.d(TAG, "existing push notifications --->" + pushFileString);
+
+                        String pushFileUpdate = pushFileString + "|" + strMonth + "^" + installation.getString("AssociationCode") + "^" + strDate
+                                + "^" + installation.getString("memberName") +
+                                " has commented on a message on the Message Board";
+
+                        pushFileUpdate = pushFileUpdate.trim();
+
+                        byte[] pushData = pushFileUpdate.getBytes();
+                        pushFile = new ParseFile("Push.txt", pushData);
+
+                        assoc.get(0).put("PushFile", pushFile);
+                        try {
+                            assoc.get(0).save();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                            assoc.get(0).saveEventually();
+                        }
+
+
+
+                        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+                        remoteDataTaskClass.execute();
+
+                        Intent mbActivity = new Intent();
+                        mbActivity.setClass(getApplicationContext(), MBActivity.class);
+                        startActivity(mbActivity);
                         finish();
+
 
 
                     }
@@ -248,10 +298,7 @@ public class PopMBComment extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intentMain = new Intent();
-        intentMain.setClass(PopMBComment.this, MBActivity.class);
-        PopMBComment.this.finish();
-        startActivity(intentMain);
+        finish();
 
     }
 

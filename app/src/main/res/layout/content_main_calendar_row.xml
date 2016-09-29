@@ -83,17 +83,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:padding="10dp">
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/add_to_calendar"
                 android:id="@+id/addButton"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_rounded_corners_black_gray_bg"
                 android:textSize="12sp"
@@ -104,8 +101,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/respond_to_hoa"
                 android:id="@+id/respondButton"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:textColor="#0d66c6"
                 android:layout_weight="1"
                 android:background="@drawable/button_rounded_corners_black_gray_bg"

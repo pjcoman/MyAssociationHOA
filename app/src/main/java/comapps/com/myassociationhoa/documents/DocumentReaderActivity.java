@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -65,7 +66,9 @@ public class DocumentReaderActivity extends AppCompatActivity {
 
 
         webView.loadUrl(
-                "http://docs.google.com/gview?embedded=true&url=" + pdfURL);
+                "http://docs.google.com/gview?embedded=true&url=" + pdfURL.replace(" ",""));
+
+        Log.d(TAG, "pdf url ----> http://docs.google.com/gview?embedded=true&url=" + pdfURL.replace("%20", ""));
 
         setContentView(webView);
     }

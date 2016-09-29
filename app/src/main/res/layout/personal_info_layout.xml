@@ -21,7 +21,7 @@
         android:layout_height="fill_parent"
         android:id="@+id/scrollViewInfo"
         android:background="@drawable/info_background"
-        android:padding="40dp">
+        android:padding="30dp">
 
 
         <LinearLayout
@@ -73,7 +73,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/summerAddressLabel"
                 android:layout_gravity="center_horizontal"
-                android:text="Address"
+                android:text="@string/address"
                 android:layout_weight="0.10" />
 
             <EditText
@@ -170,7 +170,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/textView6"
                 android:layout_gravity="center_horizontal"
-                android:text="Emergency Contact"
+                android:text="@string/emergency_contact"
                 android:layout_weight="0.10" />
 
             <EditText
@@ -200,7 +200,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/winterAddressLabel"
                 android:layout_gravity="center_horizontal"
-                android:text="Winter"
+                android:text="@string/winter"
                 android:layout_weight="0.10" />
 
             <EditText
@@ -213,15 +213,35 @@
                 android:capitalize="words"
                 android:layout_weight="0.10" />
 
-            <EditText
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:inputType="textCapWords"
-                android:ems="10"
-                android:id="@+id/winter_address2EditText"
-                android:hint="@string/address_21"
-                android:capitalize="words"
-                android:layout_weight="0.10" />
+                android:layout_weight=".10"
+                android:weightSum="2">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:ems="10"
+                    android:id="@+id/winter_address2EditText"
+                    android:hint="@string/address_21"
+                    android:capitalize="words"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/textViewStatus"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:background="@drawable/button_rounded_corners_black_gray_bg"
+                    android:textColor="#FFEABB"
+                    android:text="@string/status"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -283,6 +303,153 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:layout_weight="0.10" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/llGroups">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/member_groups"
+                    android:id="@+id/textViewMemberGroups"
+                    android:background="#f9f5f5"
+                    android:textSize="26sp"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextGroup1"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
+                        android:layout_marginRight="5dp"
+                        android:hint="@string/group_1"
+                        android:textSize="16sp"
+                        android:padding="10dp"
+                        android:layout_marginLeft="0dp"
+                        android:inputType="textCapWords" />
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextGroup2"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="0dp"
+                        android:hint="@string/group_2"
+                        android:textSize="16sp"
+                        android:padding="10dp"
+                        android:inputType="textCapWords" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp">
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextGroup3"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="5dp"
+                        android:hint="@string/group_3"
+                        android:textSize="16sp"
+                        android:padding="10dp"
+                        android:inputType="textCapWords" />
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextGroup4"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="0dp"
+                        android:hint="@string/group_4"
+                        android:textSize="16sp"
+                        android:padding="10dp"
+                        android:inputType="textCapWords" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp">
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextGroup5"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="5dp"
+                        android:hint="@string/group_5"
+                        android:textSize="16sp"
+                        android:padding="10dp"
+                        android:inputType="textCapWords" />
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextGroup6"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="0dp"
+                        android:hint="@string/group_6"
+                        android:textSize="16sp"
+                        android:padding="10dp"
+                        android:inputType="textCapWords" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp">
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextGroup7"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="5dp"
+                        android:hint="@string/group_7"
+                        android:textSize="16sp"
+                        android:padding="10dp"
+                        android:inputType="textCapWords" />
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextGroup8"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="0dp"
+                        android:hint="@string/group_8"
+                        android:textSize="16sp"
+                        android:padding="10dp"
+                        android:inputType="textCapWords" />
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

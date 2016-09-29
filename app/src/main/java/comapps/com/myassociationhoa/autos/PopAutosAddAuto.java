@@ -1,7 +1,10 @@
 package comapps.com.myassociationhoa.autos;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -10,6 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -26,6 +30,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.RemoteDataTaskClass;
+import comapps.com.myassociationhoa.myinfo.PopInfo;
 import comapps.com.myassociationhoa.objects.AutoObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -35,7 +41,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class PopAutosAddAuto extends AppCompatActivity {
 
-    private static final String TAG = "POPADDPET";
+    private static final String TAG = "POPADDAUTO";
     public static final String MYPREFERENCES = "MyPrefs";
     public static final String VISITEDPREFERENCES = "VisitedPrefs";
 
@@ -52,12 +58,24 @@ public class PopAutosAddAuto extends AppCompatActivity {
     EditText etAutoLicense;
     EditText etAutoTag;
 
+    TextView title;
+
     Button saveButton;
 
     SharedPreferences sharedPreferences;
     SharedPreferences sharedPreferencesVisited;
     SharedPreferences.Editor editor;
     SharedPreferences.Editor editorVisited;
+
+    Bundle bundle;
+    Boolean forEdit = false;
+    Boolean forDelete = false;
+
+    String autoPassed;
+
+    AutoObject autoObject;
+
+    Toast toast;
 
 
     @Override
@@ -74,18 +92,69 @@ public class PopAutosAddAuto extends AppCompatActivity {
         android.support.v7.app.ActionBar bar = getSupportActionBar();
 
         if (bar != null) {
-            bar.setTitle("Update Auto Info");
+            bar.setTitle("Add Auto");
+        }
+
+        saveButton = (Button) findViewById(R.id.buttonSaveMessage);
+        title = (TextView) findViewById(R.id.textViewTitle);
+
+        bundle = getIntent().getExtras();
+
+        if ( bundle != null ) {
+
+            forEdit = bundle.getBoolean("FOREDIT");
+            forDelete = bundle.getBoolean("FORDELETE");
+            autoPassed = bundle.getString("AUTOFOREDIT");
+
+            Gson gson = new Gson();
+            autoObject = gson.fromJson(autoPassed, AutoObject.class);
+
+            Log.d(TAG, "auto object passed ----> " + autoObject.toString());
+
+
+
         }
 
 
-        etAutoMan = (EditText) findViewById(R.id.textViewAutoMake);
-        etAutoModel = (EditText) findViewById(R.id.textViewAutoModel);
-        etAutoYear = (EditText) findViewById(R.id.textViewAutoYear);
+
+
+        etAutoMan = (EditText) findViewById(R.id.editTextAutoMake);
+        etAutoModel = (EditText) findViewById(R.id.editTextAutoModel);
+        etAutoYear = (EditText) findViewById(R.id.editTextAutoYear);
         etAutoColor = (EditText) findViewById(R.id.editTextAutoColor);
         etAutoLicense = (EditText) findViewById(R.id.editTextAutoLicense);
         etAutoTag = (EditText) findViewById(R.id.editTextHoaTag);
 
-        saveButton = (Button) findViewById(R.id.buttonSaveMessage);
+        if ( forEdit ) {
+
+            etAutoMan.setText(autoObject.getMake());
+            etAutoModel.setText(autoObject.getModel());
+            etAutoYear.setText(autoObject.getYear());
+            etAutoColor.setText(autoObject.getColor());
+            etAutoLicense.setText(autoObject.getPlate());
+            etAutoTag.setText(autoObject.getTag());
+            title.setText("Update Auto");
+            bar.setTitle("Update Auto");
+
+        }
+
+        if ( forDelete ) {
+
+            etAutoMan.setText(autoObject.getMake());
+            etAutoModel.setText(autoObject.getModel());
+            etAutoYear.setText(autoObject.getYear());
+            etAutoColor.setText(autoObject.getColor());
+            etAutoLicense.setText(autoObject.getPlate());
+            etAutoTag.setText(autoObject.getTag());
+            title.setText("Delete Auto");
+            saveButton.setText("DELETE");
+            saveButton.setTextColor(Color.RED);
+
+            bar.setTitle("Delete Auto");
+
+        }
+
+
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
         sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_APPEND);
@@ -137,61 +206,95 @@ public class PopAutosAddAuto extends AppCompatActivity {
                         String strDate = sdf.format(c.getTime());
 
 
+
+
                         int lengthOfAutoFileString = autoFileString.length();
 
-                        String newAuto = "|" + installation.getString("memberName") + "^" +
-                                installation.getString("memberNumber") + "^" + etAutoMan.getText() +
-                                "^" + etAutoModel.getText() +
-                                "^" + etAutoColor.getText() +
-                                "^" + etAutoYear.getText() +
-                                "^" + etAutoLicense.getText() +
-                                "^" + etAutoTag.getText();
 
-                        autoFileUpdate = autoFileString + "|" + installation.getString("memberName") + "^" +
-                                installation.getString("memberNumber") + "^" + etAutoMan.getText() +
-                                "^" + etAutoModel.getText() +
-                                "^" + etAutoColor.getText() +
-                                "^" + etAutoYear.getText() +
-                                "^" + etAutoLicense.getText() +
-                                "^" + etAutoTag.getText();
+                        if ( forEdit ) {
 
-                        if ( lengthOfAutoFileString < 1 ) {
+                            String preEditAuto = autoObject.getMake() + "^" +
+                                    autoObject.getModel() + "^" +
+                                    autoObject.getColor() + "^" +
+                                    autoObject.getYear() + "^" +
+                                    autoObject.getPlate() + "^" +
+                                    autoObject.getTag();
 
-                            autoFileUpdate = autoFileUpdate.substring(1);
+                            String postEditAuto = etAutoMan.getText() +
+                                    "^" + etAutoModel.getText() +
+                                    "^" + etAutoColor.getText() +
+                                    "^" + etAutoYear.getText() +
+                                    "^" + etAutoLicense.getText() +
+                                    "^" + etAutoTag.getText();
+
+
+                            autoFileUpdate = autoFileString.replace(preEditAuto, postEditAuto);
+
+                            Log.d(TAG, "update autos --->" + autoFileUpdate);
+
+
+
+                        } else if ( forDelete ) {
+
+                            String preEditAuto = "|" + installation.getString("memberName") + "^" +
+                                    installation.getString("memberNumber") + "^" + autoObject.getMake() + "^" +
+                                    autoObject.getModel() + "^" +
+                                    autoObject.getColor() + "^" +
+                                    autoObject.getYear() + "^" +
+                                    autoObject.getPlate() + "^" +
+                                    autoObject.getTag();
+
+                            autoFileUpdate = autoFileString.replace(preEditAuto, "");
+
+                            Log.d(TAG, "update autos --->" + autoFileUpdate);
+
+
+                        } else {
+
+                            String newAuto = "|" + installation.getString("memberName") + "^" +
+                                    installation.getString("memberNumber") + "^" + etAutoMan.getText() +
+                                    "^" + etAutoModel.getText() +
+                                    "^" + etAutoColor.getText() +
+                                    "^" + etAutoYear.getText() +
+                                    "^" + etAutoLicense.getText() +
+                                    "^" + etAutoTag.getText();
+
+                            autoFileUpdate = autoFileString + "|" + installation.getString("memberName") + "^" +
+                                    installation.getString("memberNumber") + "^" + etAutoMan.getText() +
+                                    "^" + etAutoModel.getText() +
+                                    "^" + etAutoColor.getText() +
+                                    "^" + etAutoYear.getText() +
+                                    "^" + etAutoLicense.getText() +
+                                    "^" + etAutoTag.getText();
+
+                            if (lengthOfAutoFileString < 1) {
+
+                                autoFileUpdate = autoFileUpdate.substring(1);
+
+                            }
+
+                            editorVisited = sharedPreferencesVisited.edit();
+
+                            if (sharedPreferencesVisited.getString("MYAUTOS", "").equals("")) {
+                                editorVisited.putString("MYAUTOS", newAuto.substring(1));
+                            } else if (!sharedPreferencesVisited.getString("MYAUTOS", "").contains(newAuto)) {
+                                editorVisited.putString("MYAUTOS", sharedPreferencesVisited.getString("MYAUTOS", "") + newAuto);
+                            }
+                            editorVisited.apply();
+
+                            Log.d(TAG, "update autos --->" + autoFileUpdate);
+
+
+
+
 
                         }
 
-                        editorVisited = sharedPreferencesVisited.edit();
-
-                        if ( sharedPreferencesVisited.getString("MYAUTOS", "").equals("")) {
-                           editorVisited.putString("MYAUTOS", newAuto.substring(1));
-                        } else if (!sharedPreferencesVisited.getString("MYAUTOS","").contains(newAuto)){
-                           editorVisited.putString("MYAUTOS", sharedPreferencesVisited.getString("MYAUTOS","") + newAuto);
+                        if ( autoFileUpdate.substring(0,1).equals("|")) {
+                            autoFileUpdate = autoFileUpdate.substring(1, autoFileUpdate.length());
+                        } else if (autoFileUpdate.substring(autoFileUpdate.length() - 1, autoFileUpdate.length()).equals("|")) {
+                            autoFileUpdate = autoFileUpdate.substring(0, autoFileUpdate.length() - 1);
                         }
-                        editorVisited.apply();
-
-                        Log.d(TAG, "update autos --->" + autoFileUpdate);
-
-
-
-                        AutoObject autoObject = new AutoObject();
-                        autoObject.setOwner(installation.getString("memberName"));
-                        autoObject.setMemberNumber(installation.getString("memberNumber"));
-                        autoObject.setMake(String.valueOf(etAutoMan.getText()));
-                        autoObject.setModel(String.valueOf(etAutoModel.getText()));
-                        autoObject.setYear(String.valueOf(etAutoYear.getText()));
-                        autoObject.setColor(String.valueOf(etAutoColor.getText()));
-                        autoObject.setPlate(String.valueOf(etAutoLicense.getText()));
-                        autoObject.setTag(String.valueOf(etAutoTag.getText()));
-
-                        Integer autoSizeInt = sharedPreferences.getInt("autoObjectsSize", 0);
-
-                        editor = sharedPreferences.edit();
-                        Gson gson = new Gson();
-                        String jsonAutoObject = gson.toJson(autoObject);
-                        editor.putString("autoObject" + "[" + String.valueOf(autoSizeInt) + "]", jsonAutoObject);
-                        editor.putInt("autoObjectsSize", autoSizeInt + 1);
-                        editor.apply();
 
 
                         byte[] data = autoFileUpdate.getBytes();
@@ -216,12 +319,28 @@ public class PopAutosAddAuto extends AppCompatActivity {
                         }
 
 
-                        Toast toast = Toast.makeText(getBaseContext(), autoObject.getYear() + " " + autoObject.getMake() + " added.", Toast.LENGTH_LONG);
+
+
+                        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+                        remoteDataTaskClass.execute();
+
+
+
+                        if ( forEdit ) {
+                            toast = Toast.makeText(getBaseContext(), etAutoYear.getText() + " " + etAutoModel.getText() + " updated.", Toast.LENGTH_LONG);
+                        } else if ( forDelete) {
+                            toast = Toast.makeText(getBaseContext(), etAutoYear.getText() + " " + etAutoModel.getText() + " deleted.", Toast.LENGTH_LONG);
+                        } else {
+                            toast = Toast.makeText(getBaseContext(), etAutoYear.getText() + " " + etAutoModel.getText() + " added.", Toast.LENGTH_LONG);
+                        }
+
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
 
 
-
+                        Intent intent = new Intent();
+                        intent.setClass(PopAutosAddAuto.this, PopInfo.class);
+                        startActivity(intent);
 
                         finish();
 

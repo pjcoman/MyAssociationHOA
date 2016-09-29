@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +61,6 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
     private TextView textViewWinterPhone;
     private TextView textViewWinterEmail;
     private TextView mobileLabel;
-    private Space homePhoneSpace;
 
     private Button backButton;
 
@@ -187,6 +185,7 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
         summerAddress = (TextView) findViewById(R.id.summerAddressLabel);
         winterAddress = (TextView) findViewById(R.id.winterAddressLabel);
         mobileLabel = (TextView) findViewById(R.id.textViewMobileLabel);
+
 
 
         backButton = (Button) findViewById(R.id.backButton);
@@ -348,7 +347,7 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(DirectoryRosterMemberActivity.this, PetsActivity.class);
-                intent.putExtra("memberNumber", ParseInstallation.getCurrentInstallation().getString("memberNumber"));
+                intent.putExtra("memberNumber", rosterObject.getMemberNumber());
                 intent.putExtra("fromPopInfo", false);
                 startActivity(intent);
 
@@ -361,7 +360,7 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(DirectoryRosterMemberActivity.this, GuestsActivity.class);
-                intent.putExtra("memberNumber", ParseInstallation.getCurrentInstallation().getString("memberNumber"));
+                intent.putExtra("memberNumber", rosterObject.getMemberNumber());
                 intent.putExtra("fromPopInfo", false);
                 startActivity(intent);
 
@@ -374,7 +373,7 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(DirectoryRosterMemberActivity.this, AutosActivity.class);
-                intent.putExtra("memberNumber", ParseInstallation.getCurrentInstallation().getString("memberNumber"));
+                intent.putExtra("memberNumber", rosterObject.getMemberNumber());
                 intent.putExtra("fromPopInfo", false);
                 startActivity(intent);
 

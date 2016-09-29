@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="comapps.com.myassociationhoa.MainActivity"
-    tools:showIn="@layout/activity_main"
+
     android:orientation="vertical">
 
     <com.android.volley.toolbox.NetworkImageView
@@ -15,9 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#050505"
-        android:adjustViewBounds="true"
         android:fitsSystemWindows="false"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -27,7 +27,7 @@
         android:weightSum="13">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:textColor="#e70707"
             android:shadowColor="#fcfafa"
@@ -53,7 +53,7 @@
             android:layout_weight="11.5"
             android:baselineAligned="false"
             android:id="@+id/llContentMainVertical"
-            android:visibility="gone">
+            android:visibility="invisible">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -252,7 +252,8 @@
                         android:id="@+id/imageViewRedDot"
                         android:layout_gravity="right|top"
                         android:src="@drawable/reddot"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        tools:ignore="ContentDescription" />
                 </FrameLayout>
 
                 <Button
@@ -279,8 +280,8 @@
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:text="@string/b14"
-                    android:id="@+id/button14"
+                    android:text="@string/b18"
+                    android:id="@+id/button18"
                     android:layout_weight="1"
                     android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
@@ -292,8 +293,24 @@
                     android:shadowRadius="1"
                     style="?android:attr/buttonBarButtonStyle"
                     android:visibility="visible"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
+                    android:padding="2dp" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:text="@string/b18"
+                    android:id="@+id/button18_b"
+                    android:layout_weight="1"
+                    android:textSize="12sp"
+                    android:background="@drawable/button_rounded_corners_black"
+                    android:textColor="@android:color/white"
+                    android:shadowColor="#e70707"
+                    android:textStyle="bold"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:visibility="gone"
                     android:padding="2dp" />
 
                 <Button
@@ -314,24 +331,6 @@
                     android:visibility="visible"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
-                    android:padding="2dp" />
-
-                <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b18"
-                    android:id="@+id/button18_b"
-                    android:layout_weight="1"
-                    android:textSize="12sp"
-                    android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
-                    android:shadowColor="#e70707"
-                    android:textStyle="bold"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="gone"
                     android:padding="2dp" />
 
             </LinearLayout>
@@ -437,8 +436,8 @@
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:text="@string/b18"
-                    android:id="@+id/button18"
+                    android:text="@string/b14"
+                    android:id="@+id/button14"
                     android:layout_weight="1"
                     android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
@@ -450,6 +449,8 @@
                     android:shadowRadius="1"
                     style="?android:attr/buttonBarButtonStyle"
                     android:visibility="visible"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
                     android:padding="2dp" />
 
             </LinearLayout>

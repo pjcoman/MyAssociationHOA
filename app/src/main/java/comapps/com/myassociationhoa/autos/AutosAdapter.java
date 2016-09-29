@@ -2,7 +2,6 @@ package comapps.com.myassociationhoa.autos;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +27,9 @@ class AutosAdapter extends ArrayAdapter<AutoObject> implements Filterable {
     private AutoFilter autoFilter;
     private ArrayList<AutoObject> autosFilterList;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+
+
+    AutoObject autoObject;
 
 
     public AutosAdapter(Context context, ArrayList<AutoObject> autosList) {
@@ -37,6 +37,8 @@ class AutosAdapter extends ArrayAdapter<AutoObject> implements Filterable {
         this.autosList = autosList;
         this.context = context;
         autosFilterList = autosList;
+
+
 
     }
 
@@ -68,15 +70,17 @@ class AutosAdapter extends ArrayAdapter<AutoObject> implements Filterable {
         }
 
         TextView ownerName = (TextView) convertView.findViewById(R.id.tvAutoOwner);
-        TextView autoMake = (TextView) convertView.findViewById(R.id.tvAutoMake);
-        TextView autoModel = (TextView) convertView.findViewById(R.id.tvAutoModel);
-        TextView autoColor = (TextView) convertView.findViewById(R.id.tvAutoColor);
-        TextView autoPlate = (TextView) convertView.findViewById(R.id.tvAutoPlate);
+        TextView autoMake = (TextView) convertView.findViewById(R.id.tvGuestName);
+        TextView autoModel = (TextView) convertView.findViewById(R.id.tvGuestContactType);
+        TextView autoColor = (TextView) convertView.findViewById(R.id.tvGuestStartDate);
+        TextView autoPlate = (TextView) convertView.findViewById(R.id.tvGuestAccessMonday);
         TextView autoYear = (TextView) convertView.findViewById(R.id.tvAutoYear);
         TextView autoTag = (TextView) convertView.findViewById(R.id.tvAutoTag);
 
 
-        AutoObject autoObject = getItem(position);
+
+
+        autoObject = getItem(position);
 
 
         try {
@@ -130,7 +134,11 @@ class AutosAdapter extends ArrayAdapter<AutoObject> implements Filterable {
 
 
         return convertView;
+
+
     }
+
+
 
 
 
@@ -141,6 +149,10 @@ class AutosAdapter extends ArrayAdapter<AutoObject> implements Filterable {
         }
         return autoFilter;
     }
+
+
+
+
 
     private class AutoFilter extends Filter {
         @Override
@@ -182,6 +194,12 @@ class AutosAdapter extends ArrayAdapter<AutoObject> implements Filterable {
             notifyDataSetChanged();
         }
 
+
+
     }
+
+
+
+
 
 }

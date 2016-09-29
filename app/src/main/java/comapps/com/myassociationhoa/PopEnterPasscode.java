@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -49,19 +48,18 @@ public class PopEnterPasscode extends AppCompatActivity {
 
     Bundle bundle;
 
+    Boolean correctPasscode = true;
+
 
     ArrayList<String> associationsJoinedArray;
-    ParseObject home;
+
     String[] assocJoinedStringArray;
     String assocJoinedUpdate;
     Boolean fromChangeAddActivity;
     String oldMemberNumber;
     int numberOfPasscodes;
 
-    String rosterString;
-    String rosterUpdate;
-    String[] rosterFileArray;
-    int numberOfMembers;
+
     int passCodeSize;
 
     Map<String, String> mapPasswordsMember;
@@ -70,14 +68,6 @@ public class PopEnterPasscode extends AppCompatActivity {
     Map<String, String> mapAssocLongNameAdmin;
 
 
-
-    private Boolean uniqueMemberNumber = false;
-
-
-
-    String numbersFileString;
-    String memberNumberRandom;
-    String memberInfo;
 
 
     private SharedPreferences sharedPreferencesVisited;
@@ -116,7 +106,7 @@ public class PopEnterPasscode extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .9), (int) (height * .4));
+        getWindow().setLayout((int) (width * .9), (int) (height * .6));
 
         if ( sharedPreferencesVisited.getBoolean("visitedBefore", false)) {
 
@@ -138,7 +128,7 @@ public class PopEnterPasscode extends AppCompatActivity {
                         } catch (UnsupportedEncodingException e2) {
                             e.printStackTrace();
                         }
-                        Log.d(TAG, "codes locally ");
+                        Log.d(TAG, "not first visit");
 
 
                         String passCodes[] = codesFileString.split("(\\|)|(\\^)", -1);
@@ -200,12 +190,6 @@ public class PopEnterPasscode extends AppCompatActivity {
                     } catch (ParseException e1) {
                         e.printStackTrace();
                     }
-
-
-                    ParseObject.unpinAllInBackground();
-                    ParseObject.pinAllInBackground(objects);
-
-                    Log.d(TAG, "passwords received locally then updated. ");
 
 
 
@@ -262,7 +246,7 @@ public class PopEnterPasscode extends AppCompatActivity {
                         } catch (UnsupportedEncodingException e3) {
                             e.printStackTrace();
                         }
-                        Log.d(TAG, "codes from cloud" + codesFileString);
+                        Log.d(TAG, "first visit codes from cloud" + codesFileString);
 
 
                         String passCodes[] = codesFileString.split("(\\|)|(\\^)", -1);
@@ -326,13 +310,55 @@ public class PopEnterPasscode extends AppCompatActivity {
                     }
 
 
-                    try {
-                        ParseObject.pinAll(objects);
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
-                    }
+                    query = ParseQuery.getQuery("Home");
 
-                    Log.d(TAG, "passwords received from cloud then saved locally. ");
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> objects, ParseException e) {
+
+
+
+                            ParseObject.unpinAllInBackground();
+                            ParseObject.pinAllInBackground(objects);
+
+                            Log.d(TAG, "passwords received from cloud than saved locally. ");
+
+
+
+
+
+
+                            mapPasswordsMember = new HashMap<>();
+                            mapPasswordsAdmin = new HashMap<>();
+                            mapAssocLongNameMember = new HashMap<>();
+                            mapAssocLongNameAdmin = new HashMap<>();
+
+                            passCodeSize = sharedPreferencesAssoc.getInt("passcodeSize", 0);
+
+                            for (int i = 1; i <= passCodeSize / 5; i++) {
+
+                                mapAssocLongNameAdmin.put(sharedPreferencesAssoc.getString("passcodeADMIN_PW(" + String.valueOf(i) + ")", ""),
+                                        sharedPreferencesAssoc.getString("passcodeASSOC_LONGNAME(" + String.valueOf(i) + ")", ""));
+
+                                mapAssocLongNameMember.put(sharedPreferencesAssoc.getString("passcodeMEMBER_PW(" + String.valueOf(i) + ")", ""),
+                                        sharedPreferencesAssoc.getString("passcodeASSOC_LONGNAME(" + String.valueOf(i) + ")", ""));
+
+                                mapPasswordsAdmin.put(sharedPreferencesAssoc.getString("passcodeADMIN_PW(" + String.valueOf(i) + ")", ""),
+                                        sharedPreferencesAssoc.getString("passcodeASSOC_NAME(" + String.valueOf(i) + ")", ""));
+
+                                mapPasswordsMember.put(sharedPreferencesAssoc.getString("passcodeMEMBER_PW(" + String.valueOf(i) + ")", ""),
+                                        sharedPreferencesAssoc.getString("passcodeASSOC_NAME(" + String.valueOf(i) + ")", ""));
+
+
+                            }
+
+                            numberOfPasscodes = sharedPreferencesAssoc.getInt("passcodeSize", 0);
+                            Log.d(TAG, "number of passcodes -----> " + numberOfPasscodes);
+
+
+                            okButton.setEnabled(true);
+                        }
+                    });
 
 
 
@@ -426,8 +452,6 @@ public class PopEnterPasscode extends AppCompatActivity {
                         .playOn(v);
 
 
-                String pw = "pw";
-
                 String passCodeEntered = passCode.getText().toString();
 
                 if (mapPasswordsMember.containsKey(passCodeEntered)) {
@@ -466,6 +490,8 @@ public class PopEnterPasscode extends AppCompatActivity {
 
 
                         editorVisited.apply();
+
+                        start();
 
 
                     }
@@ -511,6 +537,8 @@ public class PopEnterPasscode extends AppCompatActivity {
 
                         editorVisited.apply();
 
+                        start();
+
                     }
 
 
@@ -520,57 +548,44 @@ public class PopEnterPasscode extends AppCompatActivity {
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
 
+                    correctPasscode = false;
 
-                    Intent mainActivity = new Intent();
-                    mainActivity.setClass(PopEnterPasscode.this, MainActivity.class);
-                    startActivity(mainActivity);
-                    finish();
+                    if ( sharedPreferencesVisited.getInt("PASSCODE_ATTEMPTS", 3) != 0 && sharedPreferencesVisited.getString("ASSOCIATIONS_JOINED", "").equals("")) {
+                        editorVisited = sharedPreferencesVisited.edit();
+                        editorVisited.putInt("PASSCODE_ATTEMPTS", sharedPreferencesVisited.getInt("PASSCODE_ATTEMPTS", 3) - 1);
+                        editorVisited.apply();
+
+                        Log.d(TAG, "attempts left ----> " + sharedPreferencesVisited.getInt("PASSCODE_ATTEMPTS", 3));
+
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
+
+                    } else if (!sharedPreferencesVisited.getString("ASSOCIATIONS_JOINED", "").equals("")) {
 
 
-                }
+                        finish();
 
 
+                    } else {
 
+                        toast = Toast.makeText(getBaseContext(), "CONTACT YOUR ADMINISTRATOR.", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
 
-                if (!fromChangeAddActivity) {
+                        editorVisited = sharedPreferencesVisited.edit();
+                        editorVisited.remove("PASSCODE_ATTEMPTS");
+                        editorVisited.apply();
 
-                    Intent registrationActivity = new Intent();
-                    registrationActivity.setClass(PopEnterPasscode.this, RegistrationActivity.class);
-                    startActivity(registrationActivity);
-                    finish();
-
-                } else if (associationsJoinedArray.contains(installation.get("AssociationCode"))) {
-
-                    Log.d(TAG, "member number ----> " + sharedPreferencesVisited.getString(installation.get("AssociationCode") + "MemberNumber", ""));
-                    installation.put("memberNumber", sharedPreferencesVisited.getString(installation.get("AssociationCode") + "MemberNumber", ""));
-                    try {
-                        installation.save();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                        Quit();
                     }
 
-                    Intent changeAddAssocActivity = new Intent();
-                    changeAddAssocActivity.setClass(PopEnterPasscode.this, MainActivity.class);
-                    startActivity(changeAddAssocActivity);
-                    finish();
 
 
-                } else {
-
-                    Intent regActivity = new Intent();
-                    regActivity.setClass(getApplicationContext(), RegistrationActivity.class);
-                    regActivity.putExtra("FROMCHANGEADD", true);
-                    regActivity.putExtra("OLDMEMBERNUMBER", oldMemberNumber);
-                    startActivity(regActivity);
-                    finish();
 
                 }
+
+
             }
-
-
-
-
-
 
                 });
 
@@ -592,16 +607,50 @@ public class PopEnterPasscode extends AppCompatActivity {
             }
 
 
-    private static long generateRandom(int length) {
-        Random random = new Random();
-        char[] digits = new char[length];
-        digits[0] = (char) (random.nextInt(9) + '1');
-        for (int i = 1; i < length; i++) {
-            digits[i] = (char) (random.nextInt(10) + '0');
-        }
-        return Long.parseLong(new String(digits));
-    }
 
+   public void start() {
+
+       if (!fromChangeAddActivity) {
+
+           Intent registrationActivity = new Intent();
+           registrationActivity.setClass(PopEnterPasscode.this, RegistrationActivity.class);
+           startActivity(registrationActivity);
+           finish();
+
+       } else if (associationsJoinedArray.contains(installation.get("AssociationCode"))) {
+
+           Log.d(TAG, "member number ----> " + sharedPreferencesVisited.getString(installation.get("AssociationCode") + "MemberNumber", ""));
+           installation.put("memberNumber", sharedPreferencesVisited.getString(installation.get("AssociationCode") + "MemberNumber", ""));
+           try {
+               installation.save();
+           } catch (ParseException e) {
+               e.printStackTrace();
+           }
+
+           Intent changeAddAssocActivity = new Intent();
+           changeAddAssocActivity.setClass(PopEnterPasscode.this, MainActivity.class);
+           startActivity(changeAddAssocActivity);
+           finish();
+
+
+       } else  {
+
+           Intent regActivity = new Intent();
+           regActivity.setClass(getApplicationContext(), RegistrationActivity.class);
+           regActivity.putExtra("FROMCHANGEADD", true);
+           regActivity.putExtra("OLDMEMBERNUMBER", oldMemberNumber);
+           startActivity(regActivity);
+           finish();
+
+       }
+
+
+
+   }
+
+    protected void Quit() {
+        super.finish();
+    }
 
 
     @Override
