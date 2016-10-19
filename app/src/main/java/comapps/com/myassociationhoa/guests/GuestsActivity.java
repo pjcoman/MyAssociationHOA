@@ -3,11 +3,16 @@ package comapps.com.myassociationhoa.guests;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -33,21 +38,21 @@ public class GuestsActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 
     private static final String TAG = "GUESTACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
-    ArrayList<GuestObject> guestsList;
-    ListView lv;
-    GuestsAdapter adapter;
-    String memberFilter = "";
+    private static final String MYPREFERENCES = "MyPrefs";
+    private ArrayList<GuestObject> guestsList;
+    private ListView lv;
+    private GuestsAdapter adapter;
+    private String memberFilter = "";
 
-    SearchView search_view;
+    private SearchView search_view;
     private FloatingActionButton mFab;
 
-    Bundle bundle;
+    private Bundle bundle;
 
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
-    int guestsCount;
+    private int guestsCount;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,8 @@ public class GuestsActivity extends AppCompatActivity implements
                 .setDefaultFontPath("fonts/palabi.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
+
+        setupWindowAnimations();
 
 
         setContentView(R.layout.content_main_guests);
@@ -92,6 +99,7 @@ public class GuestsActivity extends AppCompatActivity implements
                 mFab.setVisibility(View.GONE);
             }
 
+            assert bar != null;
             bar.setTitle("My Pets");
             search_view.setVisibility(View.GONE);
 
@@ -181,16 +189,16 @@ public class GuestsActivity extends AppCompatActivity implements
 
     }
 
-    public void hideSoftKeyboard() {
+    private void hideSoftKeyboard() {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
 
-    public void getData() {
+    private void getData() {
 
-        guestsList = new ArrayList<GuestObject>();
+        guestsList = new ArrayList<>();
 
         for (int i = 0; i < sharedPreferences.getInt("guestObjectsSize", 0); i++) {
 
@@ -243,6 +251,27 @@ public class GuestsActivity extends AppCompatActivity implements
 
 
     }
+
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+
+
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.RIGHT);
+        getWindow().setEnterTransition(slideTransition);
+
+
+        Slide slideTransitionExit = new Slide();
+        slideTransitionExit.setSlideEdge(Gravity.RIGHT);
+        getWindow().setExitTransition(slideTransitionExit);
+
+
+
+    }
+
 
 
 

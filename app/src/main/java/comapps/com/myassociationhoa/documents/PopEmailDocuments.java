@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,28 +43,28 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PopEmailDocuments extends AppCompatActivity {
 
     private static final String TAG = "POPEMAILACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
 
-    ParseInstallation installation;
+    private ParseInstallation installation;
     String assocCode;
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
-    ParseQuery queryAssociations;
+    private ParseQuery queryAssociations;
 
-    TextView title;
-    TextView title2;
-    TextView rulesPdf;
-    TextView byLawsPdf;
-    TextView minutesPdf;
-    TextView misc1;
-    TextView misc2;
-    TextView misc3;
-    TextView cancel;
+    private TextView title;
+    private TextView title2;
+    private TextView rulesPdf;
+    private TextView byLawsPdf;
+    private TextView minutesPdf;
+    private TextView misc1;
+    private TextView misc2;
+    private TextView misc3;
+    private TextView cancel;
 
 
     ParseFile parseFile;
     URI uri = null;
-    File pdfToEmail;
+    private File pdfToEmail;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -134,6 +136,7 @@ public class PopEmailDocuments extends AppCompatActivity {
         int height = dm.heightPixels;
 
         getWindow().setLayout((int)(width*.9),(int)(height*.7));
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
         installation = ParseInstallation.getCurrentInstallation();

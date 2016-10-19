@@ -1,26 +1,34 @@
 package comapps.com.myassociationhoa;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.google.gson.Gson;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -31,7 +39,10 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -45,8 +56,6 @@ import comapps.com.myassociationhoa.guests.GuestsActivity;
 import comapps.com.myassociationhoa.maintenance.MaintenanceActivity;
 import comapps.com.myassociationhoa.messageboard.MBActivity;
 import comapps.com.myassociationhoa.myinfo.MyInfoActivity;
-import comapps.com.myassociationhoa.objects.AdminMBObject;
-import comapps.com.myassociationhoa.objects.MBObject;
 import comapps.com.myassociationhoa.pets.PetsActivity;
 import comapps.com.myassociationhoa.push_history.PushActivity;
 import comapps.com.myassociationhoa.service_providers.ServiceProviderActivity;
@@ -60,33 +69,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String MYPREFERENCES = "MyPrefs";
     private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
-    CustomVolleyRequest customVolleyRequest;
+    private String messageDate;
+    private String visitDate;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences sharedPreferencesVisited;
-    SharedPreferences.Editor editor;
-    SharedPreferences.Editor editorVisited;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editorVisited;
 
-    MBObject mbObject;
-    private ArrayList<MBObject> mbObjects;
+    private SimpleDateFormat sdf;
 
-    AdminMBObject admin_mbObject;
-    private ArrayList<AdminMBObject> admin_mbObjects;
-
+    private SimpleDateFormat formatter;
 
 
     private ParseInstallation installation;
-    ParseQuery<ParseObject> queryAssociations;
+    private ParseQuery<ParseObject> queryAssociations;
 
     int messageCount = 0;
+    private final static int REQ_CODE = 1;
 
 
-
-    String url;
-
-
-    ImageLoader imageLoader;
-
+    private String url;
 
 
     private String memberName;
@@ -95,62 +98,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String associationCode;
     private TextView associationName;
 
-    Button b1_email; //email button
-    Button b2_contacts; //contact button
-    Button b3_directory; //directory button
-    Button b4_weather; //weather button
-    Button b5_calendar; //calendar button
-    Button b6_budget; //budget button
-    Button b7_documents; //documents button
-    Button b8_messageboard; //message board button
-    Button b9_myinfo; //my info button
-    Button b10_pushhistory; //push history button
-    Button b11_serviceproviders; //service providers button
-    Button b12_changeadd; //change add assoc button
-    Button b13_pets; //pets directory button
-    Button b14_guests; //guests directory button
-    Button b15_autos; //auto directory button
-    Button b16_tools; //tools button
-    Button b17_pushemail; //push email button
-    Button b18_maintenance; //maintenance items button
-    Button b18_maintenance_b;
+    private ProgressBar progressBar;
 
-    LinearLayout contentMain;
+    private Button b1_email; //email button
+    private Button b2_contacts; //contact button
+    private Button b3_directory; //directory button
+    private Button b4_weather; //weather button
+    private Button b5_calendar; //calendar button
+    private Button b6_budget; //budget button
+    private Button b7_documents; //documents button
+    private Button b8_messageboard; //message board button
+    private Button b9_myinfo; //my info button
+    private Button b10_pushhistory; //push history button
+    private Button b11_serviceproviders; //service providers button
+    private Button b12_changeadd; //change add assoc button
+    private Button b13_pets; //pets directory button
+    private Button b14_guests; //guests directory button
+    private Button b15_autos; //auto directory button
+    private Button b16_tools; //tools button
+    private Button b17_pushemail; //push email button
+    private Button b18_maintenance; //maintenance items button
+    private Button b18_maintenance_b;
 
-    LinearLayout ll1;
-    LinearLayout ll2;
-    LinearLayout ll3;
+    private LinearLayout contentMain;
+
+    private LinearLayout ll1;
+    private LinearLayout ll2;
+    private LinearLayout ll3;
 
     Boolean mbVisit = false;
 
-    ImageView redDot;
+    private ImageView redDot;
+
 
     int i = 0;
     int j = 0;
     int k = 0;
 
-    int oldMBSize;
 
-    boolean objectPinned;
-    boolean fromChangeAdd;
-    boolean fromImport;
-    Bundle bundle;
+
+    private boolean objectPinned;
+    private boolean fromChangeAdd;
+    private boolean fromImport;
+    private Bundle bundle;
+
+    private Date updateDate;
+    private Date visit;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-     /*   ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
-*/
-
-
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/palabi.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
+
+        setupWindowAnimations();
+
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -172,7 +178,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         associationName = (TextView) findViewById(R.id.textViewAssociationName);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+
         redDot = (ImageView) findViewById(R.id.imageViewRedDot);
+
 
         b1_email = (Button) findViewById(R.id.button);
         b2_contacts = (Button) findViewById(R.id.button2);
@@ -207,10 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
 
-     /*   editorVisited = sharedPreferencesVisited.edit();
-        editorVisited.putString("ASSOCIATIONS_JOINED", "Android Test HOA^Administrator^Android|Android Test HOA^Member^Android");
-        editorVisited.putString("ASSOCIATIONS", "AndroidAdminAndroidMember");
-        editorVisited.apply();*/
+        visitDate = sharedPreferencesVisited.getString("LASTMBVISIT", "1/1/16, 12:01 AM");
 
          Log.d(TAG, "visited before ------> " + sharedPreferences.getBoolean("visitedBefore", false));
         Log.d(TAG, "visited before ------> " + sharedPreferencesVisited.getBoolean("visitedBefore", false));
@@ -233,14 +240,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Log.d(TAG, "NOT FIRST VISIT");
 
-            if ( sharedPreferencesVisited.getBoolean("SHOWREDDOT", true) || sharedPreferencesVisited.getBoolean("MBFIRSTVIEW", true)) {
-
-                redDot.setVisibility(View.VISIBLE);
-
-
-            }
-
-            Log.i(TAG, "message count from visited ----> " + sharedPreferencesVisited.getInt("mbSize", 0));
 
             bundle = getIntent().getExtras();
 
@@ -396,79 +395,104 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
+                MainActivity.this);
+
+
         Intent intent = new Intent();
 
         switch (v.getId()) {
             //handle multiple view click events
             case R.id.button:
                 sendEmail();
+                startActivity(intent);
                 break;
             case R.id.button2:
                 intent.setClass(this, ContactActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
             case R.id.button3:
                 intent.setClass(this, DirectoryActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
             case R.id.button4:
                 intent.setClass(this, WeatherActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
             case R.id.button5:
                 intent.setClass(this, CalendarActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
             case R.id.button6:
                 intent.setClass(this, BudgetActivity.class);
+                startActivity(intent);
                 break;
             case R.id.button7:
                 intent.setClass(this, DocumentsActivity.class);
+                startActivity(intent);
                 break;
+
             case R.id.button8:
                 intent.setClass(this, MBActivity.class);
+                redDot.setVisibility(View.GONE);
+                startActivity(intent, options.toBundle());
+
                 break;
             case R.id.button9:
                 intent.setClass(this, MyInfoActivity.class);
+                startActivity(intent);
                 break;
             case R.id.button10:
                 intent.setClass(this, PushActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
             case R.id.button11:
                 intent.setClass(this, ServiceProviderActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
             case R.id.button12:
                 intent.setClass(this, Change_Add_Associations.class);
-                finish();
+                startActivity(intent, options.toBundle());
+
                 break;
             case R.id.button13:
                 intent.setClass(this, PetsActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
             case R.id.button14:
                 intent.setClass(this, GuestsActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
             case R.id.button15:
                 intent.setClass(this, AutosActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
             case R.id.button16:
                 intent.setClass(this, ToolsActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
             case R.id.button17:
                 intent.setClass(this, AdminPushActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
             case R.id.button18:
                 intent.setClass(this, MaintenanceActivity.class);
+                startActivity(intent, options.toBundle());
                 break;
-            case R.id.button18_b:
+           /* case R.id.button18_b:
                 intent.setClass(this, MaintenanceActivity.class);
-                break;
+                startActivity(intent);
+                break;*/
         }
 
-        try {
-            startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
 
-    public class RemoteDataTask extends AsyncTask<Void, Void, Void> {
+
+
+
+    private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
 
 
 
@@ -550,30 +574,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                     e1.printStackTrace();
                                                 }
 
-                                                url = backgroundImage.getUrl();
+                                                url = backgroundImage != null ? backgroundImage.getUrl() : null;
+                                                ImageView iv = (ImageView) findViewById(R.id.imageView);
 
+                                                Glide.with(getApplicationContext())
+                                                        .load(url)
+                                                        .listener(new RequestListener<String, GlideDrawable>() {
+                                                            @Override
+                                                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                                                                if(e instanceof UnknownHostException)
+                                                                    progressBar.setVisibility(View.VISIBLE);
+                                                                return false;
+                                                            }
 
-                                                imageLoader = CustomVolleyRequest.getInstance(getApplicationContext()).getImageLoader();
-
-
-
-                                                NetworkImageView niv = (NetworkImageView) findViewById(R.id.networkImageView);
-                                                if(url.length() > 0) {
-                                                    niv.setImageUrl(url, imageLoader);
-                                                }
-
-
+                                                            @Override
+                                                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                                                progressBar.setVisibility(View.GONE);
+                                                                return false;
+                                                            }
+                                                        })
+                                                        .into(iv);
 
                                                 editor = sharedPreferences.edit();
                                                 editor.putString("backgroundImageUrl", backgroundImage.getUrl());
-                                                editor.putString("backgroundImage2Url", backgroundImage2.getUrl());
+                                                editor.putString("backgroundImage2Url", backgroundImage2 != null ? backgroundImage2.getUrl() : null);
 
                                                 editor.apply();
-
-
-
-
-
 
 
 //****************************************************************DEFAULTS************************************************************************************************
@@ -598,7 +624,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                     e3.printStackTrace();
                                                 }
                                                 // Log.d(TAG, "defaultsFileString is " + defaultsFileString);
-                                                defaultsFileArray = defaultsFileString.split("\\|");
+                                                defaultsFileArray = defaultsFileString != null ? defaultsFileString.split("\\|") : new String[0];
 
 
                                                 for (int i = 0; i < defaultsFileArray.length; i++) {
@@ -695,22 +721,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                         }
 
 
-         /* if ( b15_autos.getVisibility() == View.GONE && b13_pets.getVisibility() == View.GONE && b18_maintenance.getVisibility()
-                                                        == View.GONE) {
-
-                                                    ll1.setWeightSum(4);
-                                                    ll2.setWeightSum(4);
-                                                    ll3.setWeightSum(4);
-
-                                                }
-
-*/
-
-
-
-
-
-
 
                                                         break;
                                                     case "Administrator":
@@ -765,6 +775,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
                                                 remoteDataTaskClass.execute();
 
+                                                AsyncTask<Void, Void, Void> remoteDataTaskClassMB = new RemoteDataTaskClassMB(getApplicationContext());
+                                                remoteDataTaskClassMB.execute();
+
 
 
                                                 Map<String, ?> keysVisited = sharedPreferencesVisited.getAll();
@@ -772,223 +785,87 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                     Log.d(TAG, "map values VISITEDPREFERENCES " + entry.getKey() + ": " + entry.getValue().toString());
                                                 }
 
-  //***************************************************************************MESSAGE***********************************************************************************
+  //***************************************************************************MESSAGE RED DOT***********************************************************************************
+
+                                                formatter = new SimpleDateFormat("M/d/yy, h:mm a");
+
+
+                                                messageDate = associationObject.get(0).getString("MessageDate");
+
+                                                try {
+                                                    updateDate = formatter.parse(messageDate);
+                                                } catch (java.text.ParseException e1) {
+                                                    e1.printStackTrace();
+                                                }
+
+
+
+                                         //       String visitDate = "10/4/16, 6:00 PM";
 
 
                                                 try {
-                                                    ParseFile postsFile = associationObject.get(0).getParseFile("MessageFile");
+                                                    visit = formatter.parse(visitDate);
+                                                } catch (java.text.ParseException e1) {
+                                                    e1.printStackTrace();
+                                                }
 
-                                                    String[] postFileArray = null;
+                                                if ((updateDate != null ? updateDate.compareTo(visit) : 0) <= 0)
+                                                {
+                                                    Log.d(TAG, "visit is greater (more recent) than update *** visit ----> " + visitDate + " update ----> " + updateDate);
+                                                    redDot.setVisibility(View.GONE);
+                                                } else {
+                                                    Log.d(TAG, "update is greater (more recent) than visit *** visit ----> " + visitDate + " update ----> " + updateDate);
+                                                    redDot.setVisibility(View.VISIBLE);
+                                                }
+
+//*************************************************************************CALENDAR************************************************************************************
 
 
-                                                    byte[] postFileData = new byte[0];
+                                                try {
+                                                    ParseFile eventFile = associationObject.get(0).getParseFile("AdminEventFile");
+
+
+                                                    byte[] eventFileData = new byte[0];
                                                     try {
-                                                        postFileData = postsFile.getData();
+                                                        eventFileData = eventFile.getData();
                                                     } catch (ParseException e1) {
                                                         e1.printStackTrace();
                                                     }
 
-                                                    String postsFileString = null;
+                                                    String eventFileString = null;
                                                     try {
-                                                        postsFileString = new String(postFileData, "UTF-8");
+                                                        eventFileString = new String(eventFileData, "UTF-8");
                                                     } catch (UnsupportedEncodingException e2) {
                                                         e2.printStackTrace();
                                                     }
 
-                                                    Log.v(TAG, "postsFileString ---> " + postsFileString);
 
-                                                    postFileArray = postsFileString.split("\\|", -1);
-
-
-                                                    for (int i = 0; i < postFileArray.length; i++) {
+                                                    Calendar c = Calendar.getInstance();
+                                                    sdf = new SimpleDateFormat("M/d/yy, h:mm a", java.util.Locale.getDefault());
+                                                    String strDate = sdf.format(c.getTime());
 
 
-                                                        Log.v(TAG, i + " post " + postFileArray[i]);
+                                                    byte[] data = eventFileString != null ? eventFileString.getBytes() : new byte[0];
+                                                    eventFile = new ParseFile("calendar.txt", data);
 
 
+                                                    associationObject.get(0).put("Eventdate", strDate);
+                                                    associationObject.get(0).put("EventFile", eventFile);
+
+                                                    try {
+                                                        associationObject.get(0).save();
+
+                                                    } catch (ParseException e1) {
+                                                        e1.printStackTrace();
+                                                        associationObject.get(0).saveEventually();
                                                     }
 
-
-                                                    mbObjects = new ArrayList<MBObject>();
-
-
-
-                                                    for (i = 0, j = 0; i < postFileArray.length; i++) {
-
-                                                        switch (j) {
-                                                            case 0:
-                                                                mbObject = new MBObject();
-                                                                mbObject.setMbName(postFileArray[i]);
-                                                                j++;
-                                                                break;
-                                                            case 1:
-                                                                mbObject.setMbPostDate(postFileArray[i]);
-                                                                j++;
-                                                                break;
-                                                            case 2:
-                                                                mbObject.setMbPost(postFileArray[i]);
-                                                                j++;
-                                                                break;
-                                                            case 3:
-                                                                mbObject.setMbPostDate2(postFileArray[i]);
-                                                                j++;
-                                                                break;
-
-                                                            case 4:
-                                                                mbObject.setMbPosterEmailAddress(postFileArray[i]);
-                                                                mbObjects.add(mbObject);
-                                                                messageCount++;
-                                                                editor = sharedPreferences.edit();
-                                                                Gson gson = new Gson();
-                                                                String jsonMbObject = gson.toJson(mbObject); // myObject - instance of MyObject
-                                                                editor.putString("mbObject" + "[" + (((i + 1) / 5) - 1) + "]", jsonMbObject);
-                                                                editor.putInt("mbSize", postFileArray.length/5);
-                                                                editor.apply();
-
-
-
-
-
-                                                                j = 0;
-
-
-
-
-                                                                break;
-                                                        }
-
-
-
-
-
-                                                    }
-
-                                                    if ( mbObjects.size() > sharedPreferencesVisited.getInt("mbSize", 0) && mbVisit == false) {
-                                                        redDot.setVisibility(View.VISIBLE);
-
-                                                        mbVisit = true;
-
-                                                        editorVisited = sharedPreferencesVisited.edit();
-                                                        editorVisited.putBoolean("SHOWREDDOT", true);
-                                                        editorVisited.apply();
-
-                                                    } else if ( mbVisit == true ) {
-
-                                                        editorVisited = sharedPreferencesVisited.edit();
-                                                        editorVisited.putInt("mbSize", mbObjects.size());
-                                                        editorVisited.apply();
-                                                    }
 
                                                 } catch (Exception e1) {
                                                     e1.printStackTrace();
                                                 }
 
 
-
-//***************************************************************************ADMIN MESSAGE**********************************************************************************
-
-
-                                                try {
-                                                    ParseFile admin_postsFile = associationObject.get(0).getParseFile("AdminMessageFile");
-
-
-                                                    String[] admin_postFileArray = null;
-
-
-                                                    byte[] admin_postFileData = new byte[0];
-                                                    try {
-                                                        admin_postFileData = admin_postsFile.getData();
-                                                    } catch (ParseException e1) {
-                                                        e1.printStackTrace();
-                                                    }
-
-                                                    String admin_postsFileString = "";
-                                                    try {
-                                                        admin_postsFileString = new String(admin_postFileData, "UTF-8");
-                                                    } catch (UnsupportedEncodingException e2) {
-                                                        e2.printStackTrace();
-                                                    }
-
-                                                    Log.v(TAG, "adminPostsFileString ---> " + admin_postsFileString);
-
-                                                    admin_postFileArray = admin_postsFileString.split("\\|", -1);
-
-
-                                     /*   for (int i = 0; i < admin_postFileArray.length; i++) {
-
-
-                                            Log.v(TAG, i + "admin post ----> " + admin_postFileArray[i]);
-
-
-                                        }
-*/
-
-                                                    admin_mbObjects = new ArrayList<>();
-
-                                                    int adminmessageCount = 0;
-
-                                                    for (i = 0, j = 0; i < admin_postFileArray.length; i++) {
-
-                                                        switch (j) {
-                                                            case 0:
-                                                                admin_mbObject = new AdminMBObject();
-                                                                admin_mbObject.setField1(admin_postFileArray[i].trim());
-                                                                j++;
-                                                                break;
-                                                            case 1:
-                                                                admin_mbObject.setField2(admin_postFileArray[i].trim());
-                                                                j++;
-                                                                break;
-                                                            case 2:
-                                                                admin_mbObject.setField3(admin_postFileArray[i].trim());
-                                                                j++;
-                                                                break;
-                                                            case 3:
-                                                                admin_mbObject.setField4(admin_postFileArray[i].trim());
-                                                                j++;
-                                                                break;
-                                                            case 4:
-                                                                admin_mbObject.setField5(admin_postFileArray[i].trim());
-                                                                j++;
-                                                                break;
-                                                            case 5:
-                                                                admin_mbObject.setField6(admin_postFileArray[i].trim());
-                                                                j++;
-                                                                break;
-                                                            case 6:
-                                                                admin_mbObject.setField7(admin_postFileArray[i].trim());
-                                                                j++;
-                                                                break;
-
-                                                            case 7:
-                                                                admin_mbObject.setField8(admin_postFileArray[i].trim());
-                                                                admin_mbObjects.add(admin_mbObject);
-                                                                adminmessageCount++;
-                                                                editor = sharedPreferences.edit();
-                                                                editorVisited = sharedPreferencesVisited.edit();
-                                                                Gson gson = new Gson();
-                                                                String jsonAdminMbObject = gson.toJson(admin_mbObject); // myObject - instance of MyObject
-                                                                editor.putString("admin_mbObject" + "[" + (((i + 1) / 8) - 1) + "]", jsonAdminMbObject);
-                                                                editorVisited.putInt("admin_mbSize", adminmessageCount);
-                                                                editorVisited.apply();
-                                                                editor.apply();
-
-                                                                j = 0;
-
-                                                                break;
-                                                        }
-
-
-                                                    }
-
-                                                    i = 0;
-                                                    for (AdminMBObject object : admin_mbObjects) {
-                                                        Log.i(TAG, i + " admin mb post -----> " + object.toString());
-                                                        i++;
-                                                    }
-                                                } catch (Exception e1) {
-                                                    e1.printStackTrace();
-                                                }
 
 
 
@@ -1070,7 +947,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                                 editor.apply();
 
+//**************************************************************************************************
 
+               Map<String, ?> keys = sharedPreferences.getAll();
+               for (Map.Entry<String, ?> entry : keys.entrySet()) {
+                   Log.d(TAG, "map values MYPREFERENCES" + entry.getKey() +
+                           ": " + entry.getValue().toString());
+               }
+               keys = sharedPreferencesVisited.getAll();
+               for (Map.Entry<String, ?> entry : keys.entrySet()) {
+                   Log.d(TAG, "map values MYPREFERENCES" + entry.getKey() +
+                           ": " + entry.getValue().toString());
+               }
+
+//**************************************************************************************************
 
 
                                             }
@@ -1110,42 +1000,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onResume() {
         super.onResume();  // Always call the superclass method first
 
-        if ( sharedPreferencesVisited.getBoolean("FROMMB", false) ) {
+        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+        remoteDataTaskClass.execute();
 
-            redDot.setVisibility(View.INVISIBLE);
-
-
-        }
+        Log.e(TAG, "***** Reload data *****");
 
 
-
-        if (sharedPreferencesVisited.getBoolean("visitedBefore", false)) {
-
-            new RemoteDataTask().execute();
-
-        }
     }
 
 
 
-  /*  @Override
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        if (sharedPreferencesVisited.getBoolean("visitedBefore", false)) {
+        if(newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){
 
-            new RemoteDataTask().execute();
+            Log.e(TAG, "On Config Change LANDSCAPE");
+        }else{
 
+            Log.e(TAG, "On Config Change PORTRAIT");
         }
+
+
     }
-*/
+
+    private void setupWindowAnimations() {
+
+
+
+        // Re-enter transition is executed when returning to this activity
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.LEFT);
+
+        getWindow().setEnterTransition(slideTransition);
+
+
+        Slide slideTransitionExit = new Slide();
+        slideTransitionExit.setSlideEdge(Gravity.LEFT);
+        getWindow().setExitTransition(slideTransitionExit);
+
+
+
+    }
+
 
     @Override
     public void onBackPressed() {
 
 
 
-        this.finish();
+        finishAfterTransition();
     }
 
 

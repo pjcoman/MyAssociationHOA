@@ -32,7 +32,7 @@ class ServiceAdapter extends BaseAdapter {
         this.context = context;
         this.servicesList = servicesList;
         inflater = LayoutInflater.from(context);
-        this.providerObjectList = new ArrayList<ProviderObject>();
+        this.providerObjectList = new ArrayList<>();
         this.providerObjectList.addAll(servicesList);
 
 

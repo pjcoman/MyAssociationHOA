@@ -24,9 +24,9 @@ class PetsAdapter extends ArrayAdapter<PetObject> implements Filterable {
     public static final String TAG = "PETSADAPTER";
 
     private ArrayList<PetObject> petsList;
-    private Context context;
+    private final Context context;
     private PetFilter petFilter;
-    private ArrayList<PetObject> petsFilterList;
+    private final ArrayList<PetObject> petsFilterList;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -79,40 +79,40 @@ class PetsAdapter extends ArrayAdapter<PetObject> implements Filterable {
 
 
         try {
-            ownerName.setText(petObject.getOwner());
+            ownerName.setText(petObject != null ? petObject.getOwner() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
         try {
-            petType.setText(petObject.getType());
+            petType.setText(petObject != null ? petObject.getType() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            petName.setText(petObject.getName());
+            petName.setText(petObject != null ? petObject.getName() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            petBreed.setText(petObject.getBreed());
+            petBreed.setText(petObject != null ? petObject.getBreed() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            petColor.setText(petObject.getColor());
+            petColor.setText(petObject != null ? petObject.getColor() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            petWeight.setText(petObject.getWeight() + " lbs.");
+            petWeight.setText((petObject != null ? petObject.getWeight() : null) + " lbs.");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            petMisc.setText(petObject.getMisc());
+            petMisc.setText(petObject != null ? petObject.getMisc() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }

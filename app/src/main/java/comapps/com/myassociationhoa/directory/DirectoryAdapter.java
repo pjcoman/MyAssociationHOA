@@ -24,16 +24,16 @@ import comapps.com.myassociationhoa.objects.RosterObject;
  */
 class DirectoryAdapter extends ArrayAdapter<RosterObject> implements Filterable {
 
-    public static final String TAG = "DIRECTORYADAPTER";
+    private static final String TAG = "DIRECTORYADAPTER";
     private static final String MYPREFERENCES = "MyPrefs";
 
 
 
 
     private ArrayList<RosterObject> rosterList;
-    private Context context;
+    private final Context context;
     private RosterFilter rosterFilter;
-    private ArrayList<RosterObject> rosterFilterList;
+    private final ArrayList<RosterObject> rosterFilterList;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -44,6 +44,8 @@ class DirectoryAdapter extends ArrayAdapter<RosterObject> implements Filterable 
     private TextView textViewFirstName;
     private TextView textViewAddress1;
     private TextView textViewMiddleName;
+    private TextView textViewActDate;
+    private TextView textViewMemberNumber;
 
 
 
@@ -88,15 +90,19 @@ class DirectoryAdapter extends ArrayAdapter<RosterObject> implements Filterable 
         textViewFirstName = (TextView) convertView.findViewById(R.id.firstNameTextView);
         textViewMiddleName = (TextView) convertView.findViewById(R.id.middleNameTextView);
         textViewAddress1 = (TextView) convertView.findViewById(R.id.address1TextView);
+        textViewActDate = (TextView) convertView.findViewById(R.id.activateDate);
+        textViewMemberNumber = (TextView) convertView.findViewById(R.id.memberNumber);
 
 
 
         final RosterObject roster = rosterList.get(position);
 
-        textViewLastName.setText(rosterObject.getLastName());
+        textViewLastName.setText(rosterObject != null ? rosterObject.getLastName() : null);
         textViewFirstName.setText(rosterObject.getFirstName());
         textViewAddress1.setText(rosterObject.getHomeAddress1());
         textViewMiddleName.setText(rosterObject.getMiddleName());
+        textViewActDate.setText(rosterObject.getActivationDate());
+        textViewMemberNumber.setText(rosterObject.getMemberNumber());
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

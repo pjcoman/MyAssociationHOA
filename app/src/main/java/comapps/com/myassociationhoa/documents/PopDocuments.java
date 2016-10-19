@@ -24,9 +24,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PopDocuments extends AppCompatActivity {
 
     private static final String TAG = "POPUPACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs" ;
+    private static final String MYPREFERENCES = "MyPrefs" ;
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class PopDocuments extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.9),(int)(height*.7));
+        getWindow().setLayout((int)(width*.9),(int)(height*.9));
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 

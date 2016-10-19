@@ -3,12 +3,17 @@ package comapps.com.myassociationhoa;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -37,18 +42,18 @@ public class Change_Add_Associations extends AppCompatActivity {
     private static final String TAG = "CHANGE_ADD_ASSOC";
     private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
-    ListView listView;
-    SharedPreferences sharedPreferencesVisited;
+    private ListView listView;
+    private SharedPreferences sharedPreferencesVisited;
 
 
     private FloatingActionButton mFab;
 
-    ParseInstallation installation;
+    private ParseInstallation installation;
 
-    String[] associationsData;
-    ArrayList<String> associationLongNameList;
-    ArrayList<String> associationMemberTypeList;
-    ArrayList<String> associationCodeForParseList;
+    private String[] associationsData;
+    private ArrayList<String> associationLongNameList;
+    private ArrayList<String> associationMemberTypeList;
+    private ArrayList<String> associationCodeForParseList;
 
 
 
@@ -60,6 +65,8 @@ public class Change_Add_Associations extends AppCompatActivity {
                 .setDefaultFontPath("fonts/palabi.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
+
+        setupWindowAnimations();
 
 
         setContentView(R.layout.content_main_change_add_assoc);
@@ -123,8 +130,8 @@ public class Change_Add_Associations extends AppCompatActivity {
         }, 300);*/
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.textviewlist, associationLongNameList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.textviewlist_transparent, associationLongNameList);
 
 
         // Assign adapter to ListView
@@ -199,7 +206,7 @@ public class Change_Add_Associations extends AppCompatActivity {
 
                         Log.d(TAG, "numberAndType is " + numberAndType);
 
-                        String numberAndTypeToReplace[] = rosterFileString.split(memberNumber + "\\^");
+                        String numberAndTypeToReplace[] = rosterFileString != null ? rosterFileString.split(memberNumber + "\\^") : new String[0];
 
                         Log.d(TAG, "numberAndTypeToReplace is " + numberAndTypeToReplace[1]);
 
@@ -224,7 +231,7 @@ public class Change_Add_Associations extends AppCompatActivity {
                         Calendar c = Calendar.getInstance();
                         System.out.println("Current time => " + c.getTime());
 
-                        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy, hh:mm a");
+                        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy, h:mm a");
                         final String formattedDate = df.format(c.getTime());
 
 
@@ -293,7 +300,7 @@ public class Change_Add_Associations extends AppCompatActivity {
 
     }
 
-    public void AddChangeAssoc(View v) {
+    public void AddChangeAssoc() {
 
         installation = ParseInstallation.getCurrentInstallation();
 
@@ -317,7 +324,28 @@ public class Change_Add_Associations extends AppCompatActivity {
 
     }
 
-    @Override
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+
+
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.RIGHT);
+        getWindow().setEnterTransition(slideTransition);
+
+
+        Slide slideTransitionExit = new Slide();
+        slideTransitionExit.setSlideEdge(Gravity.RIGHT);
+        getWindow().setExitTransition(slideTransitionExit);
+
+
+
+    }
+
+
+   /* @Override
     public void onBackPressed() {
 
         Intent mainActivity = new Intent();
@@ -330,7 +358,7 @@ public class Change_Add_Associations extends AppCompatActivity {
     }
 
 
-
+*/
 
 
 }

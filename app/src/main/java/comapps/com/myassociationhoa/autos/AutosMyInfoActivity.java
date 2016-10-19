@@ -37,23 +37,23 @@ public class AutosMyInfoActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 
     private static final String TAG = "AUTOACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
-    ArrayList<AutoObject> autosList;
-    AutosMyInfoAdapter adapter;
-    ListView lv;
-    Bundle bundle;
-    String memberFilter = "";
+    private static final String MYPREFERENCES = "MyPrefs";
+    private ArrayList<AutoObject> autosList;
+    private AutosMyInfoAdapter adapter;
+    private ListView lv;
+    private Bundle bundle;
+    private String memberFilter = "";
 
-    int autoCount = 0;
+    private int autoCount = 0;
 
-    SearchView search_view;
+    private SearchView search_view;
 
     EditText search;
 
     private FloatingActionButton mFab;
 
     private SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,7 +229,7 @@ public class AutosMyInfoActivity extends AppCompatActivity implements
 
     }
 
-    public static String bundle2string(Bundle bundle) {
+    private static String bundle2string(Bundle bundle) {
         if (bundle == null) {
             return null;
         }
@@ -241,16 +241,16 @@ public class AutosMyInfoActivity extends AppCompatActivity implements
         return string;
     }
 
-    public void hideSoftKeyboard() {
+    private void hideSoftKeyboard() {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
 
-    public void getData() {
+    private void getData() {
 
-        autosList = new ArrayList<AutoObject>();
+        autosList = new ArrayList<>();
 
         for (int i = 0; i < sharedPreferences.getInt("autosObjectsSize", 0); i++) {
 

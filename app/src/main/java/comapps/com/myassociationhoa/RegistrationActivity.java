@@ -48,66 +48,66 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
-    SharedPreferences sharedPreferencesVisited;
+    private SharedPreferences sharedPreferencesVisited;
 
 
     Context context;
 
-    EditText firstNameEditText;
-    EditText middleNameEditText;
-    EditText lastNameEditText;
-    EditText address1EditText;
-    EditText address2EditText;
-    EditText cityEditText;
-    EditText stateEditText;
-    EditText zipEditText;
-    EditText homePhoneEditText;
-    EditText mobilePhoneEditText;
-    EditText emailEditText;
-    EditText winterNameEditText;
-    EditText winterAddress1EditText;
-    EditText winterAddress2EditText;
-    EditText winterCityEditText;
-    EditText winterStateEditText;
-    EditText winterZipEditText;
-    EditText winterPhoneEditText;
-    EditText emerContactEditText;
-    EditText emerContactPhoneEditText;
-    EditText winterEmailEditText;
+    private EditText firstNameEditText;
+    private EditText middleNameEditText;
+    private EditText lastNameEditText;
+    private EditText address1EditText;
+    private EditText address2EditText;
+    private EditText cityEditText;
+    private EditText stateEditText;
+    private EditText zipEditText;
+    private EditText homePhoneEditText;
+    private EditText mobilePhoneEditText;
+    private EditText emailEditText;
+    private EditText winterNameEditText;
+    private EditText winterAddress1EditText;
+    private EditText winterAddress2EditText;
+    private EditText winterCityEditText;
+    private EditText winterStateEditText;
+    private EditText winterZipEditText;
+    private EditText winterPhoneEditText;
+    private EditText emerContactEditText;
+    private EditText emerContactPhoneEditText;
+    private EditText winterEmailEditText;
 
-    TextView summerAddress;
-    TextView winterAddress;
-
-
-    String rosterString;
-    String rosterFileUpdate = "";
+    private TextView summerAddress;
+    private TextView winterAddress;
 
 
-    Button saveButton;
-    String[] rosterFileArray;
-    int numberOfMembers;
+    private String rosterString;
+    private String rosterFileUpdate = "";
+
+
+    private Button saveButton;
+    private String[] rosterFileArray;
+    private int numberOfMembers;
 
     private Boolean uniqueMemberNumber = false;
 
     ProgressDialog progressDialog;
 
-    String numbersFileString;
-    String memberNumberRandom;
+    private String numbersFileString;
+    private String memberNumberRandom;
     String memberName;
     String assocCode;
-    String oldMemberNumber;
-    Bundle bundle;
-    boolean fromChangeAddActivity;
+    private String oldMemberNumber;
+    private Bundle bundle;
+    private boolean fromChangeAddActivity;
 
-    String myPets;
-    String myGuests;
-    String myAutos;
+    private String myPets;
+    private String myGuests;
+    private String myAutos;
 
-    String updateDate;
+    private String updateDate;
 
 
-    ParseQuery query;
-    SharedPreferences.Editor editorVisited;
+    private ParseQuery query;
+    private SharedPreferences.Editor editorVisited;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +195,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         //*************************************************************************************************************************************
 
-        query = new ParseQuery<ParseObject>(ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
+        query = new ParseQuery<>(ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> associationObject, ParseException e) {
@@ -227,7 +227,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     ParseFile numbersFile = associationObject.get(0).getParseFile("NumberFile");
                     String[] numbersFileArray = null;
 
-                    memberNumberRandom = String.valueOf(generateRandom(10));
+                    memberNumberRandom = String.valueOf(generateRandom());
 
 
                     Log.d(TAG, "unique member number is " + memberNumberRandom);
@@ -309,7 +309,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 installation.saveInBackground();
 
                 Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
                 SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                 String strDate = sdf.format(c.getTime());
 
@@ -397,7 +397,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 rosterFileArray = rosterString.split("\\|");
 
-                ArrayList<String> rosterArrayForSort = new ArrayList<String>();
+                ArrayList<String> rosterArrayForSort = new ArrayList<>();
 
 
                 for (String member : rosterFileArray) {
@@ -526,7 +526,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    public String getDeviceName() {
+    private String getDeviceName() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
         if (model.startsWith(manufacturer)) {
@@ -541,7 +541,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
-        query = new ParseQuery<ParseObject>(ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
+        query = new ParseQuery<>(ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> assoc, ParseException e) {
@@ -759,11 +759,11 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
-    private static long generateRandom(int length) {
+    private static long generateRandom() {
         Random random = new Random();
-        char[] digits = new char[length];
+        char[] digits = new char[10];
         digits[0] = (char) (random.nextInt(9) + '1');
-        for (int i = 1; i < length; i++) {
+        for (int i = 1; i < 10; i++) {
             digits[i] = (char) (random.nextInt(10) + '0');
         }
         return Long.parseLong(new String(digits));
@@ -777,7 +777,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    Thread thread = new Thread(){
+    private final Thread thread = new Thread(){
         @Override
         public void run() {
             try {
@@ -802,7 +802,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     };
 
-    Thread threadPetsLoad = new Thread(){
+    private final Thread threadPetsLoad = new Thread(){
         @Override
         public void run() {
             try {
@@ -827,7 +827,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     };
 
-    Thread threadGuestsLoad = new Thread(){
+    private final Thread threadGuestsLoad = new Thread(){
         @Override
         public void run() {
             try {
@@ -852,7 +852,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     };
 
-    Thread threadAutoLoad = new Thread(){
+    private final Thread threadAutoLoad = new Thread(){
         @Override
         public void run() {
             try {
@@ -877,7 +877,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     };
 
-    public static void hideSoftKeyboard(Activity activity) {
+    private static void hideSoftKeyboard(Activity activity) {
 
         InputMethodManager inputMethodManager = (InputMethodManager)activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);

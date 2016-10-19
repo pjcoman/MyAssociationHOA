@@ -22,7 +22,7 @@ public class PushFragment extends ListFragment {
     private static final String MYPREFERENCES = "MyPrefs";
 
     ParseInstallation installation;
-    int pushItems;
+    private int pushItems;
 
 
 

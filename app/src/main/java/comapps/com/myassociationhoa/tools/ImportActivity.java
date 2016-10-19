@@ -42,38 +42,38 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ImportActivity extends AppCompatActivity {
 
     private static final String TAG = "IMPORTBUDGETACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
 
-    public static final int DIALOG_UPLOAD_PROGRESS = 0;
+    private static final int DIALOG_UPLOAD_PROGRESS = 0;
 
     private ProgressDialog mProgressDialog;
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
-    ParseInstallation installation;
-    ParseQuery query;
-    ParseFile parseFile;
-    AlertDialog.Builder alertDialog;
+    private ParseInstallation installation;
+    private ParseQuery query;
+    private ParseFile parseFile;
+    private AlertDialog.Builder alertDialog;
 
     String fileNameMisc;
-    String pdfFile;
-    String parseColumn;
+    private String pdfFile;
+    private String parseColumn;
 
-    TextView tvBudget;
-    TextView tvExpenses;
-    TextView tvRules;
-    TextView tvByLaws;
-    TextView tvMinutes;
-    TextView tvMisc1;
-    TextView tvMisc2;
-    TextView tvMisc3;
-    TextView tvCancel;
+    private TextView tvBudget;
+    private TextView tvExpenses;
+    private TextView tvRules;
+    private TextView tvByLaws;
+    private TextView tvMinutes;
+    private TextView tvMisc1;
+    private TextView tvMisc2;
+    private TextView tvMisc3;
+    private TextView tvCancel;
 
 
-    File pdfToLoad;
-    InputStream is;
-    OutputStream os;
-    ParseObject object;
+    private File pdfToLoad;
+    private InputStream is;
+    private OutputStream os;
+    private ParseObject object;
 
     int FILE_CODE;
 
@@ -136,7 +136,7 @@ public class ImportActivity extends AppCompatActivity {
         if (uri != null) {
 
             installation = ParseInstallation.getCurrentInstallation();
-            query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+            query = new ParseQuery<>(installation.getString("AssociationCode"));
 
             tvMisc1.setText(sharedPreferences.getString("defaultRecord(31)",""));
             if ( tvMisc1.getText() == "" ) {
@@ -356,7 +356,7 @@ public class ImportActivity extends AppCompatActivity {
 
 
 
-    class UploadFileAsync extends AsyncTask<String, String, String> {
+    private class UploadFileAsync extends AsyncTask<String, String, String> {
 
         Context context;
 
@@ -403,14 +403,12 @@ public class ImportActivity extends AppCompatActivity {
 
                             parseFile.save();
 
-                        } catch (IOException e) {
+                        } catch (IOException | ParseException e) {
                             e.printStackTrace();
 
-                        } catch (ParseException e) {
-                            e.printStackTrace();
                         }
 
-                        object.put(params[1], parseFile);
+            object.put(params[1], parseFile);
 
 
 

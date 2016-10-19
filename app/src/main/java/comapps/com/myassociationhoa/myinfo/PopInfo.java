@@ -28,11 +28,11 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PopInfo extends AppCompatActivity {
 
     private static final String TAG = "POPINFO";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
-    ParseInstallation installation;
+    private ParseInstallation installation;
 
     Context context;
 
@@ -84,7 +84,7 @@ public class PopInfo extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .9), (int) (height * .7));
+        getWindow().setLayout((int) (width * .8), (int) (height * .8));
 
 
         assert personalInfo != null;

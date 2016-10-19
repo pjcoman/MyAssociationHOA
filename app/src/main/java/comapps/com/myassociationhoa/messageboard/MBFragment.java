@@ -18,42 +18,49 @@ import comapps.com.myassociationhoa.objects.MBObject;
 public class MBFragment extends ListFragment {
 
     private static final String TAG = "MBFRAGMENT";
-    private static final String VISITEDPREFERENCES = "VisitedPrefs";
     private static final String MYPREFERENCES = "MyPrefs";
+    private SharedPreferences sharedPreferences;
+    private MBObject mbObject;
+    private ArrayList<MBObject> posts;
+    private MBAdapter mbAdapter;
 
-    SharedPreferences sharedPreferencesVisited;
-    SharedPreferences.Editor sditorVisted;
-    SharedPreferences sharedPreferences;
+
+    private int i;
 
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        sharedPreferencesVisited = getActivity().getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
+
         sharedPreferences = getActivity().getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
-        ArrayList<MBObject> posts = new ArrayList<>();
+        posts = new ArrayList<>();
         Integer mbItems = sharedPreferences.getInt("mbSize", 0);
 
-        for (int i = 0; i < mbItems; i++) {
+        for (i = 0; i < mbItems; i++) {
 
             String jsonMbObject = sharedPreferences.getString("mbObject" + "[" + i + "]", "");
             Log.d(TAG, "mb json string is " + jsonMbObject);
             Gson gson = new Gson();
-            MBObject mbObject = gson.fromJson(jsonMbObject, MBObject.class);
+            mbObject = gson.fromJson(jsonMbObject, MBObject.class);
             posts.add(mbObject);
 
         }
 
 
-
-
-        MBAdapter mbAdapter = new MBAdapter(getActivity(), posts);
+        mbAdapter = new MBAdapter(getActivity(), posts);
         setListAdapter(mbAdapter);
+
+
+        mbAdapter.setDropDownViewResource(posts.size());
+    }
 
 
     }
 
 
-}
+
+
+
+

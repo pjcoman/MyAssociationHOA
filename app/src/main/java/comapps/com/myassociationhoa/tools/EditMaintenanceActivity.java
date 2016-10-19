@@ -3,16 +3,25 @@ package comapps.com.myassociationhoa.tools;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.AlignmentSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -41,23 +50,23 @@ public class EditMaintenanceActivity extends AppCompatActivity {
 
 
     private SharedPreferences sharedPreferences;
-    private ArrayList<String> maintenanceCategories = new ArrayList<String>();
-    private ArrayList<String> maintenanceEmailAddress = new ArrayList<String>();
+    private SharedPreferences.Editor editor;
+    private final ArrayList<String> maintenanceCategories = new ArrayList<>();
+    private final ArrayList<String> maintenanceEmailAddress = new ArrayList<>();
 
     private ArrayList<MaintenanceCategoryObject> maintenanceCategoryObjects;
 
-    String[] maintenanceCategoriesAll;
+    private String[] maintenanceCategoriesAll;
 
-    ArrayAdapter<String> listAdapter;
+    private ArrayAdapter<String> listAdapter;
 
     private String maintenanceCatString;
     private String maintenanceEmailString;
 
-    int maintenanceCategoryObjectSize;
+    private int maintenanceCategoryObjectSize;
 
 
     private ListView maintenanceCatList;
-
 
     private FloatingActionButton mFab;
 
@@ -75,6 +84,8 @@ public class EditMaintenanceActivity extends AppCompatActivity {
         maintenanceCatList = (ListView) findViewById(R.id.listViewMaintenanceCategories);
         mFab = (FloatingActionButton) findViewById(R.id.fab);
 
+        TextView tvMaintenanceCatEmail = (TextView) findViewById(R.id.textViewList);
+
         mFab.setVisibility(View.VISIBLE);
 
 
@@ -87,18 +98,24 @@ public class EditMaintenanceActivity extends AppCompatActivity {
             bar.setTitle("Edit/Add Maint. Categories");
         }
 
-        Toast toast = Toast.makeText(getBaseContext(), "Press back button to cancel.", Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+        if ( sharedPreferences.getBoolean("EDITSERVICEHINT", true)) {
 
+            Toast toast = Toast.makeText(getBaseContext(), "Use back button to cancel.", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.BOTTOM | Gravity.RIGHT, -20, -20);
+            toast.show();
 
+            editor = sharedPreferences.edit();
+            editor.putBoolean("EDITSERVICEHINT", false);
+              editor.apply();
+
+        }
 
 
         maintenanceCategoryObjects = new ArrayList<>();
 
 
 
-        maintenanceCategoryObjectSize = Integer.valueOf(sharedPreferences.getInt("maintenanceCategoryObjectsSize", 0));
+        maintenanceCategoryObjectSize = sharedPreferences.getInt("maintenanceCategoryObjectsSize", 0);
 
 
         maintenanceCategoriesAll = new String[maintenanceCategoryObjectSize];
@@ -124,14 +141,39 @@ public class EditMaintenanceActivity extends AppCompatActivity {
 
 
 
-        listAdapter = new ArrayAdapter<String>(this, R.layout.textviewlist, maintenanceCategories);
+        listAdapter = new ArrayAdapter<String>(this, R.layout.textviewlist, maintenanceCategories){
+            @Override
+            public View getView(int position, View convertView,ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView textView = (TextView) view.findViewById(R.id.textViewList);
+                Log.d(TAG, "maintenance category text view ----> " + textView.getText() + " " + textView.getText().toString().indexOf("\n"));
+
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+
+                String[] span = textView.getText().toString().split("\n");
+
+                SpannableString str1= new SpannableString(span[0]);
+                str1.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), 0, str1.length(), 0);
+                builder.append(str1);
+
+                builder.append("\n");
+
+                SpannableString str2= new SpannableString(span[1]);
+                str2.setSpan(new ForegroundColorSpan(Color.parseColor("#1A7929")), 0, str2.length(), 0);
+                str2.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, str2.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.append(str2);
+
+                textView.setText(builder, TextView.BufferType.SPANNABLE);
+
+                return view;
+            }
+
+        };
 
         listAdapter.sort(new Comparator<String>() {
             @Override
             public int compare(String arg1, String arg0) {
                 return arg1.compareTo(arg0);
-
-
             }
         });
 
@@ -168,20 +210,11 @@ public class EditMaintenanceActivity extends AppCompatActivity {
                                                       public void onItemClick(AdapterView<?> adapter, View v, int position,
                                                                               long arg3) {
 
+                                                          String[] tempString;
+                                                          tempString = (adapter.getItemAtPosition(position)).toString().split("\n");
 
-                                                          maintenanceCatString = (String) adapter.getItemAtPosition(position);
-
-
-
-                                                          for ( MaintenanceCategoryObject object:maintenanceCategoryObjects) {
-
-                                                              if ( object.getMaintenanceCatName().equals(maintenanceCatString)) {
-
-                                                                  maintenanceEmailString = object.getMaintenanceCatEmail();
-
-                                                              }
-
-                                                          }
+                                                          maintenanceCatString = tempString[0];
+                                                          maintenanceEmailString = tempString[1];
 
 
                                                           Log.d(TAG, "maintenance cat clicked is " + maintenanceCatString);
@@ -200,7 +233,6 @@ public class EditMaintenanceActivity extends AppCompatActivity {
                                                           editMaintenanceActivity.putExtra("MAINTENANCEPOSITION", String.valueOf(position));
                                                           editMaintenanceActivity.putExtra("MAINTENACEJSONOBJECT", jsonMCObject);
                                                           startActivity(editMaintenanceActivity);
-                                                          finish();
 
 
 
@@ -246,6 +278,13 @@ public class EditMaintenanceActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+        finish();
+
+    }
+
 
 
 
@@ -255,11 +294,6 @@ public class EditMaintenanceActivity extends AppCompatActivity {
 
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
 
-    }
-
-    private String getColoredSpanned(String text, String color) {
-        String input = "<font color=" + color + ">" + text + "</font>";
-        return input;
     }
 
 

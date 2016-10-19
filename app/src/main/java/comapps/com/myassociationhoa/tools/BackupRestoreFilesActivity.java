@@ -3,6 +3,8 @@ package comapps.com.myassociationhoa.tools;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -34,37 +36,37 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class BackupRestoreFilesActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "BACKUPFILESACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
     public static final String VISITEDPREFERENCES = "VisitedPrefs";
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
-    ParseQuery<ParseObject> query;
-    ParseFile file;
-    ParseInstallation installation;
+    private ParseQuery<ParseObject> query;
+    private ParseFile file;
+    private ParseInstallation installation;
 
-    String strDate;
+    private String strDate;
 
-    TextView associationName;
-    TextView tvRosterBackup;
-    TextView tvServiceBackup;
-    TextView tvGuestBackup;
-    TextView tvPetsBackup;
-    TextView tvAutoBackup;
-    TextView tvRosterBackupDate;
-    TextView tvServiceBackupDate;
-    TextView tvGuestBackupDate;
-    TextView tvPetsBackupDate;
-    TextView tvAutoBackupDate;
-    TextView tvCancel;
+    private TextView associationName;
+    private TextView tvRosterBackup;
+    private TextView tvServiceBackup;
+    private TextView tvGuestBackup;
+    private TextView tvPetsBackup;
+    private TextView tvAutoBackup;
+    private TextView tvRosterBackupDate;
+    private TextView tvServiceBackupDate;
+    private TextView tvGuestBackupDate;
+    private TextView tvPetsBackupDate;
+    private TextView tvAutoBackupDate;
+    private TextView tvCancel;
 
-    TextView title2;
+    private TextView title2;
 
-    byte[] backupFileData;
+    private byte[] backupFileData;
 
-    Bundle bundle;
+    private Bundle bundle;
 
-    Boolean fromRestore;
+    private Boolean fromRestore;
     Boolean fromBackup;
 
 
@@ -125,15 +127,17 @@ public class BackupRestoreFilesActivity extends AppCompatActivity implements Vie
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
+
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .9), (int) (height * .7));
+        getWindow().setLayout((int) (width * .9), (int) (height * .9));
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
 
         installation = ParseInstallation.getCurrentInstallation();
-        query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+        query = new ParseQuery<>(installation.getString("AssociationCode"));
         try {
 
             tvRosterBackupDate.setText("last backed up " + query.getFirst().getString("RosterBackupDate"));
@@ -178,9 +182,9 @@ public class BackupRestoreFilesActivity extends AppCompatActivity implements Vie
     @Override
     public void onClick(View v) {
 
-        query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+        query = new ParseQuery<>(installation.getString("AssociationCode"));
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
         strDate = sdf.format(c.getTime());
 
         Log.d(TAG, "view clicked ----> " + v.getId());
@@ -560,7 +564,7 @@ public class BackupRestoreFilesActivity extends AppCompatActivity implements Vie
 
     }
 
-    Thread thread = new Thread(){
+    private final Thread thread = new Thread(){
         @Override
         public void run() {
             try {

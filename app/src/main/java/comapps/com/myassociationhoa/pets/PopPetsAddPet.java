@@ -40,39 +40,39 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PopPetsAddPet extends AppCompatActivity {
 
     private static final String TAG = "POPADDPET";
-    public static final String MYPREFERENCES = "MyPrefs";
-    public static final String VISITEDPREFERENCES = "VisitedPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
-    ParseQuery<ParseObject> query;
-    String[] petFileArray;
-    String petFileString = "";
-    String petFileUpdate = "";
+    private ParseQuery<ParseObject> query;
+    private String[] petFileArray;
+    private String petFileString = "";
+    private String petFileUpdate = "";
 
-    EditText etPetName;
-    EditText etPetType;
-    EditText etPetBreed;
-    EditText etPetColor;
-    EditText etPetWeight;
-    EditText etPetMisc;
+    private EditText etPetName;
+    private EditText etPetType;
+    private EditText etPetBreed;
+    private EditText etPetColor;
+    private EditText etPetWeight;
+    private EditText etPetMisc;
 
-    TextView title;
+    private TextView title;
 
-    Button saveButton;
+    private Button saveButton;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    SharedPreferences sharedPreferencesVisited;
-    SharedPreferences.Editor editorVisited;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferencesVisited;
+    private SharedPreferences.Editor editorVisited;
 
-    Bundle bundle;
-    Boolean forEdit = false;
-    Boolean forDelete = false;
+    private Bundle bundle;
+    private Boolean forEdit = false;
+    private Boolean forDelete = false;
 
-    String petPassed;
+    private String petPassed;
 
-    PetObject petObject;
+    private PetObject petObject;
 
-    Toast toast;
+    private Toast toast;
 
 
     @Override
@@ -134,6 +134,7 @@ public class PopPetsAddPet extends AppCompatActivity {
             etPetWeight.setText(petObject.getWeight());
             etPetMisc.setText(petObject.getMisc());
             title.setText("Update Pet");
+            assert bar != null;
             bar.setTitle("Update Pet");
 
         }
@@ -150,6 +151,7 @@ public class PopPetsAddPet extends AppCompatActivity {
             saveButton.setText("DELETE");
             saveButton.setTextColor(Color.RED);
 
+            assert bar != null;
             bar.setTitle("Delete Pet");
 
         }
@@ -166,7 +168,7 @@ public class PopPetsAddPet extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout(width * 1, height * 1);
+        getWindow().setLayout(width, height);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +176,7 @@ public class PopPetsAddPet extends AppCompatActivity {
 
                 final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -201,7 +203,7 @@ public class PopPetsAddPet extends AppCompatActivity {
 
 
                         Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                         String strDate = sdf.format(c.getTime());
 

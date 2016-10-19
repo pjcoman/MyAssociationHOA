@@ -50,7 +50,7 @@ public class GuestAccessActivity extends AppCompatActivity implements View.OnCli
     private static final String MYPREFERENCES = "MyPrefs";
 
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     private GuestAccessObject guestAccessObject;
     private ArrayList<GuestAccessObject> guestAccessObjects;
@@ -58,11 +58,11 @@ public class GuestAccessActivity extends AppCompatActivity implements View.OnCli
     private Button sendText;
     private Button sendHtml;
     private Button clearGuestAccess;
-    ParseQuery query;
+    private ParseQuery query;
 
-    String guestAccessReport = "";
-    String guestAccessReportHtml = "";
-    String lineSep = System.getProperty("line.separator");
+    private String guestAccessReport = "";
+    private String guestAccessReportHtml = "";
+    private final String lineSep = System.getProperty("line.separator");
 
 
 
@@ -95,7 +95,7 @@ public class GuestAccessActivity extends AppCompatActivity implements View.OnCli
 
 
         guestAccessReportHtml = "<h5>" + sharedPreferences.getString("defaultRecord(1)","") + "</h5><h5>Guest Access Report</h5><table width='200' border='1'><tr>" +
-                "<td>Owner Name</td><td>Access Date</td><td>Guest Name</td><<td>Guest Type</td><td>Contact Type</td></tr><tr>" +
+                "<td>Owner Name</td><td>Access Date</td><td>Guest Name</td><td>Guest Type</td><td>Contact Type</td></tr><tr>" +
                 "<td>_________________________</td><td>____________________</td><td>_________________________</td><td>_______________</td>" +
                 "<td>_______________</td></tr>";
 
@@ -200,7 +200,7 @@ public class GuestAccessActivity extends AppCompatActivity implements View.OnCli
                     guestAccessFile.deleteOnExit();
                     FileOutputStream fileoutputstream = null;
                     fileoutputstream = new FileOutputStream(guestAccessFile.getPath());
-                    fileoutputstream.write(guestAccessReportHtml.getBytes());
+                    fileoutputstream.write(guestAccessReport.getBytes());
                     fileoutputstream.flush();
                     fileoutputstream.close();
                 } catch (IOException e) {
@@ -242,7 +242,7 @@ public class GuestAccessActivity extends AppCompatActivity implements View.OnCli
                     guestAccessFile.deleteOnExit();
                     FileOutputStream fileoutputstream = null;
                     fileoutputstream = new FileOutputStream(guestAccessFile.getPath());
-                    fileoutputstream.write(guestAccessReport.getBytes());
+                    fileoutputstream.write(guestAccessReportHtml.getBytes());
                     fileoutputstream.flush();
                     fileoutputstream.close();
                 } catch (IOException e) {
@@ -273,7 +273,7 @@ public class GuestAccessActivity extends AppCompatActivity implements View.OnCli
 
                 //   emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(outputPdf));
                 emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(guestAccessFile));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Guest Access Text for " + sharedPreferences.getString("defaultRecord(1)", ""));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Guest Access Html for " + sharedPreferences.getString("defaultRecord(1)", ""));
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));
 
                 break;
@@ -291,7 +291,7 @@ public class GuestAccessActivity extends AppCompatActivity implements View.OnCli
 
                         final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                        query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                        query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                         query.findInBackground(new FindCallback<ParseObject>() {
                             @Override
@@ -300,7 +300,7 @@ public class GuestAccessActivity extends AppCompatActivity implements View.OnCli
 
 
                                 Calendar c = Calendar.getInstance();
-                                SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                                SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
                                 SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                                 String strDate = sdf.format(c.getTime());
 

@@ -20,9 +20,9 @@ public class BudgetReaderActivity extends AppCompatActivity {
     private static final String MYPREFERENCES = "MyPrefs";
 
     Context context = this;
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
-    String pdfURL;
+    private String pdfURL;
 
 
     @Override

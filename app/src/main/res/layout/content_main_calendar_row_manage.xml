@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    tools:context=".calendar.CalendarActivity"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="false"
+    android:clickable="false"
+    android:id="@+id/content_main_calendar_row"
+    android:orientation="vertical"
+    android:background="@drawable/linenbackgroundbox"
+    android:padding="20dp"
+    android:weightSum="10">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/name"
+            android:id="@+id/textViewEventName"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/detail"
+            android:id="@+id/textViewEventDetail"
+            android:layout_gravity="center_horizontal"
+            android:textSize="14sp"
+            android:paddingTop="40dp"
+            android:paddingBottom="40dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/start_date"
+                android:id="@+id/textViewDateStart"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="10dp"
+                android:textSize="18sp"
+                android:textColor="#57103b" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="@string/to"
+                android:id="@+id/textViewTo"
+                android:textColor="#57103b"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/end_date"
+                android:id="@+id/textViewDateEnd"
+                android:layout_marginLeft="10dp"
+                android:textSize="18sp"
+                android:textColor="#57103b" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:weightSum="2"
+            android:padding="10dp">
+
+        </LinearLayout>
+
+        <Button
+            android:text="X"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:id="@+id/deleteEventButton"
+            android:background="@drawable/button_rounded_corners_white_red_bg"
+            android:textColor="@android:color/white"
+            android:textStyle="normal|bold"
+            android:textSize="14sp"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+</LinearLayout>

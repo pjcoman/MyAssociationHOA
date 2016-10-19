@@ -57,14 +57,14 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="10dp"
                 android:textSize="18sp"
-                android:textColor="#d41515" />
+                android:textColor="#57103b" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="@string/to"
                 android:id="@+id/textViewTo"
-                android:textColor="#d41515"
+                android:textColor="#57103b"
                 android:textSize="18sp" />
 
             <TextView
@@ -75,7 +75,7 @@
                 android:id="@+id/textViewDateEnd"
                 android:layout_marginLeft="10dp"
                 android:textSize="18sp"
-                android:textColor="#d41515" />
+                android:textColor="#57103b" />
         </LinearLayout>
 
         <LinearLayout

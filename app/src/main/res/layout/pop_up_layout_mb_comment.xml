@@ -3,9 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10"
+    android:weightSum="15"
     android:background="@drawable/cork_bg"
-    android:padding="30dp">
+    android:paddingBottom="50dp">
 
 
     <LinearLayout
@@ -13,29 +13,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="2"
-        android:layout_weight="1">
+        android:layout_weight=".5"
+        android:padding="10dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/add_comment1"
             android:id="@+id/textViewTitle"
             android:layout_gravity="center"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:textColor="#f8f6f6" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="@string/add"
             android:id="@+id/buttonAddComment"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:textSize="18sp"
-            android:layout_margin="20dp"
+            android:textSize="20sp"
             android:gravity="center_vertical|center_horizontal"
             android:background="@drawable/button_rounded_corners_black_gray_bg" />
     </LinearLayout>
@@ -47,11 +47,11 @@
         android:ems="10"
         android:id="@+id/editTextComment"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="9.5"
-        android:background="#ffffff"
+        android:layout_weight="14.5"
+        android:background="@drawable/button_rounded_corners_white_white_bg"
         android:gravity="start|top"
         android:padding="20dp"
-        android:layout_marginBottom="50dp" />
+        android:layout_margin="20dp" />
 
 
 </LinearLayout>

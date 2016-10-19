@@ -4,16 +4,23 @@ package comapps.com.myassociationhoa;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
-import comapps.com.myassociationhoa.calendar.CalendarActivity;
 import comapps.com.myassociationhoa.documents.PopEmailDocuments;
-import comapps.com.myassociationhoa.tools.AdminMBActivity;
+import comapps.com.myassociationhoa.tools.AdminMBRecyclerViewActivity;
 import comapps.com.myassociationhoa.tools.BackupRestoreFilesActivity;
 import comapps.com.myassociationhoa.tools.BuildTextDirectoryActivity;
+import comapps.com.myassociationhoa.tools.CalendarManageActivity;
 import comapps.com.myassociationhoa.tools.DirectoryUpdateActivity;
 import comapps.com.myassociationhoa.tools.EditMaintenanceActivity;
 import comapps.com.myassociationhoa.tools.GuestAccessActivity;
@@ -27,13 +34,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ToolsActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "TOOLSACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
 
     Context context;
 
     int FILE_CODE = 0;
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -44,6 +51,8 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
                 .setDefaultFontPath("fonts/palabi.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
+
+        setupWindowAnimations();
 
         setContentView(R.layout.content_tools);
 
@@ -60,8 +69,7 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
         Button bRestoreAssoc = (Button) findViewById(R.id.button5);
         Button bBuildText = (Button) findViewById(R.id.button6);
         Button bEmailPdf = (Button) findViewById(R.id.button7);
-        Button bLoadMisc = (Button) findViewById(R.id.button8);
-        Button bLoadAssoc = (Button) findViewById(R.id.button9);
+
         Button bGuestAccess = (Button) findViewById(R.id.button10);
         Button bEditMaint = (Button) findViewById(R.id.button11);
         Button bAdminMessage = (Button) findViewById(R.id.button12);
@@ -76,8 +84,7 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
         bRestoreAssoc.setOnClickListener(this);
         bBuildText.setOnClickListener(this);
         bEmailPdf.setOnClickListener(this);
-        bLoadMisc.setOnClickListener(this);
-        bLoadAssoc.setOnClickListener(this);
+
         bGuestAccess.setOnClickListener(this);
         bEditMaint.setOnClickListener(this);
         bAdminMessage.setOnClickListener(this);
@@ -89,6 +96,39 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
 
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Guide();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void Guide() {
+
+        Intent loadGuide = new Intent();
+        loadGuide.setClass(this, GuideActivity.class);
+        startActivity(loadGuide);
+        //     overridePendingTransition(R.anim.fadeinanimationgallery,R.anim.fadeoutanimationgallery);
 
 
     }
@@ -112,18 +152,13 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             //handle multiple view click events
             case R.id.button:
-                intent.setClass(getApplicationContext(), CalendarActivity.class);
+                intent.setClass(getApplicationContext(), CalendarManageActivity.class);
                 break;
 
             case R.id.button2:
                 intent.setClass(getApplicationContext(), ImportActivity.class);
                 break;
-            case R.id.button8:
-                intent.setClass(getApplicationContext(), ImportActivity.class);
-                break;
-            case R.id.button9:
-                intent.setClass(getApplicationContext(), ImportActivity.class);
-                break;
+
 
             case R.id.button3:
                 intent.setClass(getApplicationContext(), DirectoryUpdateActivity.class);
@@ -149,7 +184,7 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
                 intent.setClass(getApplicationContext(), EditMaintenanceActivity.class);
                 break;
             case R.id.button12:
-                intent.setClass(getApplicationContext(), AdminMBActivity.class);
+                intent.setClass(getApplicationContext(), AdminMBRecyclerViewActivity.class);
                 break;
 
         }
@@ -159,12 +194,25 @@ public class ToolsActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    @Override
-    public void onBackPressed() {
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
-        this.finish();
+
+
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.BOTTOM);
+        getWindow().setEnterTransition(slideTransition);
+
+
+        Slide slideTransitionExit = new Slide();
+        slideTransitionExit.setSlideEdge(Gravity.TOP);
+        getWindow().setExitTransition(slideTransitionExit);
+
+
+
     }
-
 
 
 

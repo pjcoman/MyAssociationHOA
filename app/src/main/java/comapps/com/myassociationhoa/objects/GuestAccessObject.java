@@ -48,6 +48,7 @@ public class GuestAccessObject {
     }
 
     public void setGuestAccessContactType(String guestAccessContactType) {
+        this.guestAccessContactType = guestAccessContactType;
     }
 
 

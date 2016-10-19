@@ -27,16 +27,16 @@ import comapps.com.myassociationhoa.objects.RosterObject;
  */
 class DirectoryUpdateAdapter extends ArrayAdapter<RosterObject> implements Filterable {
 
-    public static final String TAG = "DIRECTORYADAPTER";
+    private static final String TAG = "DIRECTORYADAPTER";
     private static final String MYPREFERENCES = "MyPrefs";
 
 
 
 
     private ArrayList<RosterObject> rosterList;
-    private Context context;
+    private final Context context;
     private RosterFilter rosterFilter;
-    private ArrayList<RosterObject> rosterFilterList;
+    private final ArrayList<RosterObject> rosterFilterList;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -96,7 +96,7 @@ class DirectoryUpdateAdapter extends ArrayAdapter<RosterObject> implements Filte
 
         final RosterObject roster = rosterList.get(position);
 
-        textViewLastName.setText(rosterObject.getLastName());
+        textViewLastName.setText(rosterObject != null ? rosterObject.getLastName() : null);
         textViewFirstName.setText(rosterObject.getFirstName());
         textViewCreateDateAndMN.setText(rosterObject.getActivationDate() + " " + rosterObject.getMemberNumber());
         textViewMiddleName.setText(rosterObject.getMiddleName());

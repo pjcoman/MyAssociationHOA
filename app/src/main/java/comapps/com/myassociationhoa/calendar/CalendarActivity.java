@@ -3,13 +3,17 @@ package comapps.com.myassociationhoa.calendar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -39,19 +43,19 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class CalendarActivity extends AppCompatActivity {
 
     private static final String TAG = "CALENDARACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
 
     private FloatingActionButton mFab;
     private Bundle bundle;
     private Button createAndSend;
     private Boolean fromTools = false;
 
-    ParseQuery query;
-    String[] eventFileArray;
-    String eventFileString = "";
-    String eventFileUpdate = "";
+    private ParseQuery query;
+    private String[] eventFileArray;
+    private String eventFileString = "";
+    private String eventFileUpdate = "";
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
     SharedPreferences sharedPreferencesVisited;
     SharedPreferences.Editor editor;
     SharedPreferences.Editor editorVisited;
@@ -90,6 +94,7 @@ public class CalendarActivity extends AppCompatActivity {
             if ( fromTools ) {
                 mFab.setVisibility(View.VISIBLE);
                 createAndSend.setVisibility(View.VISIBLE);
+                assert bar != null;
                 bar.setTitle("Event Manager");
             } else {
                 mFab.setVisibility(View.GONE);
@@ -120,7 +125,7 @@ public class CalendarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -149,7 +154,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 
                         Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                         String strDate = sdf.format(c.getTime());
 
@@ -248,6 +253,27 @@ public class CalendarActivity extends AppCompatActivity {
 
 
     }
+
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+
+
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.RIGHT);
+        getWindow().setEnterTransition(slideTransition);
+
+
+        Slide slideTransitionExit = new Slide();
+        slideTransitionExit.setSlideEdge(Gravity.RIGHT);
+        getWindow().setExitTransition(slideTransitionExit);
+
+
+
+    }
+
 
 
     @Override

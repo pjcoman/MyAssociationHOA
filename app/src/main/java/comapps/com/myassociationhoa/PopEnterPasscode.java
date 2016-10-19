@@ -42,30 +42,30 @@ public class PopEnterPasscode extends AppCompatActivity {
 
     private EditText passCode;
     private Button cancelButton;
-    Button okButton;
+    private Button okButton;
 
-    ParseQuery<ParseObject> query;
+    private ParseQuery<ParseObject> query;
 
-    Bundle bundle;
+    private Bundle bundle;
 
-    Boolean correctPasscode = true;
-
-
-    ArrayList<String> associationsJoinedArray;
-
-    String[] assocJoinedStringArray;
-    String assocJoinedUpdate;
-    Boolean fromChangeAddActivity;
-    String oldMemberNumber;
-    int numberOfPasscodes;
+    private Boolean correctPasscode = true;
 
 
-    int passCodeSize;
+    private ArrayList<String> associationsJoinedArray;
 
-    Map<String, String> mapPasswordsMember;
-    Map<String, String> mapPasswordsAdmin;
-    Map<String, String> mapAssocLongNameMember;
-    Map<String, String> mapAssocLongNameAdmin;
+    private String[] assocJoinedStringArray;
+    private String assocJoinedUpdate;
+    private Boolean fromChangeAddActivity;
+    private String oldMemberNumber;
+    private int numberOfPasscodes;
+
+
+    private int passCodeSize;
+
+    private Map<String, String> mapPasswordsMember;
+    private Map<String, String> mapPasswordsAdmin;
+    private Map<String, String> mapAssocLongNameMember;
+    private Map<String, String> mapAssocLongNameAdmin;
 
 
 
@@ -73,7 +73,7 @@ public class PopEnterPasscode extends AppCompatActivity {
     private SharedPreferences sharedPreferencesVisited;
     private SharedPreferences sharedPreferencesAssoc;
 
-    SharedPreferences.Editor editorVisited;
+    private SharedPreferences.Editor editorVisited;
 
     private ParseInstallation installation;
 
@@ -131,7 +131,7 @@ public class PopEnterPasscode extends AppCompatActivity {
                         Log.d(TAG, "not first visit");
 
 
-                        String passCodes[] = codesFileString.split("(\\|)|(\\^)", -1);
+                        String passCodes[] = codesFileString != null ? codesFileString.split("(\\|)|(\\^)", -1) : new String[0];
 
                         SharedPreferences.Editor editor = sharedPreferencesAssoc.edit();
 
@@ -249,7 +249,7 @@ public class PopEnterPasscode extends AppCompatActivity {
                         Log.d(TAG, "first visit codes from cloud" + codesFileString);
 
 
-                        String passCodes[] = codesFileString.split("(\\|)|(\\^)", -1);
+                        String passCodes[] = codesFileString != null ? codesFileString.split("(\\|)|(\\^)", -1) : new String[0];
 
                         SharedPreferences.Editor editor = sharedPreferencesAssoc.edit();
 
@@ -608,7 +608,7 @@ public class PopEnterPasscode extends AppCompatActivity {
 
 
 
-   public void start() {
+   private void start() {
 
        if (!fromChangeAddActivity) {
 
@@ -648,7 +648,7 @@ public class PopEnterPasscode extends AppCompatActivity {
 
    }
 
-    protected void Quit() {
+    private void Quit() {
         super.finish();
     }
 

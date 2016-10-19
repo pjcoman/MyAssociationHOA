@@ -8,7 +8,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -24,9 +26,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PopBudget extends AppCompatActivity {
 
     private static final String TAG = "POPBUDGETUPACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -57,10 +59,14 @@ public class PopBudget extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        WindowManager.LayoutParams wlp = getWindow().getAttributes();
+        wlp.gravity = Gravity.CENTER;
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .9), (int) (height * .5));
+        getWindow().setLayout((int) (width * .8), (int) (height * .8));
+        getWindow().setAttributes(wlp);
+
 
 
         budgetPdf.setOnClickListener(new View.OnClickListener() {

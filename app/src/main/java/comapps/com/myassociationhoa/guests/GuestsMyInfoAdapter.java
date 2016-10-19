@@ -21,7 +21,6 @@ import com.google.gson.Gson;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.io.UnsupportedEncodingException;
@@ -39,17 +38,17 @@ import comapps.com.myassociationhoa.objects.GuestObject;
  */
 class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterable {
 
-    public static final String TAG = "GUESTSADAPTER";
+    private static final String TAG = "GUESTSADAPTER";
 
-    ParseInstallation installation;
-    ParseQuery query;
+    private final ParseInstallation installation;
+    private ParseQuery query;
 
     private ArrayList<GuestObject> guestsList;
-    private Context context;
+    private final Context context;
     private GuestFilter guestFilter;
-    private ArrayList<GuestObject> guestsFilterList;
+    private final ArrayList<GuestObject> guestsFilterList;
 
-    Button recordAccess;
+    private Button recordAccess;
 
 
 
@@ -131,14 +130,14 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
         }
 */
         try {
-            guestName.setText(guestObject.getGuestName());
+            guestName.setText(guestObject != null ? guestObject.getGuestName() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
         try {
-            guestType.setText(guestObject.getGuestType());
+            guestType.setText(guestObject != null ? guestObject.getGuestType() : null);
             if ( guestObject.getGuestType().equals("Permanent")) {
                 datesLayout.setVisibility(View.GONE);
             } else {
@@ -166,7 +165,7 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
         }
 
         try {
-            guestContactType.setText(guestObject.getOwnerContactNumberType());
+            guestContactType.setText(guestObject != null ? guestObject.getOwnerContactNumberType() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -174,7 +173,7 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
 
 
         try {
-            if ( guestObject.getMondayAccess().equals("Yes")) {
+            if (guestObject != null && guestObject.getMondayAccess().equals("Yes")) {
 
                 guestMondayAccess.setVisibility(View.VISIBLE);
             } else {
@@ -184,7 +183,7 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
             e.printStackTrace();
         }
         try {
-            if ( guestObject.getTuesdayAccess().equals("Yes")) {
+            if (guestObject != null && guestObject.getTuesdayAccess().equals("Yes")) {
 
                 guestTuesdayAccess.setVisibility(View.VISIBLE);
             } else {
@@ -194,7 +193,7 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
             e.printStackTrace();
         }
         try {
-            if ( guestObject.getWednesdayAccess().equals("Yes")) {
+            if (guestObject != null && guestObject.getWednesdayAccess().equals("Yes")) {
 
                 guestWednesdayAccess.setVisibility(View.VISIBLE);
             } else {
@@ -204,7 +203,7 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
             e.printStackTrace();
         }
         try {
-            if ( guestObject.getThursdayAccess().equals("Yes")) {
+            if (guestObject != null && guestObject.getThursdayAccess().equals("Yes")) {
 
                 guestThursdayAccess.setVisibility(View.VISIBLE);
             } else {
@@ -214,7 +213,7 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
             e.printStackTrace();
         }
         try {
-            if ( guestObject.getFridayAccess().equals("Yes")) {
+            if (guestObject != null && guestObject.getFridayAccess().equals("Yes")) {
 
                 guestFridayAccess.setVisibility(View.VISIBLE);
             } else {
@@ -224,7 +223,7 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
             e.printStackTrace();
         }
         try {
-            if ( guestObject.getSaturdayAccess().equals("Yes")) {
+            if (guestObject != null && guestObject.getSaturdayAccess().equals("Yes")) {
 
                 guestSaturdayAccess.setVisibility(View.VISIBLE);
             } else {
@@ -235,7 +234,7 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
         }
 
         try {
-            if ( guestObject.getSundayAccess().equals("Yes")) {
+            if (guestObject != null && guestObject.getSundayAccess().equals("Yes")) {
 
                 guestSundayAccess.setVisibility(View.VISIBLE);
             } else {
@@ -246,13 +245,13 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
         }
 
         try {
-            guestOwnerName.setText(guestObject.getGuestOwner());
+            guestOwnerName.setText(guestObject != null ? guestObject.getGuestOwner() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            guestNotes.setText(guestObject.getGuestDescription());
+            guestNotes.setText(guestObject != null ? guestObject.getGuestDescription() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -269,14 +268,10 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
         } else if ( guest.getOwnerContactNumberType().equals("Text") ){
 
             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", guest.getOwnerContactNumber(), null)));
-        } else {
-
-
-
         }
 
 
-        query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+        query = new ParseQuery<>(installation.getString("AssociationCode"));
 
         ParseFile guestAccessFile;
         byte[] data = new byte[0];
@@ -301,20 +296,20 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
 
 
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
         String strDate = sdf.format(c.getTime());
 
         Log.d(TAG, "existing guestAccessString ---> " + guestAccessString);
 
-        if ( guestAccessString.length() != 0 ) {
+        if ( (guestAccessString != null ? guestAccessString.length() : 0) != 0 ) {
 
-            guestAccessUpdate = guestAccessString + "|" + guestObject.getGuestOwner() + "^" + strDate + "^" + guestObject.getGuestName() + "^" + guestObject.getGuestType()
+            guestAccessUpdate = guestAccessString + "|" + (guestObject != null ? guestObject.getGuestOwner() : null) + "^" + strDate + "^" + guestObject.getGuestName() + "^" + guestObject.getGuestType()
                     + "^" + guestObject.getOwnerContactNumberType();
             Log.d(TAG, "updated guestAccessString ---> " + guestAccessString);
 
             guestAccessStringArray = guestAccessUpdate.split("\\|", -1);
-            guestAccessArray = new ArrayList<String>(Arrays.asList(guestAccessStringArray));
+            guestAccessArray = new ArrayList<>(Arrays.asList(guestAccessStringArray));
 
 
             Collections.sort(guestAccessArray);
@@ -329,7 +324,7 @@ class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterabl
 
         } else {
 
-            guestAccessString = guestObject.getGuestOwner() + "^" + strDate + "^" + guestObject.getGuestName() + "^" + guestObject.getGuestType()
+            guestAccessString = (guestObject != null ? guestObject.getGuestOwner() : null) + "^" + strDate + "^" + guestObject.getGuestName() + "^" + guestObject.getGuestType()
                     + "^" + guestObject.getOwnerContactNumberType();
             Log.d(TAG, "updated guestAccessString from empty ---> " + guestAccessString);
 

@@ -35,7 +35,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class DirectoryRosterMemberActivity extends AppCompatActivity {
 
     private static final String TAG = "DIRECTORYROSTERMEMBERACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
 
     private ScrollView memberInfo;
 
@@ -79,10 +79,10 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
     private LinearLayout other1InfoLayout;
     private LinearLayout other2InfoLayout;
 
-    TextView summerAddress;
-    TextView winterAddress;
+    private TextView summerAddress;
+    private TextView winterAddress;
 
-    ParseInstallation installation;
+    private ParseInstallation installation;
 
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -126,6 +126,7 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
             if (guestsButton != null) {
                 guestsButton.setVisibility(View.GONE);
             } else {
+                assert guestsButton != null;
                 guestsButton.setVisibility(View.VISIBLE);
             }
         }
@@ -134,6 +135,7 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
             if (petsButton != null) {
                 petsButton.setVisibility(View.GONE);
             } else {
+                assert petsButton != null;
                 petsButton.setVisibility(View.VISIBLE);
             }
         }
@@ -142,6 +144,7 @@ public class DirectoryRosterMemberActivity extends AppCompatActivity {
             if (autosButton != null) {
                 autosButton.setVisibility(View.GONE);
             } else {
+                assert autosButton != null;
                 autosButton.setVisibility(View.VISIBLE);
             }
         }

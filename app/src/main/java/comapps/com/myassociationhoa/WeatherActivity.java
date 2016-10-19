@@ -3,23 +3,26 @@ package comapps.com.myassociationhoa;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,11 +57,6 @@ public class WeatherActivity extends AppCompatActivity {
     private String forecastWindDirectionText;
 
 
-
-    private ImageLoader imageLoader;
-
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -67,6 +65,8 @@ public class WeatherActivity extends AppCompatActivity {
                 .setDefaultFontPath("fonts/palabi.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
+
+        setupWindowAnimations();
 
 
         setContentView(R.layout.content_main_weather);
@@ -91,29 +91,20 @@ public class WeatherActivity extends AppCompatActivity {
         forecastWindDirection = (TextView) findViewById(R.id.textViewForecastWindDirection);
 
 
-
-
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
 
-        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
 
-        String backgroundImageUrl = sharedPreferences.getString("backgroundImage2Url","");
-
-
-        Log.d(TAG, "background image address is " + backgroundImageUrl);
-
-
-        imageLoader = CustomVolleyRequest.getInstance(getApplicationContext()).getImageLoader();
+        String urlImage = sharedPreferences.getString("backgroundImage2Url","");
 
 
 
-        NetworkImageView niv = (NetworkImageView) findViewById(R.id.networkImageViewWeather);
-        if(backgroundImageUrl.length() > 0)
-            niv.setImageUrl(backgroundImageUrl, imageLoader);
-                           /*     niv.setDefaultImageResId(R.drawable.button_rounded_corners_black);
-                                niv.setErrorImageResId(R.drawable.blonde_engraved);*/
+        ImageView iv = (ImageView) findViewById(R.id.ivWeather);
+        if(urlImage.length() > 0)
+            Glide.with(getApplicationContext())
+                    .load(urlImage)
+                    .into(iv);
+
 
         associationName.setText(sharedPreferences.getString("defaultRecord(1)", ""));
 
@@ -217,6 +208,25 @@ public class WeatherActivity extends AppCompatActivity {
 
     }
 
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+
+
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.RIGHT);
+        getWindow().setEnterTransition(slideTransition);
+
+
+        Slide slideTransitionExit = new Slide();
+        slideTransitionExit.setSlideEdge(Gravity.RIGHT);
+        getWindow().setExitTransition(slideTransitionExit);
+
+
+
+    }
 
 
 

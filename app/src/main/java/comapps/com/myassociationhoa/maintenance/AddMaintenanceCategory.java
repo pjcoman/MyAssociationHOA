@@ -41,29 +41,29 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class AddMaintenanceCategory extends AppCompatActivity {
 
     private static final String TAG = "ADDMAINTENACECATEGORY";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
     public static final String VISITEDPREFERENCES = "VisitedPrefs";
 
 
-    ParseQuery<ParseObject> query;
+    private ParseQuery<ParseObject> query;
 
-    String maintenanceCategoryFileString = "";
-    String maintenanceCategoryFileUpdate = "";
+    private String maintenanceCategoryFileString = "";
+    private String maintenanceCategoryFileUpdate = "";
 
-    EditText etCategoryName;
-    EditText etCategoryEmail;
-    TextView title;
+    private EditText etCategoryName;
+    private EditText etCategoryEmail;
+    private TextView title;
 
-    Button saveButton;
+    private Button saveButton;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
-    Bundle bundle;
-    String passedCat;
-    String passedEmail;
-    String passedPosition;
-    String passedJsonObject;
+    private Bundle bundle;
+    private String passedCat;
+    private String passedEmail;
+    private String passedPosition;
+    private String passedJsonObject;
 
 
 
@@ -98,6 +98,7 @@ public class AddMaintenanceCategory extends AppCompatActivity {
 
         if ( bundle != null ) {
 
+            assert bar != null;
             bar.setTitle("Edit Maint. Category");
             title.setText("Edit Category");
 
@@ -134,7 +135,7 @@ public class AddMaintenanceCategory extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout(width * 1, height * 1);
+        getWindow().setLayout(width, height);
 
 
 
@@ -145,7 +146,7 @@ public class AddMaintenanceCategory extends AppCompatActivity {
 
                 final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -172,7 +173,7 @@ public class AddMaintenanceCategory extends AppCompatActivity {
 
 
                         Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                         String strDate = sdf.format(c.getTime());
 

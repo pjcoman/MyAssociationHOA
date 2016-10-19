@@ -3,10 +3,15 @@ package comapps.com.myassociationhoa.directory;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -29,11 +34,11 @@ public class DirectoryActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 
     private static final String TAG = "DIRECTORYACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
-    ArrayList<RosterObject> rosterList;
-    DirectoryAdapter adapter;
+    private static final String MYPREFERENCES = "MyPrefs";
+    private ArrayList<RosterObject> rosterList;
+    private DirectoryAdapter adapter;
 
-    SearchView search_view;
+    private SearchView search_view;
 
 
     private SharedPreferences sharedPreferences;
@@ -44,7 +49,7 @@ public class DirectoryActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
 
 
-
+        setupWindowAnimations();
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/palabi.ttf")
@@ -76,7 +81,7 @@ public class DirectoryActivity extends AppCompatActivity implements
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
 
-        rosterList = new ArrayList<RosterObject>();
+        rosterList = new ArrayList<>();
 
         for (int i = 0; i < sharedPreferences.getInt("rosterSize", 0); i++) {
 
@@ -168,12 +173,33 @@ public class DirectoryActivity extends AppCompatActivity implements
 
     }
 
-    public void hideSoftKeyboard() {
+    private void hideSoftKeyboard() {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
+
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+
+
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.RIGHT);
+        getWindow().setEnterTransition(slideTransition);
+
+
+        Slide slideTransitionExit = new Slide();
+        slideTransitionExit.setSlideEdge(Gravity.RIGHT);
+        getWindow().setExitTransition(slideTransitionExit);
+
+
+
+    }
+
 
 
 

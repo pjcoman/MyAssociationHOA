@@ -25,6 +25,16 @@ public class CalendarObject {
     }
 
 
+    public String toStringForDelete() {
+        return calendarText + "|" +
+               calendarDetailText + "|" +
+               calendarStartDate + "|" +
+               calendarEndDate + "|" +
+               calendarSortDate + "|";
+
+    }
+
+
     public String getCalendarText() {
         return calendarText;
     }

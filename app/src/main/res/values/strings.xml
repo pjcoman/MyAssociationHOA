@@ -134,7 +134,7 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="address1">address1</string>
     <string name="address2">address2</string>
     <string name="zip">zip</string>
-    <string name="_999_999_9999">999-999-9999</string>
+    <string name="_999_999_9999">999–999–9999</string>
     <string name="email_email_com">email@email.com</string>
     <string name="emergency_contact">Emergency Contact</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -170,7 +170,7 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="my_association_hoa">My Association HOA</string>
     <string name="editbutton">Edit</string>
     <string name="update_myinfo">Update MyInfo</string>
-    <string name="select_what_to_update">Select What to Update</string>
+    <string name="select_what_to_update">Select What Information to Update</string>
     <string name="personal_info">Personal Info</string>
     <string name="pet_info">Pet Info</string>
     <string name="auto_info">Auto Info</string>
@@ -274,7 +274,7 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="tagstring">Tag:</string>
     <string name="hoatagstring">none</string>
     <string name="manufacturer">Manufacturer</string>
-    <string name="sedan_coupe_suv">Sedan, Coupe, SUV...</string>
+    <string name="sedan_coupe_suv">Sedan, Coupe, SUV…</string>
     <string name="year">Year</string>
     <string name="license_plate">License Plate</string>
     <string name="hoa_tag">HOA Tag</string>
@@ -326,6 +326,10 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="ok">OK</string>
     <string name="email_poster">Email Poster</string>
     <string name="add_message">Add Message</string>
+    <string name="delete">Delete</string>
+    <string name="newmessage">new message</string>
+    <string name="x">X</string>
+    <string name="load_association_files">Load Association Files</string>
 
 
 </resources>

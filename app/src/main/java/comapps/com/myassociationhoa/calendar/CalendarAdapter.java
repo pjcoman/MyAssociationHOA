@@ -32,29 +32,31 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
     private static final String MYPREFERENCES = "MyPrefs";
 
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
-    ParseInstallation installation;
-    String memberName;
-    String assocCode;
+    private ParseInstallation installation;
+    private String memberName;
+    private String assocCode;
 
-    Date d1;
-    Date d2;
-    Date endDate;
+    private Date d1;
+    private Date d2;
+    private Date endDate;
 
-    TextView eventName;
-    TextView eventDetail;
-    TextView eventStartDate;
-    TextView eventEndDate;
-    TextView textViewTo;
-    Button addButton;
-    Button respondButton;
-    SimpleDateFormat input;
-    SimpleDateFormat outputStart;
-    SimpleDateFormat outputEnd;
-    SimpleDateFormat calendarAddFormat;
-    String startDateString;
-    String endDateString;
+    private TextView eventName;
+    private TextView eventDetail;
+    private TextView eventStartDate;
+    private TextView eventEndDate;
+    private TextView textViewTo;
+    private Button addButton;
+    private Button respondButton;
+    private Button deleteButton;
+
+    private SimpleDateFormat input;
+    private SimpleDateFormat outputStart;
+    private SimpleDateFormat outputEnd;
+    private SimpleDateFormat calendarAddFormat;
+    private String startDateString;
+    private String endDateString;
 
 
 
@@ -89,6 +91,7 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
         textViewTo = (TextView) convertView.findViewById(R.id.textViewTo);
         addButton = (Button) convertView.findViewById(R.id.addButton);
         respondButton = (Button) convertView.findViewById(R.id.respondButton);
+        deleteButton = (Button) convertView.findViewById(R.id.deleteEventButton);
 
         input = new SimpleDateFormat("MM/dd/yyyy");
         outputStart = new SimpleDateFormat("E, MMM d");
@@ -99,7 +102,7 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
 
 
 
-        startDateString = calendarObject.getCalendarStartDate();
+        startDateString = calendarObject != null ? calendarObject.getCalendarStartDate() : null;
         endDateString = calendarObject.getCalendarEndDate();
 
         try {
@@ -222,7 +225,7 @@ class CalendarAdapter extends ArrayAdapter<CalendarObject> {
 
 
 
-        respondButton.setOnClickListener(new View.OnClickListener() {
+        respondButton.setOnClickListener(  new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

@@ -38,39 +38,39 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ServiceProviderEditActivity extends AppCompatActivity {
 
     private static final String TAG = "SPEDITACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
 
-    ParseQuery<ParseObject> query;
-    String[] providerFileArray;
-    String providerFileString = "";
+    private ParseQuery<ParseObject> query;
+    private String[] providerFileArray;
+    private String providerFileString = "";
 
 
-    ProviderObject providerObject;
+    private ProviderObject providerObject;
     private ArrayList<ProviderObject> providerObjects;
-    ServiceProviderObject serviceProviderObject;
+    private ServiceProviderObject serviceProviderObject;
 
-    EditText editTextProviderName;
-    EditText editTextProviderAddress;
-    EditText editTextProviderAddress2;
-    EditText editTextProviderCity;
-    EditText editTextProviderState;
-    EditText editTextProviderZip;
-    EditText editTextProviderPhoneNumber;
-    EditText editTextProviderNotes;
+    private EditText editTextProviderName;
+    private EditText editTextProviderAddress;
+    private EditText editTextProviderAddress2;
+    private EditText editTextProviderCity;
+    private EditText editTextProviderState;
+    private EditText editTextProviderZip;
+    private EditText editTextProviderPhoneNumber;
+    private EditText editTextProviderNotes;
 
-    String isSendingActivityServiceProviderAdd;
-    String providerFileUpdateForUpload;
+    private String isSendingActivityServiceProviderAdd;
+    private String providerFileUpdateForUpload;
 
-    Button saveButton;
+    private Button saveButton;
 
-    Bundle bundle;
+    private Bundle bundle;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
-    String providerType;
-    String serviceProviderObjectGson;
-    String providerField;
+    private String providerType;
+    private String serviceProviderObjectGson;
+    private String providerField;
 
 
     @Override
@@ -154,7 +154,7 @@ public class ServiceProviderEditActivity extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout(width * 1, height * 1);
+        getWindow().setLayout(width, height);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +162,7 @@ public class ServiceProviderEditActivity extends AppCompatActivity {
 
                 final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -319,7 +319,7 @@ public class ServiceProviderEditActivity extends AppCompatActivity {
                         ParseFile ProviderFile = new ParseFile("Provider.txt", data);
 
                         Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
                         String strDate = sdf.format(c.getTime());
 
 

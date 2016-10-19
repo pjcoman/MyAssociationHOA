@@ -39,19 +39,19 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MaintenanceComment extends AppCompatActivity {
 
     private static final String TAG = "POPMAINTENANCECOMMENT";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
 
-    ParseQuery<ParseObject> query;
-    String[] maintenanceFileArray;
-    String maintenanceFileString;
-    MaintenanceObject maintenanceObject;
+    private ParseQuery<ParseObject> query;
+    private String[] maintenanceFileArray;
+    private String maintenanceFileString;
+    private MaintenanceObject maintenanceObject;
 
-    EditText description;
-    EditText notes;
-    Button saveButton;
-    Button mTypeButton;
+    private EditText description;
+    private EditText notes;
+    private Button saveButton;
+    private Button mTypeButton;
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
     int maintenanceIndex;
@@ -102,7 +102,7 @@ public class MaintenanceComment extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout(width * 1, height * 1);
+        getWindow().setLayout(width, height);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +110,7 @@ public class MaintenanceComment extends AppCompatActivity {
 
                 final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -138,7 +138,7 @@ public class MaintenanceComment extends AppCompatActivity {
 
 
                         Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy H:mm a");
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy h:mm a");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                         String strDate = sdf.format(c.getTime());
                         String strDate2 = sdf2.format(c.getTime());

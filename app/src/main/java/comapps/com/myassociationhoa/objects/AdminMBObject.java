@@ -5,80 +5,84 @@ package comapps.com.myassociationhoa.objects;
  */
 public class AdminMBObject {
 
-    private String field1;
-    private String field2;
-    private String field3;
-    private String field4;
-    private String field5;
-    private String field6;
-    private String field7;
-    private String field8;
+    private String postName;
+    private String postDate;
+    private String postText;
+    private String postSort;
+    private String postEmail;
+    private String postComment;
+    private String postNameComment;
+    private String postOriginalText;
 
 
 
 
-    public String getField1() {
-        return field1;
+    public String getPostName() {
+        return postName;
     }
 
-    public void setField1(String field1) {
-        this.field1 = field1;
+    public void setPostName(String postName) {
+        this.postName = postName;
     }
 
-    public String getField2() {
-        return field2;
+    public String getPostDate() {
+        return postDate;
     }
 
-    public void setField2(String field2) {
-        this.field2 = field2;
+    public void setPostDate(String postDate) {
+        this.postDate = postDate;
     }
 
-    public String getField3() {
-        return field3;
+    public String getPostText() {
+        return postText;
     }
 
-    public void setField3(String field3) {
-        this.field3 = field3;
+    public void setPostText(String postText) {
+        this.postText = postText;
     }
 
-    public String getField4() {
-        return field4;
+
+
+
+
+    public String getPostSort() {
+        return postSort;
     }
 
-    public void setField4(String field4) {
-        this.field4 = field4;
+    public void setPostSort(String postSort) {
+        this.postSort = postSort;
     }
 
-    public String getField5() {
-        return field5;
+    public String getPostEmail() {
+        return postEmail;
     }
 
-    public void setField5(String field5) {
-        this.field5 = field5;
+    public void setPostEmail(String postEmail) {
+        this.postEmail = postEmail;
     }
 
-    public String getField6() {
-        return field6;
+    public String getPostComment() {
+        return postComment;
     }
 
-    public void setField6(String field6) {
-        this.field6 = field6;
+    public void setPostComment(String postComment) {
+        this.postComment = postComment;
     }
 
-    public String getField7() {
-        return field7;
+    public String getPostNameComment() {
+        return postNameComment;
     }
 
-    public void setField7(String field7) {
-        this.field7 = field7;
+    public void setPostNameComment(String postNameComment) {
+        this.postNameComment = postNameComment;
     }
 
-    public String getField8() {
-        return field8;
+    public String getPostOriginalText() {
+        return postOriginalText;
     }
 
-    public void setField8(String field8) {
-        this.field8 = field8;
+    public void setPostOriginalText(String postOriginalText) {
+        this.postOriginalText = postOriginalText;
     }
 
 
@@ -86,15 +90,26 @@ public class AdminMBObject {
     @Override
     public String toString() {
         return "AdminMBObject{" +
-                "field1='" + field1 + '\'' +
-                ", field2='" + field2 + '\'' +
-                ", field3='" + field3 + '\'' +
-                ", field4='" + field4 + '\'' +
-                ", field5='" + field5 + '\'' +
-                ", field6='" + field6 + '\'' +
-                ", field7='" + field7 + '\'' +
-                ", field8='" + field8 + '\'' +
+                "postName='" + postName + '\'' +
+                ", postDate='" + postDate + '\'' +
+                ", postText='" + postText + '\'' +
+                ", postSort='" + postSort + '\'' +
+                ", postEmail='" + postEmail + '\'' +
+                ", postComment='" + postComment + '\'' +
+                ", postNameComment='" + postNameComment + '\'' +
+                ", postOriginalText='" + postOriginalText + '\'' +
                 '}';
+    }
+
+    public String toBeDeleted() {
+        return postName + "|" +
+               postDate + "|" +
+               postText + "|" +
+               postSort + "|" +
+               postEmail + "|" +
+               postComment + "|" +
+               postNameComment + "|" +
+               postOriginalText;
     }
 
 

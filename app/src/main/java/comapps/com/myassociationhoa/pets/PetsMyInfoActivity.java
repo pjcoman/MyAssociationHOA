@@ -37,19 +37,19 @@ public class PetsMyInfoActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 
     private static final String TAG = "PETSACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
-    ArrayList<PetObject> petsList;
-    PetsMyInfoAdapter adapter;
-    Bundle bundle;
-    String memberFilter = "";
+    private static final String MYPREFERENCES = "MyPrefs";
+    private ArrayList<PetObject> petsList;
+    private PetsMyInfoAdapter adapter;
+    private Bundle bundle;
+    private String memberFilter = "";
 
-    int petsCount = 0;
+    private int petsCount = 0;
 
-    SearchView search_view;
+    private SearchView search_view;
     private FloatingActionButton mFab;
 
     private SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,9 +210,9 @@ public class PetsMyInfoActivity extends AppCompatActivity implements
 
     }
 
-    public void getData() {
+    private void getData() {
 
-        petsList = new ArrayList<PetObject>();
+        petsList = new ArrayList<>();
 
         for (int i = 0; i < sharedPreferences.getInt("petObjectsSize", 0); i++) {
 
@@ -257,14 +257,14 @@ public class PetsMyInfoActivity extends AppCompatActivity implements
     }
 
 
-    public void hideSoftKeyboard() {
+    private void hideSoftKeyboard() {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
 
-    public static String bundle2string(Bundle bundle) {
+    private static String bundle2string(Bundle bundle) {
         if (bundle == null) {
             return null;
         }

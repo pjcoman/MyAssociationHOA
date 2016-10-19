@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_layout"
+    android:layout_width="match_parent"
+    android:layout_height="340dp"
+    app:mode="same_level"
+    app:dragEdge="right">
+        <!-- Your secondary layout here -->
+        <FrameLayout android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/delete_layout"
+            android:background="#cc0000">
+
+
+            <TextView
+                android:id="@+id/swipe_delete"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@android:color/holo_red_dark"
+                android:textColor="@android:color/white"
+                android:textStyle="normal|bold"
+                android:textSize="30sp"
+                android:text="@string/delete"
+                android:layout_width="120dp" />
+
+        </FrameLayout>
+
+
+    <!-- Your main layout here -->
+        <FrameLayout android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cork_bg"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/name"
+                    android:shadowColor="#e70707"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1"
+                    android:id="@+id/textViewPostName"
+                    android:gravity="center_horizontal"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/posteddate"
+                    android:id="@+id/textViewPostDate"
+                    android:layout_gravity="center_horizontal"
+                    android:shadowColor="#06d15b"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1"
+                    android:textSize="20sp"
+                    android:padding="6dp" />
+
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/post"
+                    android:id="@+id/textViewPost"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/black"
+                    android:paddingTop="30dp"
+                    android:paddingBottom="30dp"
+                    android:background="@drawable/cork_en"
+                    android:scrollbars="vertical"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp" />
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    android:weightSum="2">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email_poster"
+                        android:id="@+id/sendEmail"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#7a51bc"
+                        android:layout_weight="1"
+                        android:textSize="12sp"
+                        android:textAlignment="gravity"
+                        android:gravity="center"
+                        android:background="@drawable/button_rounded_corners_white" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_message"
+                        android:id="@+id/addToMBButton"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#7a51bc"
+                        android:layout_weight="1"
+                        android:textSize="12sp"
+                        android:textAlignment="gravity"
+                        android:gravity="center"
+                        android:background="@drawable/button_rounded_corners_white" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </FrameLayout>
+
+
+    </com.chauthai.swipereveallayout.SwipeRevealLayout>
+

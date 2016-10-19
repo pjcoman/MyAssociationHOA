@@ -3,13 +3,17 @@ package comapps.com.myassociationhoa.maintenance;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -61,9 +65,9 @@ public class MaintenanceActivity extends AppCompatActivity {
     private MaintenanceAdapter maintenanceAdapter;
 
     private SharedPreferences sharedPreferences;
-    private ArrayList<String> maintenanceCategories = new ArrayList<String>();
-    String[] maintenanceCategoriesAll;
-    private ArrayList<String> maintenanceItemCategories = new ArrayList<String>();
+    private final ArrayList<String> maintenanceCategories = new ArrayList<>();
+    private String[] maintenanceCategoriesAll;
+    private final ArrayList<String> maintenanceItemCategories = new ArrayList<>();
 
 
     private String maintenanceCatString;
@@ -81,7 +85,7 @@ public class MaintenanceActivity extends AppCompatActivity {
     private ScrollView addItem;
 
     int i = 0;
-    int j = 0;
+    private int j = 0;
 
 
 
@@ -92,6 +96,8 @@ public class MaintenanceActivity extends AppCompatActivity {
                 .setDefaultFontPath("fonts/palabi.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
+
+        setupWindowAnimations();
 
 
         setContentView(R.layout.content_main_maintenance);
@@ -143,7 +149,7 @@ public class MaintenanceActivity extends AppCompatActivity {
         //***************************************************MAINTENANCE CATEGORIES*****************************************************************************
 
 
-        final int maintenanceCategoryObjectSize = Integer.valueOf(sharedPreferences.getInt("maintenanceCategoryObjectsSize", 0));
+        final int maintenanceCategoryObjectSize = sharedPreferences.getInt("maintenanceCategoryObjectsSize", 0);
 
         maintenanceCategories.add("All");
         maintenanceCategoriesAll = new String[maintenanceCategoryObjectSize];
@@ -187,7 +193,7 @@ public class MaintenanceActivity extends AppCompatActivity {
         });
 
 
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, R.layout.textviewlist, maintenanceCategories);
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, R.layout.textviewlist_transparent, maintenanceCategories);
 
         listAdapter.sort(new Comparator<String>() {
             @Override
@@ -264,6 +270,7 @@ public class MaintenanceActivity extends AppCompatActivity {
                                                                   buttonItemType.setText(maintenanceCategoriesAll[j]);
 
 
+                                                                  assert bar != null;
                                                                   bar.setTitle("Add Maintenance Item");
 
                                                                   saveItem.setOnClickListener(new View.OnClickListener() {
@@ -272,7 +279,7 @@ public class MaintenanceActivity extends AppCompatActivity {
 
                                                                           final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                                                                          query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                                                                          query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                                                                           query.findInBackground(new FindCallback<ParseObject>() {
                                                                               @Override
@@ -298,7 +305,7 @@ public class MaintenanceActivity extends AppCompatActivity {
 
 
                                                                                   Calendar c = Calendar.getInstance();
-                                                                                  SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                                                                                  SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
                                                                                   SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                                                                                   String strDate = sdf.format(c.getTime());
 
@@ -447,6 +454,27 @@ public class MaintenanceActivity extends AppCompatActivity {
 
 
     }
+
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+
+
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.RIGHT);
+        getWindow().setEnterTransition(slideTransition);
+
+
+        Slide slideTransitionExit = new Slide();
+        slideTransitionExit.setSlideEdge(Gravity.RIGHT);
+        getWindow().setExitTransition(slideTransitionExit);
+
+
+
+    }
+
 
 
 

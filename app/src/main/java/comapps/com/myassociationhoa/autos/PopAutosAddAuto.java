@@ -42,40 +42,40 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PopAutosAddAuto extends AppCompatActivity {
 
     private static final String TAG = "POPADDAUTO";
-    public static final String MYPREFERENCES = "MyPrefs";
-    public static final String VISITEDPREFERENCES = "VisitedPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
 
-    ParseQuery<ParseObject> query;
-    String[] autoFileArray;
-    String autoFileString = "";
-    String autoFileUpdate = "";
+    private ParseQuery<ParseObject> query;
+    private String[] autoFileArray;
+    private String autoFileString = "";
+    private String autoFileUpdate = "";
 
-    EditText etAutoMan;
-    EditText etAutoModel;
-    EditText etAutoYear;
-    EditText etAutoColor;
-    EditText etAutoLicense;
-    EditText etAutoTag;
+    private EditText etAutoMan;
+    private EditText etAutoModel;
+    private EditText etAutoYear;
+    private EditText etAutoColor;
+    private EditText etAutoLicense;
+    private EditText etAutoTag;
 
-    TextView title;
+    private TextView title;
 
-    Button saveButton;
+    private Button saveButton;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences sharedPreferencesVisited;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferencesVisited;
     SharedPreferences.Editor editor;
-    SharedPreferences.Editor editorVisited;
+    private SharedPreferences.Editor editorVisited;
 
-    Bundle bundle;
-    Boolean forEdit = false;
-    Boolean forDelete = false;
+    private Bundle bundle;
+    private Boolean forEdit = false;
+    private Boolean forDelete = false;
 
-    String autoPassed;
+    private String autoPassed;
 
-    AutoObject autoObject;
+    private AutoObject autoObject;
 
-    Toast toast;
+    private Toast toast;
 
 
     @Override
@@ -134,6 +134,7 @@ public class PopAutosAddAuto extends AppCompatActivity {
             etAutoLicense.setText(autoObject.getPlate());
             etAutoTag.setText(autoObject.getTag());
             title.setText("Update Auto");
+            assert bar != null;
             bar.setTitle("Update Auto");
 
         }
@@ -150,6 +151,7 @@ public class PopAutosAddAuto extends AppCompatActivity {
             saveButton.setText("DELETE");
             saveButton.setTextColor(Color.RED);
 
+            assert bar != null;
             bar.setTitle("Delete Auto");
 
         }
@@ -166,7 +168,7 @@ public class PopAutosAddAuto extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout(width * 1, height * 1);
+        getWindow().setLayout(width, height);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +176,7 @@ public class PopAutosAddAuto extends AppCompatActivity {
 
                 final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -201,7 +203,7 @@ public class PopAutosAddAuto extends AppCompatActivity {
                         String memberInfo = sharedPreferences.getString("MEMBER_INFO", "");
 
                         Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                         String strDate = sdf.format(c.getTime());
 

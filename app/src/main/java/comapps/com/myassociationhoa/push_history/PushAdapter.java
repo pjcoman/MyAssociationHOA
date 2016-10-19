@@ -42,7 +42,7 @@ class PushAdapter extends ArrayAdapter<PushObject> {
         TextView notification = (TextView) convertView.findViewById(R.id.textViewPushNotification);
 
 
-        date.setText(pushObject.getDate());
+        date.setText(pushObject != null ? pushObject.getDate() : null);
         notification.setText(pushObject.getPushNotifacation());
 
 

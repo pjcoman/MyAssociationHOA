@@ -25,17 +25,17 @@ import comapps.com.myassociationhoa.objects.AutoObject;
  */
 class AutosMyInfoAdapter extends ArrayAdapter<AutoObject> implements Filterable {
 
-    public static final String TAG = "AUTOADAPTER";
+    private static final String TAG = "AUTOADAPTER";
 
     private ArrayList<AutoObject> autosList;
-    private Context context;
+    private final Context context;
     private AutoFilter autoFilter;
-    private ArrayList<AutoObject> autosFilterList;
+    private final ArrayList<AutoObject> autosFilterList;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
-    AutoObject autoObject;
+    private AutoObject autoObject;
 
 
     public AutosMyInfoAdapter(Context context, ArrayList<AutoObject> autosList) {
@@ -76,10 +76,10 @@ class AutosMyInfoAdapter extends ArrayAdapter<AutoObject> implements Filterable 
         }
 
         TextView ownerName = (TextView) convertView.findViewById(R.id.tvAutoOwner);
-        TextView autoMake = (TextView) convertView.findViewById(R.id.tvGuestName);
-        TextView autoModel = (TextView) convertView.findViewById(R.id.tvGuestContactType);
-        TextView autoColor = (TextView) convertView.findViewById(R.id.tvGuestStartDate);
-        TextView autoPlate = (TextView) convertView.findViewById(R.id.tvGuestAccessMonday);
+        TextView autoMake = (TextView) convertView.findViewById(R.id.tvAutoMake);
+        TextView autoModel = (TextView) convertView.findViewById(R.id.tvAutoModel);
+        TextView autoColor = (TextView) convertView.findViewById(R.id.tvAutoColor);
+        TextView autoPlate = (TextView) convertView.findViewById(R.id.tvAutoPlate);
         TextView autoYear = (TextView) convertView.findViewById(R.id.tvAutoYear);
         TextView autoTag = (TextView) convertView.findViewById(R.id.tvAutoTag);
 
@@ -90,7 +90,7 @@ class AutosMyInfoAdapter extends ArrayAdapter<AutoObject> implements Filterable 
 
 
         try {
-            ownerName.setText(autoObject.getOwner());
+            ownerName.setText(autoObject != null ? autoObject.getOwner() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }

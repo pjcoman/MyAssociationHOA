@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
  */
 class SharedPreferenceWeather {
 
-    private SharedPreferences prefs;
+    private final SharedPreferences prefs;
 
     public SharedPreferenceWeather(Activity activity) {
         prefs = activity.getPreferences(Activity.MODE_PRIVATE);
@@ -21,7 +21,7 @@ class SharedPreferenceWeather {
     }
 
     void setCity(String city) {
-        prefs.edit().putString("city", city).commit();
+        prefs.edit().putString("city", city).apply();
     }
 
 }

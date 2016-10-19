@@ -19,7 +19,7 @@ public class DocumentReaderActivity extends AppCompatActivity {
     private static final String TAG = "DOCUMENTREADERACTIVITY";
     private static final String MYPREFERENCES = "MyPrefs";
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
 
     @Override

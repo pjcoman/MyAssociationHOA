@@ -3,11 +3,16 @@ package comapps.com.myassociationhoa.pets;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -33,13 +38,13 @@ public class PetsActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 
     private static final String TAG = "PETSACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
-    ArrayList<PetObject> petsList;
-    PetsAdapter adapter;
-    Bundle bundle;
-    String memberFilter = "";
+    private static final String MYPREFERENCES = "MyPrefs";
+    private ArrayList<PetObject> petsList;
+    private PetsAdapter adapter;
+    private Bundle bundle;
+    private String memberFilter = "";
 
-    SearchView search_view;
+    private SearchView search_view;
     private FloatingActionButton mFab;
 
     private SharedPreferences sharedPreferences;
@@ -56,6 +61,8 @@ public class PetsActivity extends AppCompatActivity implements
                 .setDefaultFontPath("fonts/palabi.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
+
+        setupWindowAnimations();
 
 
         setContentView(R.layout.content_main_pets);
@@ -92,6 +99,7 @@ public class PetsActivity extends AppCompatActivity implements
                 mFab.setVisibility(View.GONE);
             }
 
+            assert bar != null;
             bar.setTitle("My Pets");
             search_view.setVisibility(View.GONE);
 
@@ -106,7 +114,7 @@ public class PetsActivity extends AppCompatActivity implements
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
 
-        petsList = new ArrayList<PetObject>();
+        petsList = new ArrayList<>();
 
         for (int i = 0; i < sharedPreferences.getInt("petObjectsSize", 0); i++) {
 
@@ -214,12 +222,33 @@ public class PetsActivity extends AppCompatActivity implements
 
     }
 
-    public void hideSoftKeyboard() {
+    private void hideSoftKeyboard() {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
+
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+
+
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.RIGHT);
+        getWindow().setEnterTransition(slideTransition);
+
+
+        Slide slideTransitionExit = new Slide();
+        slideTransitionExit.setSlideEdge(Gravity.RIGHT);
+        getWindow().setExitTransition(slideTransitionExit);
+
+
+
+    }
+
 
 
 

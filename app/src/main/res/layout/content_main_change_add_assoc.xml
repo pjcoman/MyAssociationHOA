@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:background="@drawable/info_background_noborder"
-        android:padding="20dp"></ListView>
+        android:padding="20dp" />
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab"

@@ -3,7 +3,7 @@ package comapps.com.myassociationhoa.objects;
 /**
  * Created by me on 6/22/2016.
  */
-public class MBAdminObject {
+class MBAdminObject {
 
     private String adminMessageName;
     private String adminMessageDate;

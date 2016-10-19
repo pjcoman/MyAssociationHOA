@@ -34,32 +34,41 @@ import comapps.com.myassociationhoa.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+
+
+
+
+
+
+
+
+
 /**
  * Created by me on 6/28/2016.
  */
 public class AddEvent extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ADDEVENT";
-    public static final String MYPREFERENCES = "MyPrefs";
-    public static final String VISITEDPREFERENCES = "VisitedPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
 
 
-    EditText etEventTitle;
-    EditText etEventDetail;
-    EditText etEventStartDate;
-    EditText etEventEndDate;
+    private EditText etEventTitle;
+    private EditText etEventDetail;
+    private EditText etEventStartDate;
+    private EditText etEventEndDate;
 
     private DatePickerDialog fromDatePickerDialog;
     private DatePickerDialog toDatePickerDialog;
     private SimpleDateFormat dateFormatter;
 
 
-    Button saveButton;
-    Button typeButton;
+    private Button saveButton;
+    private Button typeButton;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences sharedPreferencesVisited;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferencesVisited;
     SharedPreferences.Editor editor;
     SharedPreferences.Editor editorVisited;
 
@@ -103,7 +112,7 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener 
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout(width * 1, height * 1);
+        getWindow().setLayout(width, height);
 
         findViewsById();
         setDateTimeField();
@@ -166,7 +175,7 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener 
 
                 final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                ParseQuery query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                ParseQuery query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -218,15 +227,20 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener 
                         Log.d(TAG, "events for upload --->" + eventsForUpload);
 
                         Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a", java.util.Locale.getDefault());
                         String strDate = sdf.format(c.getTime());
 
 
-                        assoc.get(0).put("EventDate", strDate);
-                        assoc.get(0).put("EventFile", eventFile);
+                        byte[] data = eventsForUpload.getBytes();
+                        eventFile = new ParseFile("Event.txt", data);
+
+
+                        assoc.get(0).put("AdminEventDate", strDate);
+                        assoc.get(0).put("AdminEventFile", eventFile);
 
                         try {
                             assoc.get(0).save();
+
                         } catch (ParseException e1) {
                             e1.printStackTrace();
                             assoc.get(0).saveEventually();

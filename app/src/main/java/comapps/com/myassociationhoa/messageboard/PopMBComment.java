@@ -29,7 +29,7 @@ import java.util.List;
 
 import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
-import comapps.com.myassociationhoa.RemoteDataTaskClass;
+import comapps.com.myassociationhoa.RemoteDataTaskClassMB;
 import comapps.com.myassociationhoa.objects.MBObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -40,24 +40,24 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PopMBComment extends AppCompatActivity {
 
     private static final String TAG = "POPMBCOMMENT";
-    public static final String MYPREFERENCES = "MyPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
 
-    ParseQuery<ParseObject> query;
-    String[] messageFileArray;
-    String messageFileString;
-    String messageFileUpdate = "";
+    private ParseQuery<ParseObject> query;
+    private String[] messageFileArray;
+    private String messageFileString;
+    private String messageFileUpdate = "";
 
-    String pushFileString;
+    private String pushFileString;
 
-    MBObject mbObject;
+    private MBObject mbObject;
 
-    EditText newComment;
-    Button addButton;
+    private EditText newComment;
+    private Button addButton;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
-    int position;
+    private int position;
 
     MainActivity mainActivity;
 
@@ -98,7 +98,7 @@ public class PopMBComment extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout(width * 1, height * 1);
+        getWindow().setLayout(width, height);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +106,7 @@ public class PopMBComment extends AppCompatActivity {
 
                 final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -186,7 +186,7 @@ public class PopMBComment extends AppCompatActivity {
                         Calendar c = Calendar.getInstance();
                         System.out.println("Current time => " + c.getTime());
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d H:mma");
+                        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d h:mm a");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                         SimpleDateFormat month = new SimpleDateFormat("M");
                         String strDate = sdf.format(c.getTime());
@@ -241,9 +241,7 @@ public class PopMBComment extends AppCompatActivity {
                         try {
                             byte[] file = pushFile.getData();
                             pushFileString = new String(file, "UTF-8");
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
-                        } catch (UnsupportedEncodingException e1) {
+                        } catch (ParseException | UnsupportedEncodingException e1) {
                             e1.printStackTrace();
                         }
 
@@ -268,8 +266,8 @@ public class PopMBComment extends AppCompatActivity {
 
 
 
-                        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
-                        remoteDataTaskClass.execute();
+                        AsyncTask<Void, Void, Void> remoteDataTaskClassMB = new RemoteDataTaskClassMB(getApplicationContext());
+                        remoteDataTaskClassMB.execute();
 
                         Intent mbActivity = new Intent();
                         mbActivity.setClass(getApplicationContext(), MBActivity.class);

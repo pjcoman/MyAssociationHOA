@@ -29,11 +29,11 @@ public class DirectoryUpdateActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 
     private static final String TAG = "DIRECTORYUPDATEACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
-    ArrayList<RosterObject> rosterList;
-    DirectoryUpdateAdapter adapter;
+    private static final String MYPREFERENCES = "MyPrefs";
+    private ArrayList<RosterObject> rosterList;
+    private DirectoryUpdateAdapter adapter;
 
-    SearchView search_view;
+    private SearchView search_view;
 
 
     private SharedPreferences sharedPreferences;
@@ -76,7 +76,7 @@ public class DirectoryUpdateActivity extends AppCompatActivity implements
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
 
-        rosterList = new ArrayList<RosterObject>();
+        rosterList = new ArrayList<>();
 
         for (int i = 0; i < sharedPreferences.getInt("rosterSize", 0); i++) {
 
@@ -169,7 +169,7 @@ public class DirectoryUpdateActivity extends AppCompatActivity implements
 
     }
 
-    public void hideSoftKeyboard() {
+    private void hideSoftKeyboard() {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);

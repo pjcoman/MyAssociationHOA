@@ -12,15 +12,13 @@
     android:orientation="vertical"
     android:weightSum="15">
 
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/networkImageViewWeather"
+    <ImageView
+        android:id="@+id/ivWeather"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#050505"
         android:adjustViewBounds="true"
         android:fitsSystemWindows="false"
         android:scaleType="fitXY" />
-
 
     <LinearLayout
         android:orientation="vertical"

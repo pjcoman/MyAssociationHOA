@@ -8,16 +8,15 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="comapps.com.myassociationhoa.MainActivity"
 
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@android:color/black">
 
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/networkImageView"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#050505"
-        android:fitsSystemWindows="false"
         android:scaleType="fitXY"
-        android:adjustViewBounds="true" />
+        android:background="@android:color/transparent" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -26,34 +25,54 @@
         android:id="@+id/content_main_vertical"
         android:weightSum="13">
 
-        <TextView
+        <FrameLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:textColor="#e70707"
-            android:shadowColor="#fcfafa"
-            android:textStyle="bold"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:shadowRadius="1"
-
-
-            android:textSize="22sp"
-            android:id="@+id/textViewAssociationName"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical|center_horizontal"
             android:layout_weight="1.5"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" />
+            android:background="@android:color/transparent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="#e70707"
+                android:shadowColor="#fcfafa"
+                android:textStyle="bold"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+
+
+                android:textSize="18sp"
+                android:id="@+id/textViewAssociationName"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:gravity="center"
+                android:text="HOA" />
+
+            <ProgressBar
+                style="@android:style/Widget.Material.ProgressBar.Small.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/progressBar"
+                android:indeterminateTintMode="src_atop"
+                android:indeterminateTint="#F8F6B7"
+                android:padding="5dp"
+                android:layout_gravity="end" />
+
+        </FrameLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:weightSum="3"
-            android:layout_weight="11.5"
+            android:layout_weight="11.4"
             android:baselineAligned="false"
             android:id="@+id/llContentMainVertical"
-            android:visibility="invisible">
+            android:visibility="visible"
+            android:background="@android:color/transparent">
 
             <LinearLayout
                 android:orientation="vertical"

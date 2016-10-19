@@ -6,14 +6,14 @@ package comapps.com.myassociationhoa.objects;
 public class PetObject {
 
 
-    String owner = "";
-    String memberNumber = "";
-    String name = "";
-    String type = "";
-    String breed = "";
-    String color = "";
-    String weight = "";
-    String misc = "";
+    private String owner = "";
+    private String memberNumber = "";
+    private String name = "";
+    private String type = "";
+    private String breed = "";
+    private String color = "";
+    private String weight = "";
+    private String misc = "";
 
 
 

@@ -37,21 +37,21 @@ public class GuestsMyInfoActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 
     private static final String TAG = "GUESTACTIVITY";
-    public static final String MYPREFERENCES = "MyPrefs";
-    ArrayList<GuestObject> guestsList;
-    ListView lv;
-    GuestsAdapter adapter;
-    GuestsMyInfoAdapter adapterMyInfo;
-    Bundle bundle;
-    String memberFilter = "";
+    private static final String MYPREFERENCES = "MyPrefs";
+    private ArrayList<GuestObject> guestsList;
+    private ListView lv;
+    private GuestsAdapter adapter;
+    private GuestsMyInfoAdapter adapterMyInfo;
+    private Bundle bundle;
+    private String memberFilter = "";
 
-    SearchView search_view;
+    private SearchView search_view;
     private FloatingActionButton mFab;
 
     private SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
 
-    int guestsCount = 0;
+    private int guestsCount = 0;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,16 +230,16 @@ public class GuestsMyInfoActivity extends AppCompatActivity implements
 
     }
 
-    public void hideSoftKeyboard() {
+    private void hideSoftKeyboard() {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
 
-    public void getData() {
+    private void getData() {
 
-        guestsList = new ArrayList<GuestObject>();
+        guestsList = new ArrayList<>();
 
         for (int i = 0; i < sharedPreferences.getInt("guestObjectsSize", 0); i++) {
 

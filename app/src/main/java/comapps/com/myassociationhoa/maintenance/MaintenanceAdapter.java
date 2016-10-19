@@ -22,7 +22,7 @@ import comapps.com.myassociationhoa.objects.MaintenanceObject;
  */
 class MaintenanceAdapter extends ArrayAdapter<MaintenanceObject> {
 
-    public static final String TAG = "MAINTENANCEADAPTER";
+    private static final String TAG = "MAINTENANCEADAPTER";
 
 
     public MaintenanceAdapter(Context context, ArrayList<MaintenanceObject> maintenanceItems) {
@@ -54,34 +54,34 @@ class MaintenanceAdapter extends ArrayAdapter<MaintenanceObject> {
 
 
         try {
-            maintName.setText(maintenanceObject.getMaintenanceName());
+            maintName.setText(maintenanceObject != null ? maintenanceObject.getMaintenanceName() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
         try {
-            maintNotes.setText(maintenanceObject.getMaintenanceNotes());
+            maintNotes.setText(maintenanceObject != null ? maintenanceObject.getMaintenanceNotes() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            maintDate.setText(maintenanceObject.getMaintenanceDate());
+            maintDate.setText(maintenanceObject != null ? maintenanceObject.getMaintenanceDate() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            maintDesc.setText(maintenanceObject.getMaintenanceDesc());
+            maintDesc.setText(maintenanceObject != null ? maintenanceObject.getMaintenanceDesc() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            maintCat.setText(maintenanceObject.getMaintenanceCategory());
+            maintCat.setText(maintenanceObject != null ? maintenanceObject.getMaintenanceCategory() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            maintNumber.setText(maintenanceObject.getMaintenanceNumber());
+            maintNumber.setText(maintenanceObject != null ? maintenanceObject.getMaintenanceNumber() : null);
         } catch (Exception e) {
             e.printStackTrace();
         }

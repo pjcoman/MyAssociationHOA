@@ -30,7 +30,7 @@ class ServiceProviderAdapter extends BaseAdapter {
 
     private static final String MYPREFERENCES = "MyPrefs";
 
-    private SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
 
     private final Context context;
     private final ArrayList<ServiceProviderObject> providerList;
@@ -43,7 +43,7 @@ class ServiceProviderAdapter extends BaseAdapter {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
-        this.providerList = new ArrayList<ServiceProviderObject>();
+        this.providerList = new ArrayList<>();
         this.providerList.addAll(list);
 
         sharedPreferences = getContext().getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
@@ -149,7 +149,7 @@ class ServiceProviderAdapter extends BaseAdapter {
                     getContext().startActivity(i);
 
 
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
 
                 }
@@ -174,7 +174,7 @@ class ServiceProviderAdapter extends BaseAdapter {
                     getContext().startActivity(intentEditServiceProvider);
 
 
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
 
                 }

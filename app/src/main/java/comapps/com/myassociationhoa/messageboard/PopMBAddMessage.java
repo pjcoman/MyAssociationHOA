@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -29,9 +28,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import comapps.com.myassociationhoa.MainActivity;
+import comapps.com.myassociationhoa.OnEventListener;
 import comapps.com.myassociationhoa.R;
 import comapps.com.myassociationhoa.RemoteDataTaskClass;
-import comapps.com.myassociationhoa.objects.MBObject;
+import comapps.com.myassociationhoa.RemoteDataTaskClassMB;
+import comapps.com.myassociationhoa.RemoteDataTaskClassMBCallBack;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -41,21 +42,25 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PopMBAddMessage extends AppCompatActivity {
 
     private static final String TAG = "POPMB";
-    public static final String MYPREFERENCES = "MyPrefs";
-    public static final String VISITEDPREFERENCES = "VisitedPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
-    ParseQuery<ParseObject> query;
-    String[] messageFileArray;
-    String messageFileString = "";
-    String messageFileUpdate = "";
+    private ParseQuery<ParseObject> query;
+    private String[] messageFileArray;
+    private String messageFileString = "";
+    private String messageFileUpdate = "";
+    private String adminMessageFileString = "";
+    private String adminMessageFileUpdate = "";
 
-    String pushFileString;
+    private String memberEmail;
 
-    EditText newMessage;
-    Button saveButton;
+    private String pushFileString;
 
-    SharedPreferences sharedVisitedPreferences;
-    SharedPreferences sharedPreferences;
+    private EditText newMessage;
+    private Button saveButton;
+
+    private SharedPreferences sharedVisitedPreferences;
+    private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     SharedPreferences.Editor editorVisited;
 
@@ -71,7 +76,7 @@ public class PopMBAddMessage extends AppCompatActivity {
                 .setFontAttrId(R.attr.fontPath)
                 .build());
 
-        setContentView(R.layout.pop_up_layout_mb);
+        setContentView(R.layout.pop_up_layout_mb_newmessage);
 
 
         newMessage = (EditText) findViewById(R.id.editTextMessage);
@@ -87,7 +92,7 @@ public class PopMBAddMessage extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout(width * 1, height * 1);
+        getWindow().setLayout(width, height);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,77 +100,42 @@ public class PopMBAddMessage extends AppCompatActivity {
 
                 final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                query = new ParseQuery<>(installation.getString("AssociationCode"));
 
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> assoc, ParseException e) {
+                Calendar c = Calendar.getInstance();
+                final SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
+                final SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
+                final SimpleDateFormat month = new SimpleDateFormat("M");
+                final String strDate = sdf.format(c.getTime());
+                final String strDate2 = sdf2.format(c.getTime());
+                final String strMonth = month.format(c.getTime());
 
+                memberEmail = sharedVisitedPreferences.getString("SUMMER_EMAIL", "");
 
-                        ParseFile messageFile = assoc.get(0).getParseFile("MessageFile");
-                        messageFileArray = null;
+                if (memberEmail.length() == 0) {
 
-                        try {
-                            byte[] file = messageFile.getData();
-                            try {
-                                messageFileString = new String(file, "UTF-8");
+                    memberEmail = "email not available";
 
-                                Log.d(TAG, "existing messages --->" + messageFileString);
+                }
 
-                            } catch (UnsupportedEncodingException e1) {
-                                e1.printStackTrace();
-                            }
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
-                        }
+//*************************************************************************************************************************************************************************
 
+                if (sharedPreferences.getString("defaultRecord(48)", "Yes").equals("Yes") && installation.getString("MemberType").equals("Member")) {
 
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> assoc, ParseException e) {
 
-                        Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
-                        SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
-                        SimpleDateFormat month = new SimpleDateFormat("M");
-                        String strDate = sdf.format(c.getTime());
-                        String strDate2 = sdf2.format(c.getTime());
-                        String strMonth = month.format(c.getTime());
-
-                        String memberEmail = sharedVisitedPreferences.getString("SUMMER_EMAIL","");
-
-                        if ( memberEmail.length() == 0 ) {
-
-                            memberEmail = "email not available";
-
-                        }
-
-
-
-
-                        messageFileUpdate = messageFileString + "|" + installation.getString("memberName") + "|" + "Posted: " +
-                                strDate + "|" + newMessage.getText() + "|" + strDate2 + "|" + memberEmail;
-
-                        messageFileUpdate = installation.getString("memberName") + "|" +
-                                strDate + "|" + newMessage.getText() + "|" + strDate2 + "|" + memberEmail + "|" + messageFileString;
-
-                        MBObject mbObject = new MBObject();
-                        mbObject.setMbName(installation.getString("memberName"));
-                        mbObject.setMbPostDate(strDate);
-                        mbObject.setMbPost(String.valueOf(newMessage.getText()));
-                        mbObject.setMbPostDate2(strDate2);
-                        mbObject.setMbPosterEmailAddress(memberEmail);
-
-                        if (sharedPreferences.getString("defaultRecord(48)", "Yes").equals("Yes") && installation.getString("MemberType").equals("Member")) {
-
-                            String adminMessageFileString = "";
 
                             ParseFile adminMessageFile = assoc.get(0).getParseFile("AdminMessageFile");
-                            messageFileArray = null;
+
 
                             try {
                                 byte[] file = adminMessageFile.getData();
                                 try {
                                     adminMessageFileString = new String(file, "UTF-8");
 
-                                    Log.d(TAG, "existing admin messages --->" + adminMessageFileString);
+                                    Log.d(TAG, "existing admin messages --->" + messageFileString);
 
                                 } catch (UnsupportedEncodingException e1) {
                                     e1.printStackTrace();
@@ -175,27 +145,28 @@ public class PopMBAddMessage extends AppCompatActivity {
                             }
 
 
-
-                            String adminMessageToAdd = "|" + installation.getString("memberName") + "|"
-                                    + strDate + "|"
-                                    + newMessage.getText() + "|"
-                                    + strDate2  + "|"
-                                    + sharedVisitedPreferences.getString("SUMMER_EMAIL","") + "|"
-                                    + "0" + "|"
-                                    + sharedVisitedPreferences.getString("FULL_NAME","") + "|"
-                                    + " |" ;
-
+                            String adminMessageToAdd = installation.getString("memberName").trim() +
+                                    "|" + strDate +
+                                    "|" + newMessage.getText().toString().trim() +
+                                    "|" + strDate2 +
+                                    "|" + sharedVisitedPreferences.getString("SUMMER_EMAIL", "").trim() +
+                                    "|" + "0" +
+                                    "|" +
+                                    "|";
 
 
-
-                            String adminMessageFileUpdate = adminMessageFileString + adminMessageToAdd.trim();
+                            adminMessageFileUpdate = adminMessageToAdd + "|" + adminMessageFileString;
                             Log.d(TAG, "adminMessageFileUpdate ---->" + adminMessageFileUpdate);
 
-                            if ( adminMessageFileUpdate.substring(adminMessageFileUpdate.length() - 1).equals("|")) {
+                            if (adminMessageFileUpdate.substring(0, 1).equals("|")) {
+                                adminMessageFileUpdate = adminMessageFileUpdate.substring(1);
+                            }
+
+                            if (adminMessageFileUpdate.substring(adminMessageFileUpdate.length() - 1).equals("|")) {
                                 adminMessageFileUpdate = adminMessageFileUpdate.substring(0, adminMessageFileUpdate.length() - 1);
                             }
 
-                            Log.d(TAG, "adminMessageFileUpdate after | removed from end ---->" + adminMessageFileUpdate);
+                            Log.d(TAG, "adminMessageFileUpdate for upload ---->" + adminMessageFileUpdate);
 
                             byte[] data = adminMessageFileUpdate.getBytes();
                             ParseFile AdminMessageFile = new ParseFile("AdminMessage.txt", data);
@@ -203,6 +174,10 @@ public class PopMBAddMessage extends AppCompatActivity {
 
                             try {
                                 AdminMessageFile.save();
+
+                                AsyncTask<Void, Void, Void> remoteDataTaskClassMB = new RemoteDataTaskClassMB(getApplicationContext());
+                                remoteDataTaskClassMB.execute();
+
                             } catch (ParseException e1) {
                                 e1.printStackTrace();
                             }
@@ -217,11 +192,10 @@ public class PopMBAddMessage extends AppCompatActivity {
                                 e1.printStackTrace();
                             }
 
-                            Toast toast = Toast.makeText(getBaseContext(),"Your message has been sent to the\nAssociation Admi" +
+                            Toast toast = Toast.makeText(getBaseContext(), "Your message has been sent to the\nAssociation Admi" +
                                     "nistrator for review\nbefore posting", Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
-
 
 
                             ParseQuery pushQuery = ParseInstallation.getQuery();
@@ -241,9 +215,7 @@ public class PopMBAddMessage extends AppCompatActivity {
                             try {
                                 byte[] file = pushFile.getData();
                                 pushFileString = new String(file, "UTF-8");
-                            } catch (ParseException e1) {
-                                e1.printStackTrace();
-                            } catch (UnsupportedEncodingException e1) {
+                            } catch (ParseException | UnsupportedEncodingException e1) {
                                 e1.printStackTrace();
                             }
 
@@ -261,14 +233,15 @@ public class PopMBAddMessage extends AppCompatActivity {
                             assoc.get(0).put("PushFile", pushFile);
                             try {
                                 assoc.get(0).save();
+
+                                AsyncTask<Void, Void, Void> remoteDataTaskClassMB = new RemoteDataTaskClassMB(getApplicationContext());
+                                remoteDataTaskClassMB.execute();
+
                             } catch (ParseException e1) {
                                 e1.printStackTrace();
                                 assoc.get(0).saveEventually();
                             }
 
-
-                            AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
-                            remoteDataTaskClass.execute();
 
 
                             Intent mainActivity = new Intent();
@@ -276,76 +249,92 @@ public class PopMBAddMessage extends AppCompatActivity {
                             startActivity(mainActivity);
                             finish();
 
-
-
-
-
-
-
-                        } else {
-
-
-
-                        Integer mbSizeInt = sharedVisitedPreferences.getInt("mbSize", 0);
-
-                        editor = sharedPreferences.edit();
-                        Gson gson = new Gson();
-                        String jsonMbObject = gson.toJson(mbObject); // myObject - instance of MyObject
-                        editor.putString("mbObject" + "[" + String.valueOf(mbSizeInt + 1) + "]", jsonMbObject);
-                    //    editor.putInt("mbSize", mbSizeInt + 1);
-                        editor.apply();
-
-
-
-
-
-                        byte[] data = messageFileUpdate.getBytes();
-                        ParseFile MessageFile = new ParseFile("message.txt", data);
-
-
-                        try {
-                            MessageFile.save();
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
                         }
+                    });
 
 
-                        assoc.get(0).put("MessageDate", strDate);
-                        assoc.get(0).put("MessageFile", MessageFile);
+//*************************************************************************************************************************************************************************
+                } else {
+//*************************************************************************************************************************************************************************
 
-                        try {
-                            assoc.get(0).save();
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
-                            assoc.get(0).saveEventually();
-                        }
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> assoc, ParseException e) {
 
-                            Toast toast = Toast.makeText(getBaseContext(),"MESSAGE POSTED", Toast.LENGTH_LONG);
+
+                            ParseFile messageFile = assoc.get(0).getParseFile("MessageFile");
+                            messageFileArray = null;
+
+                            try {
+                                byte[] file = messageFile.getData();
+                                try {
+                                    messageFileString = new String(file, "UTF-8");
+
+                                    Log.d(TAG, "existing messages --->" + messageFileString);
+
+                                } catch (UnsupportedEncodingException e1) {
+                                    e1.printStackTrace();
+                                }
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+
+
+                            messageFileUpdate = installation.getString("memberName").trim() + "|" +
+                                    strDate.trim() + "|" + newMessage.getText().toString().trim() + "|" + strDate2.trim() + "|" + memberEmail.trim() + "|" + messageFileString;
+
+                            Log.d(TAG, "updated messages ----> " + messageFileUpdate);
+
+                            byte[] data = messageFileUpdate.getBytes();
+                            ParseFile MessageFile = new ParseFile("message.txt", data);
+
+
+                            try {
+                                MessageFile.save();
+
+                                AsyncTask<Void, Void, Void> remoteDataTaskClassMB = new RemoteDataTaskClassMB(getApplicationContext());
+                                remoteDataTaskClassMB.execute();
+
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+
+
+                            assoc.get(0).put("MessageDate", strDate);
+                            assoc.get(0).put("MessageFile", MessageFile);
+
+                            try {
+                                assoc.get(0).save();
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                                assoc.get(0).saveEventually();
+                            }
+
+
+
+                            Toast toast = Toast.makeText(getBaseContext(), "MESSAGE POSTED", Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
 
 
+                            ParseQuery pushQuery = ParseInstallation.getQuery();
+                            pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
 
-                        ParseQuery pushQuery = ParseInstallation.getQuery();
-                        pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
+                            ParsePush push = new ParsePush();
+                            push.setQuery(pushQuery); // Set our Installation query
 
-                        ParsePush push = new ParsePush();
-                        push.setQuery(pushQuery); // Set our Installation query
+                            push.setMessage("By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
+                                    installation.getString("memberName") +
+                                    " has posted a new message to the Message Board.");
 
-                        push.setMessage("By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
-                                installation.getString("memberName") +
-                                " has posted a new message to the Message Board.");
-
-                        push.sendInBackground();
+                            push.sendInBackground();
 
                             ParseFile pushFile = assoc.get(0).getParseFile("PushFile");
 
                             try {
                                 byte[] file = pushFile.getData();
                                 pushFileString = new String(file, "UTF-8");
-                            } catch (ParseException e1) {
-                                e1.printStackTrace();
-                            } catch (UnsupportedEncodingException e1) {
+                            } catch (ParseException | UnsupportedEncodingException e1) {
                                 e1.printStackTrace();
                             }
 
@@ -363,6 +352,29 @@ public class PopMBAddMessage extends AppCompatActivity {
                             assoc.get(0).put("PushFile", pushFile);
                             try {
                                 assoc.get(0).save();
+                                RemoteDataTaskClassMBCallBack remoteDataTaskClassMBCallBack = new RemoteDataTaskClassMBCallBack(getApplicationContext(), new
+                                        OnEventListener<String>() {
+                                            @Override
+                                            public void onSuccess() {
+
+
+                                                Intent mainActivity = new Intent();
+                                                mainActivity.setClass(getApplicationContext(), MainActivity.class);
+                                                startActivity(mainActivity);
+                                                finish();
+
+
+                                            }
+
+                                            @Override
+                                            public void onFailure(Exception e) {
+
+
+                                            }
+                                        });
+
+                                remoteDataTaskClassMBCallBack.execute();
+
                             } catch (ParseException e1) {
                                 e1.printStackTrace();
                                 assoc.get(0).saveEventually();
@@ -370,28 +382,17 @@ public class PopMBAddMessage extends AppCompatActivity {
 
 
 
-                            AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
-                            remoteDataTaskClass.execute();
-
-                            Intent mainActivity = new Intent();
-                            mainActivity.setClass(getApplicationContext(), MainActivity.class);
-                            startActivity(mainActivity);
-                            finish();
-
-
 
 
                         }
+                    });
+//*************************************************************************************************************************************************************************
 
-
-                    }
-                });
-
+                }
             }
         });
-
-
     }
+
 
 
     @Override

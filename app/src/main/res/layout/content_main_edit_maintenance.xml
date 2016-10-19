@@ -8,24 +8,17 @@
     android:focusableInTouchMode="false"
     android:clickable="false"
     android:id="@+id/content_main_maintenance"
-    android:orientation="vertical"
-    android:background="@drawable/blackandwhite"
-    android:padding="10dp">
+    android:orientation="vertical">
 
-
-
-
-
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <ListView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:id="@+id/listViewMaintenanceCategories"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab"
@@ -33,14 +26,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
 
-            android:src="@drawable/fab"
             android:alpha=".65"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="40dp"
             android:layout_marginRight="5dp"
             android:visibility="visible"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/fab" />
 
-    </RelativeLayout>
 
 </FrameLayout>
 

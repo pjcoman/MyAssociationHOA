@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "870150385033",
+    "firebase_url": "https://myassociations-e2cd5.firebaseio.com",
+    "project_id": "myassociations-e2cd5",
+    "storage_bucket": "myassociations-e2cd5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870150385033:android:3bed626a10cafae8",
+        "android_client_info": {
+          "package_name": "comapps.com.myassociationhoa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870150385033-22cghp7071lfgprb3fs57e55oint0bvj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "comapps.com.myassociationhoa",
+            "certificate_hash": "8D29CDF812BA3099DC327B6CA45E8800A0D495CA"
+          }
+        },
+        {
+          "client_id": "870150385033-riu7rku1k0h3u7asd4mmov0g1ih8qqs9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhLaxaACjOsW1TEPQF5P9tWwnfy_hUPnA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870150385033-riu7rku1k0h3u7asd4mmov0g1ih8qqs9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

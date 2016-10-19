@@ -46,31 +46,31 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="4">
 
         <TextView
             android:id="@+id/textViewTypeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:text="@string/typestring"
             android:textColor="#0a0a0a"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tvGuestType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_toRightOf="@+id/textViewTypeLabel"
             android:autoText="true"
             android:capitalize="words"
             android:inputType="textNoSuggestions"
-            android:paddingLeft="4dp"
+            android:paddingLeft="5dp"
             android:text="@string/guest_type"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#a58b5d"
@@ -80,28 +80,28 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:longClickable="false"
-            android:textSize="14sp" />
+            android:textSize="12sp"
+            android:paddingRight="5dp" />
 
         <TextView
             android:id="@+id/tvContactLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/tvGuestContactType"
-            android:paddingRight="2dp"
+            android:paddingRight="5dp"
             android:text="@string/contact"
             android:textColor="#0a0a0a"
-            android:textSize="14sp" />
+            android:textSize="12sp"
+            android:paddingLeft="5dp" />
 
         <TextView
             android:id="@+id/tvGuestContactType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:autoText="true"
             android:capitalize="words"
             android:inputType="textNoSuggestions"
-            android:paddingLeft="4dp"
-            android:paddingRight="20dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:text="@string/guest_contact"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#a58b5d"
@@ -111,8 +111,8 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:longClickable="false"
-            android:textSize="14sp" />
-    </RelativeLayout>
+            android:textSize="12sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/datesLayout"
@@ -406,7 +406,7 @@
         <TextView
             android:id="@+id/tvGuestNotes"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
@@ -426,19 +426,42 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/guestRecordAccess"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_rounded_corners_black_gray_bg"
-            android:padding="10dp"
-            android:shadowColor="#f6e142"
-            android:shadowDx="4"
-            android:shadowDy="4"
-            android:shadowRadius="2"
-            android:text="@string/record_access" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/guestRecordAccess"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1.5"
+                android:background="@drawable/button_rounded_corners_black_gray_bg"
+                android:padding="10dp"
+                android:shadowColor="#f6e142"
+                android:shadowDx="4"
+                android:shadowDy="4"
+                android:shadowRadius="2"
+                android:text="@string/record_access" />
+
+            <Button
+                android:id="@+id/deleteGuest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight=".5"
+                android:background="@drawable/button_rounded_corners_white_red_bg"
+                android:padding="10dp"
+                android:shadowColor="#f6e142"
+                android:shadowDx="4"
+                android:shadowDy="4"
+                android:shadowRadius="2"
+                android:text="@string/x"
+                android:textColor="@android:color/white"
+                android:textStyle="normal|bold" />
+        </LinearLayout>
 
     </LinearLayout>
 

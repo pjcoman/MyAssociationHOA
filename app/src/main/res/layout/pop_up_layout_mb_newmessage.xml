@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="15"
+    android:background="@drawable/cork_bg"
+    android:paddingBottom="50dp">
+
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="2"
+    android:layout_weight=".5"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/textViewTitle"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/add_message"
+        android:capitalize="words"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:id="@+id/buttonSaveMessage"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/button_rounded_corners_black_gray_bg" />
+</LinearLayout>
+
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="textMultiLine|textCapSentences"
+    android:ems="10"
+    android:id="@+id/editTextMessage"
+    android:layout_gravity="center_horizontal"
+    android:layout_weight="14.5"
+    android:background="@drawable/button_rounded_corners_white_white_bg"
+    android:gravity="start|top"
+    android:padding="20dp"
+    android:layout_margin="20dp" />
+
+
+</LinearLayout>

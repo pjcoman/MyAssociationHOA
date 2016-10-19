@@ -32,14 +32,16 @@ class MBAdapter extends ArrayAdapter<MBObject> {
     public static final String TAG = "MESSAGEBOARDADAPTER";
     private static final String MYPREFERENCES = "MyPrefs";
 
-    TextView mbName;
-    TextView mbDate;
-    TextView mbPost;
+    private TextView mbName;
+    private TextView mbDate;
+    private TextView mbPost;
 
-    String outputDate;
+    private String outputDate;
+
+    private MBObject mbObject;
 
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     public MBAdapter(Context context, ArrayList<MBObject> posts) {
         super(context, 0, posts);
@@ -50,7 +52,7 @@ class MBAdapter extends ArrayAdapter<MBObject> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        final MBObject mbObject = getItem(position);
+        mbObject = getItem(position);
 
         sharedPreferences = getContext().getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
@@ -72,8 +74,8 @@ class MBAdapter extends ArrayAdapter<MBObject> {
 
         mbName.setText(mbObject.getMbName());
 
-        String inputFormat = "M/d/yy, H:mm a";
-        SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
+        String inputFormat = "M/d/yy, h:mm a";
+        final SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
 
         try {
             Date date = formatter.parse(mbObject.getMbPostDate());
@@ -127,6 +129,16 @@ class MBAdapter extends ArrayAdapter<MBObject> {
             @Override
             public void onClick(View v) {
 
+                mbObject = getItem(position);
+
+                Date date = null;
+                try {
+                    date = formatter.parse(mbObject != null ? mbObject.getMbPostDate() : null);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                outputDate = new SimpleDateFormat("EEE, MMM dd, yyyy").format(date);
+
                 Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                         "mailto", mbObject.getMbPosterEmailAddress(), null));
                 intent.putExtra(Intent.EXTRA_SUBJECT, sharedPreferences.getString("defaultRecord(0)", "") + " Message Board Response");
@@ -159,13 +171,6 @@ class MBAdapter extends ArrayAdapter<MBObject> {
 
 
         return convertView;
-    }
-
-    private static String TimeStampConverter(final String inputFormat,
-                                             String inputTimeStamp, final String outputFormat)
-            throws ParseException {
-        return new SimpleDateFormat(outputFormat).format(new SimpleDateFormat(
-                inputFormat).parse(inputTimeStamp));
     }
 
 

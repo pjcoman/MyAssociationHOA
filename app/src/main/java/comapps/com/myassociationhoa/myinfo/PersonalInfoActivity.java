@@ -52,83 +52,83 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private static final String VISITEDPREFERENCES = "VisitedPrefs";
     private static final String MYPREFERENCES = "MyPrefs";
 
-    ParseQuery<ParseObject> query;
-    ParseInstallation installation;
+    private ParseQuery<ParseObject> query;
+    private ParseInstallation installation;
 
-    EditText firstNameEditText;
-    EditText lastNameEditText;
-    EditText middleNameEditText;
-    EditText address1EditText;
-    EditText address2EditText;
-    EditText cityEditText;
-    EditText stateEditText;
-    EditText zipEditText;
-    EditText homePhoneEditText;
-    EditText mobilePhoneEditText;
-    EditText emailEditText;
-    EditText emerContactEditText;
-    EditText emerContactPhoneEditText;
-    EditText winterAddress1EditText;
-    EditText winterAddress2EditText;
-    EditText winterCityEditText;
-    EditText winterStateEditText;
-    EditText winterZipEditText;
-    EditText winterPhoneEditText;
-    EditText winterEmailEditText;
-    TextView textViewStatus;
-    EditText editTextGroup1;
-    EditText editTextGroup2;
-    EditText editTextGroup3;
-    EditText editTextGroup4;
-    EditText editTextGroup5;
-    EditText editTextGroup6;
-    EditText editTextGroup7;
-    EditText editTextGroup8;
+    private EditText firstNameEditText;
+    private EditText lastNameEditText;
+    private EditText middleNameEditText;
+    private EditText address1EditText;
+    private EditText address2EditText;
+    private EditText cityEditText;
+    private EditText stateEditText;
+    private EditText zipEditText;
+    private EditText homePhoneEditText;
+    private EditText mobilePhoneEditText;
+    private EditText emailEditText;
+    private EditText emerContactEditText;
+    private EditText emerContactPhoneEditText;
+    private EditText winterAddress1EditText;
+    private EditText winterAddress2EditText;
+    private EditText winterCityEditText;
+    private EditText winterStateEditText;
+    private EditText winterZipEditText;
+    private EditText winterPhoneEditText;
+    private EditText winterEmailEditText;
+    private TextView textViewStatus;
+    private EditText editTextGroup1;
+    private EditText editTextGroup2;
+    private EditText editTextGroup3;
+    private EditText editTextGroup4;
+    private EditText editTextGroup5;
+    private EditText editTextGroup6;
+    private EditText editTextGroup7;
+    private EditText editTextGroup8;
 
 
-    TextView summerAddress;
-    TextView winterAddress;
+    private TextView summerAddress;
+    private TextView winterAddress;
 
-    RosterObject rosterObject;
+    private RosterObject rosterObject;
 
-    String memberNumber;
-    String memberType;
-    String[] rosterFileArray;
-    String rosterFileUpdate = "";
-    String rosterFileString;
+    private String memberNumber;
+    private String memberType;
+    private String[] rosterFileArray;
+    private String rosterFileUpdate = "";
+    private String rosterFileString;
 
-    Bundle bundle;
-    Boolean fromAddGuest;
-    Boolean fromAdminUpdate;
-    Boolean fromMyInfo;
+    private Bundle bundle;
+    private Boolean fromAddGuest;
+    private Boolean fromAdminUpdate;
+    private Boolean fromMyInfo;
 
-    String homePhone;
-    String mobilePhone;
-    String winterPhone;
-    String emerPhone;
+    private String homePhone;
+    private String mobilePhone;
+    private String winterPhone;
+    private String emerPhone;
 
-    String p;
-    String p2;
-    String d;
-    String ep;
+    private String p;
+    private String p2;
+    private String d;
+    private String ep;
 
-    String homePhoneForUpdate;
-    String mobilePhoneForUpdate;
-    String winterPhoneForUpdate;
-    String emerPhoneForUpdate;
+    private String homePhoneForUpdate;
+    private String mobilePhoneForUpdate;
+    private String winterPhoneForUpdate;
+    private String emerPhoneForUpdate;
 
-    String rosterPosition;
+    private String rosterPosition;
 
-    Button updateButton;
+    private Button updateButton;
 
-    LinearLayout myGroups;
+    private LinearLayout myGroups;
 
-    SharedPreferences sharedPreferencesVisited;
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferencesVisited;
+    private SharedPreferences sharedPreferences;
 
-    SharedPreferences.Editor editorVisited;
+    private SharedPreferences.Editor editorVisited;
     SharedPreferences.Editor editor;
-    ScrollView scrollView;
+    private ScrollView scrollView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,6 +169,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
             if ( fromMyInfo ) {
 
+                assert bar != null;
                 bar.setTitle("Update MyInfo");
                 myGroups.setVisibility(View.GONE);
                 textViewStatus.setVisibility(View.GONE);
@@ -180,6 +181,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 rosterObject = gson.fromJson(bundle.getString("ROSTEROBJECTTOUPDATE"), RosterObject.class);
                 rosterPosition = String.valueOf(bundle.getInt("ROSTERPOSITION"));
+                assert bar != null;
                 bar.setTitle("Android Admin Update");
                 myGroups.setVisibility(View.VISIBLE);
                 textViewStatus.setVisibility(View.VISIBLE);
@@ -418,7 +420,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
 
 
-        query = new ParseQuery<ParseObject>(installation.getString("AssociationCode")).fromLocalDatastore();
+        query = new ParseQuery<>(installation.getString("AssociationCode")).fromLocalDatastore();
 
 
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -517,7 +519,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
 
 
-                            ArrayList<String> rosterArrayForSort = new ArrayList<String>();
+                            ArrayList<String> rosterArrayForSort = new ArrayList<>();
 
 
                             for (String member : rosterFileArray) {
@@ -569,11 +571,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
                             Calendar c = Calendar.getInstance();
                             System.out.println("Current time => " + c.getTime());
 
-                            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy, hh:mm a");
+                            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy, h:mm a");
                             final String formattedDate = df.format(c.getTime());
 
 
-                            query = new ParseQuery<ParseObject>(ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
+                            query = new ParseQuery<>(ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
 
                             query.findInBackground(new FindCallback<ParseObject>() {
                                 @Override
@@ -715,7 +717,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
                             Calendar c = Calendar.getInstance();
                             System.out.println("Current time => " + c.getTime());
-                            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy, hh:mm a");
+                            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy, h:mm a");
                             final String formattedDate = df.format(c.getTime());
 
                             byte[] data = rosterFileUpdate.getBytes();
@@ -857,7 +859,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         }
     }
 
-    public void hideSoftKeyboard() {
+    private void hideSoftKeyboard() {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);

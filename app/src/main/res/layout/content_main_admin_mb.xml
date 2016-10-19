@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".calendar.CalendarActivity"
+    tools:context=".tools.AdminMBRecyclerViewActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="false"
-    android:clickable="false"
-    android:id="@+id/content_main_mb"
+    android:id="@+id/content_main_admin_mb"
     android:orientation="vertical"
 
     >
 
 
-    <fragment
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="comapps.com.myassociationhoa.tools.AdminMBFragment"
-        android:id="@+id/adminMBActivityFragment"
-        tools:layout="@layout/content_main_admin_mb_row" />
+        android:id="@+id/admin_mb_recycler_view"
+        android:background="@drawable/cork_bg" />
 
 
 
-</FrameLayout>
+</RelativeLayout>

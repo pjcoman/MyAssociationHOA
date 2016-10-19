@@ -3,13 +3,18 @@ package comapps.com.myassociationhoa.service_providers;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,7 +45,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private ListView listview;
-    private ArrayList<String> providerTypes = new ArrayList<String>();
+    private final ArrayList<String> providerTypes = new ArrayList<>();
     private Integer providerSize;
     private List<ServiceProviderObject> providerList = null;
     private ServiceProviderAdapter serviceProviderAdapter;
@@ -61,6 +66,8 @@ public class ServiceProviderActivity extends AppCompatActivity {
                 .setDefaultFontPath("fonts/palabi.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
+
+        setupWindowAnimations();
 
 
         setContentView(R.layout.content_main_providers);
@@ -116,7 +123,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
 
 
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, providerTypes);
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, R.layout.textviewlistserviceproviders, android.R.id.text1, providerTypes);
 
         listAdapter.sort(new Comparator<String>() {
             @Override
@@ -231,7 +238,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
 
 
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
 
                 }
@@ -419,6 +426,27 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
 
     }
+
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+
+
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.RIGHT);
+        getWindow().setEnterTransition(slideTransition);
+
+
+        Slide slideTransitionExit = new Slide();
+        slideTransitionExit.setSlideEdge(Gravity.RIGHT);
+        getWindow().setExitTransition(slideTransitionExit);
+
+
+
+    }
+
 
 
 

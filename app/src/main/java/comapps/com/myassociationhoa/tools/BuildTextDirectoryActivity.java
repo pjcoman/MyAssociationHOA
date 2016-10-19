@@ -38,25 +38,25 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class BuildTextDirectoryActivity extends AppCompatActivity {
 
     private static final String TAG = "BUILDTEXTDIRECTORY";
-    public static final String MYPREFERENCES = "MyPrefs";
-    public static final String VISITEDPREFERENCES = "VisitedPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
     private RosterObject rosterObject;
     private ArrayList<RosterObject> rosterObjects;
 
-    ParseQuery<ParseObject> query;
+    private ParseQuery<ParseObject> query;
 
-    String rosterFileString = "";
-    String[] rosterFileArray;
-    String rosterFileToEmail = "";
+    private String rosterFileString = "";
+    private String[] rosterFileArray;
+    private String rosterFileToEmail = "";
 
 
-    File directoryToEmail;
+    private File directoryToEmail;
 
-    Button processButton;
+    private Button processButton;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences sharedPreferencesVisited;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferencesVisited;
     SharedPreferences.Editor editor;
     SharedPreferences.Editor editorVisited;
 
@@ -92,7 +92,7 @@ public class BuildTextDirectoryActivity extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout(width * 1, height * 1);
+        getWindow().setLayout(width, height);
 
         processButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +100,7 @@ public class BuildTextDirectoryActivity extends AppCompatActivity {
 
                 final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -127,13 +127,12 @@ public class BuildTextDirectoryActivity extends AppCompatActivity {
 
                         rosterFileArray = rosterFileString.split("\\|", -1);
 
-                        rosterObjects = new ArrayList<RosterObject>();
+                        rosterObjects = new ArrayList<>();
 
-                        for (int i = 0; i < rosterFileArray.length; i++) {
+                        for (String aRosterFileArray : rosterFileArray) {
 
 
-                            String[] rosterFields = rosterFileArray[i].split("\\^", -1);
-
+                            String[] rosterFields = aRosterFileArray.split("\\^", -1);
 
 
                             rosterObject = new RosterObject();
@@ -167,9 +166,7 @@ public class BuildTextDirectoryActivity extends AppCompatActivity {
                             rosterObject.setGroups(rosterFields[25]);
 
 
-
                             rosterObjects.add(rosterObject);
-
 
 
                         }

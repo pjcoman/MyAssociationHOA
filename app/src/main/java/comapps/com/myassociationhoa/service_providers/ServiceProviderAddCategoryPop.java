@@ -47,14 +47,14 @@ public class ServiceProviderAddCategoryPop extends AppCompatActivity {
     private Button cancelButton;
     private Button okButton;
 
-    Integer providerSize;
+    private Integer providerSize;
 
-    ParseQuery<ParseObject> query;
-    String providerFileString;
+    private ParseQuery<ParseObject> query;
+    private String providerFileString;
 
 
     private SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
 
     private ParseInstallation installation;
 
@@ -142,7 +142,7 @@ public class ServiceProviderAddCategoryPop extends AppCompatActivity {
 
 
 
-                query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -231,7 +231,7 @@ public class ServiceProviderAddCategoryPop extends AppCompatActivity {
                         ParseFile ProviderFile = new ParseFile("Provider.txt", data);
 
                         Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
                         String strDate = sdf.format(c.getTime());
 
 

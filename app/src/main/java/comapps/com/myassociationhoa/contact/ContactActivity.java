@@ -3,12 +3,18 @@ package comapps.com.myassociationhoa.contact;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.view.MotionEvent;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,16 +44,21 @@ public class ContactActivity extends AppCompatActivity {
 
     final String phone_number_EwingServices = "tel:9725232357";
 
+    GestureDetectorCompat mDetector;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setupWindowAnimations();
 
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/palabi.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
+
 
         setContentView(R.layout.content_main_contacts);
 
@@ -75,12 +86,12 @@ public class ContactActivity extends AppCompatActivity {
         Button b7 = (Button) findViewById(R.id.button7);
         Button b8 = (Button) findViewById(R.id.button8);
 
-        b1.setText(sharedpreferences.getString("defaultRecord(6)", ""));
-        b2.setText(sharedpreferences.getString("defaultRecord(7)", ""));
-        b3.setText(sharedpreferences.getString("defaultRecord(8)", ""));
-        b4.setText(sharedpreferences.getString("defaultRecord(9)", ""));
-        b5.setText(sharedpreferences.getString("defaultRecord(10)", ""));
-        b6.setText(sharedpreferences.getString("defaultRecord(11)", ""));
+        b1.setText(abbreviateText(sharedpreferences.getString("defaultRecord(6)", "").toLowerCase()));
+        b2.setText(abbreviateText(sharedpreferences.getString("defaultRecord(7)", "").toLowerCase()));
+        b3.setText(abbreviateText(sharedpreferences.getString("defaultRecord(8)", "").toLowerCase()));
+        b4.setText(abbreviateText(sharedpreferences.getString("defaultRecord(9)", "").toLowerCase()));
+        b5.setText(abbreviateText(sharedpreferences.getString("defaultRecord(10)", "").toLowerCase()));
+        b6.setText(abbreviateText(sharedpreferences.getString("defaultRecord(11)", "").toLowerCase()));
         b7.setText(sharedpreferences.getString("defaultRecord(26)", ""));
         b8.setText(sharedpreferences.getString("defaultRecord(28)", ""));
 
@@ -100,6 +111,8 @@ public class ContactActivity extends AppCompatActivity {
         phone_number_b6 = "tel:" + sharedpreferences.getString("defaultRecord(17)", "");
         phone_number_b7 = "tel:" + sharedpreferences.getString("defaultRecord(27)", "");
         phone_number_b8 = "tel:" + sharedpreferences.getString("defaultRecord(29)", "");
+
+
 
 
     }
@@ -137,7 +150,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button1Dial(View view) {
+    public void button1Dial() {
 
         // TODO Auto-generated method stub
 
@@ -154,7 +167,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button2Dial(View view) {
+    public void button2Dial() {
 
         // TODO Auto-generated method stub
 
@@ -171,7 +184,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button3Dial(View view) {
+    public void button3Dial() {
 
         // TODO Auto-generated method stub
 
@@ -188,7 +201,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button4Dial(View view) {
+    public void button4Dial() {
 
         // TODO Auto-generated method stub
 
@@ -205,7 +218,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button5Dial(View view) {
+    public void button5Dial() {
 
         // TODO Auto-generated method stub
 
@@ -222,7 +235,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button6Dial(View view) {
+    public void button6Dial() {
 
         // TODO Auto-generated method stub
 
@@ -239,7 +252,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button7Dial(View view) {
+    public void button7Dial() {
 
         // TODO Auto-generated method stub
 
@@ -256,7 +269,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button8Dial(View view) {
+    public void button8Dial() {
 
         // TODO Auto-generated method stub
 
@@ -273,15 +286,70 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+
+
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.RIGHT);
+        getWindow().setEnterTransition(slideTransition);
+
+
+        Slide slideTransitionExit = new Slide();
+        slideTransitionExit.setSlideEdge(Gravity.RIGHT);
+        getWindow().setExitTransition(slideTransitionExit);
+
+
+
+    }
+
+
+    public String abbreviateText(String buttonText) {
+
+        switch (buttonText) {
+            case "administration":
+                buttonText = "ADMIN";
+                break;
+            case "fire department":
+                buttonText = "FIRE";
+                break;
+            case "police department":
+                buttonText = "POLICE";
+                break;
+            case "maintenance":
+                buttonText = "MAINT.";
+                break;
+            case "association":
+                buttonText = "ASSOC.";
+                break;
+        }
+
+
+        return buttonText;
+    }
+
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mDetector.onTouchEvent(event);
+
+        return super.onTouchEvent(event);
+    }
+
+
+
+
+
     @Override
     protected void attachBaseContext(Context newBase) {
 
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
 
     }
-
-
-
 
 
 

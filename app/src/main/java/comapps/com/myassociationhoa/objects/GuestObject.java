@@ -178,6 +178,26 @@ public class GuestObject {
                 '}';
 
     }
+
+    public String toStringForDelete() {
+        return guestOwner + "^" +
+                guestOwnerMemberNumber + "^" +
+                guestType + "^" +
+                guestStartdate + "^" +
+                guestEnddate + "^" +
+                mondayAccess + "^" +
+                tuesdayAccess + "^" +
+                wednesdayAccess + "^" +
+                thursdayAccess + "^" +
+                fridayAccess + "^" +
+                saturdayAccess + "^" +
+                sundayAccess + "^" +
+                guestDescription + "^" +
+                guestName + "^" +
+                ownerContactNumberType + "^" +
+                ownerContactNumber + "|";
+
+    }
 }
 
 

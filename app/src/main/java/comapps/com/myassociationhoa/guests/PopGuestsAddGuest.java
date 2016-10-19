@@ -49,60 +49,60 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "POPADDGUEST";
-    public static final String MYPREFERENCES = "MyPrefs";
-    public static final String VISITEDPREFERENCES = "VisitedPrefs";
+    private static final String MYPREFERENCES = "MyPrefs";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
-    ParseQuery<ParseObject> query;
-    String[] guestFileArray;
-    String guestFileString = "";
-    String guestFileUpdate = "";
+    private ParseQuery<ParseObject> query;
+    private String[] guestFileArray;
+    private String guestFileString = "";
+    private String guestFileUpdate = "";
 
-    EditText etGuestName;
+    private EditText etGuestName;
 
-    Button guestType;
-    Button notifyBy;
+    private Button guestType;
+    private Button notifyBy;
 
-    EditText etStartDate;
-    EditText etEndDate;
+    private EditText etStartDate;
+    private EditText etEndDate;
 
     private DatePickerDialog fromDatePickerDialog;
     private DatePickerDialog toDatePickerDialog;
 
     private SimpleDateFormat dateFormatter;
 
-    ToggleButton tbMonday;
-    ToggleButton tbTuesday;
-    ToggleButton tbWednesday;
-    ToggleButton tbThursday;
-    ToggleButton tbFriday;
-    ToggleButton tbSaturday;
-    ToggleButton tbSunday;
+    private ToggleButton tbMonday;
+    private ToggleButton tbTuesday;
+    private ToggleButton tbWednesday;
+    private ToggleButton tbThursday;
+    private ToggleButton tbFriday;
+    private ToggleButton tbSaturday;
+    private ToggleButton tbSunday;
 
-    EditText etGuesNotes;
+    private EditText etGuesNotes;
 
-    LinearLayout datesLayout;
+    private LinearLayout datesLayout;
 
-    Button saveButton;
+    private Button saveButton;
 
-    SharedPreferences sharedPreferencesVisited;
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferencesVisited;
+    private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    SharedPreferences.Editor editorVisited;
+    private SharedPreferences.Editor editorVisited;
 
     TextWatcher tw;
     
-    Bundle bundle;
+    private Bundle bundle;
     
-    Boolean forEdit = false;
-    Boolean forDelete = false;
-    String guestPassed;
+    private Boolean forEdit = false;
+    private Boolean forDelete = false;
+    private String guestPassed;
     
-    GuestObject guestObject;
+    private GuestObject guestObject;
 
-    String startDate;
-    String endDate;
+    private String startDate;
+    private String endDate;
 
-    TextView title;
+    private TextView title;
     
 
 
@@ -218,6 +218,7 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
 
             etGuesNotes.setText(guestObject.getGuestDescription());
 
+            assert bar != null;
             bar.setTitle("Update Guest");
             title.setText("Update Guest");
 
@@ -273,6 +274,7 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
             saveButton.setText("DELETE");
             saveButton.setTextColor(Color.RED);
 
+            assert bar != null;
             bar.setTitle("Delete Guest");
 
         }
@@ -287,7 +289,7 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout(width * 1, height * 1);
+        getWindow().setLayout(width, height);
 
         guestType.setText("Permanent");
         datesLayout.setVisibility(View.GONE);
@@ -361,7 +363,7 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
 
                 final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-                query = new ParseQuery<ParseObject>(installation.getString("AssociationCode"));
+                query = new ParseQuery<>(installation.getString("AssociationCode"));
 
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -388,7 +390,7 @@ public class PopGuestsAddGuest extends AppCompatActivity implements View.OnClick
 
 
                         Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, H:mm a");
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                         String strDate = sdf.format(c.getTime());
 
