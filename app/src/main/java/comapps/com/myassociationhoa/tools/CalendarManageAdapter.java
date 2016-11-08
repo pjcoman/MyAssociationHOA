@@ -1,8 +1,10 @@
 package comapps.com.myassociationhoa.tools;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,6 +33,7 @@ import comapps.com.myassociationhoa.objects.CalendarObject;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 class CalendarManageAdapter extends ArrayAdapter<CalendarObject> {
 
     private static final String TAG = "CALENDARMANAGERADAPTER";
@@ -62,8 +65,8 @@ class CalendarManageAdapter extends ArrayAdapter<CalendarObject> {
     private String startDateString;
     private String endDateString;
 
-    private ArrayList<CalendarObject> events;
-    Context context;
+    private final ArrayList<CalendarObject> events;
+    private final Context context;
 
 
 
@@ -163,95 +166,135 @@ class CalendarManageAdapter extends ArrayAdapter<CalendarObject> {
 
                 Log.d(TAG, "delete button clicked is " + position);
 
-                Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
-                SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
-                String strDate = sdf.format(c.getTime());
 
-                final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                ParseQuery query = new ParseQuery<>(installation.getString("AssociationCode")).fromLocalDatastore();
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
+                // Setting Dialog Title
+                alertDialog.setTitle("Delete Evemt Confirm");
 
+                // Setting Dialog Message
+                alertDialog.setMessage("Delete this event?");
 
-                String eventFileString = "";
+                // Setting Icon to Dialog
+                //alertDialog.setIcon(R.drawable.delete);
 
-
-                try {
-                    ParseFile eventFile = query.getFirst().getParseFile("AdminEventFile");
-                    byte[] eventFileData = eventFile.getData();
-
-
-                    eventFileString = new String(eventFileData, "UTF-8");
-
-                } catch (com.parse.ParseException | UnsupportedEncodingException e1) {
-                    e1.printStackTrace();
-
-                }
-
-                Log.d(TAG, "eventFileString ----> " + eventFileString);
-
-                eventFileString = eventFileString + "|";
-
-                Log.d(TAG, "calendarObject ---> " + calendarObject.toStringForDelete());
-
-                String eventFileUpdate = eventFileString.replace(calendarObject.toStringForDelete(), "");
-
-                Log.d(TAG, "eventFileForUpdate ---> " + eventFileUpdate);
-
-                if ( eventFileUpdate.substring(eventFileUpdate.length() - 1).equals("|")) {
-
-                    eventFileUpdate = eventFileUpdate.substring(0, eventFileUpdate.length() - 1);
-                }
-
-                Log.d(TAG, "eventFileForUpdate after | removed ---> " + eventFileUpdate);
-
-                byte[] data = eventFileUpdate.getBytes();
-                ParseFile eventFile = new ParseFile("EventFile.txt", data);
-
-
-                try {
-                    eventFile.save();
-                } catch (com.parse.ParseException e1) {
-                    e1.printStackTrace();
-                }
-
-
-                try {
-                    query.getFirst().put("AdminEventDate", strDate);
-                    query.getFirst().put("AdminEventFile", eventFile);
-                } catch (com.parse.ParseException e) {
-                    e.printStackTrace();
-                }
-
-
-                try {
-                    query.getFirst().save();
-                    query.getFirst().saveEventually();
-                } catch (com.parse.ParseException e1) {
-                    e1.printStackTrace();
-
-                }
+                // Setting Positive "Yes" Button
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
 
 
 
 
+                        Calendar c = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
+                        SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
+                        String strDate = sdf.format(c.getTime());
 
-                Toast toast = Toast.makeText(getContext(), calendarObject.getCalendarText() +
-                        " deleted.", Toast.LENGTH_LONG);
-
-
-
-
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+                        final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                        ParseQuery query = new ParseQuery<>(installation.getString("AssociationCode")).fromLocalDatastore();
 
 
 
-                AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getContext());
-                remoteDataTaskClass.execute();
+                        String eventFileString = "";
 
-                events.remove(position);
-                notifyDataSetChanged();
+
+                        try {
+                            ParseFile eventFile = query.getFirst().getParseFile("AdminEventFile");
+                            byte[] eventFileData = eventFile.getData();
+
+
+                            eventFileString = new String(eventFileData, "UTF-8");
+
+                        } catch (com.parse.ParseException | UnsupportedEncodingException e1) {
+                            e1.printStackTrace();
+
+                        }
+
+                        Log.d(TAG, "eventFileString ----> " + eventFileString);
+
+                        eventFileString = eventFileString + "|";
+
+                        Log.d(TAG, "calendarObject ---> " + calendarObject.toStringForDelete());
+
+                        String eventFileUpdate = eventFileString.replace(calendarObject.toStringForDelete(), "");
+
+                        Log.d(TAG, "eventFileForUpdate ---> " + eventFileUpdate);
+
+                        if ( eventFileUpdate.substring(eventFileUpdate.length() - 1).equals("|")) {
+
+                            eventFileUpdate = eventFileUpdate.substring(0, eventFileUpdate.length() - 1);
+                        }
+
+                        Log.d(TAG, "eventFileForUpdate after | removed ---> " + eventFileUpdate);
+
+                        byte[] data = eventFileUpdate.getBytes();
+                        ParseFile eventFile = new ParseFile("EventFile.txt", data);
+
+
+                        try {
+                            eventFile.save();
+                        } catch (com.parse.ParseException e1) {
+                            e1.printStackTrace();
+                        }
+
+
+                        try {
+                            query.getFirst().put("AdminEventDate", strDate);
+                            query.getFirst().put("AdminEventFile", eventFile);
+                        } catch (com.parse.ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        try {
+                            query.getFirst().save();
+                            query.getFirst().saveEventually();
+                        } catch (com.parse.ParseException e1) {
+                            e1.printStackTrace();
+
+                        }
+
+
+
+
+
+                        Toast toast = Toast.makeText(getContext(), calendarObject.getCalendarText() +
+                                " deleted.", Toast.LENGTH_LONG);
+
+
+
+
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+
+
+
+                        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getContext());
+                        remoteDataTaskClass.execute();
+
+                        events.remove(position);
+                        notifyDataSetChanged();
+
+
+
+
+                    }
+                });
+
+                // Setting Negative "NO" Button
+                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Write your code here to invoke NO event
+                        // Toast.makeText(getApplicationContext(), "You clicked on NO", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    }
+                });
+
+                // Showing Alert Message
+                alertDialog.show();
+
+
+
 
 
 

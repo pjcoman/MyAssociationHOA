@@ -24,7 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.parse.FunctionCallback;
 import com.parse.GetCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
@@ -36,6 +38,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import comapps.com.myassociationhoa.objects.MemberGroupObject;
@@ -50,6 +53,7 @@ public class AdminPushActivity extends AppCompatActivity {
 
     private static final String TAG = "PUSHACTIVITY";
     private static final String MYPREFERENCES = "MyPrefs";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
     private ParseQuery<ParseObject> query;
     private final ArrayList<String> uniqueGroupNames = new ArrayList<>();
@@ -66,6 +70,7 @@ public class AdminPushActivity extends AppCompatActivity {
     private TextView emailOrPush;
     private TextView characterCount;
     private EditText pushMessage;
+    private String pushMessageString;
     private Button sendButton;
     private Button groupsButton;
 
@@ -77,7 +82,7 @@ public class AdminPushActivity extends AppCompatActivity {
 
 
     private SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferencesVisited;
 
     private int rosterObjectSize;
     private int i = 0;
@@ -124,6 +129,7 @@ public class AdminPushActivity extends AppCompatActivity {
 
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
 
         rosterObjectSize = sharedPreferences.getInt("rosterSize", 0);
 
@@ -273,115 +279,165 @@ public class AdminPushActivity extends AppCompatActivity {
 
 
                 if (messageType.equals("PUSH")) {
-
+//*************************************************************************************text message************************************************************************************************
 
                     Calendar c = Calendar.getInstance();
-                    SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy h:mm a", java.util.Locale.getDefault());
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d h:mma", java.util.Locale.getDefault());
                     SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d", java.util.Locale.getDefault());
-                    SimpleDateFormat month = new SimpleDateFormat("M", java.util.Locale.getDefault());
+                    SimpleDateFormat month = new SimpleDateFormat("MMM", java.util.Locale.getDefault());
                     final String strDate = sdf.format(c.getTime());
                     String strDate2 = sdf2.format(c.getTime());
                     final String stringMonth = month.format(c.getTime());
 
                     installation = ParseInstallation.getCurrentInstallation();
-
                     query = new ParseQuery<>(installation.getString("AssociationCode"));
                     query.getFirstInBackground(new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject object, ParseException e) {
+                                                   @Override
+                                                   public void done(ParseObject object, ParseException e) {
 
-                            if (groupsButton.getText().toString().toLowerCase().equals("everyone")) {
+                                                       pushMessageString = "By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
+                                                               installation.getString("memberName") + "\n" + pushMessage.getText();
 
-                                Log.d(TAG, "groupsButton text ----> " + groupsButton.getText().toString().toLowerCase());
+                                                       Log.d(TAG, "local parse server ----> " + sharedPreferencesVisited.getBoolean("PARSESERVER", false));
 
-                                ParseQuery pushQuery = ParseInstallation.getQuery();
-                                pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
-
-                                ParsePush push = new ParsePush();
-                                push.setQuery(pushQuery); // Set our Installation query
-
-                                push.setMessage("By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
-                                        installation.getString("memberName") + "\n" + pushMessage.getText());
-
-                                push.sendInBackground();
+                                                       if (sharedPreferencesVisited.getBoolean("PARSESERVER", false)) {
 
 
-                            } else {
+
+                                                           if (groupsButton.getText().toString().toLowerCase().equals("everyone")) {
+
+                                                               HashMap<String, Object> params = new HashMap<String, Object>();
+                                                               params.put("AssociationCode", installation.getString("AssociationCode"));
+                                                               params.put("MemberType", "");
+                                                               params.put("Channel", "");
+                                                               params.put("Message", pushMessageString);
+
+                                                               ParseCloud.callFunctionInBackground("SendPush", params, new FunctionCallback<Object>() {
+                                                                   @Override
+                                                                   public void done(Object object, ParseException e) {
+                                                                       if (e == null) {
+
+                                                                           Toast.makeText(getBaseContext(), "Push sent.", Toast.LENGTH_LONG).show();
+                                                                           finish();
+                                                                       }
+
+                                                                   }
+
+                                                               });
 
 
-                                for (MemberGroupObject memberGroupObject : memberGroupObjects) {
+                                                           } else {
 
-                                    Log.d(TAG, "groups button lowercase ----> " + groupsButton.getText().toString().toLowerCase());
-                                    Log.d(TAG, "member group lowercase ----> " + memberGroupObject.getMemberGroupObject_Group().toLowerCase());
+                                                               String channelPreClean = groupsButton.getText().toString();
+                                                               int dashPosition = channelPreClean.indexOf("-");
+                                                               String channel = channelPreClean.substring(0, dashPosition - 1);
 
-                                    String channelPreClean = groupsButton.getText().toString().toLowerCase();
-                                    int dashPosition = channelPreClean.indexOf("-");
-                                    String channel = channelPreClean.substring(0, dashPosition - 1);
+                                                               HashMap<String, Object> params = new HashMap<String, Object>();
+                                                               params.put("AssociationCode", installation.getString("AssociationCode"));
+                                                               params.put("MemberType", "");
+                                                               params.put("Channel", channel);
+                                                               params.put("Message", pushMessageString);
 
-                                    if (memberGroupObject.getMemberGroupObject_Group().toLowerCase().equals(channel)) {
+                                                               ParseCloud.callFunctionInBackground("SendPush", params, new FunctionCallback<Object>() {
+                                                                   @Override
+                                                                   public void done(Object object, ParseException e) {
+                                                                       if (e == null) {
 
-                                        Log.d(TAG, " memberGroupObject.getMemberGroupObject_Group().toLowerCase() ----> " + memberGroupObject.getMemberGroupObject_Group().toLowerCase());
-                                        Log.d(TAG, " buttonGroup to lowercase ----> " + channel);
-                                        Log.d(TAG, " group member memberNumber ----> " + memberGroupObject.getMemberGroupObject_MemberNumber());
+                                                                           Toast.makeText(getBaseContext(), "Push sent.", Toast.LENGTH_LONG).show();
+                                                                           finish();
+                                                                       }
 
-                                        ParseQuery pushQuery = ParseInstallation.getQuery();
-                                        pushQuery.whereEqualTo("memberNumber", memberGroupObject.getMemberGroupObject_MemberNumber());
-
-                                        ParsePush push = new ParsePush();
-                                        push.setQuery(pushQuery); // Set our Installation query
-
-                                        push.setMessage("By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
-                                                installation.getString("memberName") + "\n" + pushMessage.getText());
-
-                                        push.sendInBackground();
+                                                                   }
 
 
-                                    }
-
-                                }
-
-                                ParseFile pushFile = object.getParseFile("PushFile");
-
-                                try {
-                                    byte[] file = pushFile.getData();
-                                    pushFileString = new String(file, "UTF-8");
-                                } catch (ParseException | UnsupportedEncodingException e1) {
-                                    e1.printStackTrace();
-                                }
-
-                                Log.d(TAG, "existing push notifications --->" + pushFileString);
-
-                                String pushFileUpdate = pushFileString + "|" + stringMonth + "^" + installation.getString("AssociationCode") + "^" + strDate
-                                        + "^" + "By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
-                                        installation.getString("memberName") + "\n" + pushMessage.getText();
-
-                                pushFileUpdate = pushFileUpdate.trim();
-
-                                byte[] pushData = pushFileUpdate.getBytes();
-                                pushFile = new ParseFile("Push.txt", pushData);
-
-                                object.put("PushFile", pushFile);
-                                try {
-                                    object.save();
-                                } catch (ParseException e1) {
-                                    e1.printStackTrace();
-                                    object.saveEventually();
-                                }
+                                                               });
+                                                           }
 
 
-                                AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
-                                remoteDataTaskClass.execute();
 
 
-                            }
 
-                        }
-                    });
+                                                       } else {
 
-                    Toast.makeText(getBaseContext(), "Push sent.", Toast.LENGTH_LONG).show();
 
-                    finish();
 
+                                                           if (groupsButton.getText().toString().toLowerCase().equals("everyone")) {
+
+                                                               Log.d(TAG, "groupsButton text ----> " + groupsButton.getText().toString().toLowerCase());
+
+                                                               ParseQuery pushQuery = ParseInstallation.getQuery();
+                                                               pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
+
+                                                               ParsePush push = new ParsePush();
+                                                               push.setQuery(pushQuery); // Set our Installation query
+
+                                                               push.setMessage("By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
+                                                                       installation.getString("memberName") + "\n" + pushMessage.getText());
+
+                                                               push.sendInBackground();
+
+
+
+
+                                                           } else {
+
+                                                               Log.d(TAG, "groups button lowercase ----> " + groupsButton.getText().toString().toLowerCase());
+                                                               Log.d(TAG, "member group lowercase ----> " + memberGroupObject.getMemberGroupObject_Group().toLowerCase());
+
+                                                               String channelPreClean = groupsButton.getText().toString().toLowerCase();
+                                                               int dashPosition = channelPreClean.indexOf("-");
+                                                               String channel = channelPreClean.substring(0, dashPosition - 1);
+
+
+                                                               for (MemberGroupObject memberGroupObject : memberGroupObjects) {
+
+
+                                                                   if (memberGroupObject.getMemberGroupObject_Group().toLowerCase().equals(channel)) {
+
+                                                                       Log.d(TAG, " memberGroupObject.getMemberGroupObject_Group().toLowerCase() ----> " + memberGroupObject.getMemberGroupObject_Group().toLowerCase());
+                                                                       Log.d(TAG, " buttonGroup to lowercase ----> " + channel);
+                                                                       Log.d(TAG, " group member memberNumber ----> " + memberGroupObject.getMemberGroupObject_MemberNumber());
+
+                                                                       ParseQuery pushQuery = ParseInstallation.getQuery();
+                                                                       pushQuery.whereEqualTo("memberNumber", memberGroupObject.getMemberGroupObject_MemberNumber());
+
+                                                                       ParsePush push = new ParsePush();
+                                                                       push.setQuery(pushQuery); // Set our Installation query
+
+                                                                       push.setMessage("By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
+                                                                               installation.getString("memberName") + "\n" + pushMessage.getText());
+
+                                                                       push.sendInBackground();
+
+
+                                                                   }
+
+
+                                                               }
+
+
+                                                           }
+
+
+
+
+
+                                                       }
+
+                                                       addToPushHistory(object, stringMonth, strDate);
+
+                                                       finish();
+
+                                                   }
+                                               });
+
+
+
+
+
+
+
+//*****************************************************************************************email**********************************************************************************************
 
                 } else {
 
@@ -389,7 +445,7 @@ public class AdminPushActivity extends AppCompatActivity {
 
 
 
-                    List<String> addressesList = new ArrayList<String>();
+                    List<String> addressList = new ArrayList<String>();
 
 
 
@@ -403,10 +459,24 @@ public class AdminPushActivity extends AppCompatActivity {
 
                         rosterObject.getGroups();
 
-                        if ( rosterObject.getGroups().toLowerCase().contains(groupsButton.getText().toString().toLowerCase()) ||
+                        String groupsButtonText = groupsButton.getText().toString();
+
+                        int dashIndex = groupsButtonText.indexOf("-");
+
+                        if (dashIndex != -1)
+                        {
+                            groupsButtonText = groupsButtonText.substring(0, dashIndex).trim();
+                        }
+
+                        Log.d(TAG, "groupsButton text ----> " + groupsButtonText);
+                        Log.d(TAG, "rosterObject groups ----> " + rosterObject.getGroups().toLowerCase());
+
+
+
+                        if ( rosterObject.getGroups().toLowerCase().contains(groupsButtonText.toLowerCase()) ||
                                 groupsButton.getText().toString().toLowerCase().equals("everyone")) {
 
-                            addressesList.add(rosterObject.getEmail());
+                            addressList.add(rosterObject.getEmail());
 
                         }
 
@@ -414,8 +484,8 @@ public class AdminPushActivity extends AppCompatActivity {
 
                     }
 
-                    String[] addresses = new String[addressesList.size()];
-                    addressesList.toArray(addresses);
+                    String[] addresses = new String[addressList.size()];
+                    addressList.toArray(addresses);
 
 
                     Intent intentSendEmail = new Intent(android.content.Intent.ACTION_SEND);
@@ -526,6 +596,48 @@ public class AdminPushActivity extends AppCompatActivity {
         Slide slideTransitionExit = new Slide();
         slideTransitionExit.setSlideEdge(Gravity.RIGHT);
         getWindow().setExitTransition(slideTransitionExit);
+
+
+
+    }
+
+    private void addToPushHistory(ParseObject o, String m, String d) {
+
+        ParseFile pushFile = o.getParseFile("PushFile");
+
+        try {
+            byte[] file = pushFile.getData();
+            pushFileString = new String(file, "UTF-8");
+        } catch (ParseException | UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
+
+        Log.d(TAG, "existing push notifications --->" + pushFileString);
+
+        Log.d(TAG, "push to be added ----> " + "|" + m + "^" + installation.getString("AssociationCode") + "^" + d
+                + "^" + "By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
+                installation.getString("memberName") + "\n" + pushMessage.getText());
+
+        String pushFileUpdate = pushFileString + "|" + m + "^" + installation.getString("AssociationCode") + "^" + d
+                + "^" + "By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
+                installation.getString("memberName") + "\n" + pushMessage.getText();
+
+        pushFileUpdate = pushFileUpdate.trim();
+
+        byte[] pushData = pushFileUpdate.getBytes();
+        pushFile = new ParseFile("Push.txt", pushData);
+
+        o.put("PushFile", pushFile);
+        try {
+            o.save();
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+            o.saveEventually();
+        }
+
+
+        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+        remoteDataTaskClass.execute();
 
 
 

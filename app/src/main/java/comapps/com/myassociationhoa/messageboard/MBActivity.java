@@ -30,6 +30,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/25/2016.
  */
+@SuppressWarnings("ALL")
 public class MBActivity extends AppCompatActivity {
 
     private static final String TAG = "MBACTIVITY";

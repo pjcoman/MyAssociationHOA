@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Slide;
@@ -31,17 +32,19 @@ import java.util.Calendar;
 import java.util.List;
 
 import comapps.com.myassociationhoa.GuideActivity;
-import comapps.com.myassociationhoa.MainActivity;
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.RemoteDataTaskClass;
+import comapps.com.myassociationhoa.ToolsActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by me on 6/25/2016.
  */
+@SuppressWarnings("ALL")
 public class CalendarManageActivity extends AppCompatActivity {
 
-    private static final String TAG = "CALENDARACTIVITY";
+    private static final String TAG = "CALENDARMANAGEACTIVITY";
     private static final String MYPREFERENCES = "MyPrefs";
 
     private FloatingActionButton mFab;
@@ -116,6 +119,7 @@ public class CalendarManageActivity extends AppCompatActivity {
                 Intent intentAddEvent = new Intent();
                 intentAddEvent.setClass(CalendarManageActivity.this, AddEvent.class);
                 startActivity(intentAddEvent);
+                finish();
             }
         });
 
@@ -130,7 +134,7 @@ public class CalendarManageActivity extends AppCompatActivity {
                     @Override
                     public void done(List<ParseObject> assoc, ParseException e) {
 
-                        ParseFile eventFile = assoc.get(0).getParseFile("EventFile");
+                        ParseFile eventFile = assoc.get(0).getParseFile("AdminEventFile");
                         eventFileArray = null;
 
                         try {
@@ -138,7 +142,7 @@ public class CalendarManageActivity extends AppCompatActivity {
                             try {
                                 eventFileString = new String(file, "UTF-8");
 
-                                Log.d(TAG, "existing events --->" + eventFileString);
+                                Log.d(TAG, "admin file events ---> Android|" + eventFileString);
 
                             } catch (UnsupportedEncodingException e1) {
                                 e1.printStackTrace();
@@ -157,14 +161,9 @@ public class CalendarManageActivity extends AppCompatActivity {
                         SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
                         String strDate = sdf.format(c.getTime());
 
-                        if ( !sharedPreferences.getBoolean("CALENDAR_APPEND", true)) {
 
-                            eventFileUpdate = "Android" + sharedPreferences.getString("NEWCALENDAR","");
+                            eventFileUpdate = eventFileString;
 
-                        } else {
-
-                            eventFileUpdate = eventFileString + sharedPreferences.getString("NEWNEWCALENDAR","");
-                        }
 
 
                         Log.d(TAG, "events FileUpdate --->" + eventFileUpdate);
@@ -182,7 +181,7 @@ public class CalendarManageActivity extends AppCompatActivity {
                         }
 
 
-                        assoc.get(0).put("Eventdate", strDate);
+                      assoc.get(0).put("Eventdate", strDate);
                         assoc.get(0).put("EventFile", eventFile);
 
                        try {
@@ -191,6 +190,9 @@ public class CalendarManageActivity extends AppCompatActivity {
                             e1.printStackTrace();
                         }
 
+                        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+                        remoteDataTaskClass.execute();
+
 
 
                         Toast toast = Toast.makeText(getBaseContext(), "Events updated.", Toast.LENGTH_LONG);
@@ -198,7 +200,7 @@ public class CalendarManageActivity extends AppCompatActivity {
                         toast.show();
 
                         Intent mainActivity = new Intent();
-                        mainActivity.setClass(CalendarManageActivity.this, MainActivity.class);
+                        mainActivity.setClass(CalendarManageActivity.this, ToolsActivity.class);
                         startActivity(mainActivity);
 
 

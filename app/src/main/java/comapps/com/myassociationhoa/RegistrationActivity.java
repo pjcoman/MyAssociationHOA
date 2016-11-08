@@ -41,6 +41,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/25/2016.
  */
+@SuppressWarnings("ALL")
 public class RegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = "REGISTRATIONACTIVITY";

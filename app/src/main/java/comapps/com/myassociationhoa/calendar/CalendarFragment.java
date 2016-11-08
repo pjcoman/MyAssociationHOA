@@ -15,6 +15,7 @@ import comapps.com.myassociationhoa.objects.CalendarObject;
 /**
  * Created by me on 6/22/2016.
  */
+@SuppressWarnings("ALL")
 public class CalendarFragment extends ListFragment {
 
     private static final String TAG = "CALENDARFRAGMENT";

@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
@@ -37,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import comapps.com.myassociationhoa.GuideActivity;
@@ -49,10 +52,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/22/2016.
  */
+@SuppressWarnings("ALL")
 public class MaintenanceActivity extends AppCompatActivity {
 
     private static final String TAG = "SERVICEPROVIDERACTIVITY";
     private static final String MYPREFERENCES = "MyPrefs";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
     private ParseQuery query;
 
@@ -65,6 +70,7 @@ public class MaintenanceActivity extends AppCompatActivity {
     private MaintenanceAdapter maintenanceAdapter;
 
     private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferencesVisited;
     private final ArrayList<String> maintenanceCategories = new ArrayList<>();
     private String[] maintenanceCategoriesAll;
     private final ArrayList<String> maintenanceItemCategories = new ArrayList<>();
@@ -72,6 +78,7 @@ public class MaintenanceActivity extends AppCompatActivity {
 
     private String maintenanceCatString;
     private String maintenanceString;
+    private String pushMessageString;
 
     private EditText etMaintenanceDesc;
     private EditText etMaintenanceNotes;
@@ -117,6 +124,7 @@ public class MaintenanceActivity extends AppCompatActivity {
 
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
 
         android.support.v7.app.ActionBar bar = getSupportActionBar();
 
@@ -347,17 +355,45 @@ public class MaintenanceActivity extends AppCompatActivity {
                                                                                   toast.setGravity(Gravity.CENTER, 0, 0);
                                                                                   toast.show();
 
-                                                                                  ParseQuery pushQuery = ParseInstallation.getQuery();
-                                                                                  pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
-                                                                                  pushQuery.whereEqualTo("MemberType", "Administrator");
+                                                                                  if (sharedPreferencesVisited.getBoolean("PARSESERVER", false)) {
 
-                                                                                  ParsePush push = new ParsePush();
-                                                                                  push.setQuery(pushQuery); // Set our Installation query
+                                                                                      pushMessageString = "Maintenance item for " + buttonItemType.getText() + "\nSubmitted By: "
+                                                                                              + installation.getString("memberName");
 
-                                                                                  push.setMessage("Maintenance item for " + buttonItemType.getText() + "\nSubmitted By: "
-                                                                                          + installation.getString("memberName"));
+                                                                                      HashMap<String, Object> params = new HashMap<String, Object>();
+                                                                                      params.put("AssociationCode", installation.getString("AssociationCode"));
+                                                                                      params.put("MemberType", "Administrator");
+                                                                                      params.put("Channel", "");
+                                                                                      params.put("Message", pushMessageString);
+                                                                                      ParseCloud.callFunctionInBackground("SendPush", params, new FunctionCallback<Object>() {
+                                                                                          @Override
+                                                                                          public void done(Object object, com.parse.ParseException e) {
+                                                                                              if (e == null) {
 
-                                                                                  push.sendInBackground();
+                                                                                              }
+
+                                                                                          }
+
+
+                                                                                      });
+
+                                                                                  } else {
+
+                                                                                      ParseQuery pushQuery = ParseInstallation.getQuery();
+                                                                                      pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
+                                                                                      pushQuery.whereEqualTo("MemberType", "Administrator");
+
+                                                                                      ParsePush push = new ParsePush();
+                                                                                      push.setQuery(pushQuery); // Set our Installation query
+
+                                                                                      push.setMessage("Maintenance item for " + buttonItemType.getText() + "\nSubmitted By: "
+                                                                                              + installation.getString("memberName"));
+
+                                                                                      push.sendInBackground();
+
+                                                                                  }
+
+
 
                                                                                   Intent intentSendEmail = new Intent(android.content.Intent.ACTION_SEND);
                                                                                   intentSendEmail.setType("text/plain");

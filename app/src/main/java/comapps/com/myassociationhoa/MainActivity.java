@@ -41,7 +41,6 @@ import com.parse.SaveCallback;
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean fromImport;
     private Bundle bundle;
 
-    private Date updateDate;
+    private Date update;
     private Date visit;
 
 
@@ -217,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
 
-        visitDate = sharedPreferencesVisited.getString("LASTMBVISIT", "1/1/16, 12:01 AM");
+
 
          Log.d(TAG, "visited before ------> " + sharedPreferences.getBoolean("visitedBefore", false));
         Log.d(TAG, "visited before ------> " + sharedPreferencesVisited.getBoolean("visitedBefore", false));
@@ -405,7 +404,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //handle multiple view click events
             case R.id.button:
                 sendEmail();
-                startActivity(intent);
                 break;
             case R.id.button2:
                 intent.setClass(this, ContactActivity.class);
@@ -650,7 +648,107 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                         ll2.setWeightSum(5);
                                                         ll3.setWeightSum(5);
 
+                                                        // check defaults for pets
 
+                                                        if (sharedPreferences.getString("defaultRecord(34)", "No").equals("No")) {
+                                                            if (b13_pets != null) {
+                                                                b13_pets.setVisibility(View.GONE);
+                                                            } else {
+                                                                b13_pets.setVisibility(View.VISIBLE);
+
+                                                                // check member defaults for pets
+
+                                                                if (sharedPreferences.getString("defaultRecord(35)", "No").equals("No")) {
+                                                                    {
+                                                                        if (b13_pets != null) {
+                                                                            b13_pets.setVisibility(View.GONE);
+                                                                        } else {
+                                                                            b13_pets.setVisibility(View.VISIBLE);
+                                                                        }
+                                                                    }
+
+
+                                                            }
+                                                        }
+
+                                                            // check defaults for auto
+
+                                                            if (sharedPreferences.getString("defaultRecord(36)", "No").equals("No")) {
+                                                                if (b15_autos != null) {
+                                                                    b15_autos.setVisibility(View.GONE);
+                                                                } else {
+                                                                    b15_autos.setVisibility(View.VISIBLE);
+
+                                                                    // check member default for autos
+
+                                                                    if (sharedPreferences.getString("defaultRecord(37)", "No").equals("No")) {
+                                                                        if (b15_autos != null) {
+                                                                            b15_autos.setVisibility(View.GONE);
+                                                                        } else {
+                                                                            b15_autos.setVisibility(View.VISIBLE);
+                                                                        }
+                                                                    }
+
+
+                                                                }
+                                                            }
+
+
+
+
+
+
+
+                                                            // check member default for service providers
+
+                                                            if (sharedPreferences.getString("defaultRecord(43)", "No").equals("No")) {
+                                                                if (b11_serviceproviders != null) {
+                                                                    b11_serviceproviders.setVisibility(View.GONE);
+                                                                } else {
+                                                                    b11_serviceproviders.setVisibility(View.VISIBLE);
+                                                                }
+                                                            }
+
+
+
+                                                            if (sharedPreferences.getString("defaultRecord(46)", "No").equals("No")) {
+                                                                if (b18_maintenance != null) {
+                                                                    b18_maintenance.setVisibility(View.GONE);
+                                                                } else {
+                                                                    b18_maintenance.setVisibility(View.VISIBLE);
+                                                                }
+                                                            }
+
+
+
+
+
+
+                                                        }
+
+                                                        break;
+
+                                                    case "Administrator":
+
+
+
+
+
+                                                        b16_tools.setVisibility(View.VISIBLE);
+                                                        b17_pushemail.setVisibility(View.VISIBLE);
+                                                        b18_maintenance.setVisibility(View.VISIBLE);
+
+                                                        // check default for service providers
+
+                                                        if (sharedPreferences.getString("defaultRecord(43)", "No").equals("No")) {
+                                                            if (b11_serviceproviders != null) {
+                                                                b11_serviceproviders.setVisibility(View.GONE);
+                                                            } else {
+                                                                b11_serviceproviders.setVisibility(View.VISIBLE);
+                                                            }
+                                                        }
+
+                                                        // check defaults for pets
 
                                                         if (sharedPreferences.getString("defaultRecord(34)", "No").equals("No")) {
                                                             if (b13_pets != null) {
@@ -662,12 +760,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                             }
                                                         }
 
-                                                        if (sharedPreferences.getString("defaultRecord(35)", "No").equals("No") && memberType.equals("Member")) {
+                                                        // check defaults for guests
 
-                                                            b13_pets.setVisibility(View.GONE);
-
+                                                        if (sharedPreferences.getString("defaultRecord(39)", "No").equals("No")) {
+                                                            if (b14_guests != null) {
+                                                                b14_guests.setVisibility(View.GONE);
+                                                            } else {
+                                                                b14_guests.setVisibility(View.VISIBLE);
+                                                            }
                                                         }
-
 
 
 
@@ -683,34 +784,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                             }
                                                         }
 
-                                                        if (sharedPreferences.getString("defaultRecord(37)", "No").equals("No") && memberType.equals("Member")) {
-
-                                                            b15_autos.setVisibility(View.GONE);
-
-                                                        }
-
-
-                                                        // check defaults for guests
-
-                                                        if (sharedPreferences.getString("defaultRecord(39)", "No").equals("No")) {
-                                                            if (b14_guests != null) {
-                                                                b14_guests.setVisibility(View.GONE);
-                                                            } else {
-                                                                b14_guests.setVisibility(View.VISIBLE);
-                                                            }
-                                                        }
-
-                                                        // check default for service providers
-
-                                                        if (sharedPreferences.getString("defaultRecord(43)", "No").equals("No")) {
-                                                            if (b11_serviceproviders != null) {
-                                                                b11_serviceproviders.setVisibility(View.GONE);
-                                                            } else {
-                                                                b11_serviceproviders.setVisibility(View.VISIBLE);
-                                                            }
-                                                        }
-
-                                                        // check default for service providers
 
                                                         if (sharedPreferences.getString("defaultRecord(46)", "No").equals("No")) {
                                                             if (b18_maintenance != null) {
@@ -722,25 +795,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-                                                        break;
-                                                    case "Administrator":
-
-
-                                                        b13_pets.setVisibility(View.VISIBLE);
-                                                        b14_guests.setVisibility(View.VISIBLE);
-                                                        b15_autos.setVisibility(View.VISIBLE);
-                                                        b16_tools.setVisibility(View.VISIBLE);
-                                                        b17_pushemail.setVisibility(View.VISIBLE);
-                                                        b18_maintenance.setVisibility(View.VISIBLE);
-
-
 
 
                                                         break;
 
                                                     case "Master":
 
-
+                                                        b1_email.setVisibility(View.VISIBLE);
+                                                        b2_contacts.setVisibility(View.VISIBLE);
+                                                        b3_directory.setVisibility(View.VISIBLE);
+                                                        b4_weather.setVisibility(View.VISIBLE);
+                                                        b5_calendar.setVisibility(View.VISIBLE);
+                                                        b6_budget.setVisibility(View.VISIBLE);
+                                                        b7_documents.setVisibility(View.VISIBLE);
+                                                        b8_messageboard.setVisibility(View.VISIBLE);
+                                                        b9_myinfo.setVisibility(View.VISIBLE);
+                                                        b10_pushhistory.setVisibility(View.VISIBLE);
+                                                        b11_serviceproviders.setVisibility(View.VISIBLE);
+                                                        b12_changeadd.setVisibility(View.VISIBLE);
                                                         b13_pets.setVisibility(View.VISIBLE);
                                                         b14_guests.setVisibility(View.VISIBLE);
                                                         b15_autos.setVisibility(View.VISIBLE);
@@ -790,165 +862,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 formatter = new SimpleDateFormat("M/d/yy, h:mm a");
 
 
-                                                messageDate = associationObject.get(0).getString("MessageDate");
+
+                                                String updateDateString = associationObject.get(0).getString("MessageDate");
 
                                                 try {
-                                                    updateDate = formatter.parse(messageDate);
+                                                    update = formatter.parse(updateDateString);
                                                 } catch (java.text.ParseException e1) {
                                                     e1.printStackTrace();
                                                 }
 
 
 
-                                         //       String visitDate = "10/4/16, 6:00 PM";
+                                                String visitDateString = sharedPreferencesVisited.getString("LASTMBVISIT", "1/1/16, 12:01 AM");
+
 
 
                                                 try {
-                                                    visit = formatter.parse(visitDate);
+                                                    visit = formatter.parse(visitDateString);
                                                 } catch (java.text.ParseException e1) {
                                                     e1.printStackTrace();
                                                 }
 
-                                                if ((updateDate != null ? updateDate.compareTo(visit) : 0) <= 0)
+                                                if ((update != null ? update.compareTo(visit) : 0) <= 0)
                                                 {
-                                                    Log.d(TAG, "visit is greater (more recent) than update *** visit ----> " + visitDate + " update ----> " + updateDate);
+                                                    Log.d(TAG, "visit is greater (more recent) than update *** visit ----> " + visit.toString() + " update ----> " + update.toString());
                                                     redDot.setVisibility(View.GONE);
                                                 } else {
-                                                    Log.d(TAG, "update is greater (more recent) than visit *** visit ----> " + visitDate + " update ----> " + updateDate);
+                                                    Log.d(TAG, "update is greater (more recent) than visit *** visit ----> " + visit.toString() + " update ----> " + update.toString());
                                                     redDot.setVisibility(View.VISIBLE);
                                                 }
 
-//*************************************************************************CALENDAR************************************************************************************
+                                                editorVisited = sharedPreferencesVisited.edit();
+                                                editorVisited.putBoolean("dataInitialDownloadRun", true);
+                                                editorVisited.apply();
 
 
-                                                try {
-                                                    ParseFile eventFile = associationObject.get(0).getParseFile("AdminEventFile");
-
-
-                                                    byte[] eventFileData = new byte[0];
-                                                    try {
-                                                        eventFileData = eventFile.getData();
-                                                    } catch (ParseException e1) {
-                                                        e1.printStackTrace();
-                                                    }
-
-                                                    String eventFileString = null;
-                                                    try {
-                                                        eventFileString = new String(eventFileData, "UTF-8");
-                                                    } catch (UnsupportedEncodingException e2) {
-                                                        e2.printStackTrace();
-                                                    }
-
-
-                                                    Calendar c = Calendar.getInstance();
-                                                    sdf = new SimpleDateFormat("M/d/yy, h:mm a", java.util.Locale.getDefault());
-                                                    String strDate = sdf.format(c.getTime());
-
-
-                                                    byte[] data = eventFileString != null ? eventFileString.getBytes() : new byte[0];
-                                                    eventFile = new ParseFile("calendar.txt", data);
-
-
-                                                    associationObject.get(0).put("Eventdate", strDate);
-                                                    associationObject.get(0).put("EventFile", eventFile);
-
-                                                    try {
-                                                        associationObject.get(0).save();
-
-                                                    } catch (ParseException e1) {
-                                                        e1.printStackTrace();
-                                                        associationObject.get(0).saveEventually();
-                                                    }
-
-
-                                                } catch (Exception e1) {
-                                                    e1.printStackTrace();
-                                                }
-
-
-
-
-
-
-//************************************************************************PDFS**************************************************************************************************
-
-
-                                                ParseFile budgetFile = associationObject.get(0).getParseFile("BudgetFile");
-                                                ParseFile byLawsFile = associationObject.get(0).getParseFile("ByLawsFile");
-                                                ParseFile expenseFile = associationObject.get(0).getParseFile("ExpenseFile");
-                                                ParseFile rulesFile = associationObject.get(0).getParseFile("RulesFile");
-                                                ParseFile minutesFile = associationObject.get(0).getParseFile("MinutesFile");
-                                                ParseFile misc1File = associationObject.get(0).getParseFile("MiscDoc1File");
-                                                ParseFile misc2File = associationObject.get(0).getParseFile("MiscDoc2File");
-                                                ParseFile misc3File = associationObject.get(0).getParseFile("MiscDoc3File");
-
-
-
-
-                                                try {
-                                                    editor.putString("budgetpdfurl", budgetFile.getUrl());
-                                                } catch (Exception e1) {
-                                                    e1.printStackTrace();
-                                                    // Log.d(TAG, "no such pdf file ");
-                                                    editor.putString("budgetpdfurl", null);
-                                                }
-                                                try {
-                                                    editor.putString("bylawspdfurl", byLawsFile.getUrl());
-                                                } catch (Exception e1) {
-                                                    e1.printStackTrace();
-                                                    // Log.d(TAG, "no such pdf file ");
-                                                    editor.putString("bylawspdfurl", null);
-                                                }
-                                                try {
-                                                    editor.putString("expensepdfurl", expenseFile.getUrl());
-                                                } catch (Exception e1) {
-                                                    e1.printStackTrace();
-                                                    // Log.d(TAG, "no such pdf file ");
-                                                    editor.putString("expensepdfurl", null);
-                                                }
-                                                try {
-                                                    editor.putString("rulespdfurl", rulesFile.getUrl());
-                                                } catch (Exception e1) {
-                                                    e1.printStackTrace();
-                                                    // Log.d(TAG, "no such pdf file ");
-                                                    editor.putString("rulespdf", null);
-                                                }
-                                                try {
-                                                    editor.putString("minutespdfurl", minutesFile.getUrl());
-                                                } catch (Exception e1) {
-                                                    e1.printStackTrace();
-                                                    // Log.d(TAG, "no such pdf file ");
-                                                    editor.putString("minutespdfurl", null);
-                                                }
-                                                try {
-                                                    editor.putString("m1pdfurl", misc1File.getUrl());
-                                                    editor.putString("m1pdfname", misc1File.getName().replaceAll(" ",""));
-                                                } catch (Exception e1) {
-                                                    e1.printStackTrace();
-                                                    // Log.d(TAG, "no such pdf file ");
-                                                    editor.putString("m1pdfurl", null);
-                                                }
-                                                try {
-                                                    editor.putString("m2pdfurl", misc2File.getUrl());
-                                                    editor.putString("m2pdfname", misc2File.getName().replaceAll(" ",""));
-                                                } catch (Exception e1) {
-                                                    e1.printStackTrace();
-                                                    // Log.d(TAG, "no such pdf file ");
-                                                    editor.putString("m2pdfurl", null);
-                                                }
-                                                try {
-                                                    editor.putString("m3pdfurl", misc3File.getUrl());
-                                                    editor.putString("m3pdfname", misc3File.getName().replaceAll(" ",""));
-                                                } catch (Exception e1) {
-                                                    e1.printStackTrace();
-                                                    // Log.d(TAG, "no such pdf file ");
-                                                    editor.putString("m3pdfurl", null);
-                                                }
-
-                                                editor.apply();
-
-//**************************************************************************************************
-
+//***************************************************************************************************
                Map<String, ?> keys = sharedPreferences.getAll();
                for (Map.Entry<String, ?> entry : keys.entrySet()) {
                    Log.d(TAG, "map values MYPREFERENCES" + entry.getKey() +
@@ -1000,10 +949,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onResume() {
         super.onResume();  // Always call the superclass method first
 
-        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
-        remoteDataTaskClass.execute();
+        Log.d(TAG, "visitedBefore onResume ----> " + sharedPreferencesVisited.getBoolean("visitedBefore", false));
+        Log.d(TAG, "dataInitialDownloadRun onResume ----> " + sharedPreferencesVisited.getBoolean("dataInitialDownloadRun", false));
 
-        Log.e(TAG, "***** Reload data *****");
+        if (sharedPreferencesVisited.getBoolean("visitedBefore", false) && sharedPreferencesVisited.getBoolean("dataInitialDownloadRun", false)) {
+
+            AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+            remoteDataTaskClass.execute();
+
+            Log.e(TAG, "***** Reload data *****");
+
+        }
 
 
     }

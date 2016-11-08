@@ -40,6 +40,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/25/2016.
  */
+@SuppressWarnings("ALL")
 public class CalendarActivity extends AppCompatActivity {
 
     private static final String TAG = "CALENDARACTIVITY";
@@ -117,6 +118,7 @@ public class CalendarActivity extends AppCompatActivity {
                 Intent intentAddEvent = new Intent();
                 intentAddEvent.setClass(CalendarActivity.this, AddEvent.class);
                 startActivity(intentAddEvent);
+                finish();
             }
         });
 

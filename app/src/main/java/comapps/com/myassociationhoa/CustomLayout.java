@@ -13,6 +13,7 @@ import com.squareup.picasso.Target;
 /**
  * Created by me on 6/21/2016.
  */
+@SuppressWarnings("ALL")
 public class CustomLayout extends LinearLayout implements Target {
 
     public CustomLayout(Context context) {

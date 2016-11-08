@@ -2,9 +2,11 @@ package comapps.com.myassociationhoa.guests;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,6 +39,7 @@ import comapps.com.myassociationhoa.objects.GuestObject;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
 
     private static final String TAG = "GUESTSADAPTER";
@@ -118,10 +121,16 @@ class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
             recordAccess.setVisibility(View.GONE);
             deleteGuest.setVisibility(View.GONE);
 
+        } else if ( installation.getString("MemberType").equals("Security")) {
+
+            recordAccess.setVisibility(View.VISIBLE);
+            deleteGuest.setVisibility(View.GONE);
+
         } else {
 
             recordAccess.setVisibility(View.VISIBLE);
             deleteGuest.setVisibility(View.VISIBLE);
+
 
         }
 
@@ -377,91 +386,124 @@ class GuestsAdapter extends ArrayAdapter<GuestObject> implements Filterable {
             @Override
             public void onClick(View v) {
 
-                Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
-                SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
-                String strDate = sdf.format(c.getTime());
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
-                final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                query = new ParseQuery<>(installation.getString("AssociationCode")).fromLocalDatastore();
+                // Setting Dialog Title
+                alertDialog.setTitle("DeleteGuest Confirm");
+
+                // Setting Dialog Message
+                alertDialog.setMessage("Delete this guest?");
+
+                // Setting Icon to Dialog
+                //alertDialog.setIcon(R.drawable.delete);
+
+                // Setting Positive "Yes" Button
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+
+                        // Write your code here to invoke YES event
+                        //Toast.makeText(getApplicationContext(), "You clicked on YES", Toast.LENGTH_SHORT).show();
+                        Calendar c = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a");
+                        SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d");
+                        String strDate = sdf.format(c.getTime());
+
+                        final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                        query = new ParseQuery<>(installation.getString("AssociationCode")).fromLocalDatastore();
 
 
 
-                String guestsFileString = "";
+                        String guestsFileString = "";
 
 
-                try {
-                    ParseFile guestFile = query.getFirst().getParseFile("GuestFile");
-                    byte[] guestFileData = guestFile.getData();
+                        try {
+                            ParseFile guestFile = query.getFirst().getParseFile("GuestFile");
+                            byte[] guestFileData = guestFile.getData();
 
 
-                    guestsFileString = new String(guestFileData, "UTF-8");
+                            guestsFileString = new String(guestFileData, "UTF-8");
 
-                } catch (ParseException | UnsupportedEncodingException e1) {
-                    e1.printStackTrace();
+                        } catch (ParseException | UnsupportedEncodingException e1) {
+                            e1.printStackTrace();
 
-                }
+                        }
 
-                Log.d(TAG, "guestFileString ---->" + guestsFileString);
+                        Log.d(TAG, "guestFileString ---->" + guestsFileString);
 
             /*    Toast toast = Toast.makeText(getContext(), "Delete clicked." + " " + position, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();*/
 
-                Log.d(TAG, "guestObject ---> " + guestObject.toStringForDelete());
+                        Log.d(TAG, "guestObject ---> " + guestObject.toStringForDelete());
 
-                String guestFileUpdate = guestsFileString.replace(guestObject.toStringForDelete(), "");
+                        String guestFileUpdate = guestsFileString.replace(guestObject.toStringForDelete(), "");
 
-                Log.d(TAG, "guestFileForUpdate ---> " + guestsFileString);
+                        Log.d(TAG, "guestFileForUpdate ---> " + guestsFileString);
 
-                byte[] data = guestFileUpdate.getBytes();
-                ParseFile guestFile = new ParseFile("GuestFile.txt", data);
-
-
-                try {
-                    guestFile.save();
-                } catch (ParseException e1) {
-                    e1.printStackTrace();
-                }
+                        byte[] data = guestFileUpdate.getBytes();
+                        ParseFile guestFile = new ParseFile("GuestFile.txt", data);
 
 
-                try {
-                    query.getFirst().put("GuestDate", strDate);
-                    query.getFirst().put("GuestFile", guestFile);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                        try {
+                            guestFile.save();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
 
 
-                try {
-                    query.getFirst().save();
-                    query.getFirst().saveEventually();
-                } catch (ParseException e1) {
-                    e1.printStackTrace();
-
-                }
-
+                        try {
+                            query.getFirst().put("GuestDate", strDate);
+                            query.getFirst().put("GuestFile", guestFile);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
 
 
+                        try {
+                            query.getFirst().save();
+                            query.getFirst().saveEventually();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
 
-
-                Toast toast = Toast.makeText(getContext(), guestObject.getGuestName() +
-                        " deleted.", Toast.LENGTH_LONG);
+                        }
 
 
 
 
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+
+                        Toast toast = Toast.makeText(getContext(), guestObject.getGuestName() +
+                                " deleted.", Toast.LENGTH_LONG);
 
 
 
-                AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(context);
-                remoteDataTaskClass.execute();
 
-                guestsList.remove(position);
-                notifyDataSetChanged();
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
 
+
+
+                        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(context);
+                        remoteDataTaskClass.execute();
+
+                        guestsList.remove(position);
+                        notifyDataSetChanged();
+
+
+
+                    }
+                });
+
+                // Setting Negative "NO" Button
+                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Write your code here to invoke NO event
+                        // Toast.makeText(getApplicationContext(), "You clicked on NO", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    }
+                });
+
+                // Showing Alert Message
+                alertDialog.show();
 
 
 

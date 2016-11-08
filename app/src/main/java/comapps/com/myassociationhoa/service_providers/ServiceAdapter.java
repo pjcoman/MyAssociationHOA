@@ -17,6 +17,7 @@ import comapps.com.myassociationhoa.objects.ProviderObject;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 class ServiceAdapter extends BaseAdapter {
 
     public static final String TAG = "SERVICEADAPTER";

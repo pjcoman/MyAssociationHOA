@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/22/2016.
  */
+@SuppressWarnings("ALL")
 public class ContactActivity extends AppCompatActivity {
 
     public static final String TAG = "CONTACTACTIVITY";
@@ -44,7 +46,7 @@ public class ContactActivity extends AppCompatActivity {
 
     final String phone_number_EwingServices = "tel:9725232357";
 
-    GestureDetectorCompat mDetector;
+    private GestureDetectorCompat mDetector;
 
 
     @Override
@@ -112,7 +114,34 @@ public class ContactActivity extends AppCompatActivity {
         phone_number_b7 = "tel:" + sharedpreferences.getString("defaultRecord(27)", "");
         phone_number_b8 = "tel:" + sharedpreferences.getString("defaultRecord(29)", "");
 
-
+        if ( phone_number_b1.length() == 0 ) {
+            b1.setEnabled(false);
+            b1.getBackground().setAlpha(125);
+        }
+        if ( phone_number_b2.length() == 0 ) {
+            b2.setEnabled(false);
+            b2.getBackground().setAlpha(125);
+        }
+        if ( phone_number_b3.length() == 0 ) {
+            b3.setEnabled(false);
+            b3.getBackground().setAlpha(125);
+        }
+        if ( phone_number_b4.length() == 0 ) {
+            b4.setEnabled(false);
+            b4.getBackground().setAlpha(125);
+        }
+        if ( phone_number_b5.length() == 0 ) {
+            b5.setEnabled(false);
+            b5.getBackground().setAlpha(125);
+        }
+        if ( phone_number_b6.length() == 0 ) {
+            b6.setEnabled(false);
+            b6.getBackground().setAlpha(125);
+        }
+        if ( phone_number_b7.length() == 0 ) {
+            b7.setEnabled(false);
+            b7.getBackground().setAlpha(125);
+        }
 
 
     }
@@ -150,13 +179,13 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button1Dial() {
+    public void button1Dial(View v) {
 
         // TODO Auto-generated method stub
 
         try {
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:" + phone_number_b1));
+            callIntent.setData(Uri.parse(phone_number_b1));
             startActivity(callIntent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,7 +196,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button2Dial() {
+    public void button2Dial(View v) {
 
         // TODO Auto-generated method stub
 
@@ -184,7 +213,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button3Dial() {
+    public void button3Dial(View v) {
 
         // TODO Auto-generated method stub
 
@@ -201,7 +230,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button4Dial() {
+    public void button4Dial(View v) {
 
         // TODO Auto-generated method stub
 
@@ -218,7 +247,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button5Dial() {
+    public void button5Dial(View v) {
 
         // TODO Auto-generated method stub
 
@@ -235,7 +264,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button6Dial() {
+    public void button6Dial(View v) {
 
         // TODO Auto-generated method stub
 
@@ -252,7 +281,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button7Dial() {
+    public void button7Dial(View v) {
 
         // TODO Auto-generated method stub
 
@@ -269,7 +298,7 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-    public void button8Dial() {
+    public void button8Dial(View v) {
 
         // TODO Auto-generated method stub
 
@@ -307,7 +336,7 @@ public class ContactActivity extends AppCompatActivity {
     }
 
 
-    public String abbreviateText(String buttonText) {
+    private String abbreviateText(String buttonText) {
 
         switch (buttonText) {
             case "administration":

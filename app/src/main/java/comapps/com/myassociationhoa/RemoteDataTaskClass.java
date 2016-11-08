@@ -36,6 +36,7 @@ import comapps.com.myassociationhoa.objects.RosterObject;
 /**
  * Created by me on 8/28/2016.
  */
+@SuppressWarnings("ALL")
 public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 
     private final Context context;
@@ -163,12 +164,11 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 //****************************************************************************ROSTER**********************************************************************************
 
                                     String[] rosterFileArray;
-                                    String rosterFileString = null;
+                                    String rosterFileString;
                                     try {
                                         ParseFile rosterFile = associationObject.get(0).getParseFile("RosterFile");
-                                        byte[] rosterFileData = new byte[0];
+                                        byte[] rosterFileData;
                                         rosterFileData = rosterFile.getData();
-                                        rosterFileString = "";
                                         rosterFileString = new String(rosterFileData, "UTF-8");
                                         editorVisited = sharedPreferencesVisited.edit();
                                         editorVisited.putString("ROSTER", rosterFileString);
@@ -269,12 +269,11 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 //*************************************************************************CALENDAR************************************************************************************
 
                                     String[] eventFileArray;
-                                    String eventFileString = null;
+                                    String eventFileString;
                                     try {
                                         ParseFile eventFile = associationObject.get(0).getParseFile("EventFile");
-                                        byte[] eventFileData = new byte[0];
+                                        byte[] eventFileData;
                                         eventFileData = eventFile.getData();
-                                        eventFileString = "";
                                         eventFileString = new String(eventFileData, "UTF-8");
                                         editorVisited = sharedPreferencesVisited.edit();
                                         editorVisited.putString("EVENTS", eventFileString);
@@ -344,32 +343,39 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 
                                     }
 
-                                    String[] adminEventFileArray = new String[0];
-                                    String adminEventFileString = null;
+                                    String[] adminEventFileArray;
+                                    String adminEventFileString;
                                     try {
                                         ParseFile adminEventFile = associationObject.get(0).getParseFile("AdminEventFile");
-                                        byte[] adminEventFileData = new byte[0];
-                                        adminEventFileData = adminEventFile.getData();
-                                        adminEventFileString = "";
-                                        adminEventFileString = new String(adminEventFileData, "UTF-8");
+                                        byte[] adminEventFileData;
+
+                                        if ( adminEventFile == null ) {
+                                            adminEventFileString = "";
+                                        } else {
+                                            adminEventFileData = adminEventFile.getData();
+                                            adminEventFileString = new String(adminEventFileData, "UTF-8");
+
+                                        }
+
+
                                         editorVisited = sharedPreferencesVisited.edit();
                                         editorVisited.putString("ADMINEVENTS", adminEventFileString);
                                         editorVisited.commit();
                                     } catch (ParseException | UnsupportedEncodingException e1) {
                                         e1.printStackTrace();
-                                        eventFileString = sharedPreferencesVisited.getString("EVENTS", "");
+                                        adminEventFileString = sharedPreferencesVisited.getString("ADMINEVENTS", "");
                                     }
 
 
                                     adminEventFileArray = adminEventFileString.split("\\|", -1);
 
 
-                                    for (String event : adminEventFileArray) {
+                                    for (String eventInfo : adminEventFileArray) {
 
-                                        event.trim();
+                                        eventInfo.trim();
 
 
-                                        Log.v(TAG, "EVENT: " + event);
+                                        Log.v(TAG, "EVENTINFO: " + eventInfo);
 
                                     }
 
@@ -383,23 +389,23 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
                                         switch (j) {
                                             case 0:
                                                 adminCalendarObject = new CalendarObject();
-                                                adminCalendarObject.setCalendarText(eventFileArray[i]);
+                                                adminCalendarObject.setCalendarText(adminEventFileArray[i]);
                                                 j = j + 1;
                                                 break;
                                             case 1:
-                                                adminCalendarObject.setCalendarDetailText(eventFileArray[i]);
+                                                adminCalendarObject.setCalendarDetailText(adminEventFileArray[i]);
                                                 j = j + 1;
                                                 break;
                                             case 2:
-                                                adminCalendarObject.setCalendarStartDate(eventFileArray[i]);
+                                                adminCalendarObject.setCalendarStartDate(adminEventFileArray[i]);
                                                 j = j + 1;
                                                 break;
                                             case 3:
-                                                adminCalendarObject.setCalendarEndDate(eventFileArray[i]);
+                                                adminCalendarObject.setCalendarEndDate(adminEventFileArray[i]);
                                                 j = j + 1;
                                                 break;
                                             case 4:
-                                                adminCalendarObject.setCalendarSortDate(eventFileArray[i]);
+                                                adminCalendarObject.setCalendarSortDate(adminEventFileArray[i]);
                                                 adminCalendarObjects.add(adminCalendarObject);
 
                                                 Log.v(TAG, "adminCalendarObject ----> " + adminCalendarObject.toString());
@@ -423,15 +429,12 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 
 //**************************************************************************PROVIDER************************************************************************************
 
-                                    String[] providerFileArray = new String[0];
-                                    String providerFileString = null;
+                                    String[] providerFileArray;
+                                    String providerFileString;
                                     try {
                                         ParseFile providerFile = associationObject.get(0).getParseFile("ProviderFile");
-                                        ArrayList<String> providerType = new ArrayList();
-                                        providerFileArray = null;
-                                        byte[] providerFileData = new byte[0];
+                                        byte[] providerFileData;
                                         providerFileData = providerFile.getData();
-                                        providerFileString = "";
                                         providerFileString = new String(providerFileData, "UTF-8");
                                         editorVisited = sharedPreferencesVisited.edit();
                                         editorVisited.putString("PROVIDERS", providerFileString);
@@ -493,12 +496,11 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 // ***************************************************************************MAINTENANCE***********************************************************************************
 
                                     String[] maintenanceCategoryFileArray;
-                                    String maintenanceCategoryFileString = null;
+                                    String maintenanceCategoryFileString;
                                     try {
                                         ParseFile maintenanceCategoryFile = associationObject.get(0).getParseFile("MaintenanceCategoryFile");
-                                        byte[] mcFileData = new byte[0];
+                                        byte[] mcFileData;
                                         mcFileData = maintenanceCategoryFile.getData();
-                                        maintenanceCategoryFileString = "";
                                         maintenanceCategoryFileString = new String(mcFileData, "UTF-8");
                                         editorVisited = sharedPreferencesVisited.edit();
                                         editorVisited.putString("MAINTENANCECATEGORY", maintenanceCategoryFileString);
@@ -600,12 +602,11 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 
                                     String[] guestAccessFileArray;
                                     String[] guestAccessItems;
-                                    String guestAccessFileString = null;
+                                    String guestAccessFileString;
                                     try {
                                         ParseFile guestAccessFile = associationObject.get(0).getParseFile("GuestAccessFile");
-                                        byte[] guestAccessFileData = new byte[0];
+                                        byte[] guestAccessFileData;
                                         guestAccessFileData = guestAccessFile.getData();
-                                        guestAccessFileString = "";
                                         guestAccessFileString = new String(guestAccessFileData, "UTF-8");
                                         editorVisited = sharedPreferencesVisited.edit();
                                         editorVisited.putString("GUESTACCESS", guestAccessFileString);
@@ -656,12 +657,11 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 
                                     String[] guestFileArray;
                                     String[] guestItems;
-                                    String guestsFileString = null;
+                                    String guestsFileString;
                                     try {
                                         ParseFile guestFile = associationObject.get(0).getParseFile("GuestFile");
-                                        byte[] guestFileData = new byte[0];
+                                        byte[] guestFileData;
                                         guestFileData = guestFile.getData();
-                                        guestsFileString = "";
                                         guestsFileString = new String(guestFileData, "UTF-8");
                                         editorVisited = sharedPreferencesVisited.edit();
                                         editorVisited.putString("GUESTS", guestsFileString);
@@ -718,12 +718,11 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 
                                     String[] pushHistoryFileArray;
                                     String[] pushHistoryFileArray2;
-                                    String pushHistoryFileString = null;
+                                    String pushHistoryFileString;
                                     try {
                                         ParseFile pushHistoryFile = associationObject.get(0).getParseFile("PushFile");
-                                        byte[] pushFileData = new byte[0];
+                                        byte[] pushFileData;
                                         pushFileData = pushHistoryFile.getData();
-                                        pushHistoryFileString = "";
                                         pushHistoryFileString = new String(pushFileData, "UTF-8");
                                         editorVisited = sharedPreferencesVisited.edit();
                                         editorVisited.putString("PUSHHISTORY", pushHistoryFileString);
@@ -734,7 +733,7 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
                                     }
 
 
-                                    pushHistoryFileArray = pushHistoryFileString.split("\\|");
+                                    pushHistoryFileArray = pushHistoryFileString.split("\\|", -1);
 
 
                                     for (String pushMessage : pushHistoryFileArray) {
@@ -742,7 +741,7 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
                                         pushMessage.trim();
 
 
-                                        // Log.v(PM, "push message: " + pushMessage);
+                                         Log.v(TAG, "push message: " + pushMessage);
 
                                     }
 
@@ -754,26 +753,27 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 
                                     for (i = 1, j = 1, k = 0; i < pushHistoryFileArray.length; i++) {
 
-                                        pushHistoryFileArray2 = pushHistoryFileArray[i].split("\\^");
+                                        pushHistoryFileArray2 = pushHistoryFileArray[i].split("\\^", -1);
 
-                                        for (String pf2member : pushHistoryFileArray2) {
-                                            // Log.d(PM, "member is ---> " + pf2member + " i= " + i + " j= " + j);
+                                        for (String pushStringData : pushHistoryFileArray2) {
+                                             Log.d(TAG, "push message pf2member is ---> " + pushStringData.toLowerCase() + " i= " + i + " j= " + j);
 
                                             switch (j) {
                                                 case 1:
+                                                    pushObject = new PushObject();
+                                                    pushObject.setMonth(pushStringData);
                                                     j = j + 1;
                                                     break;
                                                 case 2:
+                                                    pushObject.setHoaAndGroup(pushStringData);
                                                     j = j + 1;
                                                     break;
                                                 case 3:
-                                                    pushObject = new PushObject();
-                                                    pushObject.setDate(pf2member);
+                                                    pushObject.setDate(pushStringData);
                                                     j = j + 1;
                                                     break;
                                                 case 4:
-                                                    pushObject.setPushNotifacation(pf2member);
-
+                                                    pushObject.setPushNotifacation(pushStringData);
                                                     pushObjects.add(pushObject);
                                                     editor = sharedPreferences.edit();
                                                     Gson gson = new Gson();
@@ -784,7 +784,9 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
                                                     j = 1;
 
 
-                                                    if (!pf2member.contains("Admin group only")) {
+                                                    if (!pushObject.toString().toLowerCase().replaceAll("\\s+", "").contains("admingroup")) {
+
+                                                        Log.d(TAG, "member push message !contains admin  ---> " + pushObject.toString());
 
                                                         pushObjectsMember.add(pushObject);
                                                         editor = sharedPreferences.edit();
@@ -814,12 +816,11 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 
                                         String[] petFileArray;
                                         String[] petFileArray2;
-                                        String petsFileString = null;
+                                        String petsFileString;
                                         try {
                                             ParseFile petFile = associationObject.get(0).getParseFile("PetFile");
-                                            byte[] petFileData = new byte[0];
+                                            byte[] petFileData;
                                             petFileData = petFile.getData();
-                                            petsFileString = "";
                                             petsFileString = new String(petFileData, "UTF-8");
                                             editorVisited = sharedPreferencesVisited.edit();
                                             editorVisited.putString("PETS", petsFileString);
@@ -912,16 +913,13 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
                                     if (!sharedPreferences.getString("defaultRecord(36)", "No").equals("No")) {
 
 
-                                        String[] autoFileArray = new String[0];
-                                        String[] autoFileArray2 = new String[0];
-                                        String autoFileString = null;
+                                        String[] autoFileArray;
+                                        String[] autoFileArray2;
+                                        String autoFileString;
                                         try {
                                             ParseFile autoFile = associationObject.get(0).getParseFile("AutoFile");
-                                            autoFileArray = null;
-                                            autoFileArray2 = null;
-                                            byte[] autoFileData = new byte[0];
+                                            byte[] autoFileData;
                                             autoFileData = autoFile.getData();
-                                            autoFileString = null;
                                             autoFileString = new String(autoFileData, "UTF-8");
                                             editorVisited = sharedPreferencesVisited.edit();
                                             editorVisited.putString("AUTOS", autoFileString);
@@ -1009,14 +1007,12 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
                                     }
 //***************************************************************************MESSAGE***********************************************************************************
 
-                                    String[] postFileArray = new String[0];
-                                    String postsFileString = null;
+                                    String[] postFileArray;
+                                    String postsFileString;
                                     try {
                                         ParseFile postsFile = associationObject.get(0).getParseFile("MessageFile");
-                                        postFileArray = null;
-                                        byte[] postFileData = new byte[0];
+                                        byte[] postFileData;
                                         postFileData = postsFile.getData();
-                                        postsFileString = null;
                                         postsFileString = new String(postFileData, "UTF-8");
                                         editorVisited = sharedPreferencesVisited.edit();
                                         editorVisited.putString("POSTS", postsFileString);
@@ -1086,14 +1082,12 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 //***************************************************************************ADMIN MESSAGE**********************************************************************************
 
 
-                                    String[] admin_postFileArray = new String[0];
-                                    String admin_postsFileString = null;
+                                    String[] admin_postFileArray;
+                                    String admin_postsFileString;
                                     try {
                                         ParseFile admin_postsFile = associationObject.get(0).getParseFile("AdminMessageFile");
-                                        admin_postFileArray = null;
-                                        byte[] admin_postFileData = new byte[0];
+                                        byte[] admin_postFileData;
                                         admin_postFileData = admin_postsFile.getData();
-                                        admin_postsFileString = "";
                                         admin_postsFileString = new String(admin_postFileData, "UTF-8");
                                         editorVisited = sharedPreferencesVisited.edit();
                                         editorVisited.putString("ADMINPOSTS", admin_postsFileString);
@@ -1174,6 +1168,84 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 
                                         }
                                     }
+
+//************************************************************************PDFS**************************************************************************************************
+
+
+                                    ParseFile budgetFile = associationObject.get(0).getParseFile("BudgetFile");
+                                    ParseFile byLawsFile = associationObject.get(0).getParseFile("ByLawsFile");
+                                    ParseFile expenseFile = associationObject.get(0).getParseFile("ExpenseFile");
+                                    ParseFile rulesFile = associationObject.get(0).getParseFile("RulesFile");
+                                    ParseFile minutesFile = associationObject.get(0).getParseFile("MinutesFile");
+                                    ParseFile misc1File = associationObject.get(0).getParseFile("MiscDoc1File");
+                                    ParseFile misc2File = associationObject.get(0).getParseFile("MiscDoc2File");
+                                    ParseFile misc3File = associationObject.get(0).getParseFile("MiscDoc3File");
+
+
+
+
+                                    try {
+                                        editor.putString("budgetpdfurl", budgetFile.getUrl());
+                                    } catch (Exception e1) {
+                                        e1.printStackTrace();
+                                        // Log.d(TAG, "no such pdf file ");
+                                        editor.putString("budgetpdfurl", null);
+                                    }
+                                    try {
+                                        editor.putString("bylawspdfurl", byLawsFile.getUrl());
+                                    } catch (Exception e1) {
+                                        e1.printStackTrace();
+                                        // Log.d(TAG, "no such pdf file ");
+                                        editor.putString("bylawspdfurl", null);
+                                    }
+                                    try {
+                                        editor.putString("expensepdfurl", expenseFile.getUrl());
+                                    } catch (Exception e1) {
+                                        e1.printStackTrace();
+                                        // Log.d(TAG, "no such pdf file ");
+                                        editor.putString("expensepdfurl", null);
+                                    }
+                                    try {
+                                        editor.putString("rulespdfurl", rulesFile.getUrl());
+                                    } catch (Exception e1) {
+                                        e1.printStackTrace();
+                                        // Log.d(TAG, "no such pdf file ");
+                                        editor.putString("rulespdf", null);
+                                    }
+                                    try {
+                                        editor.putString("minutespdfurl", minutesFile.getUrl());
+                                    } catch (Exception e1) {
+                                        e1.printStackTrace();
+                                        // Log.d(TAG, "no such pdf file ");
+                                        editor.putString("minutespdfurl", null);
+                                    }
+                                    try {
+                                        editor.putString("m1pdfurl", misc1File.getUrl());
+                                        editor.putString("m1pdfname", misc1File.getName().replaceAll(" ",""));
+                                    } catch (Exception e1) {
+                                        e1.printStackTrace();
+                                        // Log.d(TAG, "no such pdf file ");
+                                        editor.putString("m1pdfurl", null);
+                                    }
+                                    try {
+                                        editor.putString("m2pdfurl", misc2File.getUrl());
+                                        editor.putString("m2pdfname", misc2File.getName().replaceAll(" ",""));
+                                    } catch (Exception e1) {
+                                        e1.printStackTrace();
+                                        // Log.d(TAG, "no such pdf file ");
+                                        editor.putString("m2pdfurl", null);
+                                    }
+                                    try {
+                                        editor.putString("m3pdfurl", misc3File.getUrl());
+                                        editor.putString("m3pdfname", misc3File.getName().replaceAll(" ",""));
+                                    } catch (Exception e1) {
+                                        e1.printStackTrace();
+                                        // Log.d(TAG, "no such pdf file ");
+                                        editor.putString("m3pdfurl", null);
+                                    }
+
+                                    editor.apply();
+
 
 //***********************************************************************************************************************************************
 

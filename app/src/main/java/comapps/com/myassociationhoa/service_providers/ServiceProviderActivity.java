@@ -38,6 +38,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/22/2016.
  */
+@SuppressWarnings("ALL")
 public class ServiceProviderActivity extends AppCompatActivity {
 
     private static final String TAG = "SERVICEPROVIDERACTIVITY";

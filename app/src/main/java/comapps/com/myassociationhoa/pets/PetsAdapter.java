@@ -19,6 +19,7 @@ import comapps.com.myassociationhoa.objects.PetObject;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 class PetsAdapter extends ArrayAdapter<PetObject> implements Filterable {
 
     public static final String TAG = "PETSADAPTER";

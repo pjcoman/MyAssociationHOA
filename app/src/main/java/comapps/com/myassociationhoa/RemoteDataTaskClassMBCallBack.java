@@ -25,6 +25,7 @@ import comapps.com.myassociationhoa.objects.MBObject;
 /**
  * Created by me on 8/28/2016.
  */
+@SuppressWarnings("ALL")
 public class RemoteDataTaskClassMBCallBack extends AsyncTask<Void, Void, String> {
 
     private final OnEventListener<String> mCallBack;

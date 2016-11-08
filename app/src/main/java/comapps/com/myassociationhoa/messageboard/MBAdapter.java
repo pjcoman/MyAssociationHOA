@@ -27,6 +27,7 @@ import comapps.com.myassociationhoa.objects.MBObject;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 class MBAdapter extends ArrayAdapter<MBObject> {
 
     public static final String TAG = "MESSAGEBOARDADAPTER";

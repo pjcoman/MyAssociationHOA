@@ -3,6 +3,7 @@ package comapps.com.myassociationhoa.objects;
 /**
  * Created by me on 6/27/2016.
  */
+@SuppressWarnings("ALL")
 public class MaintenanceObject {
 
     private String maintenanceName;

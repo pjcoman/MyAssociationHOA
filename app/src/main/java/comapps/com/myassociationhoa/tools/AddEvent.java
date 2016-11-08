@@ -3,8 +3,11 @@ package comapps.com.myassociationhoa.tools;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -31,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 import comapps.com.myassociationhoa.R;
+import comapps.com.myassociationhoa.RemoteDataTaskClass;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -46,7 +50,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/28/2016.
  */
-public class AddEvent extends AppCompatActivity implements View.OnClickListener {
+@SuppressWarnings("ALL")
+public class   AddEvent extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ADDEVENT";
     private static final String MYPREFERENCES = "MyPrefs";
@@ -181,17 +186,17 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener 
                     @Override
                     public void done(List<ParseObject> assoc, ParseException e) {
 
-                        String eventFileString = "";
+                        String adminEventFileString = "";
 
-                        ParseFile eventFile = assoc.get(0).getParseFile("EventFile");
+                        ParseFile adminEventFile = assoc.get(0).getParseFile("AdminEventFile");
 
 
                         try {
-                            byte[] file = eventFile.getData();
+                            byte[] file = adminEventFile.getData();
                             try {
-                                eventFileString = new String(file, "UTF-8");
+                                adminEventFileString = new String(file, "UTF-8");
 
-                                Log.d(TAG, "existing events ----> " + eventFileString);
+                                Log.d(TAG, "existing events ----> " + adminEventFileString);
 
                             } catch (UnsupportedEncodingException e1) {
                                 e1.printStackTrace();
@@ -200,20 +205,20 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener 
                             e1.printStackTrace();
                         }
 
-                        String eventsForUpload;
+                        String adminEventsForUpload;
 
                     String eventSort = (etEventStartDate.getText().toString()).substring(6) + (etEventStartDate.getText().toString()).substring(0,2) +
                             (etEventStartDate.getText().toString()).substring(3,5);
 
                      if ( typeButton.getText().toString().equals("Append")) {
 
-                         eventsForUpload = eventFileString + "|" + etEventTitle.getText().toString() + "|" +  etEventDetail.getText().toString() + "|" +
+                         adminEventsForUpload = adminEventFileString + "|" + etEventTitle.getText().toString() + "|" +  etEventDetail.getText().toString() + "|" +
                                  etEventStartDate.getText().toString() + "|" +
                                  etEventEndDate.getText().toString() + "|" + eventSort;
 
                      } else {
 
-                         eventsForUpload = "Android Event|" + etEventTitle.getText().toString() + "|" +  etEventDetail.getText().toString() + "|" +
+                         adminEventsForUpload = "Android Event|" + etEventTitle.getText().toString() + "|" +  etEventDetail.getText().toString() + "|" +
                                  etEventStartDate.getText().toString() + "|" +
                                  etEventEndDate.getText().toString() + "|" + eventSort;
 
@@ -224,19 +229,19 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener 
 
 
 
-                        Log.d(TAG, "events for upload --->" + eventsForUpload);
+                        Log.d(TAG, "events for upload --->" + adminEventsForUpload);
 
                         Calendar c = Calendar.getInstance();
                         SimpleDateFormat sdf = new SimpleDateFormat("M/d/yy, h:mm a", java.util.Locale.getDefault());
                         String strDate = sdf.format(c.getTime());
 
 
-                        byte[] data = eventsForUpload.getBytes();
-                        eventFile = new ParseFile("Event.txt", data);
+                        byte[] data = adminEventsForUpload.getBytes();
+                        adminEventFile = new ParseFile("EventFile.txt", data);
 
 
                         assoc.get(0).put("AdminEventDate", strDate);
-                        assoc.get(0).put("AdminEventFile", eventFile);
+                        assoc.get(0).put("AdminEventFile", adminEventFile);
 
                         try {
                             assoc.get(0).save();
@@ -246,13 +251,32 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener 
                             assoc.get(0).saveEventually();
                         }
 
+                        AsyncTask<Void, Void, Void> remoteDataTaskClass = new RemoteDataTaskClass(getApplicationContext());
+                        remoteDataTaskClass.execute();
 
-                        Toast toast = Toast.makeText(getBaseContext(), "Event added.", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getBaseContext(), "Event(s) added.", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
 
 
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), CalendarManageActivity.class);
+                intent.putExtra("FROMTOOLS", true);
+                startActivity(intent);
+
+
+
                 finish();
+            }
+        }, 3000);
+
+
 
 
                     }

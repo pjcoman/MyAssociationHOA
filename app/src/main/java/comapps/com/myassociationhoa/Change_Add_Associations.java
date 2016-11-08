@@ -37,6 +37,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/22/2016.
  */
+@SuppressWarnings("ALL")
 public class Change_Add_Associations extends AppCompatActivity {
 
     private static final String TAG = "CHANGE_ADD_ASSOC";
@@ -115,7 +116,7 @@ public class Change_Add_Associations extends AppCompatActivity {
 
 
 
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+          mFab = (FloatingActionButton) findViewById(R.id.fab);
 
         listView = (ListView) findViewById(R.id.listAssociations);
 
@@ -300,7 +301,7 @@ public class Change_Add_Associations extends AppCompatActivity {
 
     }
 
-    public void AddChangeAssoc() {
+    public void AddChangeAssoc(View v) {
 
         installation = ParseInstallation.getCurrentInstallation();
 

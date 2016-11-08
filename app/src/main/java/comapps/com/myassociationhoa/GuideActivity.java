@@ -14,6 +14,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/14/2016.
  */
+@SuppressWarnings("ALL")
 public class GuideActivity extends Activity
         {
 

@@ -9,12 +9,15 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import comapps.com.myassociationhoa.objects.CalendarObject;
 
 /**
  * Created by me on 6/25/2016.
  */
+@SuppressWarnings("ALL")
 public class CalendarManageFragment extends ListFragment {
 
     private static final String TAG = "ADMINCALENDARFRAGMENT";
@@ -41,11 +44,22 @@ public class CalendarManageFragment extends ListFragment {
         }
 
 
+        Collections.sort(events, new Comparator<CalendarObject>()
+        {
+            @Override
+            public int compare(CalendarObject c1, CalendarObject c2) {
+
+                return c1.getCalendarSortDate().compareTo(c2.getCalendarSortDate());
+            }
+        });
+
+
         CalendarManageAdapter calendarAdapter = new CalendarManageAdapter(getActivity(), events);
         setListAdapter(calendarAdapter);
 
 
     }
+
 
 
 }

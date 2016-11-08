@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
@@ -25,6 +27,7 @@ import com.parse.ParseQuery;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import comapps.com.myassociationhoa.MainActivity;
@@ -39,6 +42,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 public class PopMBAddMessage extends AppCompatActivity {
 
     private static final String TAG = "POPMB";
@@ -55,11 +59,12 @@ public class PopMBAddMessage extends AppCompatActivity {
     private String memberEmail;
 
     private String pushFileString;
+    private String pushMessageString;
 
     private EditText newMessage;
     private Button saveButton;
 
-    private SharedPreferences sharedVisitedPreferences;
+    private SharedPreferences sharedPreferencesVisited;
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     SharedPreferences.Editor editorVisited;
@@ -82,7 +87,7 @@ public class PopMBAddMessage extends AppCompatActivity {
         newMessage = (EditText) findViewById(R.id.editTextMessage);
         saveButton = (Button) findViewById(R.id.buttonSaveMessage);
 
-        sharedVisitedPreferences = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
 
 
@@ -110,7 +115,7 @@ public class PopMBAddMessage extends AppCompatActivity {
                 final String strDate2 = sdf2.format(c.getTime());
                 final String strMonth = month.format(c.getTime());
 
-                memberEmail = sharedVisitedPreferences.getString("SUMMER_EMAIL", "");
+                memberEmail = sharedPreferencesVisited.getString("SUMMER_EMAIL", "");
 
                 if (memberEmail.length() == 0) {
 
@@ -149,7 +154,7 @@ public class PopMBAddMessage extends AppCompatActivity {
                                     "|" + strDate +
                                     "|" + newMessage.getText().toString().trim() +
                                     "|" + strDate2 +
-                                    "|" + sharedVisitedPreferences.getString("SUMMER_EMAIL", "").trim() +
+                                    "|" + sharedPreferencesVisited.getString("SUMMER_EMAIL", "").trim() +
                                     "|" + "0" +
                                     "|" +
                                     "|";
@@ -197,18 +202,48 @@ public class PopMBAddMessage extends AppCompatActivity {
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
 
+                            pushMessageString = installation.getString("memberName") +
+                                    " has posted a new message comment for review for the Message Board";
 
-                            ParseQuery pushQuery = ParseInstallation.getQuery();
-                            pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
-                            pushQuery.whereEqualTo("MemberType", "Administrator");
+                            if (sharedPreferencesVisited.getBoolean("PARSESERVER", false)) {
 
-                            ParsePush push = new ParsePush();
-                            push.setQuery(pushQuery); // Set our Installation query
 
-                            push.setMessage(installation.getString("memberName") +
-                                    " has posted a new message comment for review for the Message Board");
+                                HashMap<String, Object> params = new HashMap<String, Object>();
+                                params.put("AssociationCode", installation.getString("AssociationCode"));
+                                params.put("MemberType", "Administrator");
+                                params.put("Channel", "");
+                                params.put("Message", pushMessageString);
+                                ParseCloud.callFunctionInBackground("SendPush", params, new FunctionCallback<Object>() {
+                                    @Override
+                                    public void done(Object object, ParseException e) {
+                                        if (e == null) {
 
-                            push.sendInBackground();
+                                            Toast.makeText(getBaseContext(), "Push sent.", Toast.LENGTH_LONG).show();
+                                            finish();
+                                        }
+
+                                    }
+
+
+                                });
+
+                            } else {
+
+                                ParseQuery pushQuery = ParseInstallation.getQuery();
+                                pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
+                                pushQuery.whereEqualTo("MemberType", "Administrator");
+
+                                ParsePush push = new ParsePush();
+                                push.setQuery(pushQuery); // Set our Installation query
+
+                                push.setMessage(pushMessageString);
+
+                                push.sendInBackground();
+
+                            }
+
+
+
 
                             ParseFile pushFile = assoc.get(0).getParseFile("PushFile");
 
@@ -320,14 +355,45 @@ public class PopMBAddMessage extends AppCompatActivity {
                             ParseQuery pushQuery = ParseInstallation.getQuery();
                             pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
 
-                            ParsePush push = new ParsePush();
-                            push.setQuery(pushQuery); // Set our Installation query
+                            if (sharedPreferencesVisited.getBoolean("PARSESERVER", false)) {
 
-                            push.setMessage("By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
-                                    installation.getString("memberName") +
-                                    " has posted a new message to the Message Board.");
+                                pushMessageString = "By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
+                                        installation.getString("memberName") +
+                                        " has posted a new message to the Message Board.";
 
-                            push.sendInBackground();
+                                HashMap<String, Object> params = new HashMap<String, Object>();
+                                params.put("AssociationCode", installation.getString("AssociationCode"));
+                                params.put("MemberType", "");
+                                params.put("Channel", "Everyone");
+                                params.put("Message", pushMessageString);
+                                ParseCloud.callFunctionInBackground("SendPush", params, new FunctionCallback<Object>() {
+                                    @Override
+                                    public void done(Object object, ParseException e) {
+                                        if (e == null) {
+
+                                            Toast.makeText(getBaseContext(), "Push sent.", Toast.LENGTH_LONG).show();
+                                            finish();
+                                        }
+
+                                    }
+
+
+                                });
+
+                            } else {
+
+                                ParsePush push = new ParsePush();
+                                push.setQuery(pushQuery); // Set our Installation query
+
+                                push.setMessage("By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
+                                        installation.getString("memberName") +
+                                        " has posted a new message to the Message Board.");
+
+                                push.sendInBackground();
+
+                            }
+
+
 
                             ParseFile pushFile = assoc.get(0).getParseFile("PushFile");
 

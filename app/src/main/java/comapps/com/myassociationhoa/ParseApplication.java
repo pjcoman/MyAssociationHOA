@@ -5,25 +5,23 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.Parse;
 import com.parse.ParseACL;
-import com.parse.ParseException;
-import com.parse.ParsePush;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 /**
  * Created by me on 6/15/2016.
  */
+@SuppressWarnings("ALL")
 public class ParseApplication extends Application  {
 
     private static final String TAG = "PARSEAPPLICATION";
     private static final String VISITEDPREFERENCES = "VisitedPrefs";
-    private static final String ASSOCPREFERENCES = "AssocPrefs";
 
-
-    private SharedPreferences sharedPreferencesAssoc;
     private SharedPreferences sharedPreferencesVisited;
+
+    private SharedPreferences.Editor sharedPreferencesVisitedEditor;
 
 
     @Override
@@ -32,6 +30,7 @@ public class ParseApplication extends Application  {
 
         sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
 
+
         Parse.enableLocalDatastore(getApplicationContext());
 
         // Add your initialization code here
@@ -39,13 +38,10 @@ public class ParseApplication extends Application  {
         Log.d(TAG, "memberType is ----> " + sharedPreferencesVisited.getString("MEMBERTYPE", ""));
 
 
-      /*   if (sharedPreferencesVisited.getString("MEMBERTYPE", "").equals("Administrator") || sharedPreferencesVisited.getString("MEMBERTYPE", "").equals("Master")) {
-
-       Parse.initialize(this, "O1qVaYT9FwLYZ7BxWdZZijEVxVqxbY4JkVwjFOSD", "lAChntUw39NKIMNTALtexvP8RBL2819XTGPDWSqd");
-        } else {*/
+      /*  try {
             Parse.initialize(this, "O1qVaYT9FwLYZ7BxWdZZijEVxVqxbY4JkVwjFOSD", "FxH2jyeQfyEEfrVnXoRgdpmhVs49uEK2EEfCJ07q");
-            //  }
 
+            Log.d(TAG, "logged in to parse.com.");
 
             ParsePush.subscribeInBackground("", new SaveCallback() {
                 @Override
@@ -57,6 +53,43 @@ public class ParseApplication extends Application  {
                     }
                 }
             });
+
+            sharedPreferencesVisitedEditor = sharedPreferencesVisited.edit();
+            sharedPreferencesVisitedEditor.putBoolean("PARSESERVER", false);
+            sharedPreferencesVisitedEditor.commit();
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();*/
+
+            sharedPreferencesVisitedEditor = sharedPreferencesVisited.edit();
+            sharedPreferencesVisitedEditor.putBoolean("PARSESERVER", true  );
+            sharedPreferencesVisitedEditor.commit();
+
+
+            Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
+                    .applicationId("O1qVaYT9FwLYZ7BxWdZZijEVxVqxbY4JkVwjFOSD")
+                    .clientKey("FxH2jyeQfyEEfrVnXoRgdpmhVs49uEK2EEfCJ07q")
+                    .server("https://api.myassociation.info:1337/parse/")
+                    .enableLocalDataStore()
+                    .build()
+
+
+            );
+
+            Log.d(TAG, "logged in to parseserver");
+
+
+
+     //   }
+
+        Log.d(TAG, "firebase token ----> " + FirebaseInstanceId.getInstance().getToken());
+
+
+
+
 
 
             ParseUser.enableAutomaticUser();

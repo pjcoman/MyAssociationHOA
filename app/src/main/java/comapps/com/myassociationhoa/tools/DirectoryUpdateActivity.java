@@ -25,6 +25,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/25/2016.
  */
+@SuppressWarnings("ALL")
 public class DirectoryUpdateActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 

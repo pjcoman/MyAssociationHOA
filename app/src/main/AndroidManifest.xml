@@ -9,18 +9,22 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <!--
       IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
       to match your app's package name + ".permission.C2D_MESSAGE".
     -->
+    <permission android:protectionLevel="signature"
+        android:name="comapps.com.myassociationhoa.permission.C2D_MESSAGE" />
+    <uses-permission android:name="comapps.com.myassociationhoa.permission.C2D_MESSAGE" />
+
 
 
 
@@ -206,7 +210,7 @@
         <activity
             android:name=".AdminPushActivity"
             android:screenOrientation="unspecified"
-            />
+            android:theme="@style/AppTheme.CustomThemeTranslucent" />
 
         <activity
             android:name=".messageboard.PopMBAddMessage"
@@ -305,8 +309,22 @@
 
         </activity>
 
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
 
 
+        <service android:name=".MyInstanceIdListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.parse.push.gcm_sender_id"
+            android:value="id:870150385033" />;
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"
@@ -332,25 +350,20 @@
             </intent-filter>
         </receiver>
 
-
-        <!-- FirebaseInstanceIdService performs security checks at runtime,
-      no need for explicit permissions despite exported="true"  -->
-
-
-
-        <service
-            android:name=".MyInstanceIdListenerService">
+        <receiver android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            >
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-
-        <service android:name=".MyFirebaseMessagingService" android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <!--
+                  IMPORTANT: Change "com.parse.starter" to match your app's package name.
+                -->
+                <category android:name="comapps.com.myassociationhoa" />
             </intent-filter>
-        </service>
+        </receiver>
+
 
 
 

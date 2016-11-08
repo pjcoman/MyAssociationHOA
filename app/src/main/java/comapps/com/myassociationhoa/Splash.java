@@ -10,6 +10,7 @@ import android.widget.ImageView;
 /**
  * Created by me on 8/13/2016.
  */
+@SuppressWarnings("ALL")
 public class Splash extends Activity implements Animation.AnimationListener {
 
 

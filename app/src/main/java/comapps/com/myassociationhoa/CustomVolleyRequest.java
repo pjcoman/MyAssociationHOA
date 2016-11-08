@@ -15,6 +15,7 @@ import com.android.volley.toolbox.ImageLoader;
 /**
  * Created by me on 8/16/2016.
  */
+@SuppressWarnings("ALL")
 public class CustomVolleyRequest {
 
     private static CustomVolleyRequest customVolleyRequest;

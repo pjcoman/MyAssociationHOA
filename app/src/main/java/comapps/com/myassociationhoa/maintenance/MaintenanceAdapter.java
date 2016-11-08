@@ -20,6 +20,7 @@ import comapps.com.myassociationhoa.objects.MaintenanceObject;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 class MaintenanceAdapter extends ArrayAdapter<MaintenanceObject> {
 
     private static final String TAG = "MAINTENANCEADAPTER";

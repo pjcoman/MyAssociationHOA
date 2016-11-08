@@ -26,6 +26,7 @@ import comapps.com.myassociationhoa.objects.CalendarObject;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 class CalendarAdapter extends ArrayAdapter<CalendarObject> {
 
     private static final String TAG = "CALENDARADAPTER";

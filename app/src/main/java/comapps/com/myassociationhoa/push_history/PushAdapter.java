@@ -15,6 +15,7 @@ import comapps.com.myassociationhoa.objects.PushObject;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 class PushAdapter extends ArrayAdapter<PushObject> {
 
     public static final String TAG = "PUSHADAPTER";

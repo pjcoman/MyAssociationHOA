@@ -46,6 +46,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/25/2016.
  */
+@SuppressWarnings("ALL")
 public class PersonalInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "PERSONALINFOACTIVITY";
@@ -269,12 +270,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
                                                       if (textViewStatus.getText().toString().equals("Resigned")) {
                                                           textViewStatus.setText("Administrator");
                                                       } else if (textViewStatus.getText().toString().equals("Administrator")) {
-                                                          textViewStatus.setText("Master");
-                                                      } else if (textViewStatus.getText().toString().equals("Master")) {
                                                           textViewStatus.setText("Security");
                                                       } else if (textViewStatus.getText().toString().equals("Security")) {
-                                                          textViewStatus.setText("Guest");
-                                                      } else if (textViewStatus.getText().toString().equals("Guest")) {
                                                           textViewStatus.setText("Member");
                                                       } else if (textViewStatus.getText().toString().equals("Member")) {
                                                           textViewStatus.setText("Resigned");
@@ -337,7 +334,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
 
 
-            Log.v(TAG, "member number of Assoc ---> " + rosterObject.getNumber());
+
             lastNameEditText.setText(rosterObject.getLastName());
             firstNameEditText.setText(rosterObject.getFirstName());
             middleNameEditText.setText(rosterObject.getMiddleName());

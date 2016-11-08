@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -31,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import comapps.com.myassociationhoa.OnEventListener;
@@ -43,17 +46,22 @@ import comapps.com.myassociationhoa.objects.AdminMBObject;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 class AdminMBRecyclerViewAdapter extends RecyclerView.Adapter {
 
 
 
     private static final String TAG = "ADMINMB_RECYCLERADAPTER";
+    private static final String VISITEDPREFERENCES = "VisitedPrefs";
+
+    private final SharedPreferences sharedPreferencesVisited;
     private final Context context;
     private ArrayList<AdminMBObject> posts = new ArrayList<>();
     private final LayoutInflater mInflater;
     private final ViewBinderHelper binderHelper = new ViewBinderHelper();
     private static final String MYPREFERENCES = "MyPrefs";
     private String outputDate;
+    private String pushMessageString;
 
     private SimpleDateFormat formatter;
     private final SharedPreferences sharedPreferences;
@@ -66,6 +74,7 @@ class AdminMBRecyclerViewAdapter extends RecyclerView.Adapter {
         this.mInflater = LayoutInflater.from(context);
 
         sharedPreferences = context.getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferencesVisited = context.getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
 
     }
 
@@ -230,19 +239,48 @@ class AdminMBRecyclerViewAdapter extends RecyclerView.Adapter {
                             e1.printStackTrace();
                         }
 
+                        if (sharedPreferencesVisited.getBoolean("PARSESERVER", false)) {
+
+                            pushMessageString = "By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
+                                    adminMBObject.getPostName() +
+                                    " has posted a new message to the Message Board.";
+
+                            HashMap<String, Object> params = new HashMap<String, Object>();
+                            params.put("AssociationCode", installation.getString("AssociationCode"));
+                            params.put("MemberType", "Member");
+                            params.put("Channel", "Everyone");
+                            params.put("Message", pushMessageString);
+                            ParseCloud.callFunctionInBackground("SendPush", params, new FunctionCallback<Object>() {
+                                @Override
+                                public void done(Object object, com.parse.ParseException e) {
+                                    if (e == null) {
+
+                                    }
+
+                                }
 
 
-                        ParseQuery pushQuery = ParseInstallation.getQuery();
-                        pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
+                            });
 
-                        ParsePush push = new ParsePush();
-                        push.setQuery(pushQuery); // Set our Installation query
+                        } else {
 
-                        push.setMessage("By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
-                                adminMBObject.getPostName() +
-                                " has posted a new message to the Message Board.");
+                            ParseQuery pushQuery = ParseInstallation.getQuery();
+                            pushQuery.whereEqualTo("AssociationCode", ParseInstallation.getCurrentInstallation().getString("AssociationCode"));
 
-                        push.sendInBackground();
+                            ParsePush push = new ParsePush();
+                            push.setQuery(pushQuery); // Set our Installation query
+
+                            push.setMessage("By: " + sharedPreferences.getString("defaultRecord(1)", "") + "\n" +
+                                    adminMBObject.getPostName() +
+                                    " has posted a new message to the Message Board.");
+
+                            push.sendInBackground();
+
+                        }
+
+
+
+
 
                         ParseFile pushFile = assoc.get(0).getParseFile("PushFile");
 

@@ -14,6 +14,7 @@ import comapps.com.myassociationhoa.R;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 public class DocumentReaderActivity extends AppCompatActivity {
 
     private static final String TAG = "DOCUMENTREADERACTIVITY";

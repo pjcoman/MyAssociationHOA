@@ -34,6 +34,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/25/2016.
  */
+@SuppressWarnings("ALL")
 public class AutosActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 

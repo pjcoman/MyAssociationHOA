@@ -16,6 +16,7 @@ import comapps.com.myassociationhoa.objects.PushObject;
 /**
  * Created by me on 6/22/2016.
  */
+@SuppressWarnings("ALL")
 public class PushFragment extends ListFragment {
 
     private static final String TAG = "PUSHFRAGMENT";

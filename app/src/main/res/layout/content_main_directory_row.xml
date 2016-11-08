@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-
-
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:padding="10dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -84,6 +81,24 @@
                     android:layout_alignParentRight="true"
                     android:textColor="@android:color/black"
                     android:paddingRight="16dp" />
-            </RelativeLayout>
+
+    <Button
+        android:id="@+id/deleteDirectoryItem"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_rounded_corners_white_red_bg"
+        android:shadowColor="#f6e142"
+        android:shadowDx="4"
+        android:shadowDy="4"
+        android:shadowRadius="2"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold"
+
+        android:layout_below="@+id/memberNumber"
+        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:text="X"
+        android:gravity="center"
+        android:layout_alignParentRight="true" />
+</RelativeLayout>
 
 

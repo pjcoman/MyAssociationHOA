@@ -5,6 +5,7 @@ package comapps.com.myassociationhoa;
  */
 
 
+    @SuppressWarnings("ALL")
     public interface OnEventListener<T> {
         void onSuccess();
         void onFailure(Exception e);

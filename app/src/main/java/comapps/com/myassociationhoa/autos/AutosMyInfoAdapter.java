@@ -23,6 +23,7 @@ import comapps.com.myassociationhoa.objects.AutoObject;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 class AutosMyInfoAdapter extends ArrayAdapter<AutoObject> implements Filterable {
 
     private static final String TAG = "AUTOADAPTER";

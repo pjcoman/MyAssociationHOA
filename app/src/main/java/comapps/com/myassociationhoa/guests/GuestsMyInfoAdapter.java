@@ -36,6 +36,7 @@ import comapps.com.myassociationhoa.objects.GuestObject;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("ALL")
 class GuestsMyInfoAdapter extends ArrayAdapter<GuestObject> implements Filterable {
 
     private static final String TAG = "GUESTSADAPTER";
