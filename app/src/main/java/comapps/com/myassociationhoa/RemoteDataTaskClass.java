@@ -495,223 +495,239 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 
 // ***************************************************************************MAINTENANCE***********************************************************************************
 
-                                    String[] maintenanceCategoryFileArray;
-                                    String maintenanceCategoryFileString;
                                     try {
-                                        ParseFile maintenanceCategoryFile = associationObject.get(0).getParseFile("MaintenanceCategoryFile");
-                                        byte[] mcFileData;
-                                        mcFileData = maintenanceCategoryFile.getData();
-                                        maintenanceCategoryFileString = new String(mcFileData, "UTF-8");
-                                        editorVisited = sharedPreferencesVisited.edit();
-                                        editorVisited.putString("MAINTENANCECATEGORY", maintenanceCategoryFileString);
-                                        editorVisited.commit();
-                                    } catch (ParseException | UnsupportedEncodingException e1) {
-                                        e1.printStackTrace();
-                                        maintenanceCategoryFileString = sharedPreferencesVisited.getString("MAINTENANCECATEGORY", "");
-                                    }
+                                        if (!sharedPreferences.getString("defaultRecord(46)", "No").equals("No")) {
+
+                                            String[] maintenanceCategoryFileArray;
+                                            String maintenanceCategoryFileString;
+                                            try {
+                                                ParseFile maintenanceCategoryFile = associationObject.get(0).getParseFile("MaintenanceCategoryFile");
+                                                byte[] mcFileData;
+                                                mcFileData = maintenanceCategoryFile.getData();
+                                                maintenanceCategoryFileString = new String(mcFileData, "UTF-8");
+                                                editorVisited = sharedPreferencesVisited.edit();
+                                                editorVisited.putString("MAINTENANCECATEGORY", maintenanceCategoryFileString);
+                                                editorVisited.commit();
+                                            } catch (ParseException | UnsupportedEncodingException e1) {
+                                                e1.printStackTrace();
+                                                maintenanceCategoryFileString = sharedPreferencesVisited.getString("MAINTENANCECATEGORY", "");
+                                            }
 
 
-                                    maintenanceCategoryFileArray = maintenanceCategoryFileString.split("\\|", -1);
+                                            maintenanceCategoryFileArray = maintenanceCategoryFileString.split("\\|", -1);
 
 
-                                    maintenanceCategoryObjects = new ArrayList<>();
+                                            maintenanceCategoryObjects = new ArrayList<>();
 
-                                    i = 0;
-                                    j = 0;
-                                    for (String maintenanceCatItem : maintenanceCategoryFileArray) {
+                                            i = 0;
+                                            j = 0;
+                                            for (String maintenanceCatItem : maintenanceCategoryFileArray) {
 
-                                        Log.d(TAG, "maintenanceCategoryObject item --->" + maintenanceCatItem + " i = " + i + " j = " + j);
+                                                Log.d(TAG, "maintenanceCategoryObject item --->" + maintenanceCatItem + " i = " + i + " j = " + j);
 
-                                        switch (j) {
-                                            case 0:
-                                                maintenanceCategoryObject = new MaintenanceCategoryObject();
-                                                maintenanceCategoryObject.setMaintenanceCatName(maintenanceCatItem);
-                                                j++;
-                                                break;
-                                            case 1:
-                                                maintenanceCategoryObject.setMaintenanceCatEmail(maintenanceCatItem);
-                                                maintenanceCategoryObjects.add(maintenanceCategoryObject);
-                                                Log.d(TAG, "maintenanceCategoryObject --->" + maintenanceCategoryObject.toString());
+                                                switch (j) {
+                                                    case 0:
+                                                        maintenanceCategoryObject = new MaintenanceCategoryObject();
+                                                        maintenanceCategoryObject.setMaintenanceCatName(maintenanceCatItem);
+                                                        j++;
+                                                        break;
+                                                    case 1:
+                                                        maintenanceCategoryObject.setMaintenanceCatEmail(maintenanceCatItem);
+                                                        maintenanceCategoryObjects.add(maintenanceCategoryObject);
+                                                        Log.d(TAG, "maintenanceCategoryObject --->" + maintenanceCategoryObject.toString());
+
+                                                        editor = sharedPreferences.edit();
+                                                        Gson gson = new Gson();
+                                                        String jsonMaintenanceCategoryObject = gson.toJson(maintenanceCategoryObject); // myObject - instance of MyObject
+                                                        editor.putString("maintenanceCategoryObject" + "[" + (maintenanceCategoryObjects.size() - 1) + "]", jsonMaintenanceCategoryObject);
+                                                        editor.putInt("maintenanceCategoryObjectsSize", maintenanceCategoryObjects.size());
+                                                        editor.apply();
+
+                                                        j = 0;
+
+                                                        break;
+                                                }
+
+
+                                            }
+
+
+                                            String[] maintenanceFileArray;
+                                            String[] maintenanceItems;
+                                            String maintenanceFileString = null;
+                                            try {
+                                                ParseFile maintenanceFile = associationObject.get(0).getParseFile("MaintenanceFile");
+                                                byte[] mFileData = new byte[0];
+                                                mFileData = maintenanceFile.getData();
+                                                maintenanceFileString = "";
+                                                maintenanceFileString = new String(mFileData, "UTF-8");
+                                                editorVisited = sharedPreferencesVisited.edit();
+                                                editorVisited.putString("MAINTENANCEITEMS", maintenanceFileString);
+                                                editorVisited.commit();
+                                            } catch (ParseException | UnsupportedEncodingException e1) {
+                                                e1.printStackTrace();
+                                                maintenanceFileString = sharedPreferencesVisited.getString("MAINTENANCEITEMS", "");
+                                            }
+
+
+                                            maintenanceFileArray = maintenanceFileString.split("\\|", -1);
+
+
+                                            maintenanceObjects = new ArrayList<>();
+
+                                            i = 0;
+                                            for (String maintenanceMember : maintenanceFileArray) {
+
+                                                maintenanceItems = maintenanceMember.split("\\^", -1);
+                                                maintenanceObject = new MaintenanceObject();
+                                                maintenanceObject.setMaintenanceName(maintenanceItems[0]);
+                                                maintenanceObject.setMaintenanceDate(maintenanceItems[1]);
+                                                maintenanceObject.setMaintenanceDesc(maintenanceItems[2]);
+                                                maintenanceObject.setMaintenanceNotes(maintenanceItems[3]);
+                                                maintenanceObject.setMaintenanceCategory(maintenanceItems[4]);
+                                                maintenanceObjects.add(maintenanceObject);
+                                                Log.d(TAG, "maintenanceObject --->" + maintenanceObject.toString());
 
                                                 editor = sharedPreferences.edit();
                                                 Gson gson = new Gson();
-                                                String jsonMaintenanceCategoryObject = gson.toJson(maintenanceCategoryObject); // myObject - instance of MyObject
-                                                editor.putString("maintenanceCategoryObject" + "[" + (maintenanceCategoryObjects.size() - 1) + "]", jsonMaintenanceCategoryObject);
-                                                editor.putInt("maintenanceCategoryObjectsSize", maintenanceCategoryObjects.size());
+                                                String jsonMaintenanceObject = gson.toJson(maintenanceObject); // myObject - instance of MyObject
+                                                editor.putString("maintenanceObject" + "[" + i + "]", jsonMaintenanceObject);
+                                                editor.putString("maintenanceObjectsSize", String.valueOf(maintenanceObjects.size()));
                                                 editor.apply();
 
-                                                j = 0;
+                                                i++;
 
-                                                break;
+
+                                            }
+
                                         }
-
-
-                                    }
-
-
-                                    String[] maintenanceFileArray;
-                                    String[] maintenanceItems;
-                                    String maintenanceFileString = null;
-                                    try {
-                                        ParseFile maintenanceFile = associationObject.get(0).getParseFile("MaintenanceFile");
-                                        byte[] mFileData = new byte[0];
-                                        mFileData = maintenanceFile.getData();
-                                        maintenanceFileString = "";
-                                        maintenanceFileString = new String(mFileData, "UTF-8");
-                                        editorVisited = sharedPreferencesVisited.edit();
-                                        editorVisited.putString("MAINTENANCEITEMS", maintenanceFileString);
-                                        editorVisited.commit();
-                                    } catch (ParseException | UnsupportedEncodingException e1) {
+                                    } catch (Exception e1) {
                                         e1.printStackTrace();
-                                        maintenanceFileString = sharedPreferencesVisited.getString("MAINTENANCEITEMS", "");
-                                    }
 
-
-                                    maintenanceFileArray = maintenanceFileString.split("\\|", -1);
-
-
-                                    maintenanceObjects = new ArrayList<>();
-
-                                    i = 0;
-                                    for (String maintenanceMember : maintenanceFileArray) {
-
-                                        maintenanceItems = maintenanceMember.split("\\^", -1);
-                                        maintenanceObject = new MaintenanceObject();
-                                        maintenanceObject.setMaintenanceName(maintenanceItems[0]);
-                                        maintenanceObject.setMaintenanceDate(maintenanceItems[1]);
-                                        maintenanceObject.setMaintenanceDesc(maintenanceItems[2]);
-                                        maintenanceObject.setMaintenanceNotes(maintenanceItems[3]);
-                                        maintenanceObject.setMaintenanceCategory(maintenanceItems[4]);
-                                        maintenanceObjects.add(maintenanceObject);
-                                        Log.d(TAG, "maintenanceObject --->" + maintenanceObject.toString());
-
-                                        editor = sharedPreferences.edit();
-                                        Gson gson = new Gson();
-                                        String jsonMaintenanceObject = gson.toJson(maintenanceObject); // myObject - instance of MyObject
-                                        editor.putString("maintenanceObject" + "[" + i + "]", jsonMaintenanceObject);
-                                        editor.putString("maintenanceObjectsSize", String.valueOf(maintenanceObjects.size()));
-                                        editor.apply();
-
-                                        i++;
-
-
+                                        Log.d(TAG, "maintenance error ---> " + e1.toString());
                                     }
 
 //******************************************************************************GUESTS********************************************************************************
 
-
-                                    String[] guestAccessFileArray;
-                                    String[] guestAccessItems;
-                                    String guestAccessFileString;
                                     try {
-                                        ParseFile guestAccessFile = associationObject.get(0).getParseFile("GuestAccessFile");
-                                        byte[] guestAccessFileData;
-                                        guestAccessFileData = guestAccessFile.getData();
-                                        guestAccessFileString = new String(guestAccessFileData, "UTF-8");
-                                        editorVisited = sharedPreferencesVisited.edit();
-                                        editorVisited.putString("GUESTACCESS", guestAccessFileString);
-                                        editorVisited.commit();
-                                    } catch (ParseException | UnsupportedEncodingException e1) {
+                                        if (!sharedPreferences.getString("defaultRecord(39)", "No").equals("No")) {
+
+
+                                            String[] guestAccessFileArray;
+                                            String[] guestAccessItems;
+                                            String guestAccessFileString;
+                                            try {
+                                                ParseFile guestAccessFile = associationObject.get(0).getParseFile("GuestAccessFile");
+                                                byte[] guestAccessFileData;
+                                                guestAccessFileData = guestAccessFile.getData();
+                                                guestAccessFileString = new String(guestAccessFileData, "UTF-8");
+                                                editorVisited = sharedPreferencesVisited.edit();
+                                                editorVisited.putString("GUESTACCESS", guestAccessFileString);
+                                                editorVisited.commit();
+                                            } catch (ParseException | UnsupportedEncodingException e1) {
+                                                e1.printStackTrace();
+                                                guestAccessFileString = sharedPreferencesVisited.getString("GUESTACCESS", "");
+                                            }
+
+                                            Log.d(TAG, "guestAccessFileString ---->" + guestAccessFileString);
+                                            guestAccessFileArray = guestAccessFileString.split("\\|", -1);
+
+
+                                            guestAccessObjects = new ArrayList<>();
+
+                                            i = 0;
+                                            for (String accessItem : guestAccessFileArray) {
+
+                                                Log.d(TAG, "accessItem ----> " + accessItem);
+
+                                                guestAccessItems = accessItem.split("\\^", -1);
+                                                guestAccessObject = new GuestAccessObject();
+                                                guestAccessObject.setGuestAccessOwner(guestAccessItems[0]);
+                                                guestAccessObject.setGuestAccessDate(guestAccessItems[1]);
+                                                guestAccessObject.setGuestAccessName(guestAccessItems[2]);
+                                                guestAccessObject.setGuestAccessType(guestAccessItems[3]);
+                                                guestAccessObject.setGuestAccessContactType(guestAccessItems[4]);
+
+                                                guestAccessObjects.add(guestAccessObject);
+
+                                                Log.d(TAG, "guestAccessObject --->" + guestAccessObject.toString());
+
+                                                editor = sharedPreferences.edit();
+                                                Gson gson = new Gson();
+                                                String jsonGuestAccessObject = gson.toJson(guestAccessObject); // myObject - instance of MyObject
+                                                editor.putString("guestAccessObject" + "[" + i + "]", jsonGuestAccessObject);
+                                                editor.putInt("guestAccessObjectsSize", guestAccessObjects.size());
+                                                editor.apply();
+
+                                                i++;
+
+
+                                            }
+
+
+                                            String[] guestFileArray;
+                                            String[] guestItems;
+                                            String guestsFileString;
+                                            try {
+                                                ParseFile guestFile = associationObject.get(0).getParseFile("GuestFile");
+                                                byte[] guestFileData;
+                                                guestFileData = guestFile.getData();
+                                                guestsFileString = new String(guestFileData, "UTF-8");
+                                                editorVisited = sharedPreferencesVisited.edit();
+                                                editorVisited.putString("GUESTS", guestsFileString);
+                                                editorVisited.commit();
+                                            } catch (ParseException | UnsupportedEncodingException e1) {
+                                                e1.printStackTrace();
+                                                guestsFileString = sharedPreferencesVisited.getString("GUESTS", "");
+                                            }
+
+                                            Log.d(TAG, "guestFileString ---->" + guestsFileString);
+                                            guestFileArray = guestsFileString.split("\\|", -1);
+
+
+                                            guestObjects = new ArrayList<>();
+
+                                            i = 0;
+                                            for (String guest : guestFileArray) {
+
+                                                guestItems = guest.split("\\^", -1);
+                                                guestObject = new GuestObject();
+                                                guestObject.setGuestOwner(guestItems[0]);
+                                                guestObject.setGuestOwnerMemberNumber(guestItems[1]);
+                                                guestObject.setGuestType(guestItems[2]);
+                                                guestObject.setGuestStartdate(guestItems[3]);
+                                                guestObject.setGuestEnddate(guestItems[4]);
+                                                guestObject.setMondayAccess(guestItems[5]);
+                                                guestObject.setTuesdayAccess(guestItems[6]);
+                                                guestObject.setWednesdayAccess(guestItems[7]);
+                                                guestObject.setThursdayAccess(guestItems[8]);
+                                                guestObject.setFridayAccess(guestItems[9]);
+                                                guestObject.setSaturdayAccess(guestItems[10]);
+                                                guestObject.setSundayAccess(guestItems[11]);
+                                                guestObject.setGuestDescription(guestItems[12]);
+                                                guestObject.setGuestName(guestItems[13]);
+                                                guestObject.setOwnerContactNumberType(guestItems[14]);
+                                                guestObject.setOwnerContactNumber(guestItems[15]);
+                                                guestObjects.add(guestObject);
+
+                                                Log.d(TAG, "guestObject --->" + guestObject.toString());
+
+                                                editor = sharedPreferences.edit();
+                                                Gson gson = new Gson();
+                                                String jsonGuestObject = gson.toJson(guestObject); // myObject - instance of MyObject
+                                                editor.putString("guestObject" + "[" + i + "]", jsonGuestObject);
+                                                editor.putInt("guestObjectsSize", guestObjects.size());
+                                                editor.apply();
+
+                                                i++;
+
+
+                                            }
+
+                                        }
+                                    } catch (Exception e1) {
                                         e1.printStackTrace();
-                                        guestAccessFileString = sharedPreferencesVisited.getString("GUESTACCESS", "");
-                                    }
-
-                                    Log.d(TAG, "guestAccessFileString ---->" + guestAccessFileString);
-                                    guestAccessFileArray = guestAccessFileString.split("\\|", -1);
-
-
-                                    guestAccessObjects = new ArrayList<>();
-
-                                    i = 0;
-                                    for (String accessItem : guestAccessFileArray) {
-
-                                        Log.d(TAG, "accessItem ----> " + accessItem);
-
-                                        guestAccessItems = accessItem.split("\\^", -1);
-                                        guestAccessObject = new GuestAccessObject();
-                                        guestAccessObject.setGuestAccessOwner(guestAccessItems[0]);
-                                        guestAccessObject.setGuestAccessDate(guestAccessItems[1]);
-                                        guestAccessObject.setGuestAccessName(guestAccessItems[2]);
-                                        guestAccessObject.setGuestAccessType(guestAccessItems[3]);
-                                        guestAccessObject.setGuestAccessContactType(guestAccessItems[4]);
-
-                                        guestAccessObjects.add(guestAccessObject);
-
-                                        Log.d(TAG, "guestAccessObject --->" + guestAccessObject.toString());
-
-                                        editor = sharedPreferences.edit();
-                                        Gson gson = new Gson();
-                                        String jsonGuestAccessObject = gson.toJson(guestAccessObject); // myObject - instance of MyObject
-                                        editor.putString("guestAccessObject" + "[" + i + "]", jsonGuestAccessObject);
-                                        editor.putInt("guestAccessObjectsSize", guestAccessObjects.size());
-                                        editor.apply();
-
-                                        i++;
-
-
-                                    }
-
-
-//******************************************************************************GUESTS********************************************************************************
-
-
-                                    String[] guestFileArray;
-                                    String[] guestItems;
-                                    String guestsFileString;
-                                    try {
-                                        ParseFile guestFile = associationObject.get(0).getParseFile("GuestFile");
-                                        byte[] guestFileData;
-                                        guestFileData = guestFile.getData();
-                                        guestsFileString = new String(guestFileData, "UTF-8");
-                                        editorVisited = sharedPreferencesVisited.edit();
-                                        editorVisited.putString("GUESTS", guestsFileString);
-                                        editorVisited.commit();
-                                    } catch (ParseException | UnsupportedEncodingException e1) {
-                                        e1.printStackTrace();
-                                        guestsFileString = sharedPreferencesVisited.getString("GUESTS", "");
-                                    }
-
-                                    Log.d(TAG, "guestFileString ---->" + guestsFileString);
-                                    guestFileArray = guestsFileString.split("\\|", -1);
-
-
-                                    guestObjects = new ArrayList<>();
-
-                                    i = 0;
-                                    for (String guest : guestFileArray) {
-
-                                        guestItems = guest.split("\\^", -1);
-                                        guestObject = new GuestObject();
-                                        guestObject.setGuestOwner(guestItems[0]);
-                                        guestObject.setGuestOwnerMemberNumber(guestItems[1]);
-                                        guestObject.setGuestType(guestItems[2]);
-                                        guestObject.setGuestStartdate(guestItems[3]);
-                                        guestObject.setGuestEnddate(guestItems[4]);
-                                        guestObject.setMondayAccess(guestItems[5]);
-                                        guestObject.setTuesdayAccess(guestItems[6]);
-                                        guestObject.setWednesdayAccess(guestItems[7]);
-                                        guestObject.setThursdayAccess(guestItems[8]);
-                                        guestObject.setFridayAccess(guestItems[9]);
-                                        guestObject.setSaturdayAccess(guestItems[10]);
-                                        guestObject.setSundayAccess(guestItems[11]);
-                                        guestObject.setGuestDescription(guestItems[12]);
-                                        guestObject.setGuestName(guestItems[13]);
-                                        guestObject.setOwnerContactNumberType(guestItems[14]);
-                                        guestObject.setOwnerContactNumber(guestItems[15]);
-                                        guestObjects.add(guestObject);
-
-                                        Log.d(TAG, "guestObject --->" + guestObject.toString());
-
-                                        editor = sharedPreferences.edit();
-                                        Gson gson = new Gson();
-                                        String jsonGuestObject = gson.toJson(guestObject); // myObject - instance of MyObject
-                                        editor.putString("guestObject" + "[" + i + "]", jsonGuestObject);
-                                        editor.putInt("guestObjectsSize", guestObjects.size());
-                                        editor.apply();
-
-                                        i++;
-
-
+                                        Log.d(TAG, "guests error ---> " + e1.toString());
                                     }
 
 //***********************************************************************PUSH***************************************************************************************
@@ -1080,93 +1096,96 @@ public class RemoteDataTaskClass extends AsyncTask<Void, Void, Void> {
 
 
 //***************************************************************************ADMIN MESSAGE**********************************************************************************
+                                    if (!sharedPreferences.getString("defaultRecord(48)", "No").equals("No")) {
 
 
-                                    String[] admin_postFileArray;
-                                    String admin_postsFileString;
-                                    try {
-                                        ParseFile admin_postsFile = associationObject.get(0).getParseFile("AdminMessageFile");
-                                        byte[] admin_postFileData;
-                                        admin_postFileData = admin_postsFile.getData();
-                                        admin_postsFileString = new String(admin_postFileData, "UTF-8");
-                                        editorVisited = sharedPreferencesVisited.edit();
-                                        editorVisited.putString("ADMINPOSTS", admin_postsFileString);
-                                        editorVisited.commit();
-                                    } catch (ParseException | UnsupportedEncodingException e1) {
-                                        e1.printStackTrace();
-                                        admin_postsFileString = sharedPreferencesVisited.getString("ADMINPOSTS", "");
-                                    }
-
-
-                                    Log.v(TAG, "adminPostsFileString ---> " + admin_postsFileString);
-
-
-                                    if (admin_postsFileString.equals("") || admin_postsFileString == null) {
-
-                                        editorVisited = sharedPreferencesVisited.edit();
-                                        editorVisited.putInt("admin_mbSize", 0);
-                                        editorVisited.apply();
-
-
-                                    } else {
-
-                                        admin_postFileArray = admin_postsFileString.split("\\|", -1);
-
-                                        adminMBObjects = new ArrayList<>();
-
-                                        int adminmessageCount = 0;
-
-                                        for (i = 0, j = 0; i < admin_postFileArray.length; i++) {
-
-                                            switch (j) {
-                                                case 0:
-                                                    adminMBObject = new AdminMBObject();
-                                                    adminMBObject.setPostName(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 1:
-                                                    adminMBObject.setPostDate(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 2:
-                                                    adminMBObject.setPostText(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 3:
-                                                    adminMBObject.setPostSort(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 4:
-                                                    adminMBObject.setPostEmail(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 5:
-                                                    adminMBObject.setPostComment(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 6:
-                                                    adminMBObject.setPostNameComment(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 7:
-                                                    adminMBObject.setPostOriginalText(admin_postFileArray[i].trim());
-                                                    adminMBObjects.add(adminMBObject);
-                                                    adminmessageCount++;
-                                                    editor = sharedPreferences.edit();
-                                                    editorVisited = sharedPreferencesVisited.edit();
-                                                    Gson gson = new Gson();
-                                                    String jsonAdminMbObject = gson.toJson(adminMBObject); // myObject - instance of MyObject
-                                                    editor.putString("admin_mbObject" + "[" + (((i + 1) / 8) - 1) + "]", jsonAdminMbObject);
-                                                    editorVisited.putInt("admin_mbSize", adminmessageCount);
-                                                    editorVisited.apply();
-                                                    editor.apply();
-
-                                                    j = 0;
-
-                                                    break;
-                                            }
-
+                                        String[] admin_postFileArray;
+                                        String admin_postsFileString;
+                                        try {
+                                            ParseFile admin_postsFile = associationObject.get(0).getParseFile("AdminMessageFile");
+                                            byte[] admin_postFileData;
+                                            admin_postFileData = admin_postsFile.getData();
+                                            admin_postsFileString = new String(admin_postFileData, "UTF-8");
+                                            editorVisited = sharedPreferencesVisited.edit();
+                                            editorVisited.putString("ADMINPOSTS", admin_postsFileString);
+                                            editorVisited.commit();
+                                        } catch (ParseException | UnsupportedEncodingException e1) {
+                                            e1.printStackTrace();
+                                            admin_postsFileString = sharedPreferencesVisited.getString("ADMINPOSTS", "");
                                         }
+
+
+                                        Log.v(TAG, "adminPostsFileString ---> " + admin_postsFileString);
+
+
+                                        if (admin_postsFileString.equals("") || admin_postsFileString == null) {
+
+                                            editorVisited = sharedPreferencesVisited.edit();
+                                            editorVisited.putInt("admin_mbSize", 0);
+                                            editorVisited.apply();
+
+
+                                        } else {
+
+                                            admin_postFileArray = admin_postsFileString.split("\\|", -1);
+
+                                            adminMBObjects = new ArrayList<>();
+
+                                            int adminmessageCount = 0;
+
+                                            for (i = 0, j = 0; i < admin_postFileArray.length; i++) {
+
+                                                switch (j) {
+                                                    case 0:
+                                                        adminMBObject = new AdminMBObject();
+                                                        adminMBObject.setPostName(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 1:
+                                                        adminMBObject.setPostDate(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 2:
+                                                        adminMBObject.setPostText(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 3:
+                                                        adminMBObject.setPostSort(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 4:
+                                                        adminMBObject.setPostEmail(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 5:
+                                                        adminMBObject.setPostComment(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 6:
+                                                        adminMBObject.setPostNameComment(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 7:
+                                                        adminMBObject.setPostOriginalText(admin_postFileArray[i].trim());
+                                                        adminMBObjects.add(adminMBObject);
+                                                        adminmessageCount++;
+                                                        editor = sharedPreferences.edit();
+                                                        editorVisited = sharedPreferencesVisited.edit();
+                                                        Gson gson = new Gson();
+                                                        String jsonAdminMbObject = gson.toJson(adminMBObject); // myObject - instance of MyObject
+                                                        editor.putString("admin_mbObject" + "[" + (((i + 1) / 8) - 1) + "]", jsonAdminMbObject);
+                                                        editorVisited.putInt("admin_mbSize", adminmessageCount);
+                                                        editorVisited.apply();
+                                                        editor.apply();
+
+                                                        j = 0;
+
+                                                        break;
+                                                }
+
+                                            }
+                                        }
+
                                     }
 
 //************************************************************************PDFS**************************************************************************************************

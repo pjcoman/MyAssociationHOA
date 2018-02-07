@@ -111,7 +111,7 @@ public class PopEnterPasscode extends AppCompatActivity {
 
         if ( sharedPreferencesVisited.getBoolean("visitedBefore", false)) {
 
-            query = ParseQuery.getQuery("Home").fromLocalDatastore();
+            query = ParseQuery.getQuery("Home");
 
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override

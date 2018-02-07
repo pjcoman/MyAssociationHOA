@@ -39,8 +39,7 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView2">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"
@@ -163,7 +162,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/mon"
-                        android:id="@+id/textViewMonday"
                         android:gravity="center"
                         android:padding="6dp"
                         android:textColor="#a10404"
@@ -176,7 +174,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/tue"
-                        android:id="@+id/textViewTuesday"
                         android:gravity="center"
                         android:padding="6dp"
                         android:textColor="#a10404"
@@ -189,7 +186,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/wed"
-                        android:id="@+id/textViewWednesday"
                         android:gravity="center"
                         android:padding="6dp"
                         android:textColor="#a10404"
@@ -202,7 +198,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/thu"
-                        android:id="@+id/textViewThursday"
                         android:gravity="center"
                         android:padding="6dp"
                         android:textColor="#a10404"
@@ -227,8 +222,8 @@
                         android:gravity="center"
                         android:padding="6dp"
                         android:layout_margin="4dp"
-                        android:textOn="Yes"
-                        android:textOff="No"
+                        android:textOn="@string/yes"
+                        android:textOff="@string/no"
                         android:layout_weight="1"
                         android:checked="true" />
 
@@ -240,8 +235,8 @@
                         android:gravity="center"
                         android:padding="6dp"
                         android:layout_margin="4dp"
-                        android:textOn="Yes"
-                        android:textOff="No"
+                        android:textOn="@string/yes"
+                        android:textOff="@string/no"
                         android:layout_weight="1"
                         android:checked="true" />
 
@@ -253,8 +248,8 @@
                         android:gravity="center"
                         android:padding="6dp"
                         android:layout_margin="4dp"
-                        android:textOn="Yes"
-                        android:textOff="No"
+                        android:textOn="@string/yes"
+                        android:textOff="@string/no"
                         android:layout_weight="1"
                         android:checked="true" />
 
@@ -266,8 +261,8 @@
                         android:gravity="center"
                         android:padding="6dp"
                         android:layout_margin="4dp"
-                        android:textOn="Yes"
-                        android:textOff="No"
+                        android:textOn="@string/yes"
+                        android:textOff="@string/no"
                         android:layout_weight="1"
                         android:checked="true" />
                 </LinearLayout>
@@ -283,7 +278,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/fri"
-                        android:id="@+id/textViewFriday"
                         android:gravity="center"
                         android:padding="6dp"
                         android:textColor="#a10404"
@@ -296,7 +290,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/satstring"
-                        android:id="@+id/textViewSaturday"
                         android:gravity="center"
                         android:padding="6dp"
                         android:textColor="#a10404"
@@ -309,7 +302,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/sun"
-                        android:id="@+id/textViewSunday"
                         android:gravity="center"
                         android:padding="6dp"
                         android:textColor="#a10404"
@@ -334,8 +326,8 @@
                         android:gravity="center"
                         android:padding="6dp"
                         android:layout_margin="4dp"
-                        android:textOn="Yes"
-                        android:textOff="No"
+                        android:textOn="@string/yes"
+                        android:textOff="@string/no"
                         android:layout_weight="1"
                         android:checked="true" />
 
@@ -347,8 +339,8 @@
                         android:gravity="center"
                         android:padding="6dp"
                         android:layout_margin="4dp"
-                        android:textOn="Yes"
-                        android:textOff="No"
+                        android:textOn="@string/yes"
+                        android:textOff="@string/no"
                         android:layout_weight="1"
                         android:checked="true" />
 
@@ -360,8 +352,8 @@
                         android:gravity="center"
                         android:padding="6dp"
                         android:layout_margin="4dp"
-                        android:textOn="Yes"
-                        android:textOff="No"
+                        android:textOn="@string/yes"
+                        android:textOff="@string/no"
                         android:layout_weight="1"
                         android:checked="true" />
                 </LinearLayout>

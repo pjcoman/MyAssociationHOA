@@ -1,26 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".guests.GuestsActivity"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:focusableInTouchMode="false"
+    android:background="@color/colorPrimaryDark"
     android:clickable="false"
-    android:id="@+id/content_main_guests"
+    android:focusableInTouchMode="false"
     android:orientation="vertical"
-    android:background="#d0cccc">
+    tools:context=".guests.GuestsActivity">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="10dp">
+
+        <SearchView
+            android:id="@+id/search_view_guests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:iconifiedByDefault="false"
+            android:padding="2dp"
+            android:queryHint="Search...." />
+
+    </android.support.v7.widget.CardView>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search_view_guests">
+        android:layout_below="@+id/cardView"
+        android:background="#d0cccc">
 
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:focusableInTouchMode="true"/>
+            android:fitsSystemWindows="false"
+            android:focusableInTouchMode="true"
+            android:focusedByDefault="true" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab"
@@ -28,25 +50,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
 
-            android:src="@drawable/fab"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             android:alpha=".65"
-            android:layout_marginTop="100dp"
-            android:layout_marginRight="20dp" />
+            android:src="@drawable/fab" />
     </FrameLayout>
-
-
-    <SearchView
-        android:id="@+id/search_view_guests"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:padding="2dp"
-        android:queryHint="Search Owner or Guest"
-        android:background="#fcf8f8" />
-
-    <!-- ListView -->
-
-
 
 
 </RelativeLayout>

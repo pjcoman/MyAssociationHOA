@@ -46,7 +46,6 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:id="@+id/scrollView2"
         android:layout_weight="4">
 
         <RelativeLayout

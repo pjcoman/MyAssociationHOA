@@ -26,8 +26,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/linearLayoutMemberInfo">
+            android:layout_height="wrap_content">
 
 
             <LinearLayout
@@ -50,7 +49,6 @@
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
                     android:text="@string/comma"
-                    android:id="@+id/textView2"
                     android:textSize="18sp"
                     android:textColor="#662903"
                     android:textStyle="bold" />
@@ -135,7 +133,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/comma"
-                        android:id="@+id/textView"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_marginRight="5dp" />
@@ -171,17 +168,16 @@
                     android:padding="10dp">
 
                     <TextView
+                        android:id="@+id/homePhoneTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:id="@+id/homePhoneTextView"
-                        android:gravity="center|right"
-                        android:textSize="18sp"
-                        android:inputType="phone"
-                        android:textColor="#087326"
-                        android:textStyle="bold"
-                        android:text="(222) 222-2222"
                         android:layout_toRightOf="@+id/textViewMobileLabel"
-                        android:padding="0dp" />
+                        android:gravity="center|right"
+                        android:inputType="phone"
+                        android:padding="0dp"
+                        android:textColor="#087326"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <ImageButton
                         android:layout_width="30dp"
@@ -207,18 +203,17 @@
                         android:layout_marginRight="5dp" />
 
                     <TextView
+                        android:id="@+id/mobilePhoneTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:id="@+id/mobilePhoneTextView"
-                        android:gravity="center"
-                        android:textSize="18sp"
-                        android:inputType="phone"
-                        android:textColor="#087326"
-                        android:textStyle="bold"
-                        android:text="(333) 333-3333"
                         android:layout_below="@+id/imageButtonPhone"
                         android:layout_toRightOf="@+id/textViewMobileLabel"
-                        android:padding="0dp" />
+                        android:gravity="center"
+                        android:inputType="phone"
+                        android:padding="0dp"
+                        android:textColor="#087326"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <ImageButton
                         android:layout_width="30dp"
@@ -288,7 +283,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:inputType="textCapWords|textPostalAddress"
                     android:ems="10"
                     android:id="@+id/winter_address2TextView"
@@ -322,7 +317,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/comma"
-                        android:id="@+id/textView4"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -358,16 +352,15 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/winter_homePhoneTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:id="@+id/winter_homePhoneTextView"
-                        android:gravity="center"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="18sp"
-                        android:visibility="visible"
+                        android:gravity="center"
                         android:textColor="#105ceb"
-                        android:text="555555555"
-                        android:textStyle="bold" />
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
 
                     <ImageButton
                         android:layout_width="30dp"
@@ -454,75 +447,77 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/otherInfoLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/info_background_noframe"
-                android:padding="20dp"
-                android:id="@+id/otherInfoLayout"
-                android:weightSum="2"
                 android:baselineAligned="false"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:weightSum="2">
 
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:id="@+id/other"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="2"
-                    android:id="@+id/other"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/display_pets"
                         android:id="@+id/petsButton"
-                        android:background="#fcf7f7"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_margin="6dp"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
                         android:padding="4dp"
+                        android:text="@string/display_pets"
                         android:textSize="12sp" />
 
                     <Button
-                        android:layout_width="match_parent"
+                        android:id="@+id/guestsButton"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/display_autos"
-                        android:id="@+id/autosButton"
-                        android:background="#fcf7f7"
                         android:layout_margin="6dp"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
                         android:padding="4dp"
+                        android:text="@string/display_guests"
                         android:textSize="12sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:id="@+id/other2"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:weightSum="2"
-                    android:id="@+id/other2"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/autosButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/display_guests"
-                        android:id="@+id/guestsButton"
-                        android:background="#fcf7f7"
                         android:layout_margin="6dp"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
                         android:padding="4dp"
+                        android:text="@string/display_autos"
                         android:textSize="12sp" />
 
                     <Button
+                        android:id="@+id/otherButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/display_other"
-                        android:id="@+id/otherButton"
-                        android:background="#fcf7f7"
                         android:layout_margin="6dp"
+                        android:layout_weight="1"
+                        android:background="#fcf7f7"
                         android:padding="4dp"
+                        android:text="@string/display_other"
                         android:textSize="12sp"
-                        android:visibility="gone" />
+                        android:visibility="invisible" />
                 </LinearLayout>
 
             </LinearLayout>

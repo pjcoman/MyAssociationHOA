@@ -8,9 +8,7 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="false"
     android:clickable="false"
-    android:id="@+id/content_main_weather"
-    android:orientation="vertical"
-    android:weightSum="15">
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/ivWeather"
@@ -22,136 +20,152 @@
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="4">
+        android:layout_margin="5dp"
+        android:orientation="vertical"
+        android:weightSum="8.5">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:weightSum="1"
-            android:layout_weight=".5"
-            android:gravity="center">
 
-            <me.grantland.widget.AutofitTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:id="@+id/textViewAssociationName"
-                android:textColor="@android:color/white"
-                android:layout_gravity="center"
-                autofit:minTextSize="24sp"
-                android:layout_weight=".5"
-                android:gravity="center_vertical|center_horizontal" />
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/textViewAssociationName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/white"
+            autofit:minTextSize="24sp" />
 
-            <me.grantland.widget.AutofitTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:text="@string/current_weather"
-                android:id="@+id/textViewCurrentWeatherTitle"
-                android:textColor="@android:color/white"
-                android:layout_gravity="center"
-                autofit:minTextSize="24sp"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_weight=".5" />
-        </LinearLayout>
+        <me.grantland.widget.AutofitTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/current_weather"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/white"
+            autofit:minTextSize="24sp" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:weightSum="2"
-            android:layout_weight="3.5">
 
-            <me.grantland.widget.AutofitTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textViewCurrentDescription"
-                android:textColor="@android:color/white"
-                android:layout_weight="1"
-                android:gravity="center_vertical|center_horizontal"
-                android:paddingLeft="10dp"
-                android:textSize="30sp"
-                autofit:minTextSize="20sp"
-                android:padding="0dp"
-                android:layout_gravity="center" />
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/textViewCurrentDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@color/nnf_light_separator_color"
+            android:gravity="center"
+            android:padding="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColor="@android:color/white"
+            autofit:minTextSize="20sp" />
 
-            <me.grantland.widget.AutofitTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:id="@+id/textViewCurrentTemp"
-                android:textColor="@android:color/white"
-                android:textSize="100sp"
-                autofit:minTextSize="60sp"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_weight="1"
-                android:padding="0dp" />
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/textViewCurrentTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@color/nnf_light_separator_color"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/white"
+            android:textSize="80sp"
+            autofit:minTextSize="60sp" />
 
-            <me.grantland.widget.AutofitTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:id="@+id/textViewCurrentWindDirection"
-                android:textColor="@android:color/white"
-                autofit:minTextSize="26sp"
-                android:gravity="center_vertical|center_horizontal"
-                android:textIsSelectable="true"
-                android:layout_weight="2"
-                android:layout_margin="10dp" />
+        <ImageView
+            android:id="@+id/imageViewWeatherIcon"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:padding="10dp"
+            autofit:srcCompat="@android:drawable/ic_menu_help" />
 
-            <me.grantland.widget.AutofitTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/textViewCurrentWindDirection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@color/nnf_light_separator_color"
+            android:gravity="center"
+            android:padding="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/white"
+            android:textIsSelectable="true"
+            autofit:minTextSize="26sp" />
+
+        <!-- <me.grantland.widget.AutofitTextView
                 android:id="@+id/textViewForecastDescription"
-                android:textColor="@android:color/white"
-                autofit:minTextSize="26sp"
-                android:gravity="center_vertical"
-                android:layout_weight="1"
-                android:layout_margin="10dp" />
-
-            <me.grantland.widget.AutofitTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@color/nnf_light_separator_color"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:id="@+id/textViewHighLow"
                 android:textColor="@android:color/white"
-                autofit:minTextSize="26sp"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_weight="1"
-                android:layout_margin="10dp" />
+                autofit:minTextSize="26sp" />-->
 
-            <me.grantland.widget.AutofitTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:id="@+id/textViewForecastWindDirection"
-                android:textColor="@android:color/white"
-                autofit:minTextSize="26sp"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_weight="1"
-                android:layout_margin="10dp" />
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/textViewHighLow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@color/nnf_light_separator_color"
+            android:gravity="center"
+            android:padding="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/white"
+            autofit:minTextSize="26sp" />
 
-            <me.grantland.widget.AutofitTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:text="@string/powered_by_world_weather_online"
-                android:id="@+id/textView3"
-                android:textColor="#fbf8f8"
-                android:textStyle="normal"
-                autofit:minTextSize="16sp"
-                android:layout_weight="1"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_margin="10dp" />
-        </LinearLayout>
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/textViewForecastWindDirection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@color/nnf_light_separator_color"
+            android:gravity="center"
+            android:padding="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/white"
+            autofit:minTextSize="26sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight=".5"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/powered_by_world_weather_online"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#fbf8f8"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+
     </LinearLayout>
 
 </FrameLayout>

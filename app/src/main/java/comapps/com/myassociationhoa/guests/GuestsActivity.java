@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -69,6 +70,8 @@ public class GuestsActivity extends AppCompatActivity implements
 
 
         setContentView(R.layout.content_main_guests);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         mFab = (FloatingActionButton) findViewById(R.id.fab);
         mFab.setVisibility(View.GONE);

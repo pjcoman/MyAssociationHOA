@@ -22,7 +22,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/content_main_vertical"
         android:weightSum="13">
 
         <FrameLayout
@@ -49,7 +48,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:gravity="center"
-                android:text="HOA" />
+                android:text="@string/hoa" />
 
             <ProgressBar
                 style="@android:style/Widget.Material.ProgressBar.Small.Title"

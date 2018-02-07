@@ -127,6 +127,8 @@ class DirectoryAdapter extends ArrayAdapter<RosterObject> implements Filterable 
             deleteDirectoryItem.setVisibility(View.VISIBLE);
         } else {
             deleteDirectoryItem.setVisibility(View.GONE);
+            textViewActDate.setVisibility(View.GONE);
+            textViewMemberNumber.setVisibility(View.GONE);
         }
 
 

@@ -202,95 +202,104 @@ public class RemoteDataTaskClassMB extends AsyncTask<Void, Void, Void> {
 
 //***************************************************************************ADMIN MESSAGE**********************************************************************************
 
-
-                                    String[] admin_postFileArray = new String[0];
-                                    String admin_postsFileString = null;
-                                    try {
-                                        ParseFile admin_postsFile = associationObject.get(0).getParseFile("AdminMessageFile");
-                                        admin_postFileArray = null;
-                                        byte[] admin_postFileData = new byte[0];
-                                        admin_postFileData = admin_postsFile.getData();
-                                        admin_postsFileString = "";
-                                        admin_postsFileString = new String(admin_postFileData, "UTF-8");
-                                        editorVisited = sharedPreferencesVisited.edit();
-                                        editorVisited.putString("ADMINPOSTS", admin_postsFileString);
-                                        editorVisited.commit();
-                                    } catch (ParseException | UnsupportedEncodingException e1) {
-                                        e1.printStackTrace();
-                                        admin_postsFileString = sharedPreferencesVisited.getString("ADMINPOSTS", "");
-                                    }
+                                    if (!sharedPreferences.getString("defaultRecord(48)", "No").equals("No")) {
 
 
-                                    Log.v(TAG, "adminPostsFileString ---> " + admin_postsFileString);
+                                        String[] admin_postFileArray = new String[0];
+                                        String admin_postsFileString = null;
+                                        try {
+                                            ParseFile admin_postsFile = associationObject.get(0).getParseFile("AdminMessageFile");
+                                            admin_postFileArray = null;
+                                            byte[] admin_postFileData = new byte[0];
+                                            admin_postFileData = admin_postsFile.getData();
+                                            admin_postsFileString = "";
+                                            admin_postsFileString = new String(admin_postFileData, "UTF-8");
+                                            editorVisited = sharedPreferencesVisited.edit();
+                                            editorVisited.putString("ADMINPOSTS", admin_postsFileString);
+                                            editorVisited.commit();
+                                        } catch (ParseException | UnsupportedEncodingException e1) {
+                                            e1.printStackTrace();
+                                            admin_postsFileString = sharedPreferencesVisited.getString("ADMINPOSTS", "");
+                                        }
 
 
-                                    if (admin_postsFileString.equals("") || admin_postsFileString == null) {
-
-                                        editorVisited = sharedPreferencesVisited.edit();
-                                        editorVisited.putInt("admin_mbSize", 0);
-                                        editorVisited.apply();
+                                        Log.v(TAG, "adminPostsFileString ---> " + admin_postsFileString);
 
 
-                                    } else {
+                                        if (admin_postsFileString.equals("") || admin_postsFileString == null) {
 
-                                        admin_postFileArray = admin_postsFileString.split("\\|", -1);
+                                            editorVisited = sharedPreferencesVisited.edit();
+                                            editorVisited.putInt("admin_mbSize", 0);
+                                            editorVisited.apply();
 
-                                        adminMBObjects = new ArrayList<>();
 
-                                        int adminmessageCount = 0;
+                                        } else {
 
-                                        for (i = 0, j = 0; i < admin_postFileArray.length; i++) {
+                                            admin_postFileArray = admin_postsFileString.split("\\|", -1);
 
-                                            switch (j) {
-                                                case 0:
-                                                    adminMBObject = new AdminMBObject();
-                                                    adminMBObject.setPostName(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 1:
-                                                    adminMBObject.setPostDate(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 2:
-                                                    adminMBObject.setPostText(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 3:
-                                                    adminMBObject.setPostSort(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 4:
-                                                    adminMBObject.setPostEmail(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 5:
-                                                    adminMBObject.setPostComment(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 6:
-                                                    adminMBObject.setPostNameComment(admin_postFileArray[i].trim());
-                                                    j++;
-                                                    break;
-                                                case 7:
-                                                    adminMBObject.setPostOriginalText(admin_postFileArray[i].trim());
-                                                    adminMBObjects.add(adminMBObject);
-                                                    adminmessageCount++;
-                                                    editor = sharedPreferences.edit();
-                                                    editorVisited = sharedPreferencesVisited.edit();
-                                                    Gson gson = new Gson();
-                                                    String jsonAdminMbObject = gson.toJson(adminMBObject); // myObject - instance of MyObject
-                                                    editor.putString("admin_mbObject" + "[" + (((i + 1) / 8) - 1) + "]", jsonAdminMbObject);
-                                                    editorVisited.putInt("admin_mbSize", adminmessageCount);
-                                                    editorVisited.apply();
-                                                    editor.apply();
+                                            adminMBObjects = new ArrayList<>();
 
-                                                    j = 0;
+                                            int adminmessageCount = 0;
 
-                                                    break;
+                                            for (i = 0, j = 0; i < admin_postFileArray.length; i++) {
+
+                                                switch (j) {
+                                                    case 0:
+                                                        adminMBObject = new AdminMBObject();
+                                                        adminMBObject.setPostName(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 1:
+                                                        adminMBObject.setPostDate(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 2:
+                                                        adminMBObject.setPostText(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 3:
+                                                        adminMBObject.setPostSort(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 4:
+                                                        adminMBObject.setPostEmail(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 5:
+                                                        adminMBObject.setPostComment(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 6:
+                                                        adminMBObject.setPostNameComment(admin_postFileArray[i].trim());
+                                                        j++;
+                                                        break;
+                                                    case 7:
+                                                        adminMBObject.setPostOriginalText(admin_postFileArray[i].trim());
+                                                        adminMBObjects.add(adminMBObject);
+                                                        adminmessageCount++;
+                                                        editor = sharedPreferences.edit();
+                                                        editorVisited = sharedPreferencesVisited.edit();
+                                                        Gson gson = new Gson();
+                                                        String jsonAdminMbObject = gson.toJson(adminMBObject); // myObject - instance of MyObject
+                                                        editor.putString("admin_mbObject" + "[" + (((i + 1) / 8) - 1) + "]", jsonAdminMbObject);
+                                                        editorVisited.putInt("admin_mbSize", adminmessageCount);
+                                                        editorVisited.apply();
+                                                        editor.apply();
+
+                                                        j = 0;
+
+                                                        break;
+                                                }
+
+
                                             }
 
+
                                         }
+
                                     }
+
+
 //************************************************************************************************************************************************
 
                                 }

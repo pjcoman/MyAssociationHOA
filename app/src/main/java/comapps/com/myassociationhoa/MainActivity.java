@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -68,24 +69,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String MYPREFERENCES = "MyPrefs";
     private static final String VISITEDPREFERENCES = "VisitedPrefs";
 
-    private String messageDate;
-    private String visitDate;
-
     private SharedPreferences sharedPreferences;
     private SharedPreferences sharedPreferencesVisited;
     private SharedPreferences.Editor editor;
     private SharedPreferences.Editor editorVisited;
 
-    private SimpleDateFormat sdf;
-
     private SimpleDateFormat formatter;
 
 
     private ParseInstallation installation;
-    private ParseQuery<ParseObject> queryAssociations;
-
-    int messageCount = 0;
-    private final static int REQ_CODE = 1;
 
 
     private String url;
@@ -93,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String memberName;
     private String memberType;
-    private String memberNumber;
     private String associationCode;
     private TextView associationName;
 
@@ -117,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button b16_tools; //tools button
     private Button b17_pushemail; //push email button
     private Button b18_maintenance; //maintenance items button
-    private Button b18_maintenance_b;
 
     private LinearLayout contentMain;
 
@@ -125,21 +115,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout ll2;
     private LinearLayout ll3;
 
-    Boolean mbVisit = false;
-
     private ImageView redDot;
-
-
-    int i = 0;
-    int j = 0;
-    int k = 0;
-
 
 
     private boolean objectPinned;
     private boolean fromChangeAdd;
-    private boolean fromImport;
-    private Bundle bundle;
 
     private Date update;
     private Date visit;
@@ -154,11 +134,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setFontAttrId(R.attr.fontPath)
                 .build());
 
-        setupWindowAnimations();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+            setupWindowAnimations();
+
+        }
+
+
 
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         android.support.v7.app.ActionBar bar = getSupportActionBar();
@@ -171,42 +157,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        contentMain = (LinearLayout) findViewById(R.id.llContentMainVertical);
+        contentMain = findViewById(R.id.llContentMainVertical);
 
 
+        associationName = findViewById(R.id.textViewAssociationName);
 
-        associationName = (TextView) findViewById(R.id.textViewAssociationName);
-
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-
-        redDot = (ImageView) findViewById(R.id.imageViewRedDot);
+        progressBar = findViewById(R.id.progressBar);
 
 
-        b1_email = (Button) findViewById(R.id.button);
-        b2_contacts = (Button) findViewById(R.id.button2);
-        b3_directory = (Button) findViewById(R.id.button3);
-        b4_weather = (Button) findViewById(R.id.button4);
-        b5_calendar = (Button) findViewById(R.id.button5);
-        b6_budget = (Button) findViewById(R.id.button6);
-        b7_documents = (Button) findViewById(R.id.button7);
-        b8_messageboard = (Button) findViewById(R.id.button8);
-        b9_myinfo = (Button) findViewById(R.id.button9);
-        b10_pushhistory = (Button) findViewById(R.id.button10);
-        b11_serviceproviders = (Button) findViewById(R.id.button11);
-        b12_changeadd = (Button) findViewById(R.id.button12);
-        b13_pets = (Button) findViewById(R.id.button13);
-        b14_guests = (Button) findViewById(R.id.button14);
-        b15_autos = (Button) findViewById(R.id.button15);
-        b16_tools = (Button) findViewById(R.id.button16);
-        b17_pushemail = (Button) findViewById(R.id.button17);
-        b18_maintenance = (Button) findViewById(R.id.button18);
-        b18_maintenance_b = (Button) findViewById(R.id.button18_b);
+        redDot = findViewById(R.id.imageViewRedDot);
 
 
-        ll1 = (LinearLayout) findViewById(R.id.ll1);
-        ll2 = (LinearLayout) findViewById(R.id.ll2);
-        ll3 = (LinearLayout) findViewById(R.id.ll3);
+        b1_email = findViewById(R.id.button);
+        b2_contacts = findViewById(R.id.button2);
+        b3_directory = findViewById(R.id.button3);
+        b4_weather = findViewById(R.id.button4);
+        b5_calendar = findViewById(R.id.button5);
+        b6_budget = findViewById(R.id.button6);
+        b7_documents = findViewById(R.id.button7);
+        b8_messageboard = findViewById(R.id.button8);
+        b9_myinfo = findViewById(R.id.button9);
+        b10_pushhistory = findViewById(R.id.button10);
+        b11_serviceproviders = findViewById(R.id.button11);
+        b12_changeadd = findViewById(R.id.button12);
+        b13_pets = findViewById(R.id.button13);
+        b14_guests = findViewById(R.id.button14);
+        b15_autos = findViewById(R.id.button15);
+        b16_tools = findViewById(R.id.button16);
+        b17_pushemail = findViewById(R.id.button17);
+        b18_maintenance = findViewById(R.id.button18);
+        Button b18_maintenance_b = findViewById(R.id.button18_b);
+
+
+        ll1 = findViewById(R.id.ll1);
+        ll2 = findViewById(R.id.ll2);
+        ll3 = findViewById(R.id.ll3);
 
         installation = ParseInstallation.getCurrentInstallation();
 
@@ -240,14 +225,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG, "NOT FIRST VISIT");
 
 
-            bundle = getIntent().getExtras();
+            Bundle bundle = getIntent().getExtras();
 
             if ( bundle != null ) {
 
                 fromChangeAdd = bundle.getBoolean("FROMCHANGEADD");
-                fromImport = bundle.getBoolean("FROMIMPORTDOCS");
+                boolean fromImport = bundle.getBoolean("FROMIMPORTDOCS");
 
-                if ( fromImport ) {
+                if (fromImport) {
 
                     Toast toast = Toast.makeText(getBaseContext(), bundle.getString("FILEUPLOADED", "pdf") + " uploaded.", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -506,7 +491,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             memberType = installation.getString("MemberType");
             associationCode = installation.getString("AssociationCode");
             memberName = installation.getString("memberName");
-            memberNumber = installation.getString("memberNumber");
+            String memberNumber = installation.getString("memberNumber");
 
             editorVisited = sharedPreferencesVisited.edit();
             editorVisited.putString("MEMBERNUMBER", memberNumber);
@@ -524,9 +509,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected Void doInBackground(Void... params) {
 
 
-
-                if ( objectPinned && !fromChangeAdd) {
-                    Log.d(TAG, "objectPinned is " + objectPinned);
+            ParseQuery<ParseObject> queryAssociations;
+            if (objectPinned && !fromChangeAdd) {
+                Log.d(TAG, "objectPinned is " + true);
                     queryAssociations = new ParseQuery<>(associationCode).fromLocalDatastore();
                 } else {
                     Log.d(TAG, "objectPinned is " + objectPinned);
@@ -573,7 +558,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 }
 
                                                 url = backgroundImage != null ? backgroundImage.getUrl() : null;
-                                                ImageView iv = (ImageView) findViewById(R.id.imageView);
+                                                ImageView iv = findViewById(R.id.imageView);
 
                                                 Glide.with(getApplicationContext())
                                                         .load(url)
@@ -594,7 +579,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                         .into(iv);
 
                                                 editor = sharedPreferences.edit();
-                                                editor.putString("backgroundImageUrl", backgroundImage.getUrl());
+                                                editor.putString("backgroundImageUrl", backgroundImage != null ? backgroundImage.getUrl() : null);
                                                 editor.putString("backgroundImage2Url", backgroundImage2 != null ? backgroundImage2.getUrl() : null);
 
                                                 editor.apply();
@@ -604,7 +589,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                                                 ParseFile defaultsFile = associationObject.get(0).getParseFile("DefaultsFile");
-                                                String[] defaultsFileArray = null;
+                                                String[] defaultsFileArray;
 
 
                                                 byte[] file = new byte[0];
@@ -654,6 +639,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                             if (b13_pets != null) {
                                                                 b13_pets.setVisibility(View.GONE);
                                                             } else {
+                                                                assert false;
                                                                 b13_pets.setVisibility(View.VISIBLE);
 
                                                                 // check member defaults for pets
@@ -677,6 +663,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                                 if (b15_autos != null) {
                                                                     b15_autos.setVisibility(View.GONE);
                                                                 } else {
+                                                                    assert false;
                                                                     b15_autos.setVisibility(View.VISIBLE);
 
                                                                     // check member default for autos
@@ -705,6 +692,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                                 if (b11_serviceproviders != null) {
                                                                     b11_serviceproviders.setVisibility(View.GONE);
                                                                 } else {
+                                                                    assert false;
                                                                     b11_serviceproviders.setVisibility(View.VISIBLE);
                                                                 }
                                                             }
@@ -715,6 +703,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                                 if (b18_maintenance != null) {
                                                                     b18_maintenance.setVisibility(View.GONE);
                                                                 } else {
+                                                                    assert false;
                                                                     b18_maintenance.setVisibility(View.VISIBLE);
                                                                 }
                                                             }
@@ -744,6 +733,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                             if (b11_serviceproviders != null) {
                                                                 b11_serviceproviders.setVisibility(View.GONE);
                                                             } else {
+                                                                assert false;
                                                                 b11_serviceproviders.setVisibility(View.VISIBLE);
                                                             }
                                                         }
@@ -754,6 +744,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                             if (b13_pets != null) {
                                                                 b13_pets.setVisibility(View.GONE);
                                                             } else {
+                                                                assert false;
                                                                 b13_pets.setVisibility(View.VISIBLE);
 
 
@@ -766,6 +757,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                             if (b14_guests != null) {
                                                                 b14_guests.setVisibility(View.GONE);
                                                             } else {
+                                                                assert false;
                                                                 b14_guests.setVisibility(View.VISIBLE);
                                                             }
                                                         }
@@ -778,6 +770,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                             if (b15_autos != null) {
                                                                 b15_autos.setVisibility(View.GONE);
                                                             } else {
+                                                                assert false;
                                                                 b15_autos.setVisibility(View.VISIBLE);
 
 
@@ -829,10 +822,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 }
 
 
-
-
-
-                                                TextView associationName = (TextView) findViewById(R.id.textViewAssociationName);
+                                                TextView associationName = findViewById(R.id.textViewAssociationName);
                                                 associationName.setText(defaultsFileArray[1]);
 
                                                 contentMain.setVisibility(View.VISIBLE);

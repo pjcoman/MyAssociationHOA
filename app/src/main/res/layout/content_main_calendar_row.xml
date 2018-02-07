@@ -8,7 +8,6 @@
     android:layout_height="wrap_content"
     android:focusableInTouchMode="false"
     android:clickable="false"
-    android:id="@+id/content_main_calendar_row"
     android:orientation="vertical"
     android:background="@drawable/linenbackgroundbox"
     android:padding="20dp"

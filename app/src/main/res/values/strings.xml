@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MyAssociation</string>
-    <string name="app_version">4.3</string>
+    <string name="app_version">5.0</string>
     <string name="action_settings">Guide</string>
     <string name="b1">E-Mail</string>
     <string name="b2">Contact</string>
@@ -22,32 +22,13 @@
     <string name="b18">Maintenance\nItems</string>
 
     <string name="toolslayoutb1">Event\nCalendar\nManager</string>
-    <string name="toolslayoutb2">Load Budget\nor\nExpense</string>
     <string name="toolslayoutb3">Update\nRoster</string>
     <string name="toolslayoutb4">Backup\nAssociation\nFiles</string>
     <string name="toolslayoutb5">Restore\nAssociation\nFiles</string>
-    <string name="toolslayoutb6">Build\nText\nDirectory\nFile</string>
     <string name="toolslayoutb7">Email PDF\nFiles</string>
-    <string name="toolslayoutb8">Load Misc\nPDF Files</string>
-    <string name="toolslayoutb9">Load Assoc\nPDF Files</string>
     <string name="toolslayoutb10">Guest\nAccess\nReport</string>
     <string name="toolslayoutb11">Edit\nMaintenance\nCategories</string>
     <string name="toolslayoutb12">Admin\nMessage\nBoard</string>
-
-    <string name="edittext_hint"><font size="12">type name or address\nclear with long click</font></string>
-
-    <string name="weather_api">http://api.worldweatheronline.com/free/v1/weather.ashx?q=34103&amp;format=json&amp;key=u5emertxp3xptfs3vzskteyk</string>
-    <string name="change_city">Change city</string>
-    <string name="weather_sunny">&#xf00d;</string>
-    <string name="weather_clear_night">&#xf02e;</string>
-    <string name="weather_foggy">&#xf014;</string>
-    <string name="weather_cloudy">&#xf013;</string>
-    <string name="weather_rainy">&#xf019;</string>
-    <string name="weather_snowy">&#xf01b;</string>
-    <string name="weather_thunder">&#xf01e;</string>
-    <string name="weather_drizzle">&#xf01c;</string>
-
-    <string name="place_not_found">Sorry, no weather data found.</string>
 
     <string name="guide_text">My Association\n
 Custom Mobile Application\n
@@ -56,7 +37,7 @@ Custom Mobile Application\n
         and the Association, quick access to information about Association events, and the ability to receive emails and push
         notifications regarding current issues for the Association.  You can send pre-formatted emails to the Association to ask
         questions and RSVP for events.  Through the Association directory you can communication with other Association Members.
-New Features in Release Version 4.0
+New Features in Release Version 5.0
 Added a feature to allow the Administrator to prescreen member posted messages and comments to the message board.  This is only
         used when member posting privileges have been authorized by the Association.\n\n
 Registering for the My Association App\n\n
@@ -130,34 +111,19 @@ The Auto Directory, provides the members the ability to view the automobiles tha
 </string>
     <string name="winter_address">Winter Address</string>
     <string name="summer_address">Summer Address</string>
-    <string name="back_to_directory">BACK TO DIRECTORY</string>
     <string name="address1">address1</string>
     <string name="address2">address2</string>
     <string name="zip">zip</string>
-    <string name="_999_999_9999">999–999–9999</string>
-    <string name="email_email_com">email@email.com</string>
     <string name="emergency_contact">Emergency Contact</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="current_weather">CURRENT WEATHER</string>
-    <string name="description">description</string>
-    <string name="temp">temp</string>
-    <string name="wind_speed">wind speed</string>
-    <string name="wind_direction">wind direction</string>
-    <string name="forecast_description">forecast description</string>
-    <string name="high_low">high low</string>
-    <string name="forecast_wind_dir">forecast wind dir</string>
-    <string name="forecast_wind_speed">forecast wind speed</string>
     <string name="notes">notes</string>
     <string name="edit">Edit</string>
     <string name="name">name</string>
-    <string name="done">Done</string>
     <string name="display_hoa_documents">Display HOA Documents</string>
     <string name="rules">Rules</string>
     <string name="bylaws">ByLaws</string>
     <string name="minutes">Minutes</string>
-    <string name="buildings">Buildings</string>
-    <string name="garages">Garages</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="budget">Budget</string>
     <string name="expenses">Expenses</string>
     <string name="end_date">End Date</string>
@@ -166,11 +132,10 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="posteddate">posteddate</string>
     <string name="post">post</string>
     <string name="email_response">Email Response</string>
-    <string name="add_comment">Add Comment</string>
     <string name="my_association_hoa">My Association HOA</string>
     <string name="editbutton">Edit</string>
     <string name="update_myinfo">Update MyInfo</string>
-    <string name="select_what_to_update">Select What Information to Update</string>
+    <string name="select_what_to_update">Select Info to Update</string>
     <string name="personal_info">Personal Info</string>
     <string name="pet_info">Pet Info</string>
     <string name="auto_info">Auto Info</string>
@@ -187,7 +152,6 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="email_address">email address</string>
     <string name="emergency_contact_name">name</string>
     <string name="emergency_contact_number">phone number 10 digits</string>
-    <string name="winter_address2">Winter Address</string>
     <string name="address_12">Address 1</string>
     <string name="address_21">Address 2</string>
     <string name="city2">City</string>
@@ -198,9 +162,7 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="enter_passcode">Enter Passcode</string>
     <string name="update">UPDATE</string>
     <string name="display_budget_documents">Display Budget Documents</string>
-    <string name="home">home</string>
     <string name="mobile">mobile</string>
-    <string name="plusbutton">+</string>
     <string name="comment">add comment</string>
     <string name="add_comment1">Add Comment</string>
     <string name="add">Add</string>
@@ -211,11 +173,6 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="weight">Weight</string>
     <string name="misc">Misc.</string>
     <string name="pet_owner">owner name</string>
-    <string name="pet_name">pet name</string>
-    <string name="pet_type">pet type</string>
-    <string name="petbreed">petbreed</string>
-    <string name="pet_color">pet color</string>
-    <string name="pet_weight">pet weight</string>
     <string name="powered_by_world_weather_online">powered by World Weather Online</string>
     <string name="middle_name">Middle Name</string>
     <string name="my_association_address">My Association Address</string>
@@ -223,7 +180,6 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="model">model</string>
     <string name="plate">plate</string>
     <string name="_2000">2000</string>
-    <string name="tag">tag</string>
     <string name="by">By:</string>
     <string name="_1_11_11_2_33_pm">1/11/11, 2:33 PM</string>
     <string name="to">to</string>
@@ -233,8 +189,6 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="the_association_does_not_endorse_service_providers">The Association does not endorse Service Providers</string>
     <string name="add_pet">Add Pet</string>
     <string name="save">Save</string>
-    <string name="city_state">City, State</string>
-    <string name="country">Country</string>
     <string name="phone_number">phone number</string>
     <string name="zipcaps">Zip</string>
     <string name="back_to_providers">back to Providers</string>
@@ -244,7 +198,6 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="back_to_category_list">Back to Category List</string>
     <string name="register">REGISTER</string>
     <string name="push_the_message">Push the Message</string>
-    <string name="message_190_characters_remaining">Message (190 characters remaining)</string>
     <string name="send_message">Send Message</string>
     <string name="selected_group">Selected Group</string>
     <string name="everyone">Everyone</string>
@@ -255,7 +208,6 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="guest_name">Guest Name</string>
     <string name="guest_type">Guest Type</string>
     <string name="guest_contact">Guest Contact</string>
-    <string name="day">day</string>
     <string name="record_access">Record Access</string>
     <string name="mon">Mon</string>
     <string name="tue">Tue</string>
@@ -272,7 +224,6 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="owner">Owner</string>
     <string name="days">Days</string>
     <string name="tagstring">Tag:</string>
-    <string name="hoatagstring">none</string>
     <string name="manufacturer">Manufacturer</string>
     <string name="sedan_coupe_suv">Sedan, Coupe, SUV…</string>
     <string name="year">Year</string>
@@ -313,7 +264,6 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="build_html_file_and_email">Build HTML File and Email</string>
     <string name="clear_guest_access_file">Clear Guest Access File</string>
     <string name="add_auto">Add Auto</string>
-    <string name="build_txt_directory">Build TXT Directory</string>
     <string name="build_txt_directory_file">Build TXT Directory File</string>
     <string name="category_name">Category Name</string>
     <string name="email_addressCap">Email Address</string>
@@ -327,9 +277,15 @@ The Auto Directory, provides the members the ability to view the automobiles tha
     <string name="email_poster">Email Poster</string>
     <string name="add_message">Add Message</string>
     <string name="delete">Delete</string>
-    <string name="newmessage">new message</string>
     <string name="x">X</string>
     <string name="load_association_files">Load Association Files</string>
+    <string name="business_name">business name</string>
+    <string name="hoa">HOA</string>
+    <string name="st">ST</string>
+    <string name="tag">Tag:</string>
+    <string name="none">none</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 
 
 </resources>

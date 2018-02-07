@@ -9,8 +9,7 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollViewMaint" >
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"

@@ -5,7 +5,6 @@
     tools:context=".tools.AdminMBRecyclerViewActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/content_main_admin_mb"
     android:orientation="vertical"
 
     >

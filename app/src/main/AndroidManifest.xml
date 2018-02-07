@@ -35,7 +35,7 @@
         android:theme="@style/AppTheme"
         android:supportsRtl="true">
 
-      >
+
         <activity
             android:name=".Splash"
             android:label="@string/app_name"
@@ -83,7 +83,7 @@
 
         <activity
             android:name=".WeatherActivity"
-            android:screenOrientation="unspecified"  >
+            android:screenOrientation="sensorPortrait">
         </activity>
 
         <activity
@@ -122,6 +122,7 @@
 
         <activity
             android:name=".autos.AutosActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="unspecified" />
 
         <activity
@@ -131,6 +132,7 @@
 
         <activity
             android:name=".pets.PetsActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="unspecified" />
 
         <activity
@@ -147,6 +149,7 @@
 
         <activity
             android:name=".guests.GuestsActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="unspecified" />
 
         <activity
@@ -298,7 +301,7 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <data android:mimeType="*/*" />
+                <data android:mimeType="application/pdf" />
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <category android:name="android.intent.category.DEFAULT"/>

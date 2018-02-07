@@ -22,7 +22,8 @@
         android:gravity="center"
         android:textColor="#050505"
         android:layout_weight=".5"
-        android:clickable="true" />
+        android:clickable="true"
+        android:focusable="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -82,7 +83,6 @@
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/selected_group"
-            android:id="@+id/textViewSelectedGroup"
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
             android:textColor="#325cd8"

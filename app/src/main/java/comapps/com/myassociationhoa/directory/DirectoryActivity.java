@@ -60,6 +60,7 @@ public class DirectoryActivity extends AppCompatActivity implements
 
         setContentView(R.layout.content_main_directory);
 
+
         android.support.v7.app.ActionBar bar = getSupportActionBar();
 
         if (bar != null) {

@@ -9,7 +9,6 @@
     android:padding="20dp"
     android:background="@android:color/transparent"
     android:gravity="center_vertical"
-    android:id="@+id/textViewListTrans"
     android:shadowColor="#1F8435"
     android:shadowDx="2"
     android:shadowDy="2"

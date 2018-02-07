@@ -11,7 +11,6 @@
     android:orientation="vertical">
 
     <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/networkImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#050505"
@@ -23,7 +22,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/content_main_vertical"
         android:weightSum="13">
 
         <TextView

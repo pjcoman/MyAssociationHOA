@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="false"
     android:clickable="false"
-    android:id="@+id/content_main_providers"
     android:orientation="vertical"
     android:background="@drawable/blonde"
     android:padding="5dp">
@@ -42,6 +41,7 @@
             android:src="@drawable/fab"
             android:alpha=".65"
             android:clickable="true"
+            android:focusable="true"
             android:visibility="gone"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
@@ -69,6 +69,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:clickable="true"
+            android:focusable="true"
             android:visibility="visible" />
 
     </FrameLayout>

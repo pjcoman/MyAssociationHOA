@@ -9,14 +9,12 @@
         <!-- Your secondary layout here -->
         <FrameLayout android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/delete_layout"
             android:background="#cc0000">
 
 
             <TextView
                 android:id="@+id/swipe_delete"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:background="@android:color/holo_red_dark"
                 android:textColor="@android:color/white"

@@ -21,187 +21,186 @@
         android:background="@drawable/button_rounded_corners_black_gray_bg" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="7.5"
         android:background="@drawable/blonde_engraved"
+        android:orientation="vertical"
+        android:paddingBottom="40dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="40dp"
-        android:paddingBottom="40dp">
+        android:paddingTop="40dp">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollView3"
+            android:layout_height="0dp"
             android:layout_weight="6">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:id="@+id/editTextProviderName"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_vertical|center_horizontal|left"
-                        android:textSize="18sp"
-                        android:textColor="#060606"
-                        android:layout_weight="1"
-                        android:background="#fcf8f8"
-                        android:textColorHint="#928f8f"
-                        android:hint="@string/name"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                    android:textStyle="bold"
-                    android:paddingLeft="20dp"
-                    android:inputType="textCapWords" />
-
-                <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:id="@+id/editTextProviderAddress"
-                        android:layout_gravity="center_horizontal"
-                        android:textSize="18sp"
-                        android:textColor="#060606"
-                        android:layout_weight="1"
-                        android:background="#fcf8f8"
-                        android:gravity="center_vertical|left"
-                        android:textColorHint="#928f8f"
-                        android:hint="@string/address1"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:inputType="textCapWords"
-                        android:textStyle="bold"
-                        android:paddingLeft="20dp" />
-
-                <EditText
+                    android:id="@+id/editTextProviderName"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/editTextProviderAddress2"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:textSize="18sp"
+                    android:background="#fcf8f8"
+                    android:gravity="center_vertical|center_horizontal|left"
+                    android:hint="@string/name"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="20dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#060606"
+                    android:textColorHint="#928f8f"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/editTextProviderAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:background="#fcf8f8"
                     android:gravity="center_vertical|left"
-                    android:textColorHint="#928f8f"
-                    android:hint="@string/address_2"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:hint="@string/address1"
                     android:inputType="textCapWords"
-                    android:textStyle="bold"
-                    android:paddingLeft="20dp" />
+                    android:paddingLeft="20dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#060606"
+                    android:textColorHint="#928f8f"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
+                <EditText
+                    android:id="@+id/editTextProviderAddress2"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="10dp"
-                    android:weightSum="4"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="#fcf8f8"
+                    android:gravity="center_vertical|left"
+                    android:hint="@string/address_2"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="20dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#060606"
+                    android:textColorHint="#928f8f"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
                     android:paddingTop="5dp"
-                    android:paddingBottom="5dp">
+                    android:weightSum="4">
 
                     <EditText
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
                         android:id="@+id/editTextProviderCity"
-                        android:background="#fcf8f8"
-                        android:textStyle="bold"
-
-                        android:textSize="16sp"
-                        android:layout_weight="2"
-                        android:gravity="center_vertical|left"
-                        android:textColor="#060606"
-                        android:textColorHint="#928f8f"
-                        android:hint="City"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
-                        android:inputType="textCapWords"
-                        android:paddingLeft="20dp" />
-
-                    <EditText
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:id="@+id/editTextProviderState"
-                        android:gravity="center"
-                        android:textSize="16sp"
-                        android:textColor="#060606"
-                        android:layout_weight="1"
-                        android:background="#fcf8f8"
-                        android:textColorHint="#928f8f"
-                        android:hint="ST"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
-                        android:inputType="textCapCharacters"
+
+                        android:layout_weight="2"
+                        android:background="#fcf8f8"
+                        android:gravity="center_vertical|left"
+                        android:hint="@string/city"
+                        android:inputType="textCapWords"
+                        android:paddingLeft="20dp"
+                        android:textColor="#060606"
+                        android:textColorHint="#928f8f"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/editTextProviderState"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:id="@+id/editTextProviderZip"
-                        android:textSize="16sp"
-                        android:textColor="#060606"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
                         android:layout_weight="1"
                         android:background="#fcf8f8"
                         android:gravity="center"
+                        android:hint="@string/st"
+                        android:inputType="textCapCharacters"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#060606"
                         android:textColorHint="#928f8f"
-                        android:hint="@string/zipcaps"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/editTextProviderZip"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:background="#fcf8f8"
+                        android:gravity="center"
+                        android:hint="@string/zipcaps"
                         android:inputType="number"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#060606"
+                        android:textColorHint="#928f8f"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
                 <EditText
+                    android:id="@+id/editTextProviderPhone"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/editTextProviderPhone"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:textSize="18sp"
-                    android:textColor="#060606"
                     android:background="#fcf8f8"
                     android:gravity="center_vertical|left"
-                    android:textColorHint="#928f8f"
                     android:hint="@string/phone_number"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:inputType="phone"
-                    android:textStyle="bold"
-                    android:paddingLeft="20dp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/editTextProviderNotes"
-                    android:background="#fcf8f8"
-                    android:textStyle="bold"
-                    android:padding="10dp"
-                    android:textSize="16sp"
-                    android:layout_weight="2"
-                    android:gravity="left"
+                    android:paddingLeft="20dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#060606"
                     android:textColorHint="#928f8f"
-                    android:hint="@string/notes"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:inputType="textCapSentences"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/editTextProviderNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
                     android:layout_gravity="center_horizontal"
-                    android:paddingLeft="20dp" />
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="2"
+                    android:background="#fcf8f8"
+                    android:gravity="left"
+                    android:hint="@string/notes"
+                    android:inputType="textCapSentences"
+                    android:padding="10dp"
+                    android:paddingLeft="20dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#060606"
+                    android:textColorHint="#928f8f"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

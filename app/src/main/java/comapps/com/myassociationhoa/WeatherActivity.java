@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,6 +48,7 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView forecastTempMaxMin;
     private TextView forecastDescription;
     private TextView forecastWindDirection;
+    private ImageView weatherIcon;
 
 
 
@@ -88,8 +90,10 @@ public class WeatherActivity extends AppCompatActivity {
         currentWeatherTemp = (TextView) findViewById(R.id.textViewCurrentTemp);
         currentWeatherWindDirection = (TextView) findViewById(R.id.textViewCurrentWindDirection);
         forecastTempMaxMin = (TextView) findViewById(R.id.textViewHighLow);
-        forecastDescription = (TextView) findViewById(R.id.textViewForecastDescription);
+        //    forecastDescription = (TextView) findViewById(R.id.textViewForecastDescription);
+        weatherIcon = (ImageView) findViewById(R.id.imageViewWeatherIcon);
         forecastWindDirection = (TextView) findViewById(R.id.textViewForecastWindDirection);
+
 
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
@@ -111,8 +115,11 @@ public class WeatherActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String zip = sharedPreferences.getString("defaultRecord(23)", "");
-        String url = "http://api.worldweatheronline.com/free/v1/weather.ashx?q=" + zip
-                + "&format=json&key=u5emertxp3xptfs3vzskteyk";
+        String url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?q=" + zip
+                + "&format=json&key=41e4451f712e4128ab4160530180102";
+
+        Log.d(TAG, "url ----> " + url);
+
 
         // Request a string response from the URL.
 
@@ -122,38 +129,92 @@ public class WeatherActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
+
                         Log.d(TAG, "weather online response is ----> " + response);
 
                         try {
                             jsonObj = new JSONObject(response);
-                            currentWeatherDescriptionText = jsonObj.getJSONObject("data").getJSONArray("current_condition").
-                                    getJSONObject(0).getJSONArray("weatherDesc").getJSONObject(0).getString("value");
+
+
+                            currentWeatherDescriptionText = jsonObj.getJSONObject("data").
+                                    getJSONArray("current_condition").
+                                    getJSONObject(0).getJSONArray("weatherDesc").
+                                    getJSONObject(0).getString("value");
+                            Log.d(TAG, "weather c description ----> " + jsonObj.getJSONObject("data").getJSONArray("current_condition").
+                                    getJSONObject(0).getJSONArray("weatherDesc").getJSONObject(0).getString("value"));
+                            currentWeatherDescription.setText(currentWeatherDescriptionText);
+
+
+
 
                             currentWeatherTempText = jsonObj.getJSONObject("data").getJSONArray("current_condition")
-                                    .getJSONObject(0).getString("temp_F") + (char) 0x00B0;
+                                    .getJSONObject(0).getString("temp_F") + (char) 0x00B0 + " ";
 
-                            currentWeatherWindDirectionText = "Wind " + (jsonObj.getJSONObject("data").getJSONArray("current_condition")
-                                    .getJSONObject(0).getString("winddir16Point") + " @ ") + jsonObj.getJSONObject("data").getJSONArray("current_condition").
+
+                            Log.d(TAG, "weather c temp ----> " + jsonObj.getJSONObject("data").
+                                    getJSONArray("current_condition")
+                                    .getJSONObject(0).getString("temp_F") + (char) 0x00B0);
+                            currentWeatherTemp.setText(currentWeatherTempText);
+
+
+                            String image_url_weatherIcon = jsonObj.getJSONObject("data").
+                                    getJSONArray("current_condition").
+                                    getJSONObject(0).
+                                    getJSONArray("weatherIconUrl").
+                                    getJSONObject(0).getString("value");
+                            Log.d(TAG, "weather c icon url ----> " + jsonObj.getJSONObject("data").
+                                    getJSONArray("current_condition").
+                                    getJSONObject(0).getJSONArray("weatherIconUrl").
+                                    getJSONObject(0).getString("value"));
+
+                            Picasso.with(getBaseContext()).load(image_url_weatherIcon).
+                                    centerCrop().fit().into(weatherIcon);
+
+
+                            currentWeatherWindDirectionText = "Wind " + (jsonObj.getJSONObject("data").
+                                    getJSONArray("current_condition")
+                                    .getJSONObject(0).getString("winddir16Point") + " @ ")
+                                    + jsonObj.getJSONObject("data").getJSONArray("current_condition").
                                     getJSONObject(0).getString("windspeedMiles") + "mph";
 
-                            forecastTempMaxMinText = "High " + jsonObj.getJSONObject("data").getJSONArray("weather")
-                                    .getJSONObject(0).getString("tempMaxF") + (char) 0x00B0 + " "
+                            Log.d(TAG, "weather c wind dir ----> " + currentWeatherWindDirectionText);
+                            currentWeatherWindDirection.setText(currentWeatherWindDirectionText);
+
+
+                            forecastTempMaxMinText = "High " + jsonObj.getJSONObject("data").
+                                    getJSONArray("weather")
+                                    .getJSONObject(0).getString("maxtempF") + (char) 0x00B0 + " "
                                     + "Low " + jsonObj.getJSONObject("data").getJSONArray("weather")
-                                    .getJSONObject(0).getString("tempMinF") + (char) 0x00B0;
+                                    .getJSONObject(0).getString("mintempF") + (char) 0x00B0;
+
+                            Log.d(TAG, "weather f temp max min ----> " + forecastTempMaxMinText);
+                            forecastTempMaxMin.setText(forecastTempMaxMinText);
+
+
+
+
+/*
+
 
                             forecastDescriptionText = "Forecast " + jsonObj.getJSONObject("data").getJSONArray("weather").
                                     getJSONObject(0).getJSONArray("weatherDesc").getJSONObject(0).getString("value");
 
+                            Log.d(TAG, "weather f description ----> " + forecastDescriptionText);
+                            forecastDescription.setText(forecastDescriptionText);
+
+
+
+
                             forecastWindDirectionText = jsonObj.getJSONObject("data").getJSONArray("weather")
                                     .getJSONObject(0).getString("winddir16Point") + " @ " + jsonObj.getJSONObject("data").getJSONArray("weather")
-                                    .getJSONObject(0).getString("windspeedMiles") + "mph";
+                                    .getJSONObject(0).getString("windspeedMiles") + " mph";
 
-                            currentWeatherDescription.setText(currentWeatherDescriptionText);
-                            currentWeatherTemp.setText(currentWeatherTempText);
-                            currentWeatherWindDirection.setText(currentWeatherWindDirectionText);
-                            forecastTempMaxMin.setText(forecastTempMaxMinText);
-                            forecastDescription.setText(forecastDescriptionText);
+                            Log.d(TAG, "weather f wind dir ----> " + forecastWindDirectionText);
                             forecastWindDirection.setText(forecastWindDirectionText);
+
+*/
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -169,9 +230,6 @@ public class WeatherActivity extends AppCompatActivity {
 
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
-
-
-
 
 
     }

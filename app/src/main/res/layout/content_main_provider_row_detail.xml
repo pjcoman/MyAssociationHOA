@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="false"
     android:clickable="false"
-    android:id="@+id/content_main_providers_row"
     android:orientation="vertical"
     android:weightSum="10">
 
@@ -59,34 +58,35 @@
             android:weightSum="4">
 
             <TextView
+                android:id="@+id/textViewProviderCity"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="City"
-                android:id="@+id/textViewProviderCity"
                 android:layout_weight="2"
                 android:gravity="left"
-                android:textSize="16sp"
-                android:textColor="#ab5e11" />
+                android:text="@string/city"
+                android:textColor="#ab5e11"
+                android:textSize="16sp" />
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="US"
                 android:id="@+id/textViewProviderState"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:textColor="#ab5e11" />
-
-            <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="@string/zip"
-                android:id="@+id/textViewProviderZip"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="16sp"
-                android:textColor="#ab5e11" />
+                android:text="@string/state"
+                android:textColor="#ab5e11"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewProviderZip"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:capitalize="words"
+                android:gravity="center"
+                android:text="@string/zip"
+                android:textColor="#ab5e11"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -141,7 +141,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/the_association_does_not_endorse_service_providers"
-            android:id="@+id/textView9"
             android:gravity="center"
             android:textColor="#ab5e11" />
     </LinearLayout>

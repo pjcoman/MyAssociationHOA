@@ -49,6 +49,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/28/2016.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class AdminPushActivity extends AppCompatActivity {
 
     private static final String TAG = "PUSHACTIVITY";
@@ -74,8 +75,6 @@ public class AdminPushActivity extends AppCompatActivity {
     private Button sendButton;
     private Button groupsButton;
 
-    private RosterObject rosterObject;
-    private ArrayList<RosterObject> rosterObjects;
     private MemberGroupObject memberGroupObject;
     private ArrayList<MemberGroupObject> memberGroupObjects;
 
@@ -84,7 +83,6 @@ public class AdminPushActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences sharedPreferencesVisited;
 
-    private int rosterObjectSize;
     private int i = 0;
 
 
@@ -110,12 +108,12 @@ public class AdminPushActivity extends AppCompatActivity {
 
         }
 
-        emailOrPush = (TextView) findViewById(R.id.textViewSendOptions);
+        emailOrPush = findViewById(R.id.textViewSendOptions);
         messageType = "PUSH";
-        pushMessage = (EditText) findViewById(R.id.editTextPushMessage);
-        characterCount = (TextView) findViewById(R.id.textViewCount);
-        sendButton = (Button) findViewById(R.id.buttonSendMessage);
-        groupsButton = (Button) findViewById(R.id.buttonGroups);
+        pushMessage = findViewById(R.id.editTextPushMessage);
+        characterCount = findViewById(R.id.textViewCount);
+        sendButton = findViewById(R.id.buttonSendMessage);
+        groupsButton = findViewById(R.id.buttonGroups);
 
         characterCount.setFocusable(false);
         sendButton.setEnabled(false);
@@ -125,19 +123,19 @@ public class AdminPushActivity extends AppCompatActivity {
 
 
         memberGroupObjects = new ArrayList<>();
-        rosterObjects = new ArrayList<>();
+        ArrayList<RosterObject> rosterObjects = new ArrayList<>();
 
 
         sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
         sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
 
-        rosterObjectSize = sharedPreferences.getInt("rosterSize", 0);
+        int rosterObjectSize = sharedPreferences.getInt("rosterSize", 0);
 
         for (int i = 0; i < rosterObjectSize; i++) {
 
             String jsonRosterObject = sharedPreferences.getString("rosterObject" + "[" + i + "]", "");
             Gson gson = new Gson();
-            rosterObject = gson.fromJson(jsonRosterObject, RosterObject.class);
+            RosterObject rosterObject = gson.fromJson(jsonRosterObject, RosterObject.class);
             rosterObjects.add(rosterObject);
 
 
@@ -153,7 +151,13 @@ public class AdminPushActivity extends AppCompatActivity {
 
                     if (group.length() > 0) {
 
-                        allGroups = allGroups + group + ".";
+
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(allGroups);
+                        sb.append(group);
+                        sb.append(".");
+
+                        allGroups = sb.toString();
 
                         Log.d(TAG, "rosterObject memberNumber and group ----> " + rosterObject.getMemberNumber() + " group is " + group);
                         memberGroupObject = new MemberGroupObject();
@@ -180,11 +184,6 @@ public class AdminPushActivity extends AppCompatActivity {
 
 
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-
-
-        }
-
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -283,10 +282,9 @@ public class AdminPushActivity extends AppCompatActivity {
 
                     Calendar c = Calendar.getInstance();
                     SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d h:mma", java.util.Locale.getDefault());
-                    SimpleDateFormat sdf2 = new SimpleDateFormat("yy-M-d", java.util.Locale.getDefault());
                     SimpleDateFormat month = new SimpleDateFormat("MMM", java.util.Locale.getDefault());
                     final String strDate = sdf.format(c.getTime());
-                    String strDate2 = sdf2.format(c.getTime());
+
                     final String stringMonth = month.format(c.getTime());
 
                     installation = ParseInstallation.getCurrentInstallation();
@@ -306,7 +304,7 @@ public class AdminPushActivity extends AppCompatActivity {
 
                                                            if (groupsButton.getText().toString().toLowerCase().equals("everyone")) {
 
-                                                               HashMap<String, Object> params = new HashMap<String, Object>();
+                                                               HashMap<String, Object> params = new HashMap<>();
                                                                params.put("AssociationCode", installation.getString("AssociationCode"));
                                                                params.put("MemberType", "");
                                                                params.put("Channel", "");
@@ -332,7 +330,7 @@ public class AdminPushActivity extends AppCompatActivity {
                                                                int dashPosition = channelPreClean.indexOf("-");
                                                                String channel = channelPreClean.substring(0, dashPosition - 1);
 
-                                                               HashMap<String, Object> params = new HashMap<String, Object>();
+                                                               HashMap<String, Object> params = new HashMap<>();
                                                                params.put("AssociationCode", installation.getString("AssociationCode"));
                                                                params.put("MemberType", "");
                                                                params.put("Channel", channel);
@@ -444,8 +442,7 @@ public class AdminPushActivity extends AppCompatActivity {
                     installation = ParseInstallation.getCurrentInstallation();
 
 
-
-                    List<String> addressList = new ArrayList<String>();
+                    List<String> addressList = new ArrayList<>();
 
 
 
