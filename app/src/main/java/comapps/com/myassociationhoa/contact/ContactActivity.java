@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +44,15 @@ public class ContactActivity extends AppCompatActivity {
     private String phone_number_b6;
     private String phone_number_b7;
     private String phone_number_b8;
+
+    private String b1Text;
+    private String b2Text;
+    private String b3Text;
+    private String b4Text;
+    private String b5Text;
+    private String b6Text;
+    private String b7Text;
+    private String b8Text;
 
     final String phone_number_EwingServices = "tel:9725232357";
 
@@ -88,14 +98,56 @@ public class ContactActivity extends AppCompatActivity {
         Button b7 = (Button) findViewById(R.id.button7);
         Button b8 = (Button) findViewById(R.id.button8);
 
-        b1.setText(abbreviateText(sharedpreferences.getString("defaultRecord(6)", "").toLowerCase()));
-        b2.setText(abbreviateText(sharedpreferences.getString("defaultRecord(7)", "").toLowerCase()));
-        b3.setText(abbreviateText(sharedpreferences.getString("defaultRecord(8)", "").toLowerCase()));
-        b4.setText(abbreviateText(sharedpreferences.getString("defaultRecord(9)", "").toLowerCase()));
-        b5.setText(abbreviateText(sharedpreferences.getString("defaultRecord(10)", "").toLowerCase()));
-        b6.setText(abbreviateText(sharedpreferences.getString("defaultRecord(11)", "").toLowerCase()));
-        b7.setText(sharedpreferences.getString("defaultRecord(26)", ""));
-        b8.setText(sharedpreferences.getString("defaultRecord(28)", ""));
+        b1Text = sharedpreferences.getString("defaultRecord(6)", "");
+        b1Text = b1Text.toLowerCase().replace("administration", "admin.");
+        b1Text = b1Text.toLowerCase().replace("association", "assoc.");
+        b1Text = b1Text.toLowerCase().replace("department", "dept.");
+        b2Text = sharedpreferences.getString("defaultRecord(7)", "");
+        b2Text = b2Text.toLowerCase().replace("administration", "admin.");
+        b2Text = b2Text.toLowerCase().replace("association", "assoc.");
+        b2Text = b2Text.toLowerCase().replace("department", "dept.");
+        b3Text = sharedpreferences.getString("defaultRecord(8)", "");
+        b3Text = b3Text.toLowerCase().replace("administration", "admin.");
+        b3Text = b3Text.toLowerCase().replace("association", "assoc.");
+        b3Text = b3Text.toLowerCase().replace("department", "dept.");
+        b4Text = sharedpreferences.getString("defaultRecord(9)", "");
+        b4Text = b4Text.toLowerCase().replace("administration", "admin.");
+        b4Text = b4Text.toLowerCase().replace("association", "assoc.");
+        b4Text = b4Text.toLowerCase().replace("department", "dept.");
+        b5Text = sharedpreferences.getString("defaultRecord(10)", "");
+        b5Text = b5Text.toLowerCase().replace("administration", "admin.");
+        b5Text = b5Text.toLowerCase().replace("association", "assoc.");
+        b5Text = b5Text.toLowerCase().replace("department", "dept.");
+        b6Text = sharedpreferences.getString("defaultRecord(11)", "");
+        b6Text = b6Text.toLowerCase().replace("administration", "admin.");
+        b6Text = b6Text.toLowerCase().replace("association", "assoc.");
+        b6Text = b6Text.toLowerCase().replace("department", "dept.");
+        b7Text = sharedpreferences.getString("defaultRecord(26)", "");
+        b7Text = b7Text.toLowerCase().replace("administration", "admin.");
+        b7Text = b7Text.toLowerCase().replace("association", "assoc.");
+        b7Text = b7Text.toLowerCase().replace("department", "dept.");
+        b8Text = sharedpreferences.getString("defaultRecord(28)", "");
+        b8Text = b8Text.toLowerCase().replace("administration", "admin.");
+        b8Text = b8Text.toLowerCase().replace("association", "assoc.");
+        b8Text = b8Text.toLowerCase().replace("department", "dept.");
+
+        Log.d(TAG, "contact name b1 " + sharedpreferences.getString("defaultRecord(6)", "null"));
+        Log.d(TAG, "contact name b2 " + sharedpreferences.getString("defaultRecord(7)", "null"));
+        Log.d(TAG, "contact name b3 " + sharedpreferences.getString("defaultRecord(8)", "null"));
+        Log.d(TAG, "contact name b4 " + sharedpreferences.getString("defaultRecord(9)", "null"));
+        Log.d(TAG, "contact name b5 " + sharedpreferences.getString("defaultRecord(10)", "null"));
+        Log.d(TAG, "contact name b6 " + sharedpreferences.getString("defaultRecord(11)", "null"));
+        Log.d(TAG, "contact name b7 " + sharedpreferences.getString("defaultRecord(26)", "null"));
+        Log.d(TAG, "contact name b8 " + sharedpreferences.getString("defaultRecord(28)", "null"));
+
+        b1.setText(b1Text);
+        b2.setText(b2Text);
+        b3.setText(b3Text);
+        b4.setText(b4Text);
+        b5.setText(b5Text);
+        b6.setText(b6Text);
+        b7.setText(b7Text);
+        b8.setText(b8Text);
 
         TextView assocationNameAddressTV = (TextView) findViewById(R.id.textViewAssociationName);
         TextView assocationNameAddressTV2 = (TextView) findViewById(R.id.textViewAssociationName2);

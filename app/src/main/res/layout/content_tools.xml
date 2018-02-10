@@ -241,7 +241,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Admin Message Board"
+            android:text="@string/admin_message_board"
             android:id="@+id/button12"
             android:textSize="10sp"
             android:textColor="@android:color/black"

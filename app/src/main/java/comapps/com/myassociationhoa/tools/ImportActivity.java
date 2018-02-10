@@ -60,6 +60,8 @@ public class ImportActivity extends AppCompatActivity {
     private String pdfFile;
     private String parseColumn;
 
+    private String memberType;
+
     private TextView tvBudget;
     private TextView tvExpenses;
     private TextView tvRules;
@@ -134,189 +136,189 @@ public class ImportActivity extends AppCompatActivity {
         final Uri uri = intent.getData();
         final ContentResolver cr = getContentResolver();
 
-        if (uri != null) {
 
-            installation = ParseInstallation.getCurrentInstallation();
+        installation = ParseInstallation.getCurrentInstallation();
+
+        memberType = installation.getString("MemberType");
+
+        Log.d(TAG, "MEMBERTYPE ----> " + installation.getString("MemberType") + " <----");
+
+        if (memberType != "Master" || memberType != "Administrator") {
+            finish();
+        } else {
+            if (uri != null) {
+                tvMisc2.setText(sharedPreferences.getString("defaultRecord(32)", ""));
+                if (tvMisc2.getText() == "") {
+                    tvMisc2.setVisibility(View.GONE);
+                }
+                tvMisc3.setText(sharedPreferences.getString("defaultRecord(33)", ""));
+                if (tvMisc3.getText() == "") {
+                    tvMisc3.setVisibility(View.GONE);
+                }
+
+
+                try {
+                    object = query.getFirst();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    is = cr.openInputStream(uri);
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+
+
+                tvBudget.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        pdfFile = "Budget.pdf";
+                        parseColumn = "BudgetFile";
+
+                        new UploadFileAsync().execute(pdfFile, parseColumn);
+
+                    }
+
+
+                });
+
+                tvExpenses.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        pdfFile = "Expense.pdf";
+                        parseColumn = "ExpenseFile";
+
+                        new UploadFileAsync().execute(pdfFile, parseColumn);
+
+
+                    }
+                });
+
+                tvRules.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        pdfFile = "Rules.pdf";
+                        parseColumn = "RulesFile";
+
+                        new UploadFileAsync().execute(pdfFile, parseColumn);
+
+
+                    }
+                });
+
+                tvByLaws.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        pdfFile = "ByLaws.pdf";
+                        parseColumn = "ByLawsFile";
+
+                        new UploadFileAsync().execute(pdfFile, parseColumn);
+
+
+                    }
+                });
+
+                tvMinutes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        pdfFile = "Minutes.pdf";
+                        parseColumn = "MinutesFile";
+
+                        new UploadFileAsync().execute(pdfFile, parseColumn);
+
+
+                    }
+                });
+
+                tvMisc1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        pdfFile = sharedPreferences.getString("defaultRecord(31)", "") + ".pdf";
+                        parseColumn = "MiscDoc1File";
+
+                        new UploadFileAsync().execute(pdfFile, parseColumn);
+
+
+                    }
+                });
+
+                tvMisc2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        pdfFile = sharedPreferences.getString("defaultRecord(32)", "") + ".pdf";
+                        parseColumn = "MiscDoc2File";
+
+                        new UploadFileAsync().execute(pdfFile, parseColumn);
+
+
+                    }
+                });
+
+                tvMisc3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        pdfFile = sharedPreferences.getString("defaultRecord(33)", "") + ".pdf";
+                        parseColumn = "MiscDoc3File";
+
+                        new UploadFileAsync().execute(pdfFile, parseColumn);
+
+
+                    }
+                });
+
+
+                tvCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        finish();
+
+                    }
+                });
+
+            } else {
+
+                Toast toast = Toast.makeText(getBaseContext(), "Open attachment from email and choose MyAssociation to open.", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+
+                toast = Toast.makeText(getBaseContext(), "Or save attachment to phone (or computer drive your phone has access to) and choose" +
+                        " MyAssociation to open from File Manager/Browser/Explorer app.", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+
+
+                finish();
+
+
+            }
+
+
             query = new ParseQuery<>(installation.getString("AssociationCode"));
 
-            tvMisc1.setText(sharedPreferences.getString("defaultRecord(31)",""));
-            if ( tvMisc1.getText() == "" ) {
+            tvMisc1.setText(sharedPreferences.getString("defaultRecord(31)", ""));
+            if (tvMisc1.getText() == "") {
                 tvMisc1.setVisibility(View.GONE);
             }
-            tvMisc2.setText(sharedPreferences.getString("defaultRecord(32)",""));
-            if ( tvMisc2.getText() == "" ) {
-                tvMisc2.setVisibility(View.GONE);
-            }
-            tvMisc3.setText(sharedPreferences.getString("defaultRecord(33)",""));
-            if ( tvMisc3.getText() == "" ) {
-                tvMisc3.setVisibility(View.GONE);
-            }
-
-
-
-
-
-            try {
-                object = query.getFirst();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                is = cr.openInputStream(uri);
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            }
-
-
-            tvBudget.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                  pdfFile = "Budget.pdf";
-                  parseColumn = "BudgetFile";
-
-                  new UploadFileAsync().execute(pdfFile, parseColumn);
-
-                }
-
-
-            });
-
-            tvExpenses.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    pdfFile = "Expense.pdf";
-                    parseColumn = "ExpenseFile";
-
-                    new UploadFileAsync().execute(pdfFile, parseColumn);
-
-
-                }
-            });
-
-            tvRules.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    pdfFile = "Rules.pdf";
-                    parseColumn = "RulesFile";
-
-                    new UploadFileAsync().execute(pdfFile, parseColumn);
-
-
-
-                }
-            });
-
-            tvByLaws.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    pdfFile = "ByLaws.pdf";
-                    parseColumn = "ByLawsFile";
-
-                    new UploadFileAsync().execute(pdfFile, parseColumn);
-
-
-                }
-            });
-
-            tvMinutes.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    pdfFile = "Minutes.pdf";
-                    parseColumn = "MinutesFile";
-
-                    new UploadFileAsync().execute(pdfFile, parseColumn);
-
-
-                }
-            });
-
-            tvMisc1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    pdfFile = sharedPreferences.getString("defaultRecord(31)", "") + ".pdf";
-                    parseColumn = "MiscDoc1File";
-
-                    new UploadFileAsync().execute(pdfFile, parseColumn);
-
-
-                }
-            });
-
-            tvMisc2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    pdfFile = sharedPreferences.getString("defaultRecord(32)", "") + ".pdf";
-                    parseColumn = "MiscDoc2File";
-
-                    new UploadFileAsync().execute(pdfFile, parseColumn);
-
-
-
-                }
-            });
-
-            tvMisc3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    pdfFile = sharedPreferences.getString("defaultRecord(33)", "") + ".pdf";
-                    parseColumn = "MiscDoc3File";
-
-                    new UploadFileAsync().execute(pdfFile, parseColumn);
-
-
-
-
-                }
-            });
-
-
-
-            tvCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    finish();
-
-                }
-            });
-
-        } else {
-
-            Toast toast = Toast.makeText(getBaseContext(), "Open attachment from email and choose MyAssociation to open.", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-
-            toast = Toast.makeText(getBaseContext(), "Or save attachment to phone (or computer drive your phone has access to) and choose" +
-                    " MyAssociation to open from File Manager/Browser/Explorer app.", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-
-
-
-
-
-            finish();
-
 
         }
 
 
 
 
-
-
         }
+
 
     @Override
     protected Dialog onCreateDialog(int id) {

@@ -1,244 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="comapps.com.myassociationhoa.MainActivity"
+    android:background="@android:color/black"
 
     android:orientation="vertical"
-    android:background="@android:color/black">
+    android:visibility="invisible"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="comapps.com.myassociationhoa.MainActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:background="@android:color/transparent" />
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:weightSum="13">
 
         <FrameLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.5"
-            android:background="@android:color/transparent">
+            android:background="@android:color/transparent"
+            android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/textViewAssociationName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="#e70707"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:shadowColor="#fcfafa"
-                android:textStyle="bold"
+
+
                 android:shadowDx="2"
                 android:shadowDy="2"
                 android:shadowRadius="1"
-
-
+                android:text="@string/hoa"
+                android:textColor="#e70707"
                 android:textSize="18sp"
-                android:id="@+id/textViewAssociationName"
-                android:layout_gravity="center_horizontal"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:gravity="center"
-                android:text="@string/hoa" />
+                android:textStyle="bold" />
 
             <ProgressBar
+                android:id="@+id/progressBar"
                 style="@android:style/Widget.Material.ProgressBar.Small.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/progressBar"
-                android:indeterminateTintMode="src_atop"
-                android:indeterminateTint="#F8F6B7"
-                android:padding="5dp"
-                android:layout_gravity="end" />
+                android:layout_gravity="end"
+                android:padding="2dp"
+                android:visibility="invisible" />
 
         </FrameLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/llContentMainVertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:weightSum="3"
             android:layout_weight="11.4"
+            android:background="@android:color/transparent"
             android:baselineAligned="false"
-            android:id="@+id/llContentMainVertical"
-            android:visibility="visible"
-            android:background="@android:color/transparent">
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/ll1"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:weightSum="6"
-                android:id="@+id/ll1">
+                android:orientation="vertical"
+                android:weightSum="6">
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b1"
                     android:id="@+id/button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
-                    android:visibility="visible"
-                    android:padding="2dp" />
+                    android:text="@string/b1"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b4"
                     android:id="@+id/button4"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:padding="2dp" />
+                    android:text="@string/b4"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b7"
                     android:id="@+id/button7"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
-
-                    android:textStyle="bold"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
+
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:padding="2dp" />
+                    android:text="@string/b7"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b10"
                     android:id="@+id/button10"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:padding="2dp" />
+                    android:text="@string/b10"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b13"
                     android:id="@+id/button13"
-                    android:layout_weight="1"
-                    android:textSize="12sp"
-                    android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
-                    android:shadowColor="#e70707"
-                    android:textStyle="bold"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="1"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:lines="2"
-                    android:padding="2dp" />
-
-                <Button
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:text="@string/b16"
-                    android:id="@+id/button16"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:lines="2"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
+                    android:text="@string/b13"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/button16"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:padding="2dp" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rounded_corners_black"
+                    android:padding="2dp"
+                    android:shadowColor="#e70707"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1"
+                    android:text="@string/b16"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/ll2"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:weightSum="6"
-                android:id="@+id/ll2">
+                android:orientation="vertical"
+                android:weightSum="6">
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b2"
                     android:id="@+id/button2"
-                    android:layout_weight="1"
-                    android:textSize="12sp"
-                    android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
-                    android:shadowColor="#e70707"
-                    android:textStyle="bold"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="1"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
-                    android:padding="2dp" />
-
-                <Button
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:text="@string/b5"
-                    android:id="@+id/button5"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
+                    android:text="@string/b2"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/button5"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
-                    android:padding="2dp" />
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rounded_corners_black"
+                    android:padding="2dp"
+                    android:shadowColor="#e70707"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1"
+                    android:text="@string/b5"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <FrameLayout
                     android:layout_width="fill_parent"
@@ -246,28 +245,28 @@
                     android:layout_weight="1">
 
                     <Button
+                        android:id="@+id/button8"
+                        style="?android:attr/buttonBarButtonStyle"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:text="@string/b8"
-                        android:id="@+id/button8"
-                        android:lines="2"
-                        android:textSize="12sp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
                         android:background="@drawable/button_rounded_corners_black"
-                        android:textColor="@android:color/white"
+                        android:lines="2"
                         android:shadowColor="#e70707"
-                        android:textStyle="bold"
                         android:shadowDx="2"
                         android:shadowDy="2"
                         android:shadowRadius="1"
-                        style="?android:attr/buttonBarButtonStyle"
-                        android:visibility="visible"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginRight="0dp" />
+                        android:text="@string/b8"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
 
                     <ImageView
+                        android:id="@+id/imageViewRedDot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageViewRedDot"
                         android:layout_gravity="right|top"
                         android:src="@drawable/reddot"
                         android:visibility="gone"
@@ -275,201 +274,201 @@
                 </FrameLayout>
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b11"
                     android:id="@+id/button11"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
+                    android:background="@drawable/button_rounded_corners_black"
                     android:minLines="2"
-                    android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
-                    android:padding="2dp" />
+                    android:text="@string/b11"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b18"
                     android:id="@+id/button18"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:padding="2dp" />
-
-                <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
                     android:text="@string/b18"
-                    android:id="@+id/button18_b"
-                    android:layout_weight="1"
-                    android:textSize="12sp"
-                    android:background="@drawable/button_rounded_corners_black"
                     android:textColor="@android:color/white"
-                    android:shadowColor="#e70707"
+                    android:textSize="12sp"
                     android:textStyle="bold"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="gone"
-                    android:padding="2dp" />
+                    android:visibility="visible" />
 
                 <Button
+                    android:id="@+id/button18_b"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:text="@string/b17"
-                    android:id="@+id/button17"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
+                    android:text="@string/b18"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/button17"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
-                    android:padding="2dp" />
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rounded_corners_black"
+                    android:padding="2dp"
+                    android:shadowColor="#e70707"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1"
+                    android:text="@string/b17"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/ll3"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:weightSum="6"
-                android:id="@+id/ll3">
+                android:orientation="vertical"
+                android:weightSum="6">
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b3"
                     android:id="@+id/button3"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:padding="2dp" />
+                    android:text="@string/b3"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b6"
                     android:id="@+id/button6"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:padding="2dp" />
+                    android:text="@string/b6"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b9"
                     android:id="@+id/button9"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:padding="2dp" />
+                    android:text="@string/b9"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b12"
                     android:id="@+id/button12"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:padding="2dp" />
+                    android:text="@string/b12"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:text="@string/b15"
                     android:id="@+id/button15"
-                    android:layout_weight="1"
-                    android:textSize="12sp"
-                    android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
-                    android:shadowColor="#e70707"
-                    android:textStyle="bold"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="1"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
-                    android:padding="2dp" />
-
-                <Button
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:text="@string/b14"
-                    android:id="@+id/button14"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:background="@drawable/button_rounded_corners_black"
-                    android:textColor="@android:color/white"
+                    android:padding="2dp"
                     android:shadowColor="#e70707"
-                    android:textStyle="bold"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="1"
+                    android:text="@string/b15"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/button14"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:visibility="visible"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
-                    android:padding="2dp" />
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rounded_corners_black"
+                    android:padding="2dp"
+                    android:shadowColor="#e70707"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1"
+                    android:text="@string/b14"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
             </LinearLayout>
         </LinearLayout>

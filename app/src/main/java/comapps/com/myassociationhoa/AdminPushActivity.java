@@ -183,7 +183,6 @@ public class AdminPushActivity extends AppCompatActivity {
         }
 
 
-        Bundle extras = getIntent().getExtras();
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

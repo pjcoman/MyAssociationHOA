@@ -3,74 +3,85 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="5"
+
     android:background="@drawable/button_rounded_corners_white_white_bg_forpops">
 
 
     <TextView
+        android:id="@+id/textViewTitle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|center"
+        android:padding="10dp"
         android:text="Large Text"
-        android:id="@+id/textViewTitle"
-        android:textSize="18sp"
-        android:layout_weight="1"
-        android:gravity="center" />
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/display_budget_documents"
         android:id="@+id/textViewTitle2"
-        android:layout_gravity="center_horizontal"
-        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:gravity="center" />
+        android:gravity="center_horizontal|center"
+        android:padding="10dp"
+        android:text="@string/display_budget_documents"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/budget"
         android:id="@+id/textViewBudget"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:clickable="true"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_horizontal|center"
+        android:padding="20dp"
+        android:text="@string/budget"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/iPhoneblue"
-        android:focusable="true" />
+        android:textSize="20sp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/textViewExpenses"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
         android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:clickable="true"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_horizontal|center"
+        android:padding="20dp"
         android:text="@string/expenses"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/iPhoneblue"
-        android:focusable="true" />
+        android:textSize="20sp" />
 
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/cancel"
         android:id="@+id/textViewCancel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:textSize="24sp"
-        android:clickable="true"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_horizontal|center"
+        android:padding="20dp"
+        android:text="@string/cancel"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/iPhoneblue"
-        android:textStyle="normal|bold"
-        android:focusable="true" />
+        android:textSize="20sp"
+        android:textStyle="normal|bold" />
 </LinearLayout>

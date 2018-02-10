@@ -10,6 +10,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
@@ -20,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -27,9 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -40,7 +41,6 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import java.io.UnsupportedEncodingException;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences.Editor editorVisited;
 
     private SimpleDateFormat formatter;
-
+    private CountDownTimer timer;
 
     private ParseInstallation installation;
 
@@ -87,8 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String memberType;
     private String associationCode;
     private TextView associationName;
-
-    private ProgressBar progressBar;
 
     private Button b1_email; //email button
     private Button b2_contacts; //contact button
@@ -109,7 +107,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button b17_pushemail; //push email button
     private Button b18_maintenance; //maintenance items button
 
+    private ProgressBar progressBar;
+
+    private FrameLayout frameLayout;
+    private CoordinatorLayout coordinatorLayout;
     private LinearLayout contentMain;
+
 
     private LinearLayout ll1;
     private LinearLayout ll2;
@@ -157,15 +160,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        contentMain = findViewById(R.id.llContentMainVertical);
+
 
 
         associationName = findViewById(R.id.textViewAssociationName);
 
-        progressBar = findViewById(R.id.progressBar);
 
 
         redDot = findViewById(R.id.imageViewRedDot);
+        progressBar = findViewById(R.id.progressBar);
+
+        coordinatorLayout = findViewById(R.id.coordinatorLayout);
+        frameLayout = findViewById(R.id.frameLayout);
+        contentMain = findViewById(R.id.llContentMainVertical);
+        ll1 = findViewById(R.id.ll1);
+        ll2 = findViewById(R.id.ll2);
+        ll3 = findViewById(R.id.ll3);
+
 
 
         b1_email = findViewById(R.id.button);
@@ -189,9 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button b18_maintenance_b = findViewById(R.id.button18_b);
 
 
-        ll1 = findViewById(R.id.ll1);
-        ll2 = findViewById(R.id.ll2);
-        ll3 = findViewById(R.id.ll3);
+
 
         installation = ParseInstallation.getCurrentInstallation();
 
@@ -244,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG, "MEMBERTYPE ----> " + installation.getString("MemberType") +  " <----");
             
             if ( installation.getString("MemberType").equals("Resigned") ||
-                    installation.getString("MemberType").equals("Guest") || installation.getString("MemberType").equals("Master")  ) {
+                    installation.getString("MemberType").equals("Guest") || installation.getString("MemberType").equals("Master")) {
 
                 b1_email.setEnabled(false);
                 b2_contacts.setEnabled(false);
@@ -294,6 +303,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 b18_maintenance_b.setEnabled(false);
 
             }
+
+            final Handler handler = new Handler();
+
+            handler.postDelayed(new Runnable() {
+                public void run() {
+
+                    frameLayout.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+
+                }
+            }, 2000);
+
+
 
 
             new RemoteDataTask().execute();
@@ -379,8 +401,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
-                MainActivity.this);
+        ActivityOptions options = null;
+        try {
+            options = ActivityOptions.makeSceneTransitionAnimation(
+                    MainActivity.this);
+        } catch (Exception e) {
+
+
+            Log.d(TAG, "sceneTransitionAnimation failed");
+
+
+            e.printStackTrace();
+        }
 
 
         Intent intent = new Intent();
@@ -392,18 +424,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button2:
                 intent.setClass(this, ContactActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button3:
                 intent.setClass(this, DirectoryActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button4:
                 intent.setClass(this, WeatherActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button5:
                 intent.setClass(this, CalendarActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button6:
@@ -418,6 +454,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button8:
                 intent.setClass(this, MBActivity.class);
                 redDot.setVisibility(View.GONE);
+                assert options != null;
                 startActivity(intent, options.toBundle());
 
                 break;
@@ -427,39 +464,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button10:
                 intent.setClass(this, PushActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button11:
                 intent.setClass(this, ServiceProviderActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button12:
                 intent.setClass(this, Change_Add_Associations.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
 
                 break;
             case R.id.button13:
                 intent.setClass(this, PetsActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button14:
                 intent.setClass(this, GuestsActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button15:
                 intent.setClass(this, AutosActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button16:
                 intent.setClass(this, ToolsActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button17:
                 intent.setClass(this, AdminPushActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button18:
                 intent.setClass(this, MaintenanceActivity.class);
+                assert options != null;
                 startActivity(intent, options.toBundle());
                 break;
            /* case R.id.button18_b:
@@ -476,8 +522,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
-
-
 
 
 
@@ -508,6 +552,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected Void doInBackground(Void... params) {
 
+            progressBar.setVisibility(View.VISIBLE);
 
             ParseQuery<ParseObject> queryAssociations;
             if (objectPinned && !fromChangeAdd) {
@@ -560,23 +605,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 url = backgroundImage != null ? backgroundImage.getUrl() : null;
                                                 ImageView iv = findViewById(R.id.imageView);
 
-                                                Glide.with(getApplicationContext())
-                                                        .load(url)
-                                                        .listener(new RequestListener<String, GlideDrawable>() {
-                                                            @Override
-                                                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                                                                if(e instanceof UnknownHostException)
-                                                                    progressBar.setVisibility(View.VISIBLE);
-                                                                return false;
-                                                            }
+                                                try {
+                                                    Glide.with(getApplicationContext())
+                                                            .load(url)
+                                                            .into(iv);
+                                                } catch (Exception e1) {
 
-                                                            @Override
-                                                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                                                progressBar.setVisibility(View.GONE);
-                                                                return false;
-                                                            }
-                                                        })
-                                                        .into(iv);
+                                                    Log.d(TAG, "Glide failed to load" +
+                                                            "background url ---> " + url);
+                                                    e1.printStackTrace();
+                                                }
+
+                                                Log.d(TAG, "iv url is " + url);
 
                                                 editor = sharedPreferences.edit();
                                                 editor.putString("backgroundImageUrl", backgroundImage != null ? backgroundImage.getUrl() : null);
@@ -825,12 +865,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 TextView associationName = findViewById(R.id.textViewAssociationName);
                                                 associationName.setText(defaultsFileArray[1]);
 
-                                                contentMain.setVisibility(View.VISIBLE);
 
-
-                                                ll1.setVisibility(View.VISIBLE);
-                                                ll2.setVisibility(View.VISIBLE);
-                                                ll3.setVisibility(View.VISIBLE);
 
 
 
@@ -917,15 +952,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
 
+           /* contentMain.setVisibility(View.VISIBLE);
+
+            progressBar.setVisibility(View.INVISIBLE);
+
+
+
+            ll1.setVisibility(View.VISIBLE);
+            ll2.setVisibility(View.VISIBLE);
+            ll3.setVisibility(View.VISIBLE);*/
 
             return null;
         }
 
 
-
-
-        }
-
+    }
 
 
     @Override
@@ -960,10 +1001,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        if(newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
             Log.e(TAG, "On Config Change LANDSCAPE");
-        }else{
+        } else {
 
             Log.e(TAG, "On Config Change PORTRAIT");
         }
@@ -1000,6 +1041,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         finishAfterTransition();
+
+
     }
 
 
