@@ -63,10 +63,9 @@
             android:background="@color/nnf_light_separator_color"
             android:gravity="center"
             android:padding="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:textColor="@android:color/white"
-            autofit:minTextSize="20sp" />
+            android:textSize="26sp"
+            autofit:minTextSize="26dp" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/textViewCurrentTemp"
@@ -76,8 +75,7 @@
             android:layout_weight="1"
             android:background="@color/nnf_light_separator_color"
             android:gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:padding="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/white"
             android:textSize="80sp"
@@ -101,8 +99,6 @@
             android:background="@color/nnf_light_separator_color"
             android:gravity="center"
             android:padding="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/white"
             android:textIsSelectable="true"
@@ -132,8 +128,6 @@
             android:background="@color/nnf_light_separator_color"
             android:gravity="center"
             android:padding="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/white"
             autofit:minTextSize="26sp" />
@@ -147,8 +141,6 @@
             android:background="@color/nnf_light_separator_color"
             android:gravity="center"
             android:padding="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/white"
             autofit:minTextSize="26sp" />

@@ -10,9 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
@@ -75,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences.Editor editorVisited;
 
     private SimpleDateFormat formatter;
-    private CountDownTimer timer;
+
 
     private ParseInstallation installation;
 
@@ -110,8 +108,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressBar progressBar;
 
     private FrameLayout frameLayout;
-    private CoordinatorLayout coordinatorLayout;
-    private LinearLayout contentMain;
 
 
     private LinearLayout ll1;
@@ -170,9 +166,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         redDot = findViewById(R.id.imageViewRedDot);
         progressBar = findViewById(R.id.progressBar);
 
-        coordinatorLayout = findViewById(R.id.coordinatorLayout);
+
         frameLayout = findViewById(R.id.frameLayout);
-        contentMain = findViewById(R.id.llContentMainVertical);
+
         ll1 = findViewById(R.id.ll1);
         ll2 = findViewById(R.id.ll2);
         ll3 = findViewById(R.id.ll3);
@@ -1017,7 +1013,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // Re-enter transition is executed when returning to this activity
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        }
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         Slide slideTransition = new Slide();

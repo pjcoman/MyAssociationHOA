@@ -37,7 +37,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class PetsMyInfoActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 
-    private static final String TAG = "PETSACTIVITY";
+    private static final String TAG = "PETSMYINFOACTIVITY";
     private static final String MYPREFERENCES = "MyPrefs";
     private ArrayList<PetObject> petsList;
     private PetsMyInfoAdapter adapter;
@@ -73,8 +73,7 @@ public class PetsMyInfoActivity extends AppCompatActivity implements
         }
 
 
-
-        search_view = (SearchView) findViewById(R.id.search_view);
+        search_view = (SearchView) findViewById(R.id.search_view_pets);
         search_view.setQueryHint("Search Type or Color");
 
         int searchSrcTextId = getResources().getIdentifier("android:id/search_src_text", null, null);

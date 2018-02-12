@@ -1,97 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:weightSum="10">
+    android:layout_height="match_parent"
+    android:background="@drawable/frontgatebg"
+    android:orientation="vertical"
+    android:padding="20dp">
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/imageView"
-        android:src="@drawable/frontgatebg"
-        android:alpha=".8"
-        android:scaleType="fitXY" />
-
-    <LinearLayout
-        android:orientation="vertical"
+    <TextView
+        android:id="@+id/textViewTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical|center"
+        android:padding="20dp"
+        android:text="@string/new_account"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/new_account"
-            android:id="@+id/textViewTitle"
-            android:layout_gravity="center_horizontal"
-            android:textSize="24sp"
-            android:gravity="center_vertical"
-            android:textStyle="bold"
-            android:padding="2dp" />
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/enter_passcode"
-            android:id="@+id/textViewTitle2"
-            android:layout_gravity="center_horizontal"
-            android:textSize="20sp"
-            android:gravity="center_vertical"
-            android:padding="2dp" />
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passwordLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="10dp">
+            android:layout_height="match_parent"
+            android:hint="@string/enter_passcode"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:passwordToggleEnabled="true">
 
-            <EditText
+            <android.support.design.widget.TextInputEditText
                 android:id="@+id/editTextPassCode"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:inputType="textPassword" />
+                android:focusedByDefault="true"
+                android:focusableInTouchMode="true"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                tools:targetApi="o" />
 
-        </android.support.v7.widget.CardView>
+        </android.support.design.widget.TextInputLayout>
 
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+    </android.support.v7.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:weightSum="2">
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_rounded_corners_black_gray_bgsolid"
+            android:text="@string/cancel"
+            android:textColor="#179fc5"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel"
-                android:id="@+id/buttonCancel"
-                android:layout_weight="1"
-                android:textColor="#179fc5"
-                android:textStyle="bold"
-                android:layout_margin="10dp"
-                android:textSize="20sp"
-                android:background="@drawable/button_rounded_corners_black_gray_bgsolid" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ok"
-                android:id="@+id/buttonOK"
-                android:layout_weight="1"
-                android:textColor="#179fc5"
-                android:textStyle="bold"
-                android:layout_margin="10dp"
-                android:textSize="20sp"
-                android:background="@drawable/button_rounded_corners_black_gray_bgsolid" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/buttonOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_rounded_corners_black_gray_bgsolid"
+            android:text="@string/ok"
+            android:textColor="#179fc5"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
+</LinearLayout>
 
-</FrameLayout>

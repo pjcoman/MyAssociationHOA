@@ -37,7 +37,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class GuestsMyInfoActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 
-    private static final String TAG = "GUESTACTIVITY";
+    private static final String TAG = "GUESTSMYINFOACTIVITY";
     private static final String MYPREFERENCES = "MyPrefs";
     private ArrayList<GuestObject> guestsList;
     private ListView lv;

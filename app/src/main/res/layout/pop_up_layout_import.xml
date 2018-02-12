@@ -49,7 +49,8 @@
             android:clickable="true"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="#2261ea" />
+            android:textColor="#2261ea"
+            android:focusable="true" />
 
         <TextView
             android:layout_width="0dp"
@@ -62,7 +63,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/expenses"
-            android:textColor="#2261ea" />
+            android:textColor="#2261ea"
+            android:focusable="true" />
     </LinearLayout>
 
 
@@ -85,7 +87,8 @@
             android:clickable="true"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="#2261ea" />
+            android:textColor="#2261ea"
+            android:focusable="true" />
 
         <TextView
             android:layout_width="0dp"
@@ -98,7 +101,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/bylaws"
-            android:textColor="#2261ea" />
+            android:textColor="#2261ea"
+            android:focusable="true" />
 
         <TextView
             android:layout_width="0dp"
@@ -111,7 +115,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/minutes"
-            android:textColor="#2261ea" />
+            android:textColor="#2261ea"
+            android:focusable="true" />
 
     </LinearLayout>
 
@@ -135,7 +140,8 @@
             android:clickable="true"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="#2261ea" />
+            android:textColor="#2261ea"
+            android:focusable="true" />
 
 
 
@@ -150,7 +156,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/misc2"
-            android:textColor="#2261ea" />
+            android:textColor="#2261ea"
+            android:focusable="true" />
 
         <TextView
             android:layout_width="0dp"
@@ -163,7 +170,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/misc3"
-            android:textColor="#2261ea" />
+            android:textColor="#2261ea"
+            android:focusable="true" />
 
     </LinearLayout>
 
@@ -182,5 +190,6 @@
         android:gravity="center_vertical"
         android:textColor="#2261ea"
         android:textIsSelectable="false"
-        tools:background="@drawable/button_rounded_corners_white_white_bg_forpops" />
+        tools:background="@drawable/button_rounded_corners_white_white_bg_forpops"
+        android:focusable="true" />
 </LinearLayout>

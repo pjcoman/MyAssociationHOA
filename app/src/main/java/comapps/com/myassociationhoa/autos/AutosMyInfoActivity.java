@@ -37,7 +37,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class AutosMyInfoActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener {
 
-    private static final String TAG = "AUTOACTIVITY";
+    private static final String TAG = "AUTOSMYINFOACTIVITY";
     private static final String MYPREFERENCES = "MyPrefs";
     private ArrayList<AutoObject> autosList;
     private AutosMyInfoAdapter adapter;

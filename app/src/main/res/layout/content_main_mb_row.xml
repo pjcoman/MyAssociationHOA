@@ -19,54 +19,54 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/textViewPostName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/name"
+            android:gravity="center_horizontal"
             android:shadowColor="#e70707"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="1"
-            android:id="@+id/textViewPostName"
-            android:gravity="center_horizontal"
-            android:textSize="20sp" />
+            android:text="@string/name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/textViewPostDate"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/posteddate"
-            android:id="@+id/textViewPostDate"
             android:layout_gravity="center_horizontal"
+            android:padding="6dp"
             android:shadowColor="#06d15b"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="1"
-            android:textSize="20sp"
-            android:padding="6dp" />
+            android:text="@string/posteddate"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
 
         <TextView
+            android:id="@+id/textViewPost"
             android:layout_width="fill_parent"
             android:layout_height="150dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/post"
-            android:id="@+id/textViewPost"
             android:layout_gravity="center_horizontal"
-            android:textSize="20sp"
-            android:textColor="@android:color/black"
-            android:paddingTop="30dp"
-            android:paddingBottom="30dp"
-            android:background="@drawable/cork_en"
-            android:scrollbars="vertical"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/cork_en"
+            android:paddingBottom="30dp"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp" />
+            android:paddingRight="30dp"
+            android:paddingTop="30dp"
+            android:scrollbars="vertical"
+            android:text="@string/post"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
 
         <LinearLayout

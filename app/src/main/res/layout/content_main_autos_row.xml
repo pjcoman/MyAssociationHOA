@@ -169,7 +169,7 @@
             android:longClickable="false"
             android:gravity="center"
         android:autoText="false"
-        android:text="No HOA Tag"
+        android:text="@string/no_hoa_tag"
         android:layout_below="@+id/tvAutoYear"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

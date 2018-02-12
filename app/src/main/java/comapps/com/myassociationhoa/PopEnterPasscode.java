@@ -1,15 +1,17 @@
 package comapps.com.myassociationhoa;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -42,6 +44,7 @@ public class PopEnterPasscode extends AppCompatActivity {
     private static final String ASSOCPREFERENCES = "AssocPrefs";
 
     private EditText passCode;
+    private CheckBox checkBox;
     private Button cancelButton;
     private Button okButton;
 
@@ -93,13 +96,15 @@ public class PopEnterPasscode extends AppCompatActivity {
         sharedPreferencesVisited = getSharedPreferences(VISITEDPREFERENCES, Context.MODE_PRIVATE);
 
 
-
         passCode = (EditText) findViewById(R.id.editTextPassCode);
         cancelButton = (Button) findViewById(R.id.buttonCancel);
         okButton = (Button) findViewById(R.id.buttonOK);
 
         okButton.setEnabled(false);
 
+        showSoftInputFromWindow(this, passCode);
+
+/*
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -107,7 +112,8 @@ public class PopEnterPasscode extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .9), (int) (height * .6));
+        getWindow().setLayout((int) (width * .9), (int) (height * .9));
+*/
 
         if ( sharedPreferencesVisited.getBoolean("visitedBefore", false)) {
 
@@ -445,6 +451,7 @@ public class PopEnterPasscode extends AppCompatActivity {
 
 
 
+
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -651,6 +658,13 @@ public class PopEnterPasscode extends AppCompatActivity {
 
     private void Quit() {
         super.finish();
+    }
+
+    public static void showSoftInputFromWindow(Activity activity, EditText editText) {
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.requestFocus();
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
 

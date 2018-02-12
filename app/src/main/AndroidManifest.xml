@@ -270,7 +270,7 @@
 
         <activity
             android:name=".Change_Add_Associations"
-            android:screenOrientation="unspecified"  >
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
@@ -331,7 +331,7 @@
 
         <meta-data
             android:name="com.parse.push.gcm_sender_id"
-            android:value="id:870150385033" />;
+            android:value="id:870150385033" />
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"
