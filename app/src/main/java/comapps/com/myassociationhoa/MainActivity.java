@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent, options.toBundle());
                 break;
             case R.id.button12:
-                intent.setClass(this, Change_Add_Associations.class);
+                intent.setClass(this, Change_Add_Associations_New.class);
                 assert options != null;
                 startActivity(intent, options.toBundle());
 

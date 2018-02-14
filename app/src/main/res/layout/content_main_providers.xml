@@ -52,11 +52,10 @@
         android:layout_height="match_parent">
 
 
-
         <ListView
+            android:id="@+id/listViewProviders"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listViewProviders" />
+            android:layout_height="match_parent" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab"

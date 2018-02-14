@@ -17,87 +17,89 @@
             android:layout_height="wrap_content">
 
             <Button
+                android:id="@+id/buttonAddComment"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/save"
-                android:id="@+id/buttonAddComment"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:textSize="18sp"
                 android:layout_margin="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rounded_corners_black_gray_bg"
                 android:gravity="center_vertical|center_horizontal"
-                android:background="@drawable/button_rounded_corners_black_gray_bg" />
+                android:text="@string/save"
+                android:textSize="14sp" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/description_of_maintenance_issue"
                 android:id="@+id/textViewTitle"
-                android:layout_gravity="center"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="center_vertical|center_horizontal"
-                android:textColor="#850404"
-                android:textStyle="bold"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine|textCapSentences"
-                android:ems="10"
-                android:id="@+id/editTextDescription"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="5"
-                android:background="#ffffff"
-                android:gravity="start|top"
-                android:padding="20dp"
-                android:layout_marginBottom="10dp"
-                android:textSize="16sp" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/notes_on_maintenance_issue"
-                android:id="@+id/textViewTitle2"
                 android:layout_gravity="center"
-                android:textSize="20sp"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal"
-                android:textColor="#0913a1"
-                android:textStyle="bold"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
+                android:paddingRight="20dp"
+                android:text="@string/description_of_maintenance_issue"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#850404"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/editTextDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine|textCapSentences"
-                android:ems="10"
-                android:id="@+id/editTextNotes"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="5"
-                android:background="#ffffff"
-                android:gravity="start|top"
-                android:padding="20dp"
                 android:layout_marginBottom="10dp"
-                android:textSize="16sp" />
+                android:layout_weight="5"
+                android:background="@drawable/button_rounded_corners_white_white_bg_forpops"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine|textCapSentences"
+                android:padding="20dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textViewTitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/notes_on_maintenance_issue"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#0913a1"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editTextNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="5"
+                android:background="@drawable/button_rounded_corners_white_white_bg_forpops"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine|textCapSentences"
+                android:padding="20dp"
+                android:textSize="14sp" />
 
             <Button
+                android:id="@+id/buttonMaintenanceType"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/buttonMaintenanceType"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:textSize="16sp"
                 android:layout_margin="6dp"
-                android:gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
                 android:background="@drawable/button_rounded_corners_black_gray_bg"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
                 android:textColor="#ea0707"
-                android:padding="10dp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </ScrollView>
 

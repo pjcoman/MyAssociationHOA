@@ -122,9 +122,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
         });
 
 
-
-
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, R.layout.textviewlistserviceproviders, android.R.id.text1, providerTypes);
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, R.layout.content_main_provider_list_categories, android.R.id.text1, providerTypes);
 
         listAdapter.sort(new Comparator<String>() {
             @Override

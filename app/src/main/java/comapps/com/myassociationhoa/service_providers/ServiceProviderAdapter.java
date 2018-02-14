@@ -135,28 +135,45 @@ class ServiceProviderAdapter extends BaseAdapter {
 
             holder.editButton.setVisibility(View.GONE);
 
+        } else {
+
+            holder.editButton.setVisibility(View.VISIBLE);
+
+        }
+
+        if (phoneNumber.length() < 10) {
+
+            holder.callButton.setVisibility(View.GONE);
+
+        } else {
+
+            holder.callButton.setVisibility(View.VISIBLE);
+
+
+            holder.callButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    try {
+
+                        Log.d("TAG", "call button pressed");
+                        Uri uri = Uri.parse("tel:" + phoneNumber);
+                        Intent i = new Intent(Intent.ACTION_DIAL, uri);
+                        getContext().startActivity(i);
+
+
+                    } catch (Exception ignored) {
+
+
+                    }
+
+                }
+            });
+
+
         }
 
 
-        holder.callButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-
-                    Log.d("TAG", "call button pressed");
-                    Uri uri = Uri.parse("tel:" + phoneNumber);
-                    Intent i = new Intent(Intent.ACTION_DIAL, uri);
-                    getContext().startActivity(i);
-
-
-                } catch (Exception ignored) {
-
-
-                }
-
-            }
-        });
 
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override

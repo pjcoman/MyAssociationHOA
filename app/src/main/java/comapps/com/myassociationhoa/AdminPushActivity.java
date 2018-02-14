@@ -50,7 +50,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by me on 6/28/2016.
  */
-@SuppressWarnings("DefaultFileTemplate")
+@SuppressWarnings({"DefaultFileTemplate", "ResultOfMethodCallIgnored"})
 public class AdminPushActivity extends AppCompatActivity {
 
     private static final String TAG = "PUSHACTIVITY";
@@ -153,12 +153,11 @@ public class AdminPushActivity extends AppCompatActivity {
                     if (group.length() > 0) {
 
 
-                        StringBuilder sb = new StringBuilder();
-                        sb.append(allGroups);
-                        sb.append(group);
-                        sb.append(".");
+                        String sb = allGroups +
+                                group +
+                                ".";
 
-                        allGroups = sb.toString();
+                        allGroups = sb;
 
                         Log.d(TAG, "rosterObject memberNumber and group ----> " + rosterObject.getMemberNumber() + " group is " + group);
                         memberGroupObject = new MemberGroupObject();

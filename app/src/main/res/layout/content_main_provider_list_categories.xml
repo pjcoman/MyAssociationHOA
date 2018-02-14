@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:textColor="#bf640e"
+    android:id="@android:id/text1"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="listitem"
-    android:textSize="18sp"
-    android:textStyle="bold"
-    android:padding="20dp"
-    android:background="@drawable/blonde_engraved_row"
+    android:background="@drawable/button_rounded_corners_red_transparent_bg"
     android:gravity="center_vertical"
-    android:id="@android:id/text1"
+    android:padding="20dp"
     android:shadowColor="#673904"
     android:shadowDx="2"
     android:shadowDy="2"
-    android:shadowRadius="1" />
+    android:shadowRadius="1"
+    android:textColor="#bf640e"
+    android:textSize="18sp"
+    android:textStyle="bold" />

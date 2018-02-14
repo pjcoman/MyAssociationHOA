@@ -274,6 +274,10 @@
         </activity>
 
         <activity
+            android:name=".Change_Add_Associations_New"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
             android:name=".tools.DirectoryUpdateActivity"
             android:screenOrientation="unspecified"  >
         </activity>

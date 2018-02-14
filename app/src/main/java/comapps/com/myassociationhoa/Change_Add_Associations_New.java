@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.parse.GetCallback;
@@ -73,7 +72,7 @@ public class Change_Add_Associations_New extends AppCompatActivity {
         setupWindowAnimations();
 
 
-        setContentView(R.layout.content_main_change_add_assoc);
+        setContentView(R.layout.content_main_change_add_assoc_new);
 
         android.support.v7.app.ActionBar bar = getSupportActionBar();
 
@@ -150,10 +149,10 @@ public class Change_Add_Associations_New extends AppCompatActivity {
 
         String loggedInAssoc = associationLongNameList.get(index);
 
-
+/*
         Toast.makeText(getApplicationContext(),
                 "logged in to (as) :" + "\n" + loggedInAssoc, Toast.LENGTH_LONG)
-                .show();
+                .show();*/
 
         textViewCurrent.setText("logged in to (as) :" + "\n" + loggedInAssoc);
 

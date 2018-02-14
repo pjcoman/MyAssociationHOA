@@ -23,8 +23,8 @@ android {
         applicationId "comapps.com.myassociationhoa"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 53
-        versionName "5.3"
+        versionCode 56
+        versionName "5.4"
     }
     buildTypes {
         release {

@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,6 +52,10 @@ class MBAdapter extends ArrayAdapter<MBObject> {
     }
 
 
+    public MBAdapter(@NonNull Context context, int resource) {
+        super(context, resource);
+    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -86,8 +92,38 @@ class MBAdapter extends ArrayAdapter<MBObject> {
             e.printStackTrace();
         }
 
+        Log.d(TAG, "post ----> " + mbObject.getMbPost());
+
+        String line = mbObject.getMbPost();
+
+        // Initializing counters
+        int countWord = 0;
+        int sentenceCount = 0;
+        int characterCount = 0;
+        //  int paragraphCount = 1;
+        int whitespaceCount = 0;
+
+        characterCount += line.length();
+        // \\s+ is the space delimiter in java
+        String[] wordList = line.split("\\s+");
+        countWord += wordList.length;
+        whitespaceCount += countWord - 1;
+        // [!?.:]+ is the sentence delimiter in java
+        String[] sentenceList = line.split("[!?.:]+");
+        sentenceCount += sentenceList.length;
 
 
+        System.out.println("Total word count = " + countWord);
+        System.out.println("Total number of sentences = " + sentenceCount);
+        System.out.println("Total number of characters = " + characterCount);
+        //    System.out.println("Number of paragraphs = " + paragraphCount);
+        System.out.println("Total number of whitespaces = " + whitespaceCount);
+
+        if (sentenceCount <= 2) {
+            mbPost.setHeight(200);
+        } else {
+            mbPost.setHeight(400);
+        }
 
         mbPost.setText(mbObject.getMbPost());
 

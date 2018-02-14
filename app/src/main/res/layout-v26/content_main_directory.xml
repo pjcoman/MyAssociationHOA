@@ -3,19 +3,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="comapps.com.myassociationhoa.directory.DirectoryActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="false"
+    android:background="@drawable/info_background_noborder"
     android:clickable="false"
-    android:background="@android:color/black">
+    android:focusableInTouchMode="false"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="comapps.com.myassociationhoa.directory.DirectoryActivity">
+
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:background="@color/colorPrimaryDark"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="10dp">
 
@@ -31,19 +33,30 @@
 
     </android.support.v7.widget.CardView>
 
+    <Space
+        android:id="@+id/space"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_below="@+id/cardView" />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cardView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/space"
         android:background="@drawable/info_background_noborder"
         android:divider="@android:color/transparent"
         android:dividerHeight="20dp"
         android:focusableInTouchMode="true"
         android:focusedByDefault="true"
         android:headerDividersEnabled="true"
-        android:paddingHorizontal="10dp" />
+        android:paddingHorizontal="10dp">
+
+
+    </ListView>
 
 
 </RelativeLayout>
